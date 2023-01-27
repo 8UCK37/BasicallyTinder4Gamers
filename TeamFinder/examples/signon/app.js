@@ -163,6 +163,15 @@ app.post('/addFriend',ensureAuthenticated, urlencodedParser,async function (req,
       to : req.body.id
     }
   })
+  let friendReq = await prisma.FriendRequest.create({
+    data:{
+      from : req.user.id,
+      to : req.body.id,
+      status : 'pending'
+    }
+  })
+
+  
   console.log(savedData)
   res.sendStatus(200);
 });

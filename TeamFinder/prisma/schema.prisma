@@ -21,3 +21,11 @@ model Friends {
   from      String
   to        String
 }
+
+model FriendRequest {
+  id        Int   @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  from      String
+  to        String
+  status    String
+}
