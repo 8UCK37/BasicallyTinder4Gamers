@@ -196,7 +196,9 @@ app.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
-
+app.get("/pendingrequest" , ensureAuthenticated, async (req, res) => {
+  res.sendFile(__dirname + '/client/PendingRequest.html')
+})
 
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the

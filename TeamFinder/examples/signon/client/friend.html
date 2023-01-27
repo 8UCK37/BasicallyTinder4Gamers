@@ -14,6 +14,7 @@
     <input id="friend-txt" type="text">
     <button id="friend-add">Add </button>
     <button id="friend-search">Search </button>
+    <a id="pending-request" href="/pendingrequest">Pending Requests </a>
     <br />
     FriendList :
 
@@ -52,7 +53,7 @@
         $("#friend-add").click(() => {
             let inp = $("#friend-txt").val();
             $("#friend-txt").val("");
-            console.log("click", inp);
+            console.log("add clicked", inp);
             $.post("/addFriend",
                 {
                     id: inp
@@ -65,7 +66,7 @@
         $("#friend-search").click(() => {
             let inp = $("#friend-txt").val();
             $("#friend-txt").val("");
-            console.log("click", inp);
+            console.log("search clicked", inp);
             $.post("/searchFriend",
                 {
                     name: inp
@@ -74,7 +75,7 @@
                     console.log("Data: " + data + "\nStatus: " + status);
                 })
         })
-
+        
 
     </script>
 </body>
