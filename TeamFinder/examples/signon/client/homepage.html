@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamFinder</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+<body>
+    Welcome to Tinder4Gamers
+    
+    <p id="signinbutton"><a href="auth/steam">Login with Steam</a></p>
+    <h2 id="signedin1">Hello,  <span id="displayname"> </span>  <a href='logout'>Logout</a></h2>
+	<p id="signedin2"><a href="friend">Go to friendList</a></p>
+    <p id ="profile"><a href="account">Go to profile</a></p>
+    <script>
+        function fetchData(){
+            let data = null;
+
+            $.ajax({
+                url: "/getUser", dataType: 'json', success: populateData, Error: function (err) {
+                    console.log(err)
+                }
+            });
+        }
+        fetchData()
+
+        function populateData(data) {
+            if(data.user!=null){
+                console.log(data.user.displayName)
+                $("#displayname").text(data.user.displayName)
+                $("#signinbutton").hide()
+            }else{
+                console.log("no user found")
+                $("#displayname").hide()
+                $("#signedin1").hide()
+                $("#signedin2").hide()
+                $("#profile").hide()
+            }
+            console.log("here is  ", data)
+        }
+    </script>
+</body>
+</html>

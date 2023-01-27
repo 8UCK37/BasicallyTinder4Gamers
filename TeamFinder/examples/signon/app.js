@@ -83,6 +83,11 @@ app.use(passport.session());
 app.use(express.static(__dirname + '/../../public'));
 
 app.get('/', async function (req, res) {
+  
+  //res.render('index', { user: req.user });
+  res.sendFile(__dirname + '/client/homepage.html')
+});
+app.get('/getUser' ,async function (req, res) {
   if (req.user) {
     const fetchUser = await prisma.user.findUnique({
       where: {
@@ -102,10 +107,8 @@ app.get('/', async function (req, res) {
     }
 
   }
-
-  res.render('index', { user: req.user });
+  res.send(JSON.stringify({ user: req.user}))
 });
-
 
 app.get('/account', ensureAuthenticated, async function (req, res) {
   res.sendFile(__dirname + '/client/account.html')
@@ -152,9 +155,6 @@ app.get("/friendData" ,ensureAuthenticated ,  async (req,res)=>{
     });
     res.send(JSON.stringify(serverResponse));
   })
-
-
-
   
 })
 app.post('/addFriend',ensureAuthenticated, urlencodedParser,async function (req, res) {
