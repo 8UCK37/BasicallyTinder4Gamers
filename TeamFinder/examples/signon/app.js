@@ -167,12 +167,17 @@ app.post('/addFriend',ensureAuthenticated, urlencodedParser,async function (req,
   res.sendStatus(200);
 });
 
-app.post('/searchFriend',urlencodedParser,ensureAuthenticated,async function (req, res) {
+app.post('/searchFriend',ensureAuthenticated,urlencodedParser,async function (req, res) {
   
-  const result = await prisma.$queryRaw(
-    Prisma.sql`SELECT * FROM User WHERE email = ${email}`
-  )
-  console.log(savedData)
+  const result = await prisma.User.findMany({
+    where: { 
+        name: {
+          contains: req.body.name,
+      },
+    },
+    take: 2
+  })
+  console.log(result)
   res.sendStatus(200);
 });
 
