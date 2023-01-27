@@ -32,6 +32,7 @@
   "main": "./lib/passport-steam",
   "dependencies": {
     "@passport-next/passport-openid": "^1.0.0",
+    "@prisma/client": "^4.9.0",
     "axios": "^1.2.4",
     "dotenv": "^16.0.3",
     "steam-web": "0.4.0"
@@ -41,10 +42,11 @@
     "ejs": "^2.4.2",
     "express": "^4.14.0",
     "express-session": "^1.13.0",
-    "passport": "^0.3.2"
+    "passport": "^0.3.2",
+    "prisma": "^4.9.0"
   },
   "scripts": {
-    "start":"nodemon ./examples/signon/app.js",
+    "start": "nodemon ./examples/signon/app.js",
     "test": "ava test/*.test.js",
     "example": "node examples/signon/app.js",
     "example-router": "node examples/signon/app-router.js"

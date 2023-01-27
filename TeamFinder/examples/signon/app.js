@@ -1,7 +1,7 @@
 /**
  * Basic example demonstrating passport-steam usage within Express framework
  */
-const axios =require("axios")
+const axios = require("axios")
 
 
 var express = require('express')
@@ -10,6 +10,12 @@ var express = require('express')
   , session = require('express-session')
   , SteamStrategy = require('../../').Strategy;
 require("dotenv").config()
+
+const { PrismaClient } = require('@prisma/client');
+const { response } = require("express");
+
+const prisma = new PrismaClient()
+
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
@@ -18,12 +24,12 @@ require("dotenv").config()
 //   have a database of user records, the complete Steam profile is serialized
 //   and deserialized.
 
-let apiKey=process.env.Key;
-passport.serializeUser(function(user, done) {
+let apiKey = process.env.Key;
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
@@ -32,11 +38,11 @@ passport.deserializeUser(function(obj, done) {
 //   credentials (in this case, an OpenID identifier and profile), and invoke a
 //   callback with a user object.
 passport.use(new SteamStrategy({
-    returnURL: 'http://localhost:3000/auth/steam/return',
-    realm: 'http://localhost:3000/',
-    apiKey: apiKey
-  },
-  function(identifier, profile, done) {
+  returnURL: 'http://localhost:3000/auth/steam/return',
+  realm: 'http://localhost:3000/',
+  apiKey: apiKey
+},
+  function (identifier, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
 
@@ -57,10 +63,11 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.use(session({
-    secret: 'your secret',
-    name: 'name of session id',
-    resave: true,
-    saveUninitialized: true}));
+  secret: 'your secret',
+  name: 'name of session id',
+  resave: true,
+  saveUninitialized: true
+}));
 
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
@@ -68,30 +75,76 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/../../public'));
 
-app.get('/', function(req, res){
+app.get('/', async function (req, res) {
+  if (req.user) {
+    const fetchUser = await prisma.user.findUnique({
+      where: {
+        id: req.user.id
+      }
+    })
+    if (fetchUser == null) {
+      console.log("user not found ")
+      
+      const newUser = await prisma.User.create({
+        data: {
+          id: req.user.id,
+          name : req.user.displayName
+        },
+      })
+      console.log("new user created" , newUser)
+    }
+
+  }
+
   res.render('index', { user: req.user });
 });
 
 
-app.get('/account', ensureAuthenticated, async function(req, res){
- res.sendFile(__dirname + '/client/account.html')
+app.get('/account', ensureAuthenticated, async function (req, res) {
+  res.sendFile(__dirname + '/client/account.html')
 });
 
 
 
-app.get("/accountData", async (req,  res)=>{
+app.get("/accountData", async (req, res) => {
   const c = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${req.user.id}&include_appinfo=true&format=json`);
-  let games= c.data.response.games;
-  if (games==undefined || games==null){
-    games=[]
+  let games = c.data.response.games;
+  if (games == undefined || games == null) {
+    games = []
   }
 
-  res.send(JSON.stringify({user: req.user ,ownedGames : games}))
+  res.send(JSON.stringify({ user: req.user, ownedGames: games }))
 })
 
+app.get("/friend" , ensureAuthenticated, async (req, res) => {
+  res.sendFile(__dirname + '/client/friend.html')
+})
+app.get("/friendData" ,ensureAuthenticated ,  async (req,res)=>{
 
+  let userFriends= await prisma.Friends.findMany({
+    where:{
+      from : req.user.id 
+    }
+  });
+  let promises = [];
+  userFriends.forEach(async element => {
+    let temp  =  axios.get('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=FFDD15067B6D495610AC98F7095EB973&steamids=76561199142542007');
+    promises.push(temp)
+  });
+  
+  let serverResponse = []
+  Promise.all(promises).then(result=>{
+    result.forEach(element => {
+      serverResponse.push(element.data.response)
+    });
+    
+  })
 
-app.get('/logout', function(req, res){
+  res.send(JSON.stringify(serverResponse))
+
+  
+})
+app.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
 });
@@ -103,7 +156,7 @@ app.get('/logout', function(req, res){
 //   user back to this application at /auth/steam/return
 app.get('/auth/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
-  function(req, res) {
+  function (req, res) {
     res.redirect('/');
   });
 
@@ -114,7 +167,7 @@ app.get('/auth/steam',
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/steam/return',
   passport.authenticate('steam', { failureRedirect: '/' }),
-  function(req, res) {
+  function (req, res) {
     res.redirect('/');
   });
 
