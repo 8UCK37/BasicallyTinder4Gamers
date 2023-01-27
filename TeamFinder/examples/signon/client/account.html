@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yo</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"></script>
+    
+</head>
+
+<body>
+
+    <p><img id="profile-image" src='<%= user.photos[2].value %>' alt='Your Avatar Image' /></p>
+    <p>ID: <span id="profile-id"><span></p>
+    <p>Name: <span id="profile-name"><span></span></p>
+    
+
+    <div id = "game-found">
+        
+    </div>
+    
+
+
+    <div id = "no-game-found">
+        <img src="https://media.tenor.com/ps-EQSmOvckAAAAi/%D0%BA%D1%8A%D0%B4%D0%B5-where.gif" height="200px"
+            alt="idk what it should be" />
+    </div>
+   
+    <script>
+        function fillData(serverResponse){
+            profileIdElement = document.getElementById("profile-id");
+            profileNameElement = document.getElementById("profile-name");
+            profileIdElement.innerHTML = serverResponse.user.id;
+            profileNameElement.innerHTML = serverResponse.user.displayName;
+            if(serverResponse.ownedGames.length != 0){
+                $('#game-found').show()             
+            }else{
+                $('#no-game-found').show()
+            }
+            
+            $("#profile-image").attr("src",serverResponse.user.photos[2].value);
+            serverResponse.ownedGames.forEach(element => {
+                jQuery('<img>', {
+                    id: 'some-id',
+                    src : `http://media.steampowered.com/steamcommunity/public/images/apps/${element.appid}/${element.img_icon_url}.jpg`
+                }).appendTo('#game-found');
+
+                jQuery('<span>', {
+                    text : element.name
+                }).appendTo('#game-found');
+
+                jQuery('<br>', {
+                }).appendTo('#game-found');
+            });
+        }
+        $('#no-game-found').hide();
+        $('#game-found').hide();
+
+
+        fetch('/accountData')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                fillData(data);
+            }).catch(err => console.log(err));
+
+        
+
+    </script>
+</body>
+
+</html>

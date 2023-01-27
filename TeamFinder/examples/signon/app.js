@@ -71,19 +71,25 @@ app.use(express.static(__dirname + '/../../public'));
 app.get('/', function(req, res){
   res.render('index', { user: req.user });
 });
+
+
 app.get('/account', ensureAuthenticated, async function(req, res){
-  
+ res.sendFile(__dirname + '/client/account.html')
+});
+
+
+
+app.get("/accountData", async (req,  res)=>{
   const c = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${req.user.id}&include_appinfo=true&format=json`);
-  console.log(c);
-  var games= c.data.response.games;
+  let games= c.data.response.games;
   if (games==undefined || games==null){
     games=[]
   }
- 
-  //
-  res.render('account', { user: req.user,data: games });
-  
-});
+
+  res.send(JSON.stringify({user: req.user ,ownedGames : games}))
+})
+
+
 
 app.get('/logout', function(req, res){
   req.logout();
