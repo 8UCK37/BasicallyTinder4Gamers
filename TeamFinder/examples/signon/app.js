@@ -134,13 +134,15 @@ app.get("/friendData" ,ensureAuthenticated ,  async (req,res)=>{
   
   let serverResponse = []
   Promise.all(promises).then(result=>{
+    // console.log(result)
     result.forEach(element => {
-      serverResponse.push(element.data.response)
+      console.log(element.data)
+      serverResponse.push(element.data)
     });
-    
+    res.send(JSON.stringify(serverResponse));
   })
 
-  res.send(JSON.stringify(serverResponse))
+
 
   
 })

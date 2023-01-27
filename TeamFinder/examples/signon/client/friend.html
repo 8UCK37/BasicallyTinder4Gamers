@@ -15,14 +15,16 @@
     <script>
         function populateData(data){
             console.log("here is  " , data)
+            
             data.forEach(element => {
+                let eachFriend = element.response.players[0]
             jQuery('<div>', {
                     id: 'some-id',
-                    text : element.to
+                    text : eachFriend.steamid
                 }).appendTo('#friend-list');
 
-                jQuery('<span>', {
-                    text : element.name
+                jQuery('<img>', {
+                    src : eachFriend.avatarfull
                 }).appendTo('#friend-list');
         });
         }
