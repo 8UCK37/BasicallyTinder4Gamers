@@ -132,7 +132,9 @@ app.get("/friendData" ,ensureAuthenticated ,  async (req,res)=>{
 
   let userFriends= await prisma.Friends.findMany({
     where:{
+      
       from : req.user.id 
+    
     }
   });
   let promises = [];
@@ -172,13 +174,14 @@ app.post('/addFriend',ensureAuthenticated, urlencodedParser,async function (req,
   })
 
   console.log(friendReq)
-  console.log(savedData)
+  
   res.sendStatus(200);
 });
 
 app.get('/getPendingRequest',ensureAuthenticated,async (req,res)=>{
   let pendingReq = await prisma.FriendRequest.findMany({
     where:{
+      status:'pending',
       to: req.user.id
     }
   })
@@ -227,7 +230,32 @@ app.get('/logout', function (req, res) {
 app.get("/pendingrequest" , ensureAuthenticated, async (req, res) => {
   res.sendFile(__dirname + '/client/PendingRequest.html')
 })
+app.post("/acceptFriend" ,ensureAuthenticated,urlencodedParser, async(req, res) =>{
+  let friendReq = await prisma.FriendRequest.updateMany({
+    where:{
+      to:req.user.id,
+      from:req.body.id
+    },
+    data:{
+      
+      status : 'accepted'
+    }
+  })
+   let savedData  = await prisma.Friends.create({
+    data:{
+      from : req.user.id,
+      to : req.body.id
 
+    }
+  })
+  let savedData1  = await prisma.Friends.create({
+    data:{
+      to : req.user.id,
+      from : req.body.id
+    }
+  })
+  
+})
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Steam authentication will involve redirecting

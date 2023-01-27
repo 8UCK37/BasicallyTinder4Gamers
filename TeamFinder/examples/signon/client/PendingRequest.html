@@ -20,7 +20,16 @@
     <script>
         function trigger(elm){
             var id = $(elm).attr("id");
-            alert(id);
+            $.post("/acceptFriend",
+                {
+                    id: id,
+                },
+                function (data, status) {
+                    if(Status=="success"){
+                        alert("request accepted")
+                    }
+                    console.log("Data: " + data + "\nStatus: " + status);
+                })
         }
         function populateData(data) {
             console.log("here is  ", data)
@@ -51,7 +60,9 @@
                 }
             });
         $(".accept-btn").click(()=>{
+
             console.log("click")
+            
         })
     </script>
 </body>
