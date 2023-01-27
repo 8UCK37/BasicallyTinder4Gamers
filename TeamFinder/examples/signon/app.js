@@ -10,6 +10,13 @@ var express = require('express')
   , session = require('express-session')
   , SteamStrategy = require('../../').Strategy;
 require("dotenv").config()
+var bodyParser = require('body-parser')
+// create application/json parser
+var jsonParser = bodyParser.json()
+ 
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 
 const { PrismaClient } = require('@prisma/client');
 const { response } = require("express");
@@ -130,7 +137,7 @@ app.get("/friendData" ,ensureAuthenticated ,  async (req,res)=>{
   });
   let promises = [];
   userFriends.forEach(async element => {
-    let temp  =  axios.get('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=FFDD15067B6D495610AC98F7095EB973&steamids=76561199142542007');
+    let temp  =  axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.to}`);
     promises.push(temp)
   });
   
@@ -148,10 +155,34 @@ app.get("/friendData" ,ensureAuthenticated ,  async (req,res)=>{
 
   
 })
+app.post('/addFriend',ensureAuthenticated, urlencodedParser,async function (req, res) {
+  
+  let savedData  = await prisma.Friends.create({
+    data:{
+      from : req.user.id,
+      to : req.body.id
+    }
+  })
+  console.log(savedData)
+  res.sendStatus(200);
+});
+
+app.post('/searchFriend',urlencodedParser,ensureAuthenticated,async function (req, res) {
+  
+  const result = await prisma.$queryRaw(
+    Prisma.sql`SELECT * FROM User WHERE email = ${email}`
+  )
+  console.log(savedData)
+  res.sendStatus(200);
+});
+
+
 app.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
 });
+
+
 
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the

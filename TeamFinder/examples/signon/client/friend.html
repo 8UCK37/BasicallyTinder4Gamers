@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,38 +8,75 @@
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 </head>
-<body>
-    FriendList : 
-    <div id = "friend-list">
 
-    </div> 
+<body>
+    <div>add friend</div>
+    <input id="friend-txt" type="text">
+    <button id="friend-add">Add </button>
+    <button id="friend-search">Search </button>
+    <br />
+    FriendList :
+
+    <div id="friend-list">
+
+    </div>
     <script>
-        function populateData(data){
-            console.log("here is  " , data)
-            
+        function fetchData(){
+            let data = null;
+
+            $.ajax({
+                url: "/friendData", dataType: 'json', success: populateData, Error: function (err) {
+                    console.log(err)
+                }
+            });
+        }
+        function populateData(data) {
+            console.log("here is  ", data)
+
             data.forEach(element => {
                 let eachFriend = element.response.players[0]
-            jQuery('<div>', {
+                jQuery('<div>', {
                     id: 'some-id',
-                    text : eachFriend.steamid
+                    text: eachFriend.personaname
                 }).appendTo('#friend-list');
 
                 jQuery('<img>', {
-                    src : eachFriend.avatarfull
+                    src: eachFriend.avatarfull
                 }).appendTo('#friend-list');
-        });
+            });
         }
 
-        
-        let data = null;
-        
-        $.ajax({url: "/friendData" , dataType : 'json', success: populateData, Error : function(err){
-            console.log(err)
-        }} );
 
-        
+        fetchData()
+
+        $("#friend-add").click(() => {
+            let inp = $("#friend-txt").val();
+            $("#friend-txt").val("");
+            console.log("click", inp);
+            $.post("/addFriend",
+                {
+                    id: inp
+                },
+                function (data, status) {
+                    console.log("Data: " + data + "\nStatus: " + status);
+                })
+        })
+
+        $("#friend-search").click(() => {
+            let inp = $("#friend-txt").val();
+            $("#friend-txt").val("");
+            console.log("click", inp);
+            $.post("/searchFriend",
+                {
+                    name: inp
+                },
+                function (data, status) {
+                    console.log("Data: " + data + "\nStatus: " + status);
+                })
+        })
 
 
     </script>
 </body>
+
 </html>
