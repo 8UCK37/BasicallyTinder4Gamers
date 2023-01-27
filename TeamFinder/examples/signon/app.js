@@ -157,12 +157,12 @@ app.get("/friendData" ,ensureAuthenticated ,  async (req,res)=>{
 })
 app.post('/addFriend',ensureAuthenticated, urlencodedParser,async function (req, res) {
   
-  let savedData  = await prisma.Friends.create({
-    data:{
-      from : req.user.id,
-      to : req.body.id
-    }
-  })
+  // let savedData  = await prisma.Friends.create({
+  //   data:{
+  //     from : req.user.id,
+  //     to : req.body.id
+  //   }
+  // })
   let friendReq = await prisma.FriendRequest.create({
     data:{
       from : req.user.id,
@@ -171,10 +171,38 @@ app.post('/addFriend',ensureAuthenticated, urlencodedParser,async function (req,
     }
   })
 
-  
+  console.log(friendReq)
   console.log(savedData)
   res.sendStatus(200);
 });
+
+app.get('/getPendingRequest',ensureAuthenticated,async (req,res)=>{
+  let pendingReq = await prisma.FriendRequest.findMany({
+    where:{
+      to: req.user.id
+    }
+  })
+
+  let promises = [];
+  pendingReq.forEach(async element => {
+    let temp  =  axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
+    promises.push(temp)
+  });
+  
+  let serverResponse = []
+  Promise.all(promises).then(result=>{
+    // console.log(result)
+    result.forEach(element => {
+      console.log(element.data)
+      serverResponse.push(element.data)
+    });
+    res.send(JSON.stringify(serverResponse));
+  })
+
+
+
+  // res.send(pendingReq)
+})
 
 app.post('/searchFriend',ensureAuthenticated,urlencodedParser,async function (req, res) {
   

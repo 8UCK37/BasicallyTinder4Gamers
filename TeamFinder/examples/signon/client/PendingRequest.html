@@ -5,8 +5,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pending Requests</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <style>
+        .accept-btn{
+            height: 25px;
+            width: 50px;
+        }
+    </style>
 </head>
 <body>
-    
+    <div id="friend-list">
+
+    </div>
+    <script>
+        function populateData(data) {
+            console.log("here is  ", data)
+
+            data.forEach(element => {
+                let eachFriend = element.response.players[0]
+                jQuery('<div>', {
+                    id: 'some-id',
+                    text: eachFriend.personaname
+                }).appendTo('#friend-list');
+
+                jQuery('<img>', {
+                    src: eachFriend.avatarfull
+                }).appendTo('#friend-list');
+
+                jQuery('<button>', {
+                    class: 'accept-btn',
+                    text: 'accept',
+                    id : `${eachFriend.steamid}`
+                }).appendTo('#friend-list');
+            });
+        }
+        
+        $.ajax({
+                url: "/getPendingRequest", dataType: 'json', success: populateData, Error: function (err) {
+                    console.log(err)
+                }
+            });
+        $(".accept-btn").click(()=>{
+            console.log("click")
+        })
+    </script>
 </body>
 </html>
