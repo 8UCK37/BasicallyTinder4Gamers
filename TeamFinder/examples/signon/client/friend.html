@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+<body>
+    FriendList : 
+    <div id = "friend-list">
+
+    </div> 
+    <script>
+        function populateData(data){
+            console.log("here is  " , data)
+            data.forEach(element => {
+            jQuery('<div>', {
+                    id: 'some-id',
+                    text : element.to
+                }).appendTo('#friend-list');
+
+                jQuery('<span>', {
+                    text : element.name
+                }).appendTo('#friend-list');
+        });
+        }
+
+        
+        let data = null;
+        
+        $.ajax({url: "/friendData" , dataType : 'json', success: populateData, Error : function(err){
+            console.log(err)
+        }} );
+
+        
+
+
+    </script>
+</body>
+</html>
