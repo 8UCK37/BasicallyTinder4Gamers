@@ -18,6 +18,10 @@
 
     </div>
     <script>
+        function trigger(elm){
+            var id = $(elm).attr("id");
+            alert(id);
+        }
         function populateData(data) {
             console.log("here is  ", data)
 
@@ -35,6 +39,7 @@
                 jQuery('<button>', {
                     class: 'accept-btn',
                     text: 'accept',
+                    onClick: 'trigger(this)',
                     id : `${eachFriend.steamid}`
                 }).appendTo('#friend-list');
             });
