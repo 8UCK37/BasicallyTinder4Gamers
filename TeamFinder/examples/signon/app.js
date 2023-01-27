@@ -104,7 +104,9 @@ app.get('/account', ensureAuthenticated, async function (req, res) {
   res.sendFile(__dirname + '/client/account.html')
 });
 
-
+app.get('/friend', ensureAuthenticated, async function (req, res) {
+  res.sendFile(__dirname + '/client/friend.html')
+});
 
 app.get("/accountData", async (req, res) => {
   const c = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${req.user.id}&include_appinfo=true&format=json`);
