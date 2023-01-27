@@ -1,0 +1,18 @@
+<p><img src='<%= user.photos[2].value %>' alt='Your Avatar Image' /></p>
+<p>ID: <%= user.id %></p>
+<p>Name: <%= user.displayName %></p>
+
+<% if(data.length!==0 ){%>
+
+<% data.forEach((c, i) => {%>
+<img src="http://media.steampowered.com/steamcommunity/public/images/apps/<%= c.appid%>/<%= c.img_icon_url %>.jpg"/>
+
+<%= c.name %><br>
+<%});%>
+
+<%}else{%>
+    <img src="https://media.tenor.com/ps-EQSmOvckAAAAi/%D0%BA%D1%8A%D0%B4%D0%B5-where.gif" 
+    height="200px"
+    
+    alt="idk what it should be"/>
+<%}%>
