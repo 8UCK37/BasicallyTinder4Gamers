@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
    * @return response()
    */
   callLoginButton() {
-     
+    
     this.auth2.attachClickHandler(this.loginElement.nativeElement, {},
       (googleAuthUser:any) => {
      
@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
        this.router.navigate(['/PrimaryHomePageComponent'],{queryParams: {order: 'popular', 'price-range': 'not-cheap'}});
         }
       }, (error:any) => {
+        console.log("here")
         alert(JSON.stringify(error, undefined, 2));
       });
  
