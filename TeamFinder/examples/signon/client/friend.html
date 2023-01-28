@@ -15,16 +15,17 @@
     <button id="friend-add">Add </button>
     <button id="friend-search">Search </button>
     <a id="pending-request" href="/pendingrequest">Pending Requests </a>
-    <br />
-    FriendList :
-
-    <div id="friend-list">
-
+    <br/>
+    <div style="display: flex; justify-content: center">
+        FriendList :
+    </div>
+    <br>
+    <div style="display: flex;align-items: center; justify-content: center" id="friend-list">
+        
     </div>
     <script>
         function fetchData(){
             let data = null;
-
             $.ajax({
                 url: "/friendData", dataType: 'json', success: populateData, Error: function (err) {
                     console.log(err)
@@ -40,9 +41,9 @@
                     id: 'some-id',
                     text: eachFriend.personaname
                 }).appendTo('#friend-list');
-
+                
                 jQuery('<img>', {
-                    src: eachFriend.avatarfull
+                    src: eachFriend.avatarmedium
                 }).appendTo('#friend-list');
             });
         }

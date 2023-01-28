@@ -20,6 +20,7 @@
     <script>
         function trigger(elm){
             var id = $(elm).attr("id");
+        
             $.post("/acceptFriend",
                 {
                     id: id,
@@ -30,6 +31,7 @@
                     }
                     console.log("Data: " + data + "\nStatus: " + status);
                 })
+                alert("friend req of "+id+" accepted")
         }
         function populateData(data) {
             console.log("here is  ", data)
