@@ -20,20 +20,25 @@
         FriendList :
     </div>
     <br>
-    <div style="display: flex;align-items: center; justify-content: center" id="friend-list">
-        
+    <div style="display: flex;align-items: center; justify-content: center" id="friend-list"></div>
+    <div >
+        SearchResult :
+    </div>
+    <br>
+    <div id="search-result">
+
     </div>
     <script>
-        function fetchData(){
+        function fetchFriendData(){
             let data = null;
             $.ajax({
-                url: "/friendData", dataType: 'json', success: populateData, Error: function (err) {
+                url: "/friendData", dataType: 'json', success: populateFriendData, Error: function (err) {
                     console.log(err)
                 }
             });
         }
-        function populateData(data) {
-            console.log("here is  ", data)
+        function populateFriendData(data) {
+            console.log("friend data populated ", data)
 
             data.forEach(element => {
                 let eachFriend = element.response.players[0]
@@ -47,9 +52,24 @@
                 }).appendTo('#friend-list');
             });
         }
+        
+        function populateSearchData(data) {
+            console.log("frienddataPopulated", data)
 
+            data.forEach(element => {
+                let eachResult = element
+                jQuery('<div>', {
+                    id: 'some-id',
+                    text: eachResult.name
+                }).appendTo('#search-result');
+                
+                /*jQuery('<img>', {
+                    src: eachResult.avatarmedium
+                }).appendTo('#search-result');*/
+            });
+        }
 
-        fetchData()
+        fetchFriendData()
 
         $("#friend-add").click(() => {
             let inp = $("#friend-txt").val();
@@ -69,12 +89,14 @@
             $("#friend-txt").val("");
             console.log("search clicked", inp);
             $.post("/searchFriend",
+            
                 {
                     name: inp
                 },
                 function (data, status) {
+                    populateSearchData(data);
                     console.log("Data: " + data + "\nStatus: " + status);
-                })
+                },"json")
         })
         
 

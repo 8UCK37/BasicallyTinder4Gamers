@@ -209,7 +209,7 @@ app.get('/getPendingRequest',ensureAuthenticated,async (req,res)=>{
 
 app.post('/searchFriend',ensureAuthenticated,urlencodedParser,async function (req, res) {
   
-  const result = await prisma.User.findMany({
+  const searchresult = await prisma.User.findMany({
     where: { 
         name: {
           contains: req.body.name,
@@ -217,8 +217,9 @@ app.post('/searchFriend',ensureAuthenticated,urlencodedParser,async function (re
     },
     take: 2
   })
-  console.log(result)
-  res.sendStatus(200);
+  console.log(searchresult)
+  res.send(JSON.stringify(searchresult));
+  //res.sendStatus(200);
 });
 
 
