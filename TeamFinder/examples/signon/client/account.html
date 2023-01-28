@@ -6,18 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamFinder</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="/static/GoluBaby.css"></link>
     <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"></script>
     
 </head>
 
 <body>
-
+<div class="card" style="width: auto; align-items: center;" >
     <p><img id="profile-image" src='<%= user.photos[2].value %>' alt='Your Avatar Image' /></p>
-    <p>ID: <span id="profile-id"><span></p>
-    <p>Name: <span id="profile-name"><span></span></p>
-    
-
-    <div id = "game-found">
+    <div class="card-body">
+    <p class="card-text"><span id="profile-name"><span></span></p>
+    </div>
+    </div>
+    <div class ="" id = "game-found">
         
     </div>
     
@@ -27,7 +29,9 @@
         <img src="https://media.tenor.com/ps-EQSmOvckAAAAi/%D0%BA%D1%8A%D0%B4%D0%B5-where.gif" height="200px"
             alt="idk what it should be" />
     </div>
-   
+   <script src="http://localhost:3000/static/js/bootstrap.min.js">
+
+   </script>
     <script>
         function fillData(serverResponse){
             profileIdElement = document.getElementById("profile-id");
@@ -49,6 +53,7 @@
 
                 jQuery('<span>', {
                     text : element.name
+                    
                 }).appendTo('#game-found');
 
                 jQuery('<br>', {

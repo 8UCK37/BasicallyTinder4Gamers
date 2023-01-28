@@ -17,6 +17,8 @@ var jsonParser = bodyParser.json()
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
+const path = require('path')
+
 
 const { PrismaClient } = require('@prisma/client');
 const { response } = require("express");
@@ -64,6 +66,7 @@ passport.use(new SteamStrategy({
 ));
 
 var app = express();
+app.use('/static', express.static(path.join(__dirname, 'public')))
 
 // configure Express
 app.set('views', __dirname + '/views');
