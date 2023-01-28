@@ -30,10 +30,10 @@ export class AppComponent implements OnInit {
    * @return response()
    */
   callLoginButton() {
-     
+    
     this.auth2.attachClickHandler(this.loginElement.nativeElement, {},
       (googleAuthUser:any) => {
-     
+        
         let profile = googleAuthUser.getBasicProfile();
         console.log('Token || ' + googleAuthUser.getAuthResponse().id_token);
         console.log('ID: ' + profile.getId());
@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
        /* Write Your Code Here */
     
       }, (error:any) => {
+        console.log("here")
         alert(JSON.stringify(error, undefined, 2));
       });
  
@@ -59,7 +60,8 @@ export class AppComponent implements OnInit {
     (<any>window)['googleSDKLoaded'] = () => {
       (<any>window)['gapi'].load('auth2', () => {
         this.auth2 = (<any>window)['gapi'].auth2.init({
-          client_id: 'YOUR CLIENT ID HERE',
+          client_id: '61423602281-9c84n763hskpaemepq57uppauvlhgav8.apps.googleusercontent.com',
+          plugin_name:'login',
           cookiepolicy: 'single_host_origin',
           scope: 'profile email'
         });
