@@ -106,6 +106,7 @@ export class UserService {
   }
   logout() {
     this.auth.signOut().then(()=>{
+      localStorage.setItem('user', 'null');
       this.router.navigate(['/login-page']);
     })
 
