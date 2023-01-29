@@ -10,12 +10,15 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [	
     AppComponent,
     PrimaryHomePageComponent,
-      LoginComponent
+      LoginComponent,
+      ProfilePageComponent
    ],
   imports: [
     BrowserModule,
@@ -23,6 +26,7 @@ import { environment } from '../environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+    IonicModule
   ],
   providers: [],
   bootstrap: [AppComponent]
