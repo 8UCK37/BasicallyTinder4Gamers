@@ -54,7 +54,7 @@
     height: 100%;
     width: 100%;
     font-family: "lato", sans-serif;
-    color: red;
+    color: #000000;
     background: radial-gradient(ellipse at bottom, #0c1116 0%, #090a0f 100%);
   }
   
@@ -181,6 +181,9 @@
   #subtitle span:nth-child(3) {
     animation-name: animGo;
   }
+  #subtitle span:nth-child(4) {
+    animation-name: animMe;
+  }
   
   @keyframes animStar {
     from {
@@ -245,6 +248,20 @@
       transform: translateY(-26px);
       opacity: 1;
     }
+  }
+  @keyframes animMe {
+    0%	, 45% {
+        transform: translateY(-26px);
+        opacity: 0;
+      }
+      65%, 80% {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+      92%, 100% {
+        transform: translateY(-26px);
+        opacity: 1;
+      }
   }
   .glowButton {
     position: relative;
