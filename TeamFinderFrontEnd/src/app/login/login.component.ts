@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
 
     this.auth2.attachClickHandler(this.loginElement.nativeElement, {},
       (googleAuthUser:any) => {
-
         if(googleAuthUser){
         let profile = googleAuthUser.getBasicProfile();
         console.log('Token || ' + googleAuthUser.getAuthResponse().id_token);
@@ -44,7 +43,6 @@ export class LoginComponent implements OnInit {
         console.log('Name: ' + profile.getName());
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
-
        /* Write Your Code Here */
        this.router.navigate(['/first-component'],{queryParams: {order: 'popular', 'price-range': 'not-cheap'}});
         }
@@ -74,7 +72,7 @@ export class LoginComponent implements OnInit {
     }
 
     (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
+      let js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {return;}
       js = d.createElement('script');
       js.id = id;
