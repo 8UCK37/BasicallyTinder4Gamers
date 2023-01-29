@@ -85,7 +85,7 @@ export class UserService {
       // this.SetUserData(result.user);
       this.auth.authState.subscribe((user) => {
         if (user) {
-          this.router.navigate(['']);
+          this.router.navigate(['/first-component']);
         }
       });
     })
@@ -94,7 +94,10 @@ export class UserService {
     });
   }
   logout() {
-    this.auth.signOut();
+    this.auth.signOut().then(()=>{
+      this.router.navigate(['/login-page']);
+    })
+
   }
 
   get isLoggedIn(): boolean {

@@ -11,13 +11,12 @@ import { UserService } from './user.service';
 export class LoginComponent  {
 
   title = 'angular-firebase-auth-service';
-  public usr: any;
+  public userObject: any;
 
-  constructor(public user: UserService,private auth: AngularFireAuth) {
-    
-    console.log(auth.authState.subscribe(uu =>{
-      this.usr = uu
-      console.log(this.usr)
-    }))
+  constructor(public user: UserService,private auth: AngularFireAuth , router :Router ) {
+    this.userObject = localStorage.getItem('user');
+    if(this.userObject != null){
+      router.navigate(['/first-component']);
+    }
   }
 }

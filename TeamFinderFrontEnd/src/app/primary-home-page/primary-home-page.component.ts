@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../login/user.service';
 
 @Component({
   selector: 'app-primary-home-page',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrimaryHomePageComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(public user: UserService) { }
+  public usr:any;
   ngOnInit(): void {
+    this.usr = localStorage.getItem('user');
   }
 
 }

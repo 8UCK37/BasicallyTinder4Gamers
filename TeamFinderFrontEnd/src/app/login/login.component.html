@@ -1,9 +1,6 @@
-<h1>Google Login with Angular</h1>
-<div *ngIf="user.uid | async as uid; else login">
-  name:  {{ usr.displayName }}
-  <img src={{usr.photoURL}} alt="">
 
-  <div><button (click)="user.logout()">Logout</button></div>
+<div *ngIf="user.uid | async as uid; else login">
+
 </div>
 <ng-template #login> You need to login: <button class="btn btn-danger"(click)="user.login()">Login</button> </ng-template>
 
