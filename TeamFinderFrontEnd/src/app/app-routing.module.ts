@@ -5,7 +5,7 @@ import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.
 
 const routes: Routes = [
   { path: 'first-component', pathMatch: 'full', component: PrimaryHomePageComponent },
-  { path: 'login-page', pathMatch: 'full', component: LoginComponent }
+  { path: '', pathMatch: 'full', component: LoginComponent }
 ];
 
 @NgModule({
