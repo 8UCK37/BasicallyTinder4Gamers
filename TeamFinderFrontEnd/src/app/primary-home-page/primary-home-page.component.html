@@ -1,6 +1,42 @@
-<h1> this is a page</h1>
-  <div><button (click)="user.logout()">Logout</button></div>
 
-
-  <button (click)="callBackend()">api call</button>
-
+<main style="top: 0;">
+<header ><nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">TeamFinder</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link disabled">Launch Nuke</a>
+        </li>
+      </ul>
+      <span style="float: inherit; color: aliceblue; cursor: pointer;">
+          <a class="btn btn-dark" (click)="callBackend()">api call</a>
+      </span>
+      <!-- <span>
+        <button class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#" (click)="user.logout()">logOut</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </button>
+      </span> -->
+      <div class="button-group-dropstart">
+        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        </button>
+        <ul class="dropdown-menu" style="right: -100px;">
+          <li><a class="dropdown-item" href="#" (click)="user.logout()">Logout</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+    </div>
+    </div>
+  </div>
+</nav></header>
+</main >
