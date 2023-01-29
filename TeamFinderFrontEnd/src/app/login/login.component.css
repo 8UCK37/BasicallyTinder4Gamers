@@ -151,7 +151,7 @@
     padding-left: 20px;
     background: linear-gradient(white, #dbdde0, #38495a);
     background-clip: text;
-    -webkit-text-fill-color: black;
+    -webkit-text-fill-color: rgba(0, 0, 0, 0.125);
     animation-duration: 6s;
     animation-iteration-count: 1;
     animation-timing-function: ease;
