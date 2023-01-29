@@ -1,6 +1,15 @@
 
-<div *ngIf="user.uid | async as uid; else login">
+<div class="card">
+    <div class="card-header">
+      First order of Business
+    </div>
+    <div class="card-body" a>
+      <h5 class="card-title">Welcome to TeamFinder Meet Greet and Grif</h5>
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <div *ngIf="user.uid | async as uid; else login">
+    </div>
+    <ng-template #login> <button class="btn btn-danger"(click)="user.login()">Login</button> </ng-template>
+    </div>
+  </div>
 
-</div>
-<ng-template #login> You need to login: <button class="btn btn-danger"(click)="user.login()">Login</button> </ng-template>
 
