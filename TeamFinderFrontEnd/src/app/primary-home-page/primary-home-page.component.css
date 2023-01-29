@@ -20,7 +20,8 @@ nav{
     position: relative;
 }
 .logo{
-    width: 120px;
+    width: 50px;
+    height:50px;
 }
 .user-pic{
     width: 40px;
