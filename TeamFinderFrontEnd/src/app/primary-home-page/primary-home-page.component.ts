@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
 
@@ -8,10 +8,13 @@ import { UserService } from '../login/user.service';
   styleUrls: ['./primary-home-page.component.css']
 })
 export class PrimaryHomePageComponent implements OnInit {
+  public show:boolean=true;
 
-  constructor(public user: UserService) { }
+  constructor(public user: UserService ,private renderer: Renderer2 ) { }
+  
   public usr:any;
   ngOnInit(): void {
+    this.show=false;
     this.usr = localStorage.getItem('user');
   }
 
@@ -28,5 +31,9 @@ export class PrimaryHomePageComponent implements OnInit {
     .finally(function () {
       // always executed
     })
+  }
+  toggleMenu() {
+    this.show=!this.show;
+    console.log("golu chutiyar moto nigga type er kaj korche");
   }
 }
