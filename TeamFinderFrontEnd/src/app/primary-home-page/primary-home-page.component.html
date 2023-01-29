@@ -22,22 +22,22 @@
                 <a href="#" class="sub-menu-link">
                     <img src="icon-resource/profile.png">
                     <p>Edit Profile</p>
-                    <span>></span>
+                    <span></span>
                 </a>
                 <a href="#" class="sub-menu-link">
                     <img src="images/setting.png">
                     <p>Settings & Privacy</p>
-                    <span>></span>
+                    <span></span>
                 </a>
                 <a href="#" class="sub-menu-link">
                     <img src="images/help.png">
                     <p>Help & Support</p>
-                    <span>></span>
+                    <span></span>
                 </a>
-                <a href="#" class="sub-menu-link">
+                <a (click)="user.logout()" href="#" class="sub-menu-link">
                     <img src="images/logout.png">
-                    <p>Logout</p>
-                    <span>></span>
+                    <p >Logout</p>
+                    <span></span>
                 </a>
 
             </div>
@@ -47,11 +47,3 @@
     </div>
     
 </main>
-<!-- <script>
-  let subMenu = document.getElementById("subMenu");
-
-  function toggleMenu(){
-      subMenu.classList.toggle("open-menu");
-  }
-
-</script> -->
