@@ -9,7 +9,7 @@ import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.
 })
 export class AppComponent implements OnInit {
   ngOnInit(): void {
-      // if()
+
   }
 
 }
