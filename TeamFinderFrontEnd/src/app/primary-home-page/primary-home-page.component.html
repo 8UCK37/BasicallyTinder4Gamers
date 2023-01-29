@@ -8,7 +8,7 @@
                 <li><a href="#">About</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
-           
+
             <img [src]="userparsed.photoURL" class="user-pic" (click)="toggleMenu()" alt="logout.png">
 
            <div class="sub-menu-wrap" id="subMenu" [ngClass]="show?'open-menu':''">
@@ -18,40 +18,25 @@
                     <h3>{{userparsed.displayName}}</h3>
                 </div>
                 <hr>
-
                 <a href="#" class="sub-menu-link">
-                    <img src="icon-resource/profile.png">
-                    <p>Edit Profile</p>
-                    <span>></span>
-                </a>
-                <a href="#" class="sub-menu-link">
-                    <img src="images/setting.png">
+                    <img src="./../../assets/icon-resource/setting.png">
                     <p>Settings & Privacy</p>
-                    <span>></span>
+                    
                 </a>
                 <a href="#" class="sub-menu-link">
-                    <img src="images/help.png">
+                    <img src="./../../assets/icon-resource/help.png">
                     <p>Help & Support</p>
-                    <span>></span>
+
                 </a>
                 <a href="#" class="sub-menu-link">
-                    <img src="images/logout.png">
+                    <img src="./../../assets/icon-resource/logout.png">
                     <p>Logout</p>
-                    <span>></span>
+
                 </a>
 
             </div>
            </div>
-           
+
         </nav>
     </div>
-    
 </main>
-<!-- <script>
-  let subMenu = document.getElementById("subMenu");
-
-  function toggleMenu(){
-      subMenu.classList.toggle("open-menu");
-  }
-
-</script> -->
