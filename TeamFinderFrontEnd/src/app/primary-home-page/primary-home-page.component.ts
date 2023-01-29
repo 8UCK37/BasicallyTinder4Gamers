@@ -12,7 +12,7 @@ export class PrimaryHomePageComponent implements OnInit {
   public show:boolean=true;
   router: any;
 
-  constructor(public user: UserService ,private renderer: Renderer2, router :Router ) { }
+  constructor(public user: UserService ,private renderer: Renderer2) { }
 
   public usr:any;
   public userparsed:any;
@@ -21,12 +21,6 @@ export class PrimaryHomePageComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
     console.log(this.userparsed.photoURL);
-
-  }
-  routeToProfile()
-  {
-    console.log("dhdhd");
-    this.router.navigate(['/profile-page']);
 
   }
   callBackend(){
