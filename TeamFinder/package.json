@@ -34,7 +34,9 @@
     "@passport-next/passport-openid": "^1.0.0",
     "@prisma/client": "^4.9.0",
     "axios": "^1.2.4",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "firebase-admin": "^11.5.0",
     "steam-web": "0.4.0"
   },
   "devDependencies": {

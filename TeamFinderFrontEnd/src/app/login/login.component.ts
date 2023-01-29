@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { UserService } from './user.service';
-
+import axios from 'axios';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,4 +19,5 @@ export class LoginComponent  {
       router.navigate(['/first-component']);
     }
   }
+
 }

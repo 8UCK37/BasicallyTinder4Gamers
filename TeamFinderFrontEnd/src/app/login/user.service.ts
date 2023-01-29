@@ -9,6 +9,9 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import axios from 'axios';
+
+
 interface User {
   uid: string;
   email: string;
@@ -56,6 +59,9 @@ export class UserService {
     ) {
     this.auth.authState.subscribe((user) => {
       if (user) {
+        let token = user.getIdToken()
+        axios.defaults.headers.common['authorization'] = `Bearer ${token}` // for all requests
+        axios.defaults.baseURL = 'http://localhost:3000/'
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user')!);
@@ -85,7 +91,10 @@ export class UserService {
       // this.SetUserData(result.user);
       this.auth.authState.subscribe((user) => {
         if (user) {
+          console.log(user)
           this.router.navigate(['/first-component']);
+          // axios.defaults.headers.post['authorization'] = 'value' // for POST requests
+
         }
       });
     })

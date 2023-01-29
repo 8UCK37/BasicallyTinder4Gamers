@@ -3,7 +3,7 @@
  */
 const axios = require("axios")
 
-
+var cors = require('cors')
 var express = require('express')
   , passport = require('passport')
   , util = require('util')
@@ -44,6 +44,9 @@ passport.deserializeUser(function (obj, done) {
 //   Strategies in passport require a `validate` function, which accept
 //   credentials (in this case, an OpenID identifier and profile), and invoke a
 //   callback with a user object.
+
+
+
 passport.use(new SteamStrategy({
   returnURL: 'http://localhost:3000/auth/steam/return',
   realm: 'http://localhost:3000/',
@@ -68,7 +71,7 @@ var app = express();
 // configure Express
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-
+app.use(cors())
 app.use(session({
   secret: 'your secret',
   name: 'name of session id',
@@ -278,7 +281,10 @@ app.get('/auth/steam/return',
   function (req, res) {
     res.redirect('/');
   });
-
+app.get("/test" ,(req, res)=>{
+  console.log(req.headers)
+  res.sendStatus(200)
+} )
 app.listen(3000);
 
 // Simple route middleware to ensure user is authenticated.
@@ -287,6 +293,8 @@ app.listen(3000);
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
+  if (req.isAuthenticated()) { 
+    return next(); 
+  }
   res.redirect('/');
 }
