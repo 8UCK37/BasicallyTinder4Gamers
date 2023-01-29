@@ -93,11 +93,11 @@ Areal Alien ❥ 雷克斯
     box-sizing: inherit;
 }
 
-html,
-body {
-    background-image: url("https://t4.ftcdn.net/jpg/04/09/70/87/360_F_409708782_HxuxOH8f7xSmj5p4ygbAbuJE74vGGj2N.jpg");
+main {
+    /* background-image: url("https://t4.ftcdn.net/jpg/04/09/70/87/360_F_409708782_HxuxOH8f7xSmj5p4ygbAbuJE74vGGj2N.jpg"); */
     margin: 0;
     width: 100%;
+    height: 100%;
     color: hsl(var(--text-primary));
     font-family: var(--font-main);
     background-color: hsl(var(--background));
@@ -409,6 +409,7 @@ select {
 }
 
 .flexbox-col-start-center {
+    max-height: max-content;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -1040,4 +1041,81 @@ button {
 
 .leaderboard {
     box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.4);
+}
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 132deg;
+  inherits: false;
+}
+
+:root {
+  --card-height: 65vh;
+  --card-width: calc(var(--card-height) / 1.2);
+}
+.pic {
+  background: #191c29;
+  width: var(--card-width);
+  height: var(--card-height);
+  padding: 3px;
+  position: relative;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  font-size: 1.5em;
+  color: rgb(88 199 250 / 0%);
+  cursor: pointer;
+  font-family: cursive;
+}
+
+.pic:hover {
+  color: rgb(88 199 250 / 100%);
+  transition: color 1s;
+}
+
+
+
+.pic::before {
+  content: "";
+  width: 104%;
+  height: 102%;
+  border-radius: 8px;
+  background-image: linear-gradient(
+    var(--rotate)
+    , #5ddcff, #3c67e3 43%, #4e00c2);
+    position: absolute;
+    z-index: -1;
+    top: -1%;
+    left: -2%;
+    animation: spin 2.5s linear infinite;
+}
+
+.pic::after {
+  position: absolute;
+  content: "";
+  top: calc(var(--card-height) / 6);
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  transform: scale(0.8);
+  filter: blur(calc(var(--card-height) / 6));
+  background-image: linear-gradient(
+    var(--rotate)
+    , #5ddcff, #3c67e3 43%, #4e00c2);
+    opacity: 1;
+  transition: opacity .5s;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 0deg;
+  }
+  100% {
+    --rotate: 360deg;
+  }
 }
