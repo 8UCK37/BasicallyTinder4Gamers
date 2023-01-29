@@ -95,6 +95,8 @@ export class UserService {
           this.router.navigate(['/first-component']);
           // axios.defaults.headers.post['authorization'] = 'value' // for POST requests
 
+        }else{
+          this.router.navigate(['/login-page']);
         }
       });
     })
