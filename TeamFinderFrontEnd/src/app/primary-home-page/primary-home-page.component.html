@@ -8,18 +8,19 @@
                 <li><a href="#">About</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
-            <img src="images/user.png" class="user-pic" (click)="toggleMenu()">
+           
+            <img [src]="userparsed.photoURL" class="user-pic" (click)="toggleMenu()" alt="logout.png">
 
            <div class="sub-menu-wrap" id="subMenu" [ngClass]="show?'open-menu':''">
             <div class="sub-menu" id="openmenu" >
                 <div class="user-info">
-                    <img src="images/user.png">
-                    <h3>James Aldrino</h3>
+                    <img [src]="userparsed.photoURL">
+                    <h3>{{userparsed.displayName}}</h3>
                 </div>
                 <hr>
 
                 <a href="#" class="sub-menu-link">
-                    <img src="images/profile.png">
+                    <img src="icon-resource/profile.png">
                     <p>Edit Profile</p>
                     <span>></span>
                 </a>
@@ -44,6 +45,7 @@
            
         </nav>
     </div>
+    
 </main>
 <!-- <script>
   let subMenu = document.getElementById("subMenu");
