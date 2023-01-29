@@ -38,6 +38,5 @@ export class PrimaryHomePageComponent implements OnInit {
   }
   toggleMenu() {
     this.show=!this.show;
-    console.log("golu chutiyar moto nigga type er kaj korche");
   }
 }
