@@ -37,6 +37,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "firebase-admin": "^11.5.0",
+    "socket.io": "^4.5.4",
     "steam-web": "0.4.0"
   },
   "devDependencies": {

@@ -13,14 +13,17 @@ import { environment } from '../environments/environment';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { IonicModule } from '@ionic/angular';
 import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.component';
+import { ChatPageComponent } from './chat-page/chat-page.component';
+import { ChatServicesService } from './chat-page/chat-services.service';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     PrimaryHomePageComponent,
       LoginComponent,
       ProfilePageComponent,
-      LinkedAccountsComponent
+      LinkedAccountsComponent,
+      ChatPageComponent
    ],
   imports: [
     BrowserModule,
@@ -30,7 +33,9 @@ import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.compo
     AngularFireDatabaseModule,
     IonicModule
   ],
-  providers: [],
+  providers: [
+    ChatServicesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

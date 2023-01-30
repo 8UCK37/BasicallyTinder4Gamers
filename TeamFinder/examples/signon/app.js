@@ -66,6 +66,17 @@ passport.use(new SteamStrategy({
   }
 ));
 
+const http = require('http').createServer(app);
+const io = require('socket.io')(http, {
+  cors: {
+    origins: ['http://localhost:4200']
+  }
+});
+
+const socketIdMap = new Map();
+
+;
+
 var app = express();
 
 // configure Express
@@ -312,7 +323,37 @@ app.get("/test", (req, res) => {
 
   res.sendStatus(200)
 })
+
+// app.get('/chat', (req, res) => {
+//   res.send('<h1>Hey Socket.io</h1>');
+// });
+
+
+
+io.on('connection', (socket) => {
+  // socketIdMap.set(socket.id)
+  console.log('a user connected' , socket.id);
+  
+  socket.on('setSocketId', (msg) => {
+    console.log('setSocket id' , parseInt(msg.name), "====>"  , socket.id );
+    socketIdMap.set(parseInt(msg.name), socket.id)
+  });
+  socket.on('disconnect', () => {
+    console.log('user disconnected' );
+  });
+  
+  socket.on('my message', (receivedData) => {
+    console.log(receivedData)
+    let receiver = receivedData.receiver ;
+    let receivedSocketId = socketIdMap.get(parseInt (receiver))
+    console.log(socketIdMap)
+    console.log("have to send to user " , receivedSocketId)
+    io.to(receivedSocketId).emit('my broadcast' , receivedData.msg);
+    // io.emit('my broadcast', `server: ${msg}`);
+  });
+}); 
 app.listen(3000);
+http.listen(5000, () => console.log(`Listening on port ${5000}`));
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
