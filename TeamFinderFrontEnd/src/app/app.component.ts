@@ -8,6 +8,7 @@ import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  hidenavbar=false
   ngOnInit(): void {
 
   }

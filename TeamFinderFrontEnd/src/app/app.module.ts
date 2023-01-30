@@ -15,6 +15,7 @@ import { IonicModule } from '@ionic/angular';
 import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.component';
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import { ChatServicesService } from './chat-page/chat-services.service';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ChatServicesService } from './chat-page/chat-services.service';
       LoginComponent,
       ProfilePageComponent,
       LinkedAccountsComponent,
-      ChatPageComponent
+      ChatPageComponent,
+      NavbarComponent
    ],
   imports: [
     BrowserModule,
