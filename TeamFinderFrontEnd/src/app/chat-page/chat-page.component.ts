@@ -10,7 +10,7 @@ import { ChatServicesService } from './chat-services.service';
 export class ChatPageComponent implements OnInit {
   values: string = '';
   id : any ='';
-  to : any ;
+  to : any ='';
 
   constructor(private socketService : ChatServicesService , private route: ActivatedRoute) { }
 
@@ -35,7 +35,7 @@ export class ChatPageComponent implements OnInit {
     this.socketService.send(data);
   }
   onKey(value: string) {
-      this.values = value;
+    this.values = value;
   }
   onKeyTo(value: string) {
     this.to = value;
