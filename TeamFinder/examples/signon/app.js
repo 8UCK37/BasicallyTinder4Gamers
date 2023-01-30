@@ -339,7 +339,7 @@ function ensureAuthenticated(req, res, next) {
     });
 
   res.sendStatus(200)
-})
+}
 
 // app.get('/chat', (req, res) => {
 //   res.send('<h1>Hey Socket.io</h1>');
