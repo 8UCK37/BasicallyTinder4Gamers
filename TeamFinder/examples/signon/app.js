@@ -281,7 +281,17 @@ app.get('/auth/steam/return',
   function (req, res) {
     res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
   });
-app.get("/test", (req, res) => {
+app.get("/test",ensureAuthenticated, (req, res) => {
+  res.sendStatus(200);
+})
+app.listen(3000);
+
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+function ensureAuthenticated(req, res, next) {
   var admin = require("firebase-admin");
 
   var serviceAccount = require("./../../key/firebaseadminkey.json");
@@ -295,33 +305,27 @@ app.get("/test", (req, res) => {
   }
   
   const { getAuth } = require("firebase-admin/auth")
+  if(req.headers['authorization']==null){
+    res.sendStatus(400);
+    return;
+  }
   let idToken = req.headers['authorization'].split(" ")[1]
+ 
   getAuth()
     .verifyIdToken(idToken)
     .then((decodedToken) => {
 
       const uid = decodedToken.uid;
-      console.log(decodedToken);
-      console.log(uid)
+      next();
+      // console.log(decodedToken);
+      // console.log(uid)
       // ...
     })
     .catch((error) => {
       // Handle error
+      req.sendStatus(403)
       console.log(error)
     });
 
   res.sendStatus(200)
-})
-app.listen(3000);
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/');
 }
