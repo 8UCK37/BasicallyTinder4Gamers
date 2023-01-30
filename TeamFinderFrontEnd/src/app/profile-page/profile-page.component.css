@@ -1,88 +1,6 @@
-/* -
--*-~*~-*-*-~*~-*-*-~*~* |
-●▬▬▬▬▬▬▬๑۩۩๑▬▬▬▬▬▬▬●
-Made by ~
-Areal Alien ❥ 雷克斯
-●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
-──────▄▀▄─────▄▀▄
-─────▄█░░▀▀▀▀▀░░█▄
-─▄▄──█░░░░░░░░░░░█──▄▄
-█▄▄█─█░░▀░░┬░░▀░░█─█▄▄█
--*-~*~-*-*-~*~-*-*-~*~* |
-- */
-/*
-
-   ===================
-    Table of contents
-   ===================
-
-    1. Imports
-    2. Global styles
-        2.1 Typography
-        2.2 Buttons
-        2.3 Lists
-        2.4 Forms
-    3. Classes
-        3.1 Global Classes
-            3.1.1 Flexbox
-        3.2 Classes
-            3.2.1 Navbar
-            3.2.2 Header
-            3.2.3 Main
-                3.2.3.1 Profile Page
-            3.2.4 Footer
-    4. ::Selectors
-    5. @Keyframes
-    6. @Media Rules
-        6.1 max-width: 1660px
-        6.2 max-width: 1456px
-        6.3 max-width: 1220px
-        6.4 max-width: 1024px
-        6.5 max-width: 756px
-        6.6 max-width: 576px
-        6.7 max-width: 496px
-
-*/
-
-/* ============
-    1. Imports
-   ============ */
-
-:root {
-    /* Main */
-    --primary: 300, 92%, 48%;
-    --secondary: 178, 100%, 40%;
-    --tertiary: 201, 96%, 71%;
-    --background: 240, 4%, 3%;
-    --text-primary: 0, 0%, 100%;
-    /* Colors */
-    --black: 0, 0%, 0%;
-    --white: 0, 0%, 100%;
-    --grooble: 233, 3%, 48%;
-    --red: 347, 84%, 68%;
-    --orange: 23, 84%, 68%;
-    --yellow: 52, 84%, 68%;
-    --green: 114, 84%, 68%;
-    --teal: 163, 84%, 68%;
-    --blue: 219, 84%, 68%;
-    --purple: 279, 84%, 68%;
-    --pink: 312, 84%, 68%;
-    /* Gradients */
-    --gradient: linear-gradient(90deg, hsla(var(--primary), 1) 0%, hsla(var(--secondary), 1) 50%, hsla(var(--tertiary), 1) 100%);
-    /* Sizes */
-    --heading-large: 5.6rem;
-    --heading-medium: 3.6rem;
-    --heading-small: 2.4rem;
-    --paragraph: 1.2rem;
-    /* Transitions */
-    --transition-main: .175, .685, .32;
-    /* Fonts */
-    --font-main: "Poppins";
+#main {
+    min-height: 110vh;
 }
-
-/* ==================
-    2. Global Styles
-   ================== */
 
 *,
 *::before,
@@ -426,9 +344,7 @@ select {
     3.2.3 Main
    ============ */
 
-#main {
-    min-height: 110vh;
-}
+
 
 /* ======================
     3.2.3.1 Profile Page
@@ -555,11 +471,14 @@ select {
 }
 
 .profile-page-item {
+    display: grid;
+    grid-template-columns: 20% 20% 20%;
     margin: 0;
-    height: 30vh;
     flex-grow: 1;
     position: relative;
     cursor: pointer;
+    gap: 50px;
+    padding-right: 2px;
 }
 
 .profile-page-item-image {
@@ -2122,5 +2041,56 @@ button {
 
     .tabs .content section h2 {
         display: block;
+    }
+}
+
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 132deg;
+    inherits: false;
+}
+
+:root {
+    --card-height: 65vh;
+    --card-width: calc(var(--card-height) / 1.5);
+}
+
+.card {
+    background: #191c29;
+    width: var(--card-width);
+    height: var(--card-height);
+    padding: 75px;
+    position: relative;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    font-size: 1.5em;
+    color: rgb(88 199 250 / 0%);
+    cursor: pointer;
+    font-family: cursive;
+}
+
+.card::before {
+    content: "";
+    width: 104%;
+    height: 102%;
+    border-radius: 8px;
+    background-image: linear-gradient(var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
+    position: absolute;
+    z-index: -1;
+    top: -1%;
+    left: -2%;
+    animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        --rotate: 0deg;
+    }
+
+    100% {
+        --rotate: 360deg;
     }
 }
