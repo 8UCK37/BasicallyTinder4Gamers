@@ -268,7 +268,7 @@ app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res
 app.get('/auth/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
   function (req, res) {
-    res.redirect('/');
+    res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
   });
 
 // GET /auth/steam/return
@@ -279,7 +279,7 @@ app.get('/auth/steam',
 app.get('/auth/steam/return',
   passport.authenticate('steam', { failureRedirect: '/' }),
   function (req, res) {
-    res.redirect('/');
+    res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
   });
 app.get("/test", (req, res) => {
   var admin = require("firebase-admin");
