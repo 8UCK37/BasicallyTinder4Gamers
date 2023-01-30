@@ -459,9 +459,6 @@ select {
     filter: blur(1rem) hue-rotate(-5deg) saturate(1.25);
 }
 /* Profile Username */
-.phi-profile-username-wrapper {
-
-}
 .phi-profile-username span {
     margin: 0 0 0 .3em;
 }
@@ -681,7 +678,7 @@ select {
     /* ======================
         3.2.3.1 Profile Page
        ====================== */
-  
+
     /* Profile Info */
     .phi-info-wrapper {
         grid-template-columns: auto;
@@ -882,7 +879,7 @@ background: linear-gradient(0deg, rgba(0,3,255,1) 0%, rgba(2,126,251,1) 100%);
   background: rgb(96,9,240);
   background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
   border: none;
-  
+
 }
 .btn-2:before {
   height: 0%;
@@ -890,7 +887,7 @@ background: linear-gradient(0deg, rgba(0,3,255,1) 0%, rgba(2,126,251,1) 100%);
 }
 .btn-2:hover {
   box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .5), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .5),
     inset -4px -4px 6px 0 rgba(255,255,255,.2),
     inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
 }
@@ -905,7 +902,7 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
   line-height: 42px;
   padding: 0;
   border: none;
-  
+
 }
 .btn-3 span {
   position: relative;
@@ -992,7 +989,7 @@ background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
   right: 0;
   top: 0;
    box-shadow:  4px 4px 6px 0 rgba(255,255,255,.9),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.9),
     inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
   transition: all 0.3s ease;
@@ -1018,7 +1015,7 @@ background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
   left: 0;
   bottom: 0;
   box-shadow:  4px 4px 6px 0 rgba(255,255,255,.9),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.9),
     inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
   transition: all 0.3s ease;
@@ -1257,7 +1254,7 @@ background-image: linear-gradient(315deg, #f0ecfc 0%, #c797eb 74%);
   bottom: 0;
   background: #c797eb;
   /*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.5),
     inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
   transition: all 0.3s ease;
@@ -1290,7 +1287,7 @@ background-image: linear-gradient(315deg, #f0ecfc 0%, #c797eb 74%);
   top: 0;
   background: #c797eb;
   /*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.5),
     inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
   transition: all 0.3s ease;
@@ -1309,7 +1306,7 @@ background-image: linear-gradient(315deg, #f0ecfc 0%, #c797eb 74%);
 .btn-8 span:hover:after {
   width: 100%;
 }
-  
+
 
 /* 9 */
 .btn-9 {
@@ -1332,7 +1329,7 @@ background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
 .btn-9:hover {
   background: transparent;
   box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.5),
     inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
   color: #fff;
@@ -1341,7 +1338,7 @@ background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
   -webkit-transform: scale(2) rotate(180deg);
   transform: scale(2) rotate(180deg);
   box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.5),
     inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
 }
@@ -1407,13 +1404,13 @@ background: linear-gradient(0deg, rgba(2,126,251,1) 0%,  rgba(0,3,255,1)100%);
 }
 .btn-11:active{
   box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
-              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+              -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.2),
     inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
 }
 
 
-@-webkit-keyframes shiny-btn1 {
+@keyframes shiny-btn1 {
     0% { -webkit-transform: scale(0) rotate(45deg); opacity: 0; }
     80% { -webkit-transform: scale(0) rotate(45deg); opacity: 0.5; }
     81% { -webkit-transform: scale(4) rotate(45deg); opacity: 1; }

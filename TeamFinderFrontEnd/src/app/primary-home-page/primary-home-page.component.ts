@@ -21,7 +21,7 @@ export class PrimaryHomePageComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
   }
-  
+
   toggleMenu() {
     this.show=!this.show;
   }

@@ -5,3 +5,12 @@ html{
   /* width: 0px;
   height: 0px; */
 }
+.page-bg
+{
+  background-color: #171717;
+  font-family: 'Poppins', sans-serif;
+}
+.nav-bg{
+  background-color: #001a33;
+  font-family: 'Poppins', sans-serif;
+}
