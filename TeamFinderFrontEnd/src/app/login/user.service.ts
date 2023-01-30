@@ -61,7 +61,7 @@ export class UserService {
       if (user) {
         let token = user.getIdToken().then(id=>{
           axios.defaults.headers.common['authorization'] = `Bearer ${id}` // for all requests
-          console.log(id);
+          //console.log(id);
           axios.defaults.baseURL = 'http://localhost:3000/'
         })
 

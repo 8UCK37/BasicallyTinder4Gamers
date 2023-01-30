@@ -11,16 +11,19 @@ export class ChatPageComponent implements OnInit {
   values: string = '';
   id : any ='';
   to : any ;
+
   constructor(private socketService : ChatServicesService , private route: ActivatedRoute) { }
 
 
   ngOnInit() {
     this.socketService.setupSocketConnection();
+
     this.route.queryParams.subscribe(paramsIds => {
       this.id = paramsIds['id'];
       // this.to = paramsIds['to'];
-      console.log(this.id);
+
       this.socketService.setSocketId(this.id);
+      console.log("socket id="+this.id);
   });
   }
 
