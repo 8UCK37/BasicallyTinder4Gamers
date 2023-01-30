@@ -7,11 +7,9 @@
 .hero{
     width: 100%;
     min-height: 100vh;
-    background: #312434;
     color: #525252;
 }
 nav{
-    background: #1a1a1a;
     width: 100%;
     padding: 10px 10%;
     display: flex;
