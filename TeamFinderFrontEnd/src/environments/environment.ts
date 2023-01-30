@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+	SOCKET_ENDPOINT: 'http://localhost:5000',
   firebaseConfig: {
     apiKey: "AIzaSyDWKkHHqpBi7T59CXsctG3OVO0Skt2u0bA",
   authDomain: "teamfinder42069.firebaseapp.com",
@@ -14,6 +15,7 @@ export const environment = {
   measurementId: "G-NHWRHE2Z32"
   }
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file
