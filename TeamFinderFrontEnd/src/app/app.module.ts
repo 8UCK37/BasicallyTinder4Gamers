@@ -12,13 +12,15 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { IonicModule } from '@ionic/angular';
+import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.component';
 
 @NgModule({
   declarations: [	
     AppComponent,
     PrimaryHomePageComponent,
       LoginComponent,
-      ProfilePageComponent
+      ProfilePageComponent,
+      LinkedAccountsComponent
    ],
   imports: [
     BrowserModule,
