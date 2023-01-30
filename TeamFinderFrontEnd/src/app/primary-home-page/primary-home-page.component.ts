@@ -21,20 +21,7 @@ export class PrimaryHomePageComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
   }
-  callBackend(){
-    axios.get('/test?ID=12345')
-    .then(function (response) {
-      // handle success
-      console.log(response);
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    })
-    .finally(function () {
-      // always executed
-    })
-  }
+  
   toggleMenu() {
     this.show=!this.show;
   }

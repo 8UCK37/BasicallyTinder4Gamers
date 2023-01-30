@@ -2,3 +2,4 @@
 .sftp
 node_modules
 .env
+key

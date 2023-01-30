@@ -59,9 +59,12 @@ export class UserService {
     ) {
     this.auth.authState.subscribe((user) => {
       if (user) {
-        let token = user.getIdToken()
-        axios.defaults.headers.common['authorization'] = `Bearer ${token}` // for all requests
-        axios.defaults.baseURL = 'http://localhost:3000/'
+        let token = user.getIdToken().then(id=>{
+          axios.defaults.headers.common['authorization'] = `Bearer ${id}` // for all requests
+          console.log(id);
+          axios.defaults.baseURL = 'http://localhost:3000/'
+        })
+
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user')!);

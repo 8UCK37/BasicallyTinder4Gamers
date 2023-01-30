@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import axios from 'axios';
 
 @Component({
   selector: 'app-linked-accounts',
@@ -11,5 +12,18 @@ export class LinkedAccountsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  callBackend(){
+    axios.get('/test?ID=12345')
+    .then(function (response) {
+      // handle success
+      console.log(response);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    })
+  }
 }

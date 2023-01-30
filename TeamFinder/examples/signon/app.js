@@ -13,7 +13,7 @@ require("dotenv").config()
 var bodyParser = require('body-parser')
 // create application/json parser
 var jsonParser = bodyParser.json()
- 
+
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -86,11 +86,11 @@ app.use(passport.session());
 app.use(express.static(__dirname + '/../../public'));
 
 app.get('/', async function (req, res) {
-  
+
   //res.render('index', { user: req.user });
   res.sendFile(__dirname + '/client/homepage.html')
 });
-app.get('/getUser' ,async function (req, res) {
+app.get('/getUser', async function (req, res) {
   if (req.user) {
     const fetchUser = await prisma.user.findUnique({
       where: {
@@ -99,18 +99,18 @@ app.get('/getUser' ,async function (req, res) {
     })
     if (fetchUser == null) {
       console.log("user not found ")
-      
+
       const newUser = await prisma.User.create({
         data: {
           id: req.user.id,
-          name : req.user.displayName
+          name: req.user.displayName
         },
       })
-      console.log("new user created" , newUser)
+      console.log("new user created", newUser)
     }
 
   }
-  res.send(JSON.stringify({ user: req.user}))
+  res.send(JSON.stringify({ user: req.user }))
 });
 
 app.get('/account', ensureAuthenticated, async function (req, res) {
@@ -131,26 +131,26 @@ app.get("/accountData", async (req, res) => {
   res.send(JSON.stringify({ user: req.user, ownedGames: games }))
 })
 
-app.get("/friend" , ensureAuthenticated, async (req, res) => {
+app.get("/friend", ensureAuthenticated, async (req, res) => {
   res.sendFile(__dirname + '/client/friend.html')
 })
-app.get("/friendData" ,ensureAuthenticated ,  async (req,res)=>{
+app.get("/friendData", ensureAuthenticated, async (req, res) => {
 
-  let userFriends= await prisma.Friends.findMany({
-    where:{
-      
-      from : req.user.id 
-    
+  let userFriends = await prisma.Friends.findMany({
+    where: {
+
+      from: req.user.id
+
     }
   });
   let promises = [];
   userFriends.forEach(async element => {
-    let temp  =  axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.to}`);
+    let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.to}`);
     promises.push(temp)
   });
-  
+
   let serverResponse = []
-  Promise.all(promises).then(result=>{
+  Promise.all(promises).then(result => {
     // console.log(result)
     result.forEach(element => {
       console.log(element.data)
@@ -158,10 +158,10 @@ app.get("/friendData" ,ensureAuthenticated ,  async (req,res)=>{
     });
     res.send(JSON.stringify(serverResponse));
   })
-  
+
 })
-app.post('/addFriend',ensureAuthenticated, urlencodedParser,async function (req, res) {
-  
+app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
+
   // let savedData  = await prisma.Friends.create({
   //   data:{
   //     from : req.user.id,
@@ -169,34 +169,34 @@ app.post('/addFriend',ensureAuthenticated, urlencodedParser,async function (req,
   //   }
   // })
   let friendReq = await prisma.FriendRequest.create({
-    data:{
-      from : req.user.id,
-      to : req.body.id,
-      status : 'pending'
+    data: {
+      from: req.user.id,
+      to: req.body.id,
+      status: 'pending'
     }
   })
 
   console.log(friendReq)
-  
+
   res.sendStatus(200);
 });
 
-app.get('/getPendingRequest',ensureAuthenticated,async (req,res)=>{
+app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
   let pendingReq = await prisma.FriendRequest.findMany({
-    where:{
-      status:'pending',
+    where: {
+      status: 'pending',
       to: req.user.id
     }
   })
 
   let promises = [];
   pendingReq.forEach(async element => {
-    let temp  =  axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
+    let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
     promises.push(temp)
   });
-  
+
   let serverResponse = []
-  Promise.all(promises).then(result=>{
+  Promise.all(promises).then(result => {
     // console.log(result)
     result.forEach(element => {
       console.log(element.data)
@@ -210,12 +210,12 @@ app.get('/getPendingRequest',ensureAuthenticated,async (req,res)=>{
   // res.send(pendingReq)
 })
 
-app.post('/searchFriend',ensureAuthenticated,urlencodedParser,async function (req, res) {
-  
+app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
+
   const searchresult = await prisma.User.findMany({
-    where: { 
-        name: {
-          contains: req.body.name,
+    where: {
+      name: {
+        contains: req.body.name,
       },
     },
     take: 2
@@ -231,34 +231,34 @@ app.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
-app.get("/pendingrequest" , ensureAuthenticated, async (req, res) => {
+app.get("/pendingrequest", ensureAuthenticated, async (req, res) => {
   res.sendFile(__dirname + '/client/PendingRequest.html')
 })
-app.post("/acceptFriend" ,ensureAuthenticated,urlencodedParser, async(req, res) =>{
+app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res) => {
   let friendReq = await prisma.FriendRequest.updateMany({
-    where:{
-      to:req.user.id,
-      from:req.body.id
+    where: {
+      to: req.user.id,
+      from: req.body.id
     },
-    data:{
-      
-      status : 'accepted'
+    data: {
+
+      status: 'accepted'
     }
   })
-   let savedData  = await prisma.Friends.create({
-    data:{
-      from : req.user.id,
-      to : req.body.id
+  let savedData = await prisma.Friends.create({
+    data: {
+      from: req.user.id,
+      to: req.body.id
 
     }
   })
-  let savedData1  = await prisma.Friends.create({
-    data:{
-      to : req.user.id,
-      from : req.body.id
+  let savedData1 = await prisma.Friends.create({
+    data: {
+      to: req.user.id,
+      from: req.body.id
     }
   })
-  
+
 })
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -281,10 +281,37 @@ app.get('/auth/steam/return',
   function (req, res) {
     res.redirect('/');
   });
-app.get("/test" ,(req, res)=>{
-  console.log(req.headers)
+app.get("/test", (req, res) => {
+  var admin = require("firebase-admin");
+
+  var serviceAccount = require("./../../key/firebaseadminkey.json");
+  if(!admin.apps.length){
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount)
+  
+    });
+  }else{
+    admin.app()
+  }
+  
+  const { getAuth } = require("firebase-admin/auth")
+  let idToken = req.headers['authorization'].split(" ")[1]
+  getAuth()
+    .verifyIdToken(idToken)
+    .then((decodedToken) => {
+
+      const uid = decodedToken.uid;
+      console.log(decodedToken);
+      console.log(uid)
+      // ...
+    })
+    .catch((error) => {
+      // Handle error
+      console.log(error)
+    });
+
   res.sendStatus(200)
-} )
+})
 app.listen(3000);
 
 // Simple route middleware to ensure user is authenticated.
@@ -293,8 +320,8 @@ app.listen(3000);
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { 
-    return next(); 
+  if (req.isAuthenticated()) {
+    return next();
   }
   res.redirect('/');
 }
