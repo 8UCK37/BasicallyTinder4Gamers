@@ -2,8 +2,10 @@
  * Basic example demonstrating passport-steam usage within Express framework
  */
 const axios = require("axios")
-
+var https = require('https');
+var fs = require('fs');
 var cors = require('cors')
+const path = require('path')
 var express = require('express')
   , passport = require('passport')
   , util = require('util')
@@ -94,34 +96,38 @@ app.use(session({
 // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(__dirname + '/../../public'));
+app.use('/static',express.static(__dirname + '/../../public'));
 
-app.get('/', async function (req, res) {
-
-  //res.render('index', { user: req.user });
-  res.sendFile(__dirname + '/client/homepage.html')
-});
-app.get('/getUser', async function (req, res) {
-  if (req.user) {
-    const fetchUser = await prisma.user.findUnique({
-      where: {
-        id: req.user.id
-      }
-    })
-    if (fetchUser == null) {
-      console.log("user not found ")
-
-      const newUser = await prisma.User.create({
-        data: {
-          id: req.user.id,
-          name: req.user.displayName
-        },
-      })
-      console.log("new user created", newUser)
+app.get('/saveuser', ensureAuthenticated , async function (req, res) {
+ 
+  console.log(req.user)
+  const fetchUser = await prisma.user.findUnique({
+    where: {
+      id: req.user.user_id
     }
+  })
+  if (fetchUser == null) {
+    // console.log("user not found ")
 
+    const newUser = await prisma.User.create({
+      data: {
+        id: req.user.user_id,
+        name: req.user.name
+      },
+    })
+
+    download(req.user.picture , req.user.user_id  ,res , req)
+
+
+
+    console.log("new user created", newUser)
+  }else{
+    console.log("user exists")
+    res.send(JSON.stringify({status:"ok"}))
   }
-  res.send(JSON.stringify({ user: req.user }))
+
+ 
+ 
 });
 
 app.get('/account', ensureAuthenticated, async function (req, res) {
@@ -325,8 +331,7 @@ function ensureAuthenticated(req, res, next) {
   getAuth()
     .verifyIdToken(idToken)
     .then((decodedToken) => {
-
-      const uid = decodedToken.uid;
+      req.user = decodedToken
       next();
       // console.log(decodedToken);
       // console.log(uid)
@@ -338,7 +343,7 @@ function ensureAuthenticated(req, res, next) {
       console.log(error)
     });
 
-  res.sendStatus(200)
+  // res.sendStatus(200)
 }
 
 // app.get('/chat', (req, res) => {
@@ -369,6 +374,33 @@ io.on('connection', (socket) => {
     // io.emit('my broadcast', `server: ${msg}`);
   });
 }); 
+
+
+
+
+
+
+
+
+
+let download = function(picurl , id ,res ,req) {
+  const url = picurl;
+
+  https.get(url, (response) => {
+    const path2 =path.join ( __dirname , `./../../public/profilePicture/${id}.jpg`);
+    const writeStream = fs.createWriteStream(path2);
+
+    response.pipe(writeStream);
+
+    writeStream.on("finish", () => {
+        writeStream.close();
+        console.log("Download Completed!");
+        res.send(JSON.stringify({ user: req.user }))
+    })
+  })
+}
+
+
 app.listen(3000);
 http.listen(5000, () => console.log(`Listening on port ${5000}`));
 
@@ -377,9 +409,9 @@ http.listen(5000, () => console.log(`Listening on port ${5000}`));
 //   the request is authenticated (typically via a persistent login session),
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/');
-}
+// function ensureAuthenticated(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   }
+//   res.redirect('/');
+// }

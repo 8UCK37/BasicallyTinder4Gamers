@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import axios from 'axios';
 import { UserService } from '../login/user.service';
 
 @Component({
@@ -31,6 +32,7 @@ export class NavbarComponent implements OnInit {
 
   public usr:any;
   public userparsed:any;
+  public profileurl:any;
   ngOnInit(): void {
     // this.show=false;
     // this.usr = localStorage.getItem('user');
@@ -39,6 +41,10 @@ export class NavbarComponent implements OnInit {
     this.auth.authState.subscribe(user=>{
       if(user) {
         this.userparsed = user
+        axios.get('saveuser').then(res=>{
+          console.log("save user" ,res)
+          this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
+        }).catch(err =>console.log(err))
       }
     })
   }
