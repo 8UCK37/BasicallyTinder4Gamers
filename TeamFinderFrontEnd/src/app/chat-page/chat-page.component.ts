@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from './chat-services.service';
 
 @Component({
@@ -12,18 +12,25 @@ export class ChatPageComponent implements OnInit {
   id : any ='';
   to : any ='';
 
-  constructor(private socketService : ChatServicesService , private route: ActivatedRoute) { }
+  constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private router :Router) { }
+  public usr:any;
+  public userparsed:any;
 
 
   ngOnInit() {
     this.socketService.setupSocketConnection();
-
+    this.usr = localStorage.getItem('user');
+    this.userparsed=JSON.parse(this.usr);
     this.route.queryParams.subscribe(paramsIds => {
       this.id = paramsIds['id'];
       // this.to = paramsIds['to'];
-
+      if(this.id==this.userparsed.uid){
       this.socketService.setSocketId(this.id);
       console.log("socket id="+this.id);
+    }else{
+      this.router.navigate(['/']);
+    }
+
   });
   }
 
@@ -32,6 +39,7 @@ export class ChatPageComponent implements OnInit {
   }
   sendMessage(){
     let data = {receiver: this.to , msg : this.values}
+    console.log("sending to:"+this.to);
     this.socketService.send(data);
   }
   onKey(value: string) {
@@ -39,6 +47,7 @@ export class ChatPageComponent implements OnInit {
   }
   onKeyTo(value: string) {
     this.to = value;
+    console.log("onkeyto:"+this.to)
 }
 
 }

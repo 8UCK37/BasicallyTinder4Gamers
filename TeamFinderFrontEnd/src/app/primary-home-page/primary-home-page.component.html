@@ -1,3 +1,16 @@
-<div class="hero page-bg">
+<main>
+    <div class="hero page-bg">
+        <nav class="nav-bg">
+            <img src="./../../assets/icon-resource/logo-no-background.png" class="logo">
+
+            <ul>
+                <li><a >Home</a></li>
+                <li><a >Features</a></li>
+                <li><a >About</a></li>
+                <li><a >Contact</a></li>
+                <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li>
+            </ul>
+
+            <img [src]="userparsed.photoURL" class="user-pic" (click)="toggleMenu()" alt="logout.png">
 
   </div>
