@@ -13,27 +13,4 @@
 
             <img [src]="userparsed.photoURL" class="user-pic" (click)="toggleMenu()" alt="logout.png">
 
-           <div class="sub-menu-wrap" id="subMenu" [ngClass]="show?'open-menu':''">
-            <div class="sub-menu" id="openmenu" >
-                <div class="user-info" routerLink="/profile-page" style="cursor: pointer;">
-                    <img [src]="userparsed.photoURL">
-                    <h3>{{userparsed.displayName}}</h3>
-                </div>
-                <hr>
-                <a href="#" class="sub-menu-link">
-                    <img src="./../../assets/icon-resource/setting.png">
-                    <p>Settings & Privacy</p>
-                </a>
-                <a href="#" class="sub-menu-link">
-                    <img src="./../../assets/icon-resource/help.png">
-                    <p>Help & Support</p>
-                </a>
-                <a (click)="user.logout()" href="#" class="sub-menu-link">
-                    <img src="./../../assets/icon-resource/logout.png">
-                    <p>Logout</p>
-                </a>
-            </div>
-           </div>
-        </nav>
-    </div>
-</main>
+  </div>
