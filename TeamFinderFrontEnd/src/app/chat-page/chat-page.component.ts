@@ -21,17 +21,19 @@ export class ChatPageComponent implements OnInit {
     this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
-    this.route.queryParams.subscribe(paramsIds => {
-      this.id = paramsIds['id'];
-      // this.to = paramsIds['to'];
-      if(this.id==this.userparsed.uid){
-      this.socketService.setSocketId(this.id);
-      console.log("socket id="+this.id);
-    }else{
-      this.router.navigate(['/']);
-    }
+    // this.route.queryParams.subscribe(paramsIds => {
+    //   this.id = paramsIds['id'];
+    //   // this.to = paramsIds['to'];
+    //   if(this.id==this.userparsed.uid){
+    //   this.socketService.setSocketId(this.id);
+    //   console.log("socket id="+this.id);
+    // }else{
+    //   //this.router.navigate(['/']);
+    // }
 
-  });
+  //});         BUCKET er code
+  if (this.userparsed.uid)
+  this.socketService.setSocketId(this.userparsed.uid)
   }
 
   ngOnDestroy() {
