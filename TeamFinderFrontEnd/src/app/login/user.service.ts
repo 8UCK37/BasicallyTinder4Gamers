@@ -60,9 +60,9 @@ export class UserService {
     this.auth.authState.subscribe((user) => {
       if (user) {
         let token = user.getIdToken().then(id=>{
-          axios.defaults.headers.common['authorization'] = `Bearer ${id}` // for all requests
-          //console.log(id);
+          axios.defaults.headers.common['authorization'] = `Bearer ${id}`
           axios.defaults.baseURL = 'http://localhost:3000/'
+
         })
 
         this.userData = user;
@@ -95,6 +95,7 @@ export class UserService {
       this.auth.authState.subscribe((user) => {
         if (user) {
           console.log(user)
+
           this.router.navigate(['/first-component']);
           // axios.defaults.headers.post['authorization'] = 'value' // for POST requests
 
