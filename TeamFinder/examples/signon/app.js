@@ -123,6 +123,7 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
     console.log("new user created", newUser)
   }else{
     console.log("user exists")
+    res.send(JSON.stringify({status:"ok"}))
   }
 
  
