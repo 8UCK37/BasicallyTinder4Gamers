@@ -9,13 +9,20 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { ShowgamesComponent } from './showgames/showgames.component';
 
 const routes: Routes = [
-  { path: 'profile-page', pathMatch: 'full', component: ProfilePageComponent, canActivate: [AuthGuard] },
-  { path: 'first-component', pathMatch: 'full', component: PrimaryHomePageComponent , canActivate: [AuthGuard] },
+  {
+    path: 'profile-page', component: ProfilePageComponent,
+    children: [
+      { path: 'games', component: ShowgamesComponent },
+      { path: 'post', component: ShowgamesComponent }
+    ],
+  canActivate: [AuthGuard]
+
+  },
+  { path: 'first-component', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
-  { path: 'chat', pathMatch: 'full', component: ChatPageComponent},
-  { path: 'games', pathMatch: 'full', component: ShowgamesComponent},
-  { path: '**', pathMatch: 'full', component: LoginComponent ,canActivate: [AuthGuard]},
+  { path: 'chat', pathMatch: 'full', component: ChatPageComponent },
+  { path: '**', pathMatch: 'full', component: LoginComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
