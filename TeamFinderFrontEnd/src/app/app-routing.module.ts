@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { AuthGuard } from './shared/guard/auth.guard';
+import { ShowgamesComponent } from './showgames/showgames.component';
 
 const routes: Routes = [
   { path: 'profile-page', pathMatch: 'full', component: ProfilePageComponent, canActivate: [AuthGuard] },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
   { path: 'chat', pathMatch: 'full', component: ChatPageComponent},
+  { path: 'games', pathMatch: 'full', component: ShowgamesComponent},
   { path: '**', pathMatch: 'full', component: LoginComponent ,canActivate: [AuthGuard]},
 ];
 

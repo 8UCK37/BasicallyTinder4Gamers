@@ -16,6 +16,7 @@ import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.compo
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import { ChatServicesService } from './chat-page/chat-services.service';
 import { NavbarComponent } from './navbar/navbar.component';
+import { ShowgamesComponent } from './showgames/showgames.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NavbarComponent } from './navbar/navbar.component';
       ProfilePageComponent,
       LinkedAccountsComponent,
       ChatPageComponent,
-      NavbarComponent
+      NavbarComponent,
+      ShowgamesComponent
    ],
   imports: [
     BrowserModule,
