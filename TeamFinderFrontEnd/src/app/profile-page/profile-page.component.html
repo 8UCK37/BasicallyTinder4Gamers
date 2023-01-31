@@ -45,13 +45,13 @@
         </section>
         <div class="tabs">
 
-            <input type="radio" id="tab1" name="tab-control" checked>
-            <input type="radio" id="tab2" name="tab-control">
+            <input type="radio" id="tab1" name="tab-control" [checked]="radioActivaVal == 1 ? true : false">
+            <input type="radio" id="tab2" name="tab-control" [checked]="radioActivaVal == 2 ? true : false">
             <input type="radio" id="tab3" name="tab-control">
             <input type="radio" id="tab4" name="tab-control">
             <ul>
-                <li title="Posts"><label for="tab1" role="button"><br><span>POSTS</span></label></li>
-                <li title="Games"><label for="tab2" role="button"><br><span>GAMES</span></label></li>
+                <li title="Posts"><label for="tab1" role="button"><br><span (click)="changeToPost()">POSTS</span></label></li>
+                <li title="Games"><label for="tab2" role="button"><br><span (click)="changeToGame()">GAMES</span></label></li>
                 <li title="Friends"><label for="tab3" role="button"><br><span>FRIENDS</span></label></li>
                 <li title="Returns"><label for="tab4" role="button"><br><span>Returns</span></label></li>
             </ul>
@@ -60,13 +60,14 @@
                 <div class="indicator"></div>
             </div>
             <div class="content">
-                <section>
+               <section>
                     <h2>POSTS</h2>
+                    <app-profile-post></app-profile-post>
                 </section>
-                <section>
+               <section>
                     <h2>GAMES</h2>
                     <app-showgames></app-showgames>
-                    <!-- <router-outlet></router-outlet> -->
+
                 </section>
                 <section>
                     <h2>FRIENDS</h2>3
