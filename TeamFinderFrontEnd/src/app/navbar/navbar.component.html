@@ -12,7 +12,7 @@
 
     <img [src]="userparsed.photoURL" class="user-pic" (click)="toggleMenu()" alt="logout.png">
 
-   <div class="sub-menu-wrap" id="subMenu" [ngClass]="show?'open-menu':''">
+   <div class="sub-menu-wrap" id="subMenu" [ngClass]="show?'open-menu':''" style="z-index: 10;">
     <div class="sub-menu" id="openmenu" >
         <div class="user-info" routerLink="/profile-page" style="cursor: pointer;">
             <img [src]="userparsed.photoURL">
