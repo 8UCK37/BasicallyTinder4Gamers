@@ -10,7 +10,7 @@
         <li><a [routerLink]="['/chat']">Chat</a></li>
     </ul>
 
-    <img [src]="userparsed.photoURL" #toggleButton class="user-pic" (click)="toggleMenu()" alt="logout.png">
+    <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" alt="logout.png" >
 
    <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''" style="z-index: 10;">
     <div class="sub-menu" id="openmenu" >
