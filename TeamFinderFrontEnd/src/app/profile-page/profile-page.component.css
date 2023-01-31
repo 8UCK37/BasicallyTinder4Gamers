@@ -1,5 +1,7 @@
 #main {
     min-height: 110vh;
+    top: 70px;
+    position: relative;
 }
 
 *,
