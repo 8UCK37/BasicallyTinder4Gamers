@@ -124,13 +124,12 @@ body[data-theme=dark] {
 }
 
 .app-container {
-background: #808088;
+background: #171717;
   display: flex;
   max-height:1800px;
   height: auto;
   width: 100%;
   padding: 24px;
-  max-width: 1800px;
 }
 
 .app-left {
@@ -157,7 +156,7 @@ background: #808088;
 .app-left-header h1 {
   margin: 0;
   font-size: 20px;
-  color: var(--text-dark);
+  color: white;
   margin-left: 12px;
 }
 
@@ -166,15 +165,15 @@ background: #808088;
   height: 40px;
 }
 .app-logo svg .path-1 {
-  fill: var(--logo-path-1);
+  fill: grey;
 }
 .app-logo svg .path-2 {
-  fill: var(--logo-path-2);
+  fill: white;
 }
 
 .app-profile-box {
   border: 1px solid var(--box-border);
-  background-color: var(--box-color);
+  background-color: white;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -349,7 +348,7 @@ background: #808088;
   align-items: center;
   justify-content: center;
   background-color: var(--button-bg);
-  color: #fff;
+  color: red;
   font-weight: 500;
   font-size: 12px;
   width: 16px;
@@ -370,7 +369,7 @@ background: #808088;
 .app-main {
   flex: 3;
   height: 870px;
-  background-color: #171717;
+  background-color: #7B7B7C;
   border-radius: 10px;
   padding: 16px;
   display: flex;
@@ -395,10 +394,10 @@ background: #808088;
   flex: 1;
   margin-right: 4px;
   background-color: var(--chat-input);
-  color: var(--text-dark);
+  color: white;
 }
-.chat-input:placeholder {
-  color: var(--text-light);
+.chat-input::placeholder {
+  color: white;
   font-size: 12px;
 }
 .chat-input-wrapper {
@@ -409,7 +408,7 @@ background: #808088;
   margin-top: auto;
   border-radius: 6px;
   padding: 12px;
-  background-color: var(--chat-input);
+  background-color: #959596;
 }
 
 .input-wrapper {
