@@ -362,7 +362,7 @@ io.on('connection', (socket) => {
   socket.on('my message', (receivedData) => {
     console.log(receivedData)
     let receiver = receivedData.receiver ;
-    let receivedSocketId = socketIdMap.get(parseInt (receiver))
+    let receivedSocketId = socketIdMap.get( receiver)
     console.log(socketIdMap)
     console.log("have to send to user " , receivedSocketId)
     io.to(receivedSocketId).emit('my broadcast' , receivedData.msg);

@@ -7,14 +7,14 @@ import axios from 'axios';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
-  
+
 })
 export class LoginComponent  {
 
   title = 'angular-firebase-auth-service';
   public userObject: any;
 
-  constructor(public user: UserService,private auth: AngularFireAuth , router :Router ) {
+  constructor(public user: UserService,private auth: AngularFireAuth ,  router:Router ) {
     this.userObject = localStorage.getItem('user');
     if(this.userObject != null){
       router.navigate(['/first-component']);
