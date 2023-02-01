@@ -18,14 +18,26 @@ export class FriendsComponent implements OnInit {
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
+    //this.getPendingReq()
   }
   sendReq(data:string){
     this.userparsed['to']=data;
     axios.post('addFriend',this.userparsed).then(res=>{
-      console.log("added" ,res)
-
+      console.log("sent req" ,res)
     }).catch(err =>console.log(err))
-    console.log(this.userparsed)
+    //console.log(this.userparsed)
   }
+  getPendingReq(){
+    axios.get('getPendingRequest').then(res=>{
+      console.log(res.data)
+    }).catch(err=>console.log(err))
+  }
+  // getUsers(data : string){
+  //   this.userparsed['searchTerm']=data;
+  //   console.log(this.userparsed.searchTerm)
+  //   axios.post('searchFriend',this.userparsed).then(res=>{
+  //     console.log(res.data)
+  //   }).catch(err=>console.log(err))
+  // }
 }
 
