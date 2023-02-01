@@ -21,6 +21,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const { PrismaClient } = require('@prisma/client');
 const { response } = require("express");
+const { json } = require("express");
 
 const prisma = new PrismaClient()
 
@@ -111,7 +112,9 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
     const newUser = await prisma.User.create({
       data: {
         id: req.user.user_id,
-        name: req.user.name
+        name: req.user.name,
+        profilePicture:req.user.picture,
+        gmailId:req.user.email
       },
     })
 
@@ -201,34 +204,36 @@ app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
   let pendingReq = await prisma.FriendRequest.findMany({
     where: {
       status: 'pending',
-      to: req.user.id
+      to: req.user.user_id
     }
   })
-
+  console.log(pendingReq)
   let promises = [];
   pendingReq.forEach(async element => {
-    let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
+    //let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
+    let temp=element.from;
     promises.push(temp)
   });
 
-  let serverResponse = []
-  Promise.all(promises).then(result => {
-    // console.log(result)
-    result.forEach(element => {
-      console.log(element.data)
-      serverResponse.push(element.data)
-    });
-    res.send(JSON.stringify(serverResponse));
-  })
-  // res.send(pendingReq)
+  // let serverResponse = []
+  // Promise.all(promises).then(result => {
+  //   // console.log(result)
+  //   result.forEach(element => {
+  //     console.log(element.data)
+  //     serverResponse.push(element.data)
+  //   });
+  //   res.send(JSON.stringify(serverResponse));
+  // })
+  res.send(pendingReq)
 })
 
 app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
-
+  const jsonObject = req.body;
+  console.log(jsonObject.searchTerm)
   const searchresult = await prisma.User.findMany({
     where: {
       name: {
-        contains: req.body.name,
+        contains: jsonObject.searchTerm,
       },
     },
     take: 2
