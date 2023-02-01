@@ -25,6 +25,7 @@ import { AppSearchComponent } from './navbar/app-search/app-search.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import {TypeaheadModule} from 'ngx-bootstrap/typeahead';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FormsModule,
     TooltipModule.forRoot(),
     TypeaheadModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    BrowserAnimationsModule
   ],
   providers: [
     ChatServicesService
