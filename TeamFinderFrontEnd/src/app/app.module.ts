@@ -20,9 +20,15 @@ import { ShowgamesComponent } from './showgames/showgames.component';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
 import { FriendsComponent } from './friends/friends.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { FormsModule } from '@angular/forms';
+import { AppSearchComponent } from './navbar/app-search/app-search.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip'
+import {TypeaheadModule} from 'ngx-bootstrap/typeahead';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     PrimaryHomePageComponent,
       LoginComponent,
@@ -32,7 +38,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
       NavbarComponent,
       ShowgamesComponent,
       ProfilePostComponent,
-      FriendsComponent
+      FriendsComponent,
+      AppSearchComponent
    ],
   imports: [
     BrowserModule,
@@ -41,7 +48,11 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     IonicModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    FormsModule,
+    TooltipModule.forRoot(),
+    TypeaheadModule,
+    FontAwesomeModule
   ],
   providers: [
     ChatServicesService

@@ -20,6 +20,11 @@ nav {
   position: fixed;
   z-index: 15;
 }
+app-app-search{
+  width: 629px;
+  height: 37px;
+  padding-left: 75px;
+}
 
 .logo {
   width: 50px;

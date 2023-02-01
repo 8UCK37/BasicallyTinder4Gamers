@@ -1,0 +1,9 @@
+<div>
+  <!-- <pre class="card card-block card-header mb-3">Model: {{selected | json}}</pre> -->
+<input [(ngModel)]="selected"
+       [typeahead]="states"
+       [isAnimated]="true"
+       class="form-control" placeholder="&#61442;">
+
+       <fa-icon [icon]="faCoffee"></fa-icon>
+</div>

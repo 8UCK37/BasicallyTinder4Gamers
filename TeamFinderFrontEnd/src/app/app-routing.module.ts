@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.component';
 import { LoginComponent } from './login/login.component';
+import { AppSearchComponent } from './navbar/app-search/app-search.component';
 import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { AuthGuard } from './shared/guard/auth.guard';
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
   { path: 'chat', pathMatch: 'full', component: ChatPageComponent },
+  { path: 'search', pathMatch: 'full', component: AppSearchComponent },
   { path: '**', pathMatch: 'full', component: LoginComponent, canActivate: [AuthGuard] },
 ];
 
