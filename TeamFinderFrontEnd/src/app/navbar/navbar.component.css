@@ -1,15 +1,17 @@
-*{
+* {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
 }
-.hero{
+
+.hero {
   width: 100%;
   min-height: 100vh;
   color: #525252;
 }
-nav{
+
+nav {
   width: 100%;
   padding: 10px 10%;
   display: flex;
@@ -18,30 +20,36 @@ nav{
   position: fixed;
   z-index: 15;
 }
-.logo{
+
+.logo {
   width: 50px;
-  height:50px;
+  height: 50px;
 }
-.user-pic{
+
+.user-pic {
   width: 40px;
   border-radius: 50%;
   cursor: pointer;
   margin-left: 30px;
 }
-nav ul{
+
+nav ul {
   width: 100%;
   text-align: right;
 }
-nav ul li{
+
+nav ul li {
   display: inline-block;
   list-style: none;
   margin: 10px 20px;
 }
-nav ul li a{
+
+nav ul li a {
   color: #fff;
   text-decoration: none;
 }
-.sub-menu-wrap{
+
+.sub-menu-wrap {
   position: absolute;
   top: 100%;
   right: 10%;
@@ -50,28 +58,33 @@ nav ul li a{
   overflow: hidden;
   transition: max-height 0.5s;
 }
-.sub-menu-wrap.open-menu{
+
+.sub-menu-wrap.open-menu {
   max-height: 400px;
 }
 
-.sub-menu{
+.sub-menu {
   background: #fff;
   padding: 20px;
   margin: 10px;
 }
-.user-info{
+
+.user-info {
   display: flex;
   align-items: center;
 }
-.user-info h3{
+
+.user-info h3 {
   font-weight: 500;
 }
-.user-info img{
+
+.user-info img {
   width: 60px;
   border-radius: 50%;
   margin-right: 15px;
 }
-.sub-menu hr{
+
+.sub-menu hr {
   border: 0;
   height: 1px;
   width: 100%;
@@ -79,30 +92,85 @@ nav ul li a{
   margin: 15px 0 10px;
 }
 
-.sub-menu-link{
+.sub-menu-link {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: #525252;
   margin: 12px 0;
 }
-.sub-menu-link p{
+
+.sub-menu-link p {
   width: 100%;
 }
-.sub-menu-link img{
+
+.sub-menu-link img {
   width: 40px;
   background: #e5e5e5;
   border-radius: 50%;
   padding: 8px;
   margin-right: 15px;
 }
-.sub-menu-link span{
+
+.sub-menu-link span {
   font-size: 22px;
   transition: transform 0.5s;
 }
-.sub-menu-link:hover span{
+
+.sub-menu-link:hover span {
   transform: translateX(5px);
 }
-.sub-menu-link:hover p{
+
+.sub-menu-link:hover p {
   font-weight: 600;
+}
+
+input:focus {
+  outline-offset: -2px;
+}
+
+.search {
+  position: fixed;
+  top: 2rem;
+  left: 32rem;
+  margin-top: -1em;
+  margin-left: -15em;
+}
+
+#submitsearch {
+  border: 1px solid rgb(138, 134, 134);
+  margin-left: -82px;
+  padding: 5px;
+  border-radius: 19px;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 8px;
+  padding-top: 4px;
+
+  display: none;
+  box-shadow: 0 0 1px black;
+  margin-right: 110px;
+}
+
+::placeholder{
+  color: #e5e5e5;
+}
+
+#searchInput {
+  width: 145%;
+  color: white;
+  border: 1px solid #000;
+  border-radius: 30px;
+  font-size: 16px;
+  background-color: rgb(255 255 255 / 15%);
+  background-image: url('https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-24.png');
+
+  background-position: 10px 7px;
+  background-repeat: no-repeat;
+  padding: 8px 20px 8px 40px;
+  -webkit-transition: width 0.8s ease-in-out;
+  transition: width 0.8s ease-in-out;
+  outline: none;
+  opacity: 0.9;
+
 }
