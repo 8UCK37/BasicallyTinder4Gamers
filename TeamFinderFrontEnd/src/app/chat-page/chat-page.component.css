@@ -80,36 +80,6 @@ body[data-theme=indigo], body[data-theme=pink] {
   --info-box-4: #ffceb3;
   --scrollbar-thumb: linear-gradient(to top, rgba(131, 164, 212, .5), rgb(182, 188 ,255 , 0.4));
 }
-body[data-theme=pink] {
-  --box-color: #f8f1f1;
-  --button-bg: #1a233b;
-  --logo-path-1: #e8d5db;
-  --logo-path-2: #6895A3;
-  --toggle-bg: #1a233b;
-}
-body[data-theme=navy-dark] {
-  --app-bg: #060415;
-  --box-color: #12172d;
-  --box-border: #477eff;
-  --button-bg: #477eff;
-  --toggle-bg: #477eff;
-  --toggle-bg-off: #6895a3;
-  --message-box-2: #477eff;
-  --message-box-1: #576c99;
-  --chat-input: #060415;
-  --border-light: #8187a2;
-}
-body[data-theme=navy-dark], body[data-theme=dark] {
-  --text-dark: rgba(255,255,255,1);
-  --text-light: rgba(255,255,255,.6);
-  --info-box-1: rgba(160, 186, 242, 0.5);
-  --info-box-2: rgba(168, 240, 229, 0.55);
-  --info-box-3: rgba(194, 168, 240, 0.34);
-  --info-box-4: rgba(240, 185, 168, 0.34);
-  --logo-path-1: #477eff;
-  --logo-path-2: #576c99;
-  --scrollbar-thumb: linear-gradient(to bottom, rgba(43, 88, 118, .8), rgba(78, 67, 118, .8));
-}
 body[data-theme=dark] {
   --app-bg: #040508;
   --box-color: #131a24;
@@ -126,7 +96,7 @@ body[data-theme=dark] {
 .app-container {
 background: #171717;
   display: flex;
-  max-height:1800px;
+  min-height: 100%;
   height: auto;
   width: 100%;
   padding: 24px;
@@ -211,7 +181,7 @@ background: #171717;
 }
 
 .switch-status input {
-  opacity: 0;
+  opacity: 1;
   position: absolute;
   width: 0;
   height: 0;
@@ -368,7 +338,7 @@ background: #171717;
 
 .app-main {
   flex: 3;
-  height: 870px;
+  height: auto;
   background-color: #7B7B7C;
   border-radius: 10px;
   padding: 16px;
