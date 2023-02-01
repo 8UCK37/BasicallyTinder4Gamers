@@ -18,6 +18,7 @@ import { ChatServicesService } from './chat-page/chat-services.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ShowgamesComponent } from './showgames/showgames.component';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
+import { FriendsComponent } from './friends/friends.component';
 
 @NgModule({
   declarations: [	
@@ -29,7 +30,8 @@ import { ProfilePostComponent } from './profile-post/profile-post.component';
       ChatPageComponent,
       NavbarComponent,
       ShowgamesComponent,
-      ProfilePostComponent
+      ProfilePostComponent,
+      FriendsComponent
    ],
   imports: [
     BrowserModule,

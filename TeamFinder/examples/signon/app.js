@@ -15,13 +15,13 @@ require("dotenv").config()
 var bodyParser = require('body-parser')
 // create application/json parser
 var jsonParser = bodyParser.json()
-
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 const { PrismaClient } = require('@prisma/client');
 const { response } = require("express");
+const { json } = require("express");
 
 const prisma = new PrismaClient()
 
@@ -112,7 +112,9 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
     const newUser = await prisma.User.create({
       data: {
         id: req.user.user_id,
-        name: req.user.name
+        name: req.user.name,
+        profilePicture:req.user.picture,
+        gmailId:req.user.email
       },
     })
 
@@ -120,13 +122,11 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
 
 
 
-    console.log("new user created", newUser)
+    console.log("new user created db updated", newUser)
   }else{
     console.log("user exists")
     res.send(JSON.stringify({status:"ok"}))
   }
-
- 
  
 });
 
@@ -177,7 +177,9 @@ app.get("/friendData", ensureAuthenticated, async (req, res) => {
   })
 
 })
+app.use(bodyParser.json());
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
+  const jsonObject = req.body;
 
   // let savedData  = await prisma.Friends.create({
   //   data:{
@@ -185,16 +187,16 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
   //     to : req.body.id
   //   }
   // })
+
   let friendReq = await prisma.FriendRequest.create({
     data: {
-      from: req.user.id,
-      to: req.body.id,
+      from: req.user.user_id,
+      to: jsonObject.to,
       status: 'pending'
     }
   })
 
   console.log(friendReq)
-
   res.sendStatus(200);
 });
 
@@ -202,37 +204,36 @@ app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
   let pendingReq = await prisma.FriendRequest.findMany({
     where: {
       status: 'pending',
-      to: req.user.id
+      to: req.user.user_id
     }
   })
-
+  console.log(pendingReq)
   let promises = [];
   pendingReq.forEach(async element => {
-    let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
+    //let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
+    let temp=element.from;
     promises.push(temp)
   });
 
-  let serverResponse = []
-  Promise.all(promises).then(result => {
-    // console.log(result)
-    result.forEach(element => {
-      console.log(element.data)
-      serverResponse.push(element.data)
-    });
-    res.send(JSON.stringify(serverResponse));
-  })
-
-
-
-  // res.send(pendingReq)
+  // let serverResponse = []
+  // Promise.all(promises).then(result => {
+  //   // console.log(result)
+  //   result.forEach(element => {
+  //     console.log(element.data)
+  //     serverResponse.push(element.data)
+  //   });
+  //   res.send(JSON.stringify(serverResponse));
+  // })
+  res.send(pendingReq)
 })
 
 app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
-
+  const jsonObject = req.body;
+  console.log(jsonObject.searchTerm)
   const searchresult = await prisma.User.findMany({
     where: {
       name: {
-        contains: req.body.name,
+        contains: jsonObject.searchTerm,
       },
     },
     take: 2
@@ -367,7 +368,7 @@ io.on('connection', (socket) => {
   socket.on('my message', (receivedData) => {
     console.log(receivedData)
     let receiver = receivedData.receiver ;
-    let receivedSocketId = socketIdMap.get( receiver)
+    let receivedSocketId = socketIdMap.get(receiver)
     console.log(socketIdMap)
     console.log("have to send to user " , receivedSocketId)
     io.to(receivedSocketId).emit('my broadcast' , receivedData.msg);

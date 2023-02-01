@@ -2,12 +2,19 @@
   <div *ngIf="userparsed">
   <nav class="nav-bg">
     <img src="./../../assets/icon-resource/logo-no-background.png" class="logo">
-
+    <div class='search'>
+        <input type="text" id="searchInput" placeholder="Search..">
+        <div id='submitsearch'
+          style="">
+          <span>Search</span>
+          
+        </div>
+      </div>
     <ul>
         <li><a [routerLink]="['/first-component']">Home</a></li>
         <li><a >Features</a></li>
         <li><a >About</a></li>
-        <li><a [routerLink]="['/chat']">Chat</a></li>
+        <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li>
     </ul>
 
     <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" alt="logout.png" >

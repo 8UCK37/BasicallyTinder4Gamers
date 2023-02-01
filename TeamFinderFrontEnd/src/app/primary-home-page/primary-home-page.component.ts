@@ -28,11 +28,11 @@ export class PrimaryHomePageComponent implements OnInit {
     this.show=false;
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
-    console.log(this.userparsed);
+    //console.log(this.userparsed);
   }
 
   toggleMenu() {
     this.show=!this.show;
   }
-  
+
 }
