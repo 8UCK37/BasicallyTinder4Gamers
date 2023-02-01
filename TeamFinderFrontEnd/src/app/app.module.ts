@@ -19,6 +19,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ShowgamesComponent } from './showgames/showgames.component';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
 import { FriendsComponent } from './friends/friends.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [	
@@ -39,7 +40,8 @@ import { FriendsComponent } from './friends/friends.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    IonicModule
+    IonicModule,
+    MatAutocompleteModule
   ],
   providers: [
     ChatServicesService

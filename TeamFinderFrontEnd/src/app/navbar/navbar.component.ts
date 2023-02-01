@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/co
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
