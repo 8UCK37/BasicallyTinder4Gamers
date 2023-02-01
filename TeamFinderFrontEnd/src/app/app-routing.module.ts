@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
   { path: 'chat', pathMatch: 'full', component: ChatPageComponent },
-  { path: 'search', pathMatch: 'full', component: AppSearchComponent },
+  { path: 'search', pathMatch: 'full', component: AppSearchComponent , canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: LoginComponent, canActivate: [AuthGuard] },
 ];
 
