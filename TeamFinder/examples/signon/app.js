@@ -15,7 +15,6 @@ require("dotenv").config()
 var bodyParser = require('body-parser')
 // create application/json parser
 var jsonParser = bodyParser.json()
-
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -120,13 +119,11 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
 
 
 
-    console.log("new user created", newUser)
+    console.log("new user created db updated", newUser)
   }else{
     console.log("user exists")
     res.send(JSON.stringify({status:"ok"}))
   }
-
- 
  
 });
 
@@ -177,7 +174,9 @@ app.get("/friendData", ensureAuthenticated, async (req, res) => {
   })
 
 })
+app.use(bodyParser.json());
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
+  const jsonObject = req.body;
 
   // let savedData  = await prisma.Friends.create({
   //   data:{
@@ -185,16 +184,16 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
   //     to : req.body.id
   //   }
   // })
+
   let friendReq = await prisma.FriendRequest.create({
     data: {
-      from: req.user.id,
-      to: req.body.id,
+      from: req.user.user_id,
+      to: jsonObject.to,
       status: 'pending'
     }
   })
 
   console.log(friendReq)
-
   res.sendStatus(200);
 });
 
@@ -221,9 +220,6 @@ app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
     });
     res.send(JSON.stringify(serverResponse));
   })
-
-
-
   // res.send(pendingReq)
 })
 
@@ -367,7 +363,7 @@ io.on('connection', (socket) => {
   socket.on('my message', (receivedData) => {
     console.log(receivedData)
     let receiver = receivedData.receiver ;
-    let receivedSocketId = socketIdMap.get( receiver)
+    let receivedSocketId = socketIdMap.get(receiver)
     console.log(socketIdMap)
     console.log("have to send to user " , receivedSocketId)
     io.to(receivedSocketId).emit('my broadcast' , receivedData.msg);

@@ -7,7 +7,7 @@
         <li><a [routerLink]="['/first-component']">Home</a></li>
         <li><a >Features</a></li>
         <li><a >About</a></li>
-        <li><a [routerLink]="['/chat']">Chat</a></li>
+        <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li>
     </ul>
 
     <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" alt="logout.png" >
