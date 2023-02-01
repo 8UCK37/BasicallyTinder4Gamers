@@ -4,6 +4,6 @@
 <input [(ngModel)]="selected"
        [typeahead]="states"
        [isAnimated]="true"
-       class="form-control" placeholder="Search">
+       class="form-control" placeholder="Search" (keyup)="getUsers()">
 
 </div>
