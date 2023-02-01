@@ -52,11 +52,5 @@ export class NavbarComponent implements OnInit {
   toggleMenu() {
     this.show=!this.show;
   }
-  getUsers(data : string){
-    this.userparsed['searchTerm']=data;
-    console.log(this.userparsed.searchTerm)
-    axios.post('searchFriend',this.userparsed).then(res=>{
-      console.log(res.data)
-    }).catch(err=>console.log(err))
-  }
+
 }

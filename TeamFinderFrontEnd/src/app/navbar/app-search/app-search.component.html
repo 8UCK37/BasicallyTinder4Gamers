@@ -2,8 +2,8 @@
 <div>
   <!-- <pre class="card card-block card-header mb-3">Model: {{selected | json}}</pre> -->
 <input [(ngModel)]="selected"
-       [typeahead]="states"
+       [typeahead]="searchResults"
        [isAnimated]="true"
-       class="form-control" placeholder="Search">
+       class="form-control" placeholder="Search" (keyup)="getUsers()">
 
 </div>

@@ -12,58 +12,7 @@ import { UserService } from 'src/app/login/user.service';
 export class AppSearchComponent implements OnInit {
   faCoffee = faCoffee;
   selected?: string;
-  states: string[] = [
-    'Alabama',
-    'Alaska',
-    'Arizona',
-    'Arkansas',
-    'California',
-    'Colorado',
-    'Connecticut',
-    'Delaware',
-    'Florida',
-    'Georgia',
-    'Hawaii',
-    'Idaho',
-    'Illinois',
-    'Indiana',
-    'Iowa',
-    'Kansas',
-    'Kentucky',
-    'Louisiana',
-    'Maine',
-    'Maryland',
-    'Massachusetts',
-    'Michigan',
-    'Minnesota',
-    'Mississippi',
-    'Missouri',
-    'Montana',
-    'Nebraska',
-    'Nevada',
-    'New Hampshire',
-    'New Jersey',
-    'New Mexico',
-    'New York',
-    'North Dakota',
-    'North Carolina',
-    'Ohio',
-    'Oklahoma',
-    'Oregon',
-    'Pennsylvania',
-    'Rhode Island',
-    'South Carolina',
-    'South Dakota',
-    'Tennessee',
-    'Texas',
-    'Utah',
-    'Vermont',
-    'Virginia',
-    'Washington',
-    'West Virginia',
-    'Wisconsin',
-    'Wyoming'
-  ];
+  searchResults: string[] = [];
   constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth) { }
 
   public usr:any;
@@ -84,12 +33,13 @@ export class AppSearchComponent implements OnInit {
       }
     })
   }
-  getUsers(data : any){
-    console.log(this.selected)
-    this.userparsed['searchTerm']=data;
-    console.log(this.userparsed.searchTerm)
-    axios.post('searchFriend',this.userparsed).then(res=>{
-      console.log(res.data)
+  getUsers(){
+    this.searchResults=[];
+    axios.post('searchFriend',{searchTerm: this.selected}).then(res=>{
+      res.data.forEach((element: { name: string; }) => {
+        this.searchResults.push(element.name);
+      });
+      //console.log(res.data)
     }).catch(err=>console.log(err))
   }
 }

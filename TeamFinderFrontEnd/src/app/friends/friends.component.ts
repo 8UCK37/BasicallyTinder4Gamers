@@ -32,12 +32,6 @@ export class FriendsComponent implements OnInit {
       console.log(res.data)
     }).catch(err=>console.log(err))
   }
-  // getUsers(data : string){
-  //   this.userparsed['searchTerm']=data;
-  //   console.log(this.userparsed.searchTerm)
-  //   axios.post('searchFriend',this.userparsed).then(res=>{
-  //     console.log(res.data)
-  //   }).catch(err=>console.log(err))
-  // }
+ 
 }
 

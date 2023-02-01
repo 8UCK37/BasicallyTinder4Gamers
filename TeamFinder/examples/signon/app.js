@@ -229,7 +229,6 @@ app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
 
 app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
-  console.log(jsonObject.searchTerm)
   const searchresult = await prisma.User.findMany({
     where: {
       name: {
@@ -238,7 +237,7 @@ app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function 
     },
     take: 2
   })
-  console.log(searchresult)
+  //console.log(searchresult)
   res.send(JSON.stringify(searchresult));
   //res.sendStatus(200);
 });
