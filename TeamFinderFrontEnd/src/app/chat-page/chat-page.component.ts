@@ -48,10 +48,7 @@ export class ChatPageComponent implements OnInit {
     this.allMsgs.push({rec:false,msg:this.values})
   }
 
-  getMessage(message:string){
-  this.incomingmsg=message;
-  return this.incomingmsg;
-  }
+  
 
 
 }
