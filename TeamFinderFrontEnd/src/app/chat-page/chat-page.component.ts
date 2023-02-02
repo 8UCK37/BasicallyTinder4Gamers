@@ -11,7 +11,7 @@ export class ChatPageComponent implements OnInit {
   values: string = '';
   id : any ='';
   to : any ='';
-  usermsg: string='';
+  incomingmsg: string='';
 
   constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private router :Router) { }
   public usr:any;
@@ -45,16 +45,11 @@ export class ChatPageComponent implements OnInit {
     this.socketService.send(data);
 
   }
-  onKey(value: string) {
-    this.values = value;
+
+  getMessage(message:string){
+  this.incomingmsg=message;
+  return this.incomingmsg;
   }
-  onKeyTo(value: string) {
-    this.to = value;
-    console.log("onkeyto:"+this.to)
- }
-getMessage(message:string){
-  this.usermsg=message;
-  return this.usermsg;
-}
+
 
 }
