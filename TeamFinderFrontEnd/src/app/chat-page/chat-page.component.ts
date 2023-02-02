@@ -12,7 +12,7 @@ export class ChatPageComponent implements OnInit {
   id : any ='';
   to : any ='';
   incomingmsg: string='';
-
+  allMsgs:any []=[];
   constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private router :Router) { }
   public usr:any;
   public userparsed:any;
@@ -29,7 +29,8 @@ export class ChatPageComponent implements OnInit {
     this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
       console.log(data);
       // Do something with the incoming data
-      this.getMessage(data)
+
+      this.allMsgs.push({rec:true,msg:data})
     });
   }
 
@@ -37,13 +38,14 @@ export class ChatPageComponent implements OnInit {
     this.socketService.disconnect();
   }
   sendMessage(address:any,txt:any){
+
     this.to=address;
     this.values=txt;
     let data = {receiver: this.to , msg : this.values}
     console.log("sending to: "+this.to);
     console.log("msg txt: "+this.values);
     this.socketService.send(data);
-
+    this.allMsgs.push({rec:false,msg:this.values})
   }
 
   getMessage(message:string){

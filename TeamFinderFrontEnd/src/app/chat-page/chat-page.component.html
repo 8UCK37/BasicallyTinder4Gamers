@@ -85,17 +85,20 @@
       </div>
     </div>
     <div class="app-main">
-      <!-- <div>
-                                     {{usermsg}}
-      </div> -->
+
       <div class="Chat">
         <div class="Chat-messages js-messageContainer">
-
-            <div class="Chat-message Chat-message--user">
-                <span class="Chat-bubble">{{values}}</span>
-            </div>
-            <div class="Chat-message Chat-message--bot">
-                <span class="Chat-bubble">{{incomingmsg}}</span>
+            <div *ngFor="let i of allMsgs">
+              <ng-container *ngIf="i.rec; else elseBlock">
+                <div class="Chat-message Chat-message--bot">
+                  <span class="Chat-bubble">{{i.msg}}</span>
+                </div>
+              </ng-container>
+              <ng-template #elseBlock>
+                <div class="Chat-message Chat-message--user">
+                  <span class="Chat-bubble">{{i.msg}}</span>
+                </div>
+              </ng-template>
             </div>
         </div>
 
