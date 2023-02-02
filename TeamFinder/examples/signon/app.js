@@ -195,7 +195,6 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
       status: 'pending'
     }
   })
-
   console.log(friendReq)
   res.sendStatus(200);
 });
