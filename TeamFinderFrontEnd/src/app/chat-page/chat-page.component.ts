@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from './chat-services.service';
-
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
@@ -16,35 +16,33 @@ export class ChatPageComponent implements OnInit {
   constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private router :Router) { }
   public usr:any;
   public userparsed:any;
-
+  private incomingDataSubscription: Subscription | undefined;
 
   ngOnInit() {
     this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
-    this.route.queryParams.subscribe(paramsIds => {
-      this.id = paramsIds['id'];
-      // this.to = paramsIds['to'];
-      if(this.id==this.userparsed.uid){
-      this.socketService.setSocketId(this.id);
-      console.log("socket id="+this.id);
-    }else{
-      this.router.navigate(['/']);
-    }
+    this.socketService.setSocketId(this.userparsed.uid);
+    console.log("socket id: "+this.userparsed.uid);
 
-  });
-  //BUCKET er code
-  if (this.userparsed.uid)
-  this.socketService.setSocketId(this.userparsed.uid)
+
+    this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
+      console.log(data);
+      // Do something with the incoming data
+    });
   }
 
   ngOnDestroy() {
     this.socketService.disconnect();
   }
-  sendMessage(){
+  sendMessage(address:any,txt:any){
+    this.to=address;
+    this.values=txt;
     let data = {receiver: this.to , msg : this.values}
-    console.log("sending to:"+this.to);
+    console.log("sending to: "+this.to);
+    console.log("msg txt: "+this.values);
     this.socketService.send(data);
+
   }
   onKey(value: string) {
     this.values = value;
@@ -52,11 +50,10 @@ export class ChatPageComponent implements OnInit {
   onKeyTo(value: string) {
     this.to = value;
     console.log("onkeyto:"+this.to)
-}
+ }
 getMessage(message:string){
   this.usermsg=message;
   return this.usermsg;
-
 }
 
 }

@@ -356,8 +356,8 @@ io.on('connection', (socket) => {
   console.log('a user connected' , socket.id);
   
   socket.on('setSocketId', (msg) => {
-    console.log('setSocket id' , parseInt(msg.name), "====>"  , socket.id );
-    socketIdMap.set(parseInt(msg.name), socket.id)
+    console.log('setSocket id' , msg.name, "====>"  , socket.id );
+    socketIdMap.set(msg.name, socket.id)
   });
   socket.on('disconnect', () => {
     console.log('user disconnected' );

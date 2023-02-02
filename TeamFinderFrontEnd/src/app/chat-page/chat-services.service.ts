@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
-
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatServicesService {
   socket : any;
-
+  private incomingDataSubject = new Subject<string>();
   constructor() { }
   setupSocketConnection() {
     this.socket = io(environment.SOCKET_ENDPOINT);
     ;
     this.socket.on('my broadcast', (data: string) => {
-      console.log(data);
+      //incoming msg
+      //console.log("inc msg from services:"+data);
+      this.incomingDataSubject.next(data);
     });
   }
   setSocketId(id : any){
@@ -30,5 +32,9 @@ export class ChatServicesService {
     console.log("sending this msg : " + msg);
     this.socket.emit('my message', msg);
   }
+  getIncomingData() {
+    return this.incomingDataSubject.asObservable();
+  }
+
 }
 

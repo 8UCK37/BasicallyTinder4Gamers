@@ -27,7 +27,7 @@ export class AppSearchComponent implements OnInit {
       if(user) {
         this.userparsed = user
         axios.get('saveuser').then(res=>{
-          console.log("save user" ,res)
+          //console.log("save user" ,res)
           this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
         }).catch(err =>console.log(err))
       }

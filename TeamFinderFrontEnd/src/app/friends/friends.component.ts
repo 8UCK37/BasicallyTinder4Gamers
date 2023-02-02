@@ -14,7 +14,7 @@ export class FriendsComponent implements OnInit {
   constructor(public user: UserService  ,private auth: AngularFireAuth) { }
   public usr:any;
   public userparsed:any;
-
+  public pendingResults:any[]=[];
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
@@ -27,9 +27,14 @@ export class FriendsComponent implements OnInit {
     //console.log(this.userparsed)
   }
   getPendingReq(){
+    this.pendingResults=[]
     axios.get('getPendingRequest').then(res=>{
-      console.log(res.data)
+      res.data.forEach((element: any) => {
+        this.pendingResults.push(element)
+      });
+      //console.log(res.data)
     }).catch(err=>console.log(err))
+    console.log(this.pendingResults)
   }
 
 }
