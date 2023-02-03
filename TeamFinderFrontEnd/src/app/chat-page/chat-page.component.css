@@ -827,19 +827,21 @@ body {
 }
 
 .Chat {
+  height:200%;
   width:100%;
   max-width: auto;
-  margin: 55px auto;
+  max-height:auto;
+  margin: 50px auto ;
   background: #7B7B7C;
   border-radius: 20px 20px 0 0;
 }
 
 .Chat-messages {
-  height: 500px;
-  max-height: 500px;
+  height: 570px;
+  max-height: 570px;
   overflow: auto;
-  padding: 30px;
-  overflow: hidden;
+  padding: 10px;
+  overflow-y: scroll;
 }
 .Chat-messages > * + * {
   margin-top: 40px;
