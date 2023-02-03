@@ -12,7 +12,7 @@ import { UserService } from 'src/app/login/user.service';
 export class AppSearchComponent implements OnInit {
   faCoffee = faCoffee;
   selected?: string;
-  searchResults: string[] = [];
+  searchResults: any[] = [];
   constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth) { }
 
   public usr:any;
@@ -36,10 +36,13 @@ export class AppSearchComponent implements OnInit {
   getUsers(){
     this.searchResults=[];
     axios.post('searchFriend',{searchTerm: this.selected}).then(res=>{
-      res.data.forEach((element: { name: string; }) => {
-        this.searchResults.push(element.name);
+      // res.data.forEach((element: { name: string; }) => {
+      //   this.searchResults.push(element.name);
+      // });
+      res.data.forEach((element: {id:string, name: string,profilePicture:string; }) => {
+        this.searchResults.push({id:element.id,name:element.name,dp:element.profilePicture});
       });
-      //console.log(res.data)
+      console.log(res.data)
     }).catch(err=>console.log(err))
   }
 }
