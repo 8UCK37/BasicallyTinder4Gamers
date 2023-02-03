@@ -5,12 +5,13 @@
        [typeahead]="searchResults"
        [isAnimated]="true"
        class="form-control" placeholder="Search" (keyup)="getUsers()">
-       <div *ngFor="let user of searchResults">
+
+       <div *ngFor="let user of searchResults" (click)="onclick(user.id) ">
         <img [src]="user.dp" class="user-pic">
         <span>{{ user.name }}</span>
         <br>
-        
       </div>
+
 
 </div>
 

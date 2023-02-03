@@ -100,7 +100,7 @@ app.use('/static',express.static(__dirname + '/../../public'));
 
 app.get('/saveuser', ensureAuthenticated , async function (req, res) {
  
-  console.log(req.user)
+  //console.log(req.user)
   const fetchUser = await prisma.user.findUnique({
     where: {
       id: req.user.user_id
@@ -152,30 +152,37 @@ app.get("/friend", ensureAuthenticated, async (req, res) => {
   res.sendFile(__dirname + '/client/friend.html')
 })
 app.get("/friendData", ensureAuthenticated, async (req, res) => {
+  const result = await prisma.$queryRaw`select * from User where id in (select reciever from Friends where sender =${req.user.user_id})`
 
-  let userFriends = await prisma.Friends.findMany({
-    where: {
 
-      from: req.user.id
 
-    }
-  });
-  let promises = [];
-  userFriends.forEach(async element => {
-    let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.to}`);
-    promises.push(temp)
-  });
 
-  let serverResponse = []
-  Promise.all(promises).then(result => {
-    // console.log(result)
-    result.forEach(element => {
-      console.log(element.data)
-      serverResponse.push(element.data)
-    });
-    res.send(JSON.stringify(serverResponse));
-  })
 
+  // const jsonObject = req.body;
+  // console.log(jsonObject)
+  // let userFriends = await prisma.Friends.findMany({
+  //   where: {
+
+  //     from: req.user.user_id
+
+  //   }
+  // });
+  // let promises = [];
+  // userFriends.forEach(async element => {
+  //   let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.to}`);
+  //   promises.push(temp)
+  // });
+
+  // let serverResponse = []
+  // Promise.all(promises).then(result => {
+  //   // console.log(result)
+  //   result.forEach(element => {
+  //     console.log(element.data)
+  //     serverResponse.push(element.data)
+  //   });
+  //   res.send(JSON.stringify(serverResponse));
+  // })
+  res.send(JSON.stringify(result));
 })
 app.use(bodyParser.json());
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {

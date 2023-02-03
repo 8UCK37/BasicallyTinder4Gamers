@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
@@ -13,7 +13,11 @@ export class AppSearchComponent implements OnInit {
   faCoffee = faCoffee;
   selected?: string;
   searchResults: any[] = [];
-  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth) { }
+
+  public show:boolean=false;
+
+  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth) {}
+
 
   public usr:any;
   public userparsed:any;
@@ -44,5 +48,8 @@ export class AppSearchComponent implements OnInit {
       });
       console.log(res.data)
     }).catch(err=>console.log(err))
+  }
+  onclick(userinfo:any){
+    console.log(userinfo)
   }
 }
