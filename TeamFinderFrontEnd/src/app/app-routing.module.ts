@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChatPageComponent } from './chat-page/chat-page.component';
+import { FriendsComponent } from './friends/friends.component';
 import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.component';
 import { LoginComponent } from './login/login.component';
 import { AppSearchComponent } from './navbar/app-search/app-search.component';
@@ -14,7 +15,8 @@ const routes: Routes = [
     path: 'profile-page', component: ProfilePageComponent,
     children: [
       { path: 'games', component: ShowgamesComponent },
-      { path: 'post', component: ShowgamesComponent }
+      { path: 'post', component: ShowgamesComponent },
+      { path: 'friends', component: FriendsComponent },
     ],
   canActivate: [AuthGuard]
 

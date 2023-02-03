@@ -23,25 +23,18 @@
   <div class="row justify-content-md-center">
     <div>
       <div class="row">
-        <div class="col">
-          <article class="profile">
-          <div class="profile-image">
-            <img [src]="profileurl" />
-          </div>
-          <h2 class="profile-username">placeholder</h2>
-          <small class="profile-user-handle">placeholder</small>
-          <div class="profile-actions"></div>
-        </article>
-      </div>
+        <div class =col *ngFor="let user of friendList">
+            <article class="profile">
+            <div class="profile-image">
+              <img [src]="user.element.profilePicture" />
+            </div>
+            <h2 class="profile-username">{{user.element.name}}</h2>
+            <small class="profile-user-handle"></small>
+            <div class="profile-actions"></div>
+          </article>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<!-- <article class="profile">
-  <div class="profile-image">
-    <img [src]="profileurl" />
-  </div>
-  <h2 class="profile-username">placeholder</h2>
-  <small class="profile-user-handle">placeholder</small>
-  <div class="profile-actions"></div>
-</article> -->
+

@@ -5,13 +5,18 @@
        [typeahead]="searchResults"
        [isAnimated]="true"
        class="form-control" placeholder="Search" (keyup)="getUsers()">
-
-       <div *ngFor="let user of searchResults" (click)="onclick(user.id) ">
-        <img [src]="user.dp" class="user-pic">
-        <span>{{ user.name }}</span>
-        <br>
+      <div *ngFor="let user of searchResults" (click)="onclick(user.id)">
+        <div class="col">
+          <article class="profile">
+          <div class="profile-image">
+            <img [src]="user.dp" />
+          </div>
+          <h2 class="profile-username">{{user.name}}</h2>
+          <small class="profile-user-handle"></small>
+          <div class="profile-actions"></div>
+        </article>
+        </div>
       </div>
-
 
 </div>
 

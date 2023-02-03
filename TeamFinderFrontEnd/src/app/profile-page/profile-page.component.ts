@@ -25,6 +25,7 @@ export class ProfilePageComponent implements OnInit {
     console.log(lastUrl)
     if(lastUrl == 'post') this.radioActivaVal = 1
     if(lastUrl == 'games') this.radioActivaVal = 2;
+    if(lastUrl == 'friends') this.radioActivaVal = 3;
     // this.radioAtGame = true
   }
   changeToGame(){
@@ -32,6 +33,9 @@ export class ProfilePageComponent implements OnInit {
   }
   changeToPost(){
     this.router.navigate(['profile-page','post']);
+  }
+  changeToFriends(){
+    this.router.navigate(['profile-page','friends']);
   }
 
 }
