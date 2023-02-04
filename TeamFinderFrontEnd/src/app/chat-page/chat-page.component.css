@@ -141,6 +141,16 @@ background: #171717;
   fill: white;
 }
 
+.app-profile-box-text-align-left {
+  border: 1px solid var(--box-border);
+  background-color: white;
+  align-items: center;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
 .app-profile-box {
   border: 1px solid var(--box-border);
   background-color: white;
