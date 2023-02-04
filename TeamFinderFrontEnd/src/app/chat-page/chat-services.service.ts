@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 export class ChatServicesService {
   socket : any;
   private incomingDataSubject = new Subject<string>();
-  constructor() { }
+  constructor() {}
   setupSocketConnection() {
     this.socket = io(environment.SOCKET_ENDPOINT);
     ;

@@ -62,7 +62,7 @@ export class UserService {
         let token = user.getIdToken().then(id=>{
           axios.defaults.headers.common['authorization'] = `Bearer ${id}`
           axios.defaults.baseURL = 'http://localhost:3000/'
-
+          localStorage.setItem('token', id);
         })
 
         this.userData = user;

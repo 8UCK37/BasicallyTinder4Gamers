@@ -345,8 +345,10 @@ function ensureAuthenticated(req, res, next) {
     })
     .catch((error) => {
       // Handle error
-      req.sendStatus(403)
-      console.log(error)
+    
+        console.log(error)
+        req.sendStatus(403)
+      
     });
 
   // res.sendStatus(200)
