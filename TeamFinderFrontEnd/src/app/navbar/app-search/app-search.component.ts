@@ -67,12 +67,9 @@ export class AppSearchComponent implements OnInit {
   }
   handleClickOutside(event: { target: any; }) {
     if (!this.dropdown.nativeElement.contains(event.target)) {
-      // hide the div here
+
       console.log("if")
-      this.showdiv = false;
-    }else{
-      console.log("else")
-      this.showdiv = true;
+      this.searchResults = [];
     }
   }
 }
