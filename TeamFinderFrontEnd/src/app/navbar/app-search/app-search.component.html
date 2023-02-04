@@ -5,7 +5,7 @@
        [typeahead]="searchResults"
        [isAnimated]="true"
        class="form-control" placeholder="Search" (keyup)="getUsers()">
-      <div #dropdown *ngif="showdiv">
+      <div #dropdown>
       <div class="row" *ngFor="let user of searchResults" (click)="onclick(user.id)">
         <div class="col">
           <article class="profile">
