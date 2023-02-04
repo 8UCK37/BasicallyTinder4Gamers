@@ -35,8 +35,8 @@
 .profile-image {
   border-radius: 50%;
   overflow: hidden;
-  width: 15px;
-  height: 15px;
+  width: 35px;
+  height: 35px;
   margin-bottom: .5rem;
   position: relative;
 }
@@ -49,10 +49,9 @@
 }
 
 .profile-username {
-  font-size: 0.5rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  margin-top: .15rem;
-  margin-bottom: .15rem;
+  color:#f1f3f3;
 }
 
 .profile-user-handle {
@@ -68,4 +67,8 @@
 }
 .profile-actions > * {
   margin: 0rem;
+}
+.col{
+  display:inline-flex;
+  align-items: center;
 }
