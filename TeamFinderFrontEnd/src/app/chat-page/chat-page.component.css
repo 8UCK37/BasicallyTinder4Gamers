@@ -196,7 +196,7 @@ background: #171717;
   display: none;
 }
 .switch-status input:checked ~ .toggle-online {
-  display: inline-block;
+  display: inline;
 }
 
 .toggle-text {
@@ -490,9 +490,6 @@ background: #171717;
   margin-left: 24px;
   transition: 0.2s;
   overflow: auto;
-}
-.app-right .app-profile-box img {
-  margin-bottom: 16px;
 }
 .app-right .app-profile-box-title {
   width: 100%;

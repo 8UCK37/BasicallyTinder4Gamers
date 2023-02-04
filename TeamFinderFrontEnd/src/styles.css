@@ -15,3 +15,111 @@ html{
   background-color: #001a33;
   font-family: 'Poppins', sans-serif;
 }
+
+@import url("https://fonts.googleapis.com/css?family=Varela+Round");
+body,
+html,
+span {
+  font-weight: 400;
+  font-family: "Varela Round", sans-serif;
+}
+
+.box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.type-checkbox {
+  display: none;
+}
+.type-checkbox + label {
+  display: block;
+  width: 86px;
+  height: 25px;
+  background-color: #15ad0f;
+  border-radius: 22px;
+  box-shadow: 0px 0px 25px -3px rgba(0, 0, 0, 0.4);
+  transition: all 300ms cubic-bezier(0.79, -0.01, 0.36, 1);
+  cursor: pointer;
+  position: relative;
+}
+.type-checkbox + label span {
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  font-family: "Varela Round", sans-serif;
+}
+.type-checkbox + label span.aprobado {
+  top: 52.5%;
+  transform: translateY(-50%);
+  left: 2em;
+  -webkit-animation: left-check 300ms ease-in-out;
+          animation: left-check 300ms ease-in-out;
+}
+@-webkit-keyframes left-check {
+  0% {
+    opacity: 0;
+    left: 5em;
+  }
+  100% {
+    opacity: 1;
+    left: 2.5em;
+  }
+}
+@keyframes left-check {
+  0% {
+    opacity: 0;
+    left: 5em;
+  }
+  100% {
+    opacity: 1;
+    left: 2.5em;
+  }
+}
+.type-checkbox + label span.desaprobado {
+  top: 52.5%;
+  transform: translateY(-50%);
+  right: 2.0em;
+  display: none;
+  -webkit-animation: right-check 300ms ease-in-out;
+          animation: right-check 300ms ease-in-out;
+}
+@keyframes left-check {
+  0% {
+    opacity: 0;
+    right: 5em;
+  }
+  100% {
+    opacity: 1;
+    right: 1.3em;
+  }
+}
+
+.type-checkbox + label:before {
+  display: block;
+  content: "";
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 0px 25px -3px rgba(0, 0, 0, 0.4);
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 64px;
+  transition: left 300ms cubic-bezier(0.79, -0.01, 0.36, 1);
+}
+.type-checkbox:checked + label {
+  background-color: #4e4e4e;
+}
+.type-checkbox:checked + label span.aprobado {
+  display: none;
+}
+.type-checkbox:checked + label span.desaprobado {
+  display: block;
+}
+.type-checkbox:checked + label:before {
+  left: 5px;
+}
