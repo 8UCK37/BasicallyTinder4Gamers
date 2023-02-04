@@ -26,6 +26,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import {TypeaheadModule} from 'ngx-bootstrap/typeahead';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap'
 
 
 @NgModule({

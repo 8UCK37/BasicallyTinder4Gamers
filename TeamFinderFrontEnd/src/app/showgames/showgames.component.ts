@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-showgames',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./showgames.component.css']
 })
 export class ShowgamesComponent implements OnInit {
-
-  constructor() { }
+  public list:string[]=["BGMI","FREE FIRE"]
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
-
+  openScrollableContent(longContent:any) {
+		this.modalService.open(longContent, { scrollable: true });
+	}
 }
