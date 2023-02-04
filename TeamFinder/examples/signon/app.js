@@ -352,9 +352,24 @@ function ensureAuthenticated(req, res, next) {
   // res.sendStatus(200)
 }
 
-// app.get('/chat', (req, res) => {
-//   res.send('<h1>Hey Socket.io</h1>');
-// });
+
+app.get('/chatData',ensureAuthenticated, async (req, res) => {
+  let fetchedChat = await prisma.Chat.findMany({
+    where:{
+      OR:[
+        {
+          sender: req.user.uid,
+          receiver: req.query.friendId
+        },
+        {
+          sender: req.query.friendId,
+          receiver: req.user.uid
+        }
+      ]
+    }
+  })
+  res.send(JSON.stringify(fetchedChat))
+});
 
 
 
@@ -370,12 +385,23 @@ io.on('connection', (socket) => {
     console.log('user disconnected' );
   });
   
-  socket.on('my message', (receivedData) => {
+  socket.on('my message', async (receivedData) => {
     console.log(receivedData)
     let receiver = receivedData.receiver ;
     let receivedSocketId = socketIdMap.get(receiver)
+    let sender = receivedData.sender
+
+    // console.log(sender)
     console.log(socketIdMap)
-    console.log("have to send to user " , receivedSocketId)
+    chatData = await prisma.Chat.create({
+      data:{
+        sender: sender,
+        receiver: receiver,
+        msg: receivedData.msg
+      }
+    })
+    console.log(chatData)
+    console.log(sender , " msg koreche  user " , receivedSocketId)
     io.to(receivedSocketId).emit('my broadcast' , receivedData.msg);
     // io.emit('my broadcast', `server: ${msg}`);
   });

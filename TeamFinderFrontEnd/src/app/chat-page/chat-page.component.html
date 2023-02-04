@@ -39,7 +39,7 @@
           </svg>
         </div>
         <ul class="chat-list active">
-          <li class="chat-list-item active">
+          <li class="chat-list-item active" >
             <img src="https://images.unsplash.com/photo-1587080266227-677cc2a4e76e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80" alt="chat">
             <span class="chat-list-name">Dwight Schrute</span>
           </li>
@@ -120,9 +120,9 @@
             </svg>
           </button>
         </div>
-        <input #box1 type="text">
+        <!-- <input #box1 type="text"> -->
 
-        <button class="chat-send-btn" (click)="sendMessage(box1.value,box.value)">Send</button>
+        <button class="chat-send-btn" (click)="sendMessage(box.value)">Send</button>
         <!-- (click)="sendMessage()" need to add this on the above button tag once moc funtion testion is done -->
       </div>
     </div>
@@ -134,8 +134,8 @@
             <path d="M18 15l-6-6-6 6" />
           </svg>
         </div>
-        <ul class="chat-list active" *ngFor="let frnd of friendList">
-          <div class="chat-list-item active">
+        <ul class="chat-list active" *ngFor="let frnd of friendList;  let i = index">
+          <div class="chat-list-item active" (click)="fetchChatDate(frnd.element.id)">
             <img [src]="frnd.element.profilePicture">
             <span class="chat-list-name">{{frnd.element.name}}</span>
           </div>

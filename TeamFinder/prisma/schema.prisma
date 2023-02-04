@@ -32,3 +32,13 @@ model FriendRequest {
   to        String
   status    String
 }
+
+model Chat{
+  id        Int   @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  sender String
+  receiver String
+  msg String
+}
+
+
