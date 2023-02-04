@@ -26,13 +26,16 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import {TypeaheadModule} from 'ngx-bootstrap/typeahead';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap'
+import { FrindsprofileComponent } from './frindsprofile/frindsprofile.component';
+import { ShowfriendgamesComponent } from './showfriendgames/showfriendgames.component';
+import { ShowfriendpostsComponent } from './showfriendposts/showfriendposts.component';
+import { ShowfriendfriendlistComponent } from './showfriendfriendlist/showfriendfriendlist.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PrimaryHomePageComponent,
+      AppComponent,
+      PrimaryHomePageComponent,
       LoginComponent,
       ProfilePageComponent,
       LinkedAccountsComponent,
@@ -41,7 +44,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       ShowgamesComponent,
       ProfilePostComponent,
       FriendsComponent,
-      AppSearchComponent
+      AppSearchComponent,
+      FrindsprofileComponent,
+      ShowfriendgamesComponent,
+      ShowfriendpostsComponent,
+      ShowfriendfriendlistComponent,
    ],
   imports: [
     BrowserModule,

@@ -32,34 +32,23 @@
         </div>
       </div>
       <div class="app-profile-box">
-        <div class="chat-list-header">Active Conversations <span class="c-number">4</span>
+        <div class="chat-list-header">Active Conversations <span class="c-number">{{friendList.length}}</span>
           <svg class="list-header-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="feather feather-chevron-up" viewBox="0 0 24 24">
             <defs />
             <path d="M18 15l-6-6-6 6" />
           </svg>
         </div>
-        <ul class="chat-list active">
-          <li class="chat-list-item active" >
-            <img src="https://images.unsplash.com/photo-1587080266227-677cc2a4e76e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80" alt="chat">
-            <span class="chat-list-name">Dwight Schrute</span>
-          </li>
-          <li class="chat-list-item">
-            <img src="https://images.unsplash.com/photo-1566465559199-50c6d9c81631?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80" alt="chat">
-            <span class="chat-list-name">Andy Bernard</span>
-          </li>
-          <li class="chat-list-item">
-            <img src="https://images.unsplash.com/photo-1562788869-4ed32648eb72?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2552&q=80" alt="chat">
-            <span class="chat-list-name">Michael Scott</span>
-          </li>
-          <li class="chat-list-item">
-            <img src="https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=934&q=80" alt="chat">
-            <span class="chat-list-name">Holy Flax</span>
-          </li>
-          <li class="chat-list-item">
-            <img src="https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="chat">
-            <span class="chat-list-name">Jim Halpert</span>
-          </li>
-        </ul>
+        <div class="chat-list active">
+          <div class="app-profile-box">
+            <ul class="chat-list active" *ngFor="let frnd of friendList;  let i = index">
+              <div class="chat-list-item active" (click)="fetchChatDate(frnd.element.id)" >
+                <img [src]="frnd.element.profilePicture" >
+                <span class="chat-list-name">{{frnd.element.name}}</span>
+              </div>
+            </ul>
+          </div>
+
+        </div>
       </div>
       <div class="app-profile-box">
         <div class="chat-list-header active">Achived Conversations <span class="c-number">3</span>
@@ -135,8 +124,8 @@
           </svg>
         </div>
         <ul class="chat-list active" *ngFor="let frnd of friendList;  let i = index">
-          <div class="chat-list-item active" (click)="fetchChatDate(frnd.element.id)">
-            <img [src]="frnd.element.profilePicture">
+          <div class="chat-list-item active" [routerLink]="['/user']"[queryParams]="{ id: frnd.element.id}"[skipLocationChange]="true" >
+            <img [src]="frnd.element.profilePicture" >
             <span class="chat-list-name">{{frnd.element.name}}</span>
           </div>
         </ul>
