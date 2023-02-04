@@ -359,7 +359,17 @@ app.get('/activeState',ensureAuthenticated,async(req,res)=>{
   console.log(activeStateData)
   res.send(JSON.stringify(activeStateData));
 });
-
+app.post('/activeStateChange',ensureAuthenticated, urlencodedParser,async(req,res)=>{
+  const jsonObject = req.body;
+  const updateUser = await prisma.User.update({
+    where: {
+      id: req.user.user_id,
+    },
+    data: {
+      activeChoice: jsonObject.state,
+    },
+  })
+});
 app.get('/chatData',ensureAuthenticated, async (req, res) => {
   let fetchedChat = await prisma.Chat.findMany({
     where:{
