@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   token:any;
   ngOnInit(): void {
     this.token= localStorage.getItem('token')
-    console.log(this.token)
+    //console.log(this.token)
     axios.defaults.headers.common['authorization'] = `Bearer ${this.token}`
     axios.defaults.baseURL = 'http://localhost:3000/'
 
