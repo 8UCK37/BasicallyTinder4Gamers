@@ -10,19 +10,23 @@ import { UserService } from 'src/app/login/user.service';
   styleUrls: ['./app-search.component.css']
 })
 export class AppSearchComponent implements OnInit {
+  @ViewChild('dropdown', { static: true }) dropdown: ElementRef;
   faCoffee = faCoffee;
   selected?: string;
   searchResults: any[] = [];
-
+  showdiv:boolean=true;
   public show:boolean=false;
 
-  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth) {}
+  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth) {
+    this.dropdown = new ElementRef(null)
+  }
 
 
   public usr:any;
   public userparsed:any;
   public profileurl:any;
   ngOnInit(): void {
+    document.addEventListener('click', this.handleClickOutside.bind(this));
     // this.show=false;
     // this.usr = localStorage.getItem('user');
     // this.userparsed=JSON.parse(this.usr);
@@ -37,6 +41,9 @@ export class AppSearchComponent implements OnInit {
       }
     })
   }
+  ngOnDestroy() {
+    document.removeEventListener('click', this.handleClickOutside.bind(this));
+  }
   getUsers(){
     this.searchResults=[];
     axios.post('searchFriend',{searchTerm: this.selected}).then(res=>{
@@ -49,7 +56,23 @@ export class AppSearchComponent implements OnInit {
       console.log(res.data)
     }).catch(err=>console.log(err))
   }
+  sendReq(data:string){
+    axios.post('addFriend',{from:this.userparsed.uid,to:data}).then(res=>{
+      console.log("sent req" ,res)
+    }).catch(err =>console.log(err))
+    //console.log(this.userparsed)
+  }
   onclick(userinfo:any){
-    console.log(userinfo)
+    console.log("clicked")
+  }
+  handleClickOutside(event: { target: any; }) {
+    if (!this.dropdown.nativeElement.contains(event.target)) {
+      // hide the div here
+      console.log("if")
+      this.showdiv = false;
+    }else{
+      console.log("else")
+      this.showdiv = true;
+    }
   }
 }

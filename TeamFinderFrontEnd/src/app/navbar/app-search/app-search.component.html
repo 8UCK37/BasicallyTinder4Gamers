@@ -5,7 +5,8 @@
        [typeahead]="searchResults"
        [isAnimated]="true"
        class="form-control" placeholder="Search" (keyup)="getUsers()">
-      <div *ngFor="let user of searchResults" (click)="onclick(user.id)">
+      <div #dropdown *ngif="showdiv">
+      <div class="row" *ngFor="let user of searchResults" (click)="onclick(user.id)">
         <div class="col">
           <article class="profile">
           <div class="profile-image">
@@ -16,7 +17,10 @@
           <div class="profile-actions"></div>
         </article>
         </div>
+        <div class="col">
+          <button (click)="sendReq(user.id)">sendReq</button>
+        </div>
       </div>
-
+    </div>
 </div>
 

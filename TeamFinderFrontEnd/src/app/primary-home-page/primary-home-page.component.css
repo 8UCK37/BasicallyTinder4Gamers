@@ -105,3 +105,19 @@ nav ul li a{
 .sub-menu-link:hover p{
     font-weight: 600;
 }
+.app-left-header h1 {
+  font-size: 20px;
+  color: white;
+  margin-left: 12px;
+  transform: translate(10px, -250px);
+}
+.app-logo svg {
+  width: 40px;
+  height: 40px;
+}
+.app-logo svg .path-1 {
+  fill: grey;
+}
+.app-logo svg .path-2 {
+  fill: white;
+}

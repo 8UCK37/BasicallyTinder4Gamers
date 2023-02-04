@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from './chat-services.service';
 import { Subscription } from 'rxjs';
+import axios from 'axios';
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
@@ -17,7 +18,7 @@ export class ChatPageComponent implements OnInit {
   public usr:any;
   public userparsed:any;
   private incomingDataSubscription: Subscription | undefined;
-
+  public friendList: any[]=[];
   ngOnInit() {
     this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
@@ -32,13 +33,13 @@ export class ChatPageComponent implements OnInit {
 
       this.allMsgs.push({rec:true,msg:data})
     });
+    this.getfriendlist();
   }
 
   ngOnDestroy() {
     this.socketService.disconnect();
   }
   sendMessage(address:any,txt:any){
-
     this.to=address;
     this.values=txt;
     let data = {receiver: this.to , msg : this.values}
@@ -47,8 +48,17 @@ export class ChatPageComponent implements OnInit {
     this.socketService.send(data);
     this.allMsgs.push({rec:false,msg:this.values})
   }
+  getfriendlist(){
+    this.friendList=[];
+    axios.get('friendData').then(res=>{
+      res.data.forEach((element: any) => {
+        this.friendList.push({element})
+      });
 
-  
+    }).catch(err=>console.log(err))
+    console.log(this.friendList)
+  }
+
 
 
 }

@@ -17,7 +17,6 @@ export class FriendsComponent implements OnInit {
   public userparsed:any;
   public pendingResults:any[]=[];
   public friendList: any[]=[];
-  public friendListData: any[]=[];
   public profileurl:any;
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
