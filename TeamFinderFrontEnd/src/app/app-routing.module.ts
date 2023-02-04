@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import { FriendsComponent } from './friends/friends.component';
+import { FrindsprofileComponent } from './frindsprofile/frindsprofile.component';
 import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.component';
 import { LoginComponent } from './login/login.component';
 import { AppSearchComponent } from './navbar/app-search/app-search.component';
@@ -19,13 +20,23 @@ const routes: Routes = [
       { path: 'friends', component: FriendsComponent },
     ],
   canActivate: [AuthGuard]
-
   },
+    {
+      path: 'user', component: FrindsprofileComponent,
+      children: [
+        { path: 'games', component: ShowgamesComponent },
+        { path: 'post', component: ShowgamesComponent },
+        { path: 'friends', component: FriendsComponent },
+      ],
+    canActivate: [AuthGuard]
+  },
+
   { path: 'first-component', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
   { path: 'chat', pathMatch: 'full', component: ChatPageComponent },
   { path: 'search', pathMatch: 'full', component: AppSearchComponent , canActivate: [AuthGuard]},
+  { path: 'user', pathMatch: 'full', component: FrindsprofileComponent , canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: LoginComponent, canActivate: [AuthGuard] },
 ];
 

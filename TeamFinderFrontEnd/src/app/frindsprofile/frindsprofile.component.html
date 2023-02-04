@@ -1,0 +1,79 @@
+<!-- Main -->
+<main id="main" class="flexbox-col-start-center page-bg">
+
+  <!-- Profile Page -->
+  <div class="view-width">
+
+      <!-- Profile Header -->
+      <section class="profile-header">
+          <div class="profile-header-inner flexbox">
+              <div class="phi-info-wrapper flexbox">
+                  <div class="phi-info-left flexbox">
+                      <!-- Profile Picture -->
+                      <div class="phi-profile-picture-wrapper">
+                          <div class="phi-profile-picture-inner flexbox">
+                              <img class="phi-profile-picture"
+                                  src="https://images.unsplash.com/photo-1586156719269-d2f9faf80446?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80"
+                                  alt="">
+                          </div>
+                          <img class="phi-profile-picture-blur"
+                              src="https://images.unsplash.com/photo-1586156719269-d2f9faf80446?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80"
+                              alt="">
+                      </div>
+                      <!-- Profile Username -->
+                      <div class="phi-profile-username-wrapper flexbox-col-left">
+                          <h3 class="phi-profile-username flexbox">Username<span
+                                  class="material-icons-round">verified</span></h3>
+                          <p class="phi-profile-tagline">Something neat and funny!</p>
+                      </div>
+                  </div>
+              </div>
+              <!-- Profile Header Image -->
+              <div class="profile-header-overlay"></div>
+              <img class="profile-header-image"
+                  src="https://images.unsplash.com/photo-1616808943301-d80596eff29f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2010&q=80"
+                  alt="">
+          </div>
+      </section>
+      <div class="tabs">
+
+          <input type="radio" id="tab1" name="tab-control" [checked]="radioActivaVal == 1 ? true : false">
+          <input type="radio" id="tab2" name="tab-control" [checked]="radioActivaVal == 2 ? true : false">
+          <input type="radio" id="tab3" name="tab-control">
+          <input type="radio" id="tab4" name="tab-control">
+          <ul>
+              <li title="Posts"><label for="tab1" role="button"><br><span (click)="changeToPost()">POSTS</span></label></li>
+              <li title="Games"><label for="tab2" role="button"><br><span (click)="changeToGame()">GAMES</span></label></li>
+              <li title="Friends"><label for="tab3" role="button"><br><span (click)="changeToFriends()">FRIENDS</span></label></li>
+              <li title="Returns"><label for="tab4" role="button"><br><span>Returns</span></label></li>
+          </ul>
+
+          <div class="slider">
+              <div class="indicator"></div>
+          </div>
+          <div class="content">
+             <section>
+                  <h2>POSTS</h2>
+                  <app-showfriendposts></app-showfriendposts>
+              </section>
+             <section>
+                  <h2>GAMES</h2>
+                 <app-showfriendgames></app-showfriendgames>
+
+              </section>
+              <section>
+                  <h2>FRIENDS</h2>
+                  <app-showfriendfriendlist></app-showfriendfriendlist>
+              </section>
+              <section>
+                  <h2>Returns</h2>4
+              </section>
+          </div>
+      </div>
+
+      <!-- Profile Page -->
+
+
+  </div>
+
+</main>
