@@ -14,8 +14,7 @@ export class AppSearchComponent implements OnInit {
   faCoffee = faCoffee;
   selected?: string;
   searchResults: any[] = [];
-  showdiv:boolean=true;
-  public show:boolean=false;
+  public show:boolean =true;
 
   constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth) {
     this.dropdown = new ElementRef(null)
@@ -27,7 +26,8 @@ export class AppSearchComponent implements OnInit {
   public profileurl:any;
   ngOnInit(): void {
     document.addEventListener('click', this.handleClickOutside.bind(this));
-    // this.show=false;
+
+    this.show=true;
     // this.usr = localStorage.getItem('user');
     // this.userparsed=JSON.parse(this.usr);
     // console.log("logged in :" ,  this.user.isLoggedIn)
@@ -69,5 +69,6 @@ export class AppSearchComponent implements OnInit {
     if (!this.dropdown.nativeElement.contains(event.target)) {
       this.searchResults = [];
     }
+
   }
 }

@@ -491,9 +491,7 @@ background: #171717;
   transition: 0.2s;
   overflow: auto;
 }
-.app-right .app-profile-box img {
-  margin-bottom: 16px;
-}
+
 .app-right .app-profile-box-title {
   width: 100%;
   color: var(--text-dark);
