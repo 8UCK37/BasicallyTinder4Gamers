@@ -135,8 +135,8 @@
           </svg>
         </div>
         <ul class="chat-list active" *ngFor="let frnd of friendList;  let i = index">
-          <div class="chat-list-item active" (click)="fetchChatDate(frnd.element.id)">
-            <img [src]="frnd.element.profilePicture">
+          <div class="chat-list-item active" [routerLink]="['/user']"[queryParams]="{ id: frnd.element.id}"[skipLocationChange]="true" >
+            <img [src]="frnd.element.profilePicture" >
             <span class="chat-list-name">{{frnd.element.name}}</span>
           </div>
         </ul>
