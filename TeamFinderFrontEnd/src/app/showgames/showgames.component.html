@@ -1,11 +1,38 @@
 <div class="profile-page-inner">
-    <div class="profile-page-item flexbox">
-        <div class="card">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            <i class="fa fa-plus-circle" style="font-size:130px;color:rgb(245, 245, 245)"></i>
-        </div>
-        
+  <div class="profile-page-item flexbox">
+    <div class="card" (click)="openScrollableContent(longContent)">
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <i class="fa fa-plus-circle" style="font-size:130px;color:rgb(245, 245, 245)"></i>
     </div>
+
+    <ng-template #longContent let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Select Games</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let item of list">
+          <div class="input-group mb-3">
+            <div class="input-group-text">
+              <input class="form-check-input mt-0" type="checkbox" value=""
+                aria-label="Checkbox for following text input">
+            </div>
+            <span type="text" class="form-control" aria-label="Text input with checkbox">{{item}}</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Save</button>
+          </div>
+        </div>
+      </div>
+
+    </ng-template>
+
+  </div>
 </div>

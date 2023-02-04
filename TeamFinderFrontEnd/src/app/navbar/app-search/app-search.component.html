@@ -8,18 +8,12 @@
       <div #dropdown [ngClass]="showdiv?'open-menu':''" style="z-index: 10;">
       <div class="row" *ngFor="let user of searchResults" (click)="onclick(user.id)">
         <div class="col">
-          <article class="profile">
           <div class="profile-image">
             <img [src]="user.dp" />
           </div>
-          <h2 class="profile-username">{{user.name}}</h2>
-          <small class="profile-user-handle"></small>
-          <div class="profile-actions"></div>
-        </article>
+          <div class="profile-username">{{user.name}}</div>
         </div>
-        <div class="col">
-          <button (click)="sendReq(user.id)">sendReq</button>
-        </div>
+
       </div>
     </div>
 </div>
