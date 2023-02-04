@@ -15,6 +15,7 @@ model User {
   profilePicture      String? 
   steamId String?
   gmailId String?
+  active String?
 }
 
 
