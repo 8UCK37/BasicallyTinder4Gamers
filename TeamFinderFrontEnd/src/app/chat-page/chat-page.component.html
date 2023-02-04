@@ -1,108 +1,178 @@
 <main>
-  <div class="app-container" style="padding-top: 100px; float: initial;">
+  <div class="app-container" style="padding-top: 100px; float: initial">
     <div class="app-left">
       <div class="app-left-header">
         <div class="app-logo">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <defs />
-            <path class="path-1" fill="#3eb798" d="M448 193.108h-32v80c0 44.176-35.824 80-80 80H192v32c0 35.344 28.656 64 64 64h96l69.76 58.08c6.784 5.648 16.88 4.736 22.528-2.048A16.035 16.035 0 00448 494.868v-45.76c35.344 0 64-28.656 64-64v-128c0-35.344-28.656-64-64-64z" opacity=".4" />
-            <path class="path-2" fill="#3eb798" d="M320 1.108H64c-35.344 0-64 28.656-64 64v192c0 35.344 28.656 64 64 64v61.28c0 8.832 7.168 16 16 16a16 16 0 0010.4-3.84l85.6-73.44h144c35.344 0 64-28.656 64-64v-192c0-35.344-28.656-64-64-64zm-201.44 182.56a22.555 22.555 0 01-4.8 4 35.515 35.515 0 01-5.44 3.04 42.555 42.555 0 01-6.08 1.76 28.204 28.204 0 01-6.24.64c-17.68 0-32-14.32-32-32-.336-17.664 13.712-32.272 31.376-32.608 2.304-.048 4.608.16 6.864.608a42.555 42.555 0 016.08 1.76c1.936.8 3.76 1.808 5.44 3.04a27.78 27.78 0 014.8 3.84 32.028 32.028 0 019.44 23.36 31.935 31.935 0 01-9.44 22.56zm96 0a31.935 31.935 0 01-22.56 9.44c-2.08.24-4.16.24-6.24 0a42.555 42.555 0 01-6.08-1.76 35.515 35.515 0 01-5.44-3.04 29.053 29.053 0 01-4.96-4 32.006 32.006 0 01-9.28-23.2 27.13 27.13 0 010-6.24 42.555 42.555 0 011.76-6.08c.8-1.936 1.808-3.76 3.04-5.44a37.305 37.305 0 013.84-4.96 37.305 37.305 0 014.96-3.84 25.881 25.881 0 015.44-3.04 42.017 42.017 0 016.72-2.4c17.328-3.456 34.176 7.808 37.632 25.136.448 2.256.656 4.56.608 6.864 0 8.448-3.328 16.56-9.28 22.56h-.16zm96 0a22.555 22.555 0 01-4.8 4 35.515 35.515 0 01-5.44 3.04 42.555 42.555 0 01-6.08 1.76 28.204 28.204 0 01-6.24.64c-17.68 0-32-14.32-32-32-.336-17.664 13.712-32.272 31.376-32.608 2.304-.048 4.608.16 6.864.608a42.555 42.555 0 016.08 1.76c1.936.8 3.76 1.808 5.44 3.04a27.78 27.78 0 014.8 3.84 32.028 32.028 0 019.44 23.36 31.935 31.935 0 01-9.44 22.56z" />
+            <path
+              class="path-1"
+              fill="#3eb798"
+              d="M448 193.108h-32v80c0 44.176-35.824 80-80 80H192v32c0 35.344 28.656 64 64 64h96l69.76 58.08c6.784 5.648 16.88 4.736 22.528-2.048A16.035 16.035 0 00448 494.868v-45.76c35.344 0 64-28.656 64-64v-128c0-35.344-28.656-64-64-64z"
+              opacity=".4"
+            />
+            <path
+              class="path-2"
+              fill="#3eb798"
+              d="M320 1.108H64c-35.344 0-64 28.656-64 64v192c0 35.344 28.656 64 64 64v61.28c0 8.832 7.168 16 16 16a16 16 0 0010.4-3.84l85.6-73.44h144c35.344 0 64-28.656 64-64v-192c0-35.344-28.656-64-64-64zm-201.44 182.56a22.555 22.555 0 01-4.8 4 35.515 35.515 0 01-5.44 3.04 42.555 42.555 0 01-6.08 1.76 28.204 28.204 0 01-6.24.64c-17.68 0-32-14.32-32-32-.336-17.664 13.712-32.272 31.376-32.608 2.304-.048 4.608.16 6.864.608a42.555 42.555 0 016.08 1.76c1.936.8 3.76 1.808 5.44 3.04a27.78 27.78 0 014.8 3.84 32.028 32.028 0 019.44 23.36 31.935 31.935 0 01-9.44 22.56zm96 0a31.935 31.935 0 01-22.56 9.44c-2.08.24-4.16.24-6.24 0a42.555 42.555 0 01-6.08-1.76 35.515 35.515 0 01-5.44-3.04 29.053 29.053 0 01-4.96-4 32.006 32.006 0 01-9.28-23.2 27.13 27.13 0 010-6.24 42.555 42.555 0 011.76-6.08c.8-1.936 1.808-3.76 3.04-5.44a37.305 37.305 0 013.84-4.96 37.305 37.305 0 014.96-3.84 25.881 25.881 0 015.44-3.04 42.017 42.017 0 016.72-2.4c17.328-3.456 34.176 7.808 37.632 25.136.448 2.256.656 4.56.608 6.864 0 8.448-3.328 16.56-9.28 22.56h-.16zm96 0a22.555 22.555 0 01-4.8 4 35.515 35.515 0 01-5.44 3.04 42.555 42.555 0 01-6.08 1.76 28.204 28.204 0 01-6.24.64c-17.68 0-32-14.32-32-32-.336-17.664 13.712-32.272 31.376-32.608 2.304-.048 4.608.16 6.864.608a42.555 42.555 0 016.08 1.76c1.936.8 3.76 1.808 5.44 3.04a27.78 27.78 0 014.8 3.84 32.028 32.028 0 019.44 23.36 31.935 31.935 0 01-9.44 22.56z"
+            />
           </svg>
         </div>
         <h1>QuickChat</h1>
       </div>
       <div class="app-profile-box">
-        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80" alt="profile">
+        <img [src]="userparsed.photoURL" alt="profile" />
         <div class="app-profile-box-name">
-          Pam Beesly Halpert
-          <button class="app-setting">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-settings" viewBox="0 0 24 24">
-              <defs />
-              <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
-            </svg>
-          </button>
+          {{ userparsed.displayName }}
         </div>
-        <p class="app-profile-box-title">UI Designer</p>
-        <div class="switch-status">
-          <input type="checkbox" name="switchStatus" id="switchStatus" checked>
-          <label class="label-toggle" for="switchStatus"></label>
-          <span class="toggle-text toggle-online">Online</span>
-          <span class="toggle-text toggle-offline">Offline</span>
-        </div>
+        <input class="type-checkbox" id="toogle" type="checkbox" name="name">
+        <label class="estado" for="toogle">
+          <span class="aprobado">Online</span>
+          <span class="desaprobado">Offline</span>
+        </label>
       </div>
       <div class="app-profile-box">
-        <div class="chat-list-header">Active Conversations <span class="c-number">{{friendList.length}}</span>
-          <svg class="list-header-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="feather feather-chevron-up" viewBox="0 0 24 24">
+        <div class="chat-list-header">
+          Active Conversations
+          <span class="c-number">{{ friendList.length }}</span>
+          <svg
+            class="list-header-arrow"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            class="feather feather-chevron-up"
+            viewBox="0 0 24 24"
+          >
             <defs />
             <path d="M18 15l-6-6-6 6" />
           </svg>
         </div>
         <div class="chat-list active">
           <div class="app-profile-box">
-            <ul class="chat-list active" *ngFor="let frnd of friendList">
-              <div class="chat-list-item active" (click)="fetchChatDate(frnd.element.id)" >
-                <img [src]="frnd.element.profilePicture" >
-                <span class="chat-list-name">{{frnd.element.name}}</span>
+            <ul
+              class="chat-list active"
+              *ngFor="let frnd of friendList; let i = index"
+            >
+              <div
+                class="chat-list-item active"
+                (click)="fetchChatDate(frnd.element.id)"
+              >
+                <img [src]="frnd.element.profilePicture" />
+                <span class="chat-list-name">{{ frnd.element.name }}</span>
               </div>
             </ul>
           </div>
-
         </div>
       </div>
       <div class="app-profile-box">
-        <div class="chat-list-header active">Achived Conversations <span class="c-number">3</span>
-          <svg class="list-header-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="feather feather-chevron-up" viewBox="0 0 24 24">
+        <div class="chat-list-header active">
+          Achived Conversations <span class="c-number">3</span>
+          <svg
+            class="list-header-arrow"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            class="feather feather-chevron-up"
+            viewBox="0 0 24 24"
+          >
             <defs />
             <path d="M18 15l-6-6-6 6" />
           </svg>
         </div>
         <ul class="chat-list">
           <li class="chat-list-item">
-            <img src="https://images.unsplash.com/photo-1542042457485-a4c7afd74cd5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1270&q=80" alt="chat">
+            <img
+              src="https://images.unsplash.com/photo-1542042457485-a4c7afd74cd5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1270&q=80"
+              alt="chat"
+            />
             <span class="chat-list-name">Toby Flenderson</span>
           </li>
           <li class="chat-list-item">
-            <img src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjV8fHdvbWFufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="chat">
+            <img
+              src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjV8fHdvbWFufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60"
+              alt="chat"
+            />
             <span class="chat-list-name">Kelly Kapoor</span>
           </li>
           <li class="chat-list-item">
-            <img src="https://images.unsplash.com/photo-1528763380143-65b3ac89a3ff?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDExfHx8ZW58MHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60" alt="chat">
+            <img
+              src="https://images.unsplash.com/photo-1528763380143-65b3ac89a3ff?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDExfHx8ZW58MHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60"
+              alt="chat"
+            />
             <span class="chat-list-name">Roy Andersson</span>
           </li>
         </ul>
       </div>
     </div>
     <div class="app-main">
-
       <div class="Chat">
         <div class="Chat-messages js-messageContainer">
-            <div *ngFor="let i of allMsgs">
-              <ng-container *ngIf="i.rec; else elseBlock">
-                <div class="Chat-message Chat-message--bot">
-                  <span class="Chat-bubble">{{i.msg}}</span>
-                </div>
-              </ng-container>
-              <ng-template #elseBlock>
-                <div class="Chat-message Chat-message--user">
-                  <span class="Chat-bubble">{{i.msg}}</span>
-                </div>
-              </ng-template>
-            </div>
+          <div *ngFor="let i of allMsgs">
+            <ng-container *ngIf="i.rec; else elseBlock">
+              <div class="Chat-message Chat-message--bot">
+                <span class="Chat-bubble">{{ i.msg }}</span>
+              </div>
+            </ng-container>
+            <ng-template #elseBlock>
+              <div class="Chat-message Chat-message--user">
+                <span class="Chat-bubble">{{ i.msg }}</span>
+              </div>
+            </ng-template>
+          </div>
         </div>
-
       </div>
       <div class="chat-input-wrapper">
         <button class="chat-attachment-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-paperclip" viewBox="0 0 24 24" style="color: bisque;">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="feather feather-paperclip"
+            viewBox="0 0 24 24"
+            style="color: bisque"
+          >
             <defs />
-            <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" />
+            <path
+              d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"
+            />
           </svg>
         </button>
         <div class="input-wrapper">
-          <input type="text" class="chat-input" placeholder="Enter your message here" #box  style="color: bisque;">
+          <input
+            type="text"
+            class="chat-input"
+            placeholder="Enter your message here"
+            #box
+            style="color: bisque"
+          />
           <button class="emoji-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-smile" viewBox="0 0 24 24">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              class="feather feather-smile"
+              viewBox="0 0 24 24"
+            >
               <defs />
               <circle cx="12" cy="12" r="10" />
               <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
@@ -111,22 +181,57 @@
         </div>
         <!-- <input #box1 type="text"> -->
 
-        <button class="chat-send-btn" (click)="sendMessage(box.value)">Send</button>
+        <button class="chat-send-btn" (click)="sendMessage(box.value)">
+          Send
+        </button>
         <!-- (click)="sendMessage()" need to add this on the above button tag once moc funtion testion is done -->
       </div>
     </div>
     <div class="app-right">
       <div class="app-profile-box">
-        <div class="chat-list-header">FriendList<span class="c-number">{{friendList.length}}</span>
-          <svg class="list-header-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="feather feather-chevron-up" viewBox="0 0 24 24">
+        <div class="chat-list-header">
+          FriendList<span class="c-number">{{ friendList.length }}</span>
+          <svg
+            class="list-header-arrow"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            class="feather feather-chevron-up"
+            viewBox="0 0 24 24"
+          >
             <defs />
             <path d="M18 15l-6-6-6 6" />
           </svg>
         </div>
-        <ul class="chat-list active" *ngFor="let frnd of friendList;  let i = index">
-          <div class="chat-list-item active" [routerLink]="['/user']"[queryParams]="{ id: frnd.element.id}"[skipLocationChange]="true" >
-            <img [src]="frnd.element.profilePicture" >
-            <span class="chat-list-name">{{frnd.element.name}}</span>
+        <ul
+          class="chat-list active"
+          *ngFor="let frnd of friendList; let i = index"
+        >
+          <div class="chat-list-item active">
+            <img [src]="frnd.element.profilePicture" />
+            <span class="chat-list-name"
+              >{{ frnd.element.name }}
+              <div class="btn-group">
+                <button
+                  class="btn btn-sm dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                ></button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </li>
+                </ul>
+              </div>
+            </span>
           </div>
         </ul>
       </div>

@@ -196,7 +196,7 @@ background: #171717;
   display: none;
 }
 .switch-status input:checked ~ .toggle-online {
-  display: inline-block;
+  display: inline;
 }
 
 .toggle-text {
