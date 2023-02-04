@@ -29,6 +29,7 @@ export class ChatPageComponent implements OnInit {
     console.log("socket id: "+this.userparsed.uid);
     // this.fetchChatDate()
     this.getActiveChoice();
+    console.log(this.activeState)
     this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
       console.log(data);
       // Do something with the incoming data
