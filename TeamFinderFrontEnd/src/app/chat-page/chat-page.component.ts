@@ -14,7 +14,7 @@ export class ChatPageComponent implements OnInit {
   to : any ='';
   incomingmsg: string='';
   allMsgs:any []=[];
-  constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private router :Router) { }
+  constructor(private socketService : ChatServicesService , private route: ActivatedRoute) { }
   public usr:any;
   public userparsed:any;
   private incomingDataSubscription: Subscription | undefined;
@@ -25,7 +25,7 @@ export class ChatPageComponent implements OnInit {
     this.userparsed=JSON.parse(this.usr);
     this.socketService.setSocketId(this.userparsed.uid);
     console.log("socket id: "+this.userparsed.uid);
-
+    // this.fetchChatDate()
 
     this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
       console.log(data);
@@ -39,10 +39,10 @@ export class ChatPageComponent implements OnInit {
   ngOnDestroy() {
     this.socketService.disconnect();
   }
-  sendMessage(address:any,txt:any){
-    this.to=address;
+  sendMessage(txt:any){
+    // this.to=address;
     this.values=txt;
-    let data = {receiver: this.to , msg : this.values}
+    let data = {receiver: this.to , msg : this.values , sender : this.userparsed.uid}
     console.log("sending to: "+this.to);
     console.log("msg txt: "+this.values);
     this.socketService.send(data);
@@ -58,7 +58,22 @@ export class ChatPageComponent implements OnInit {
     }).catch(err=>console.log(err))
     console.log(this.friendList)
   }
-
-
+  fetchChatDate(friendId:any){
+    // let senderId = this.route.snapshot.queryParamMap.get('senderId');
+    this.to = friendId
+    axios.get('/chatData',
+    {
+      params:
+      {
+        friendId: friendId
+      }
+    }).then(res=>{
+      this.allMsgs = []
+      res.data.forEach((ele:any) => {
+        let left = (ele.sender== this.userparsed.uid) ? false : true
+        this.allMsgs.push({rec: left , msg: ele.msg})
+        })
+      });
+    }
 
 }
