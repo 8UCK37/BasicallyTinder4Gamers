@@ -347,10 +347,18 @@ function ensureAuthenticated(req, res, next) {
         req.sendStatus(403)
       
     });
-
+    
   // res.sendStatus(200)
 }
-
+app.get('/activeState',ensureAuthenticated,async(req,res)=>{
+  let activeStateData = await prisma.User.findMany({
+    where: {
+      id: req.user.user_id
+    }
+  })
+  console.log(activeStateData)
+  res.send(JSON.stringify(activeStateData));
+});
 
 app.get('/chatData',ensureAuthenticated, async (req, res) => {
   let fetchedChat = await prisma.Chat.findMany({
