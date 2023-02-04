@@ -789,43 +789,22 @@ button {
     outline: none;
 }
 /* 9 */
-.btn-9 {
-    border: none;
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
+.btn-2 {
+  background: rgb(96,9,240);
+  background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+  border: none;
 
-.btn-9:after {
-    position: absolute;
-    content: " ";
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #1fd1f9;
-    background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
-    transition: all 0.3s ease;
 }
-
-.btn-9:hover {
-    background: transparent;
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
-        -4px -4px 6px 0 rgba(116, 125, 136, .2),
-        inset -4px -4px 6px 0 rgba(255, 255, 255, .5),
-        inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
-    color: #fff;
+.btn-2:before {
+  height: 0%;
+  width: 2px;
 }
-
-.btn-9:hover:after {
-    -webkit-transform: scale(2) rotate(180deg);
-    transform: scale(2) rotate(180deg);
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
-        -4px -4px 6px 0 rgba(116, 125, 136, .2),
-        inset -4px -4px 6px 0 rgba(255, 255, 255, .5),
-        inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
+.btn-2:hover {
+  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .5),
+    inset -4px -4px 6px 0 rgba(255,255,255,.2),
+    inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
 }
-
 
 @import "https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway:300,400";
 
