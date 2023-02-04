@@ -114,7 +114,8 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
         id: req.user.user_id,
         name: req.user.name,
         profilePicture:req.user.picture,
-        gmailId:req.user.email
+        gmailId:req.user.email,
+        activeChoice:true
       },
     })
 
@@ -153,11 +154,6 @@ app.get("/friend", ensureAuthenticated, async (req, res) => {
 })
 app.get("/friendData", ensureAuthenticated, async (req, res) => {
   const result = await prisma.$queryRaw`select * from User where id in (select reciever from Friends where sender =${req.user.user_id})`
-
-
-
-
-
   // const jsonObject = req.body;
   // console.log(jsonObject)
   // let userFriends = await prisma.Friends.findMany({
@@ -283,6 +279,7 @@ app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res
   })
 
 })
+
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Steam authentication will involve redirecting
