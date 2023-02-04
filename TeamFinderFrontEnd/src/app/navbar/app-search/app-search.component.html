@@ -5,7 +5,7 @@
        [typeahead]="searchResults"
        [isAnimated]="true"
        class="form-control" placeholder="Search" (keyup)="getUsers()">
-      <div #dropdown [ngClass]="showdiv?'open-menu':''" style="z-index: 10;">
+      <div #dropdown>
       <div class="row" *ngFor="let user of searchResults" (click)="onclick(user.id)">
         <div class="col">
           <div class="profile-image">
@@ -17,4 +17,8 @@
       </div>
     </div>
 </div>
+
+
+
+
 

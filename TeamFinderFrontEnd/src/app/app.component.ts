@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { Router } from '@angular/router';
+import axios from 'axios';
 import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.component';
 
 @Component({
@@ -9,7 +10,12 @@ import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.
 })
 export class AppComponent implements OnInit {
   hidenavbar=false
+  token:any;
   ngOnInit(): void {
+    this.token= localStorage.getItem('token')
+    //console.log(this.token)
+    axios.defaults.headers.common['authorization'] = `Bearer ${this.token}`
+    axios.defaults.baseURL = 'http://localhost:3000/'
 
   }
 
