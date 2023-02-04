@@ -29,8 +29,8 @@ model Friends {
 model FriendRequest {
   id        Int   @id @default(autoincrement())
   createdAt DateTime @default(now())
-  from      String
-  to        String
+  sender      String
+  reciever    String
   status    String
 }
 
