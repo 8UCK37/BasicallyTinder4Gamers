@@ -203,19 +203,20 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
 });
 
 app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
-  let pendingReq = await prisma.FriendRequest.findMany({
-    where: {
-      status: 'pending',
-      to: req.user.user_id
-    }
-  })
-  console.log(pendingReq)
-  let promises = [];
-  pendingReq.forEach(async element => {
-    //let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
-    let temp=element.from;
-    promises.push(temp)
-  });
+  // let pendingReq = await prisma.FriendRequest.findMany({
+  //   where: {
+  //     status: 'pending',
+  //     reciever: req.user.user_id
+  //   },
+    const result = await prisma.$queryRaw`select * from User where id in (select sender from FriendRequest where reciever =${req.user.user_id} and status='pending')`
+  // })
+  // console.log(pendingReq)
+  // let promises = [];
+  // pendingReq.forEach(async element => {
+  //   //let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
+  //   let temp=element.from;
+  //   promises.push(temp)
+  // });
 
   // let serverResponse = []
   // Promise.all(promises).then(result => {
@@ -226,7 +227,7 @@ app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
   //   });
   //   res.send(JSON.stringify(serverResponse));
   // })
-  res.send(pendingReq)
+  res.send(result)
 })
 
 app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
@@ -359,7 +360,17 @@ app.get('/activeState',ensureAuthenticated,async(req,res)=>{
   console.log(activeStateData)
   res.send(JSON.stringify(activeStateData));
 });
-
+app.post('/activeStateChange',ensureAuthenticated, urlencodedParser,async(req,res)=>{
+  const jsonObject = req.body;
+  const updateUser = await prisma.User.update({
+    where: {
+      id: req.user.user_id,
+    },
+    data: {
+      activeChoice: jsonObject.state,
+    },
+  })
+});
 app.get('/chatData',ensureAuthenticated, async (req, res) => {
   let fetchedChat = await prisma.Chat.findMany({
     where:{
