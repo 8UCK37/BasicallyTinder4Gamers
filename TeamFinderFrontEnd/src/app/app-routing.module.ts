@@ -18,6 +18,7 @@ const routes: Routes = [
       { path: 'games', component: ShowgamesComponent },
       { path: 'post', component: ShowgamesComponent },
       { path: 'friends', component: FriendsComponent },
+      { path: 'linked-accounts', component: LinkedAccountsComponent },
     ],
   canActivate: [AuthGuard]
   },
@@ -27,6 +28,7 @@ const routes: Routes = [
         { path: 'games', component: ShowgamesComponent },
         { path: 'post', component: ShowgamesComponent },
         { path: 'friends', component: FriendsComponent },
+        { path: 'linked-accounts', component: FriendsComponent },
       ],
     canActivate: [AuthGuard]
   },

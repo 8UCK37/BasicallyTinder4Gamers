@@ -21,7 +21,7 @@ export class ChatPageComponent implements OnInit {
   private incomingDataSubscription: Subscription | undefined;
   public friendList: any[]=[];
   public activeState:boolean=true;
-  
+
   ngOnInit() {
     this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
@@ -30,8 +30,8 @@ export class ChatPageComponent implements OnInit {
     console.log("socket id: "+this.userparsed.uid);
     // this.fetchChatDate()
 
+    this.getActiveChoice();
 
-    this.setActiveChoice();
     this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
       console.log(data);
       // Do something with the incoming data
@@ -80,10 +80,11 @@ export class ChatPageComponent implements OnInit {
         })
       });
     }
+
     getActiveChoice(){
       axios.get('activeState').then(res=>{
         this.activeState=res.data[0].activeChoice
-        console.log(this.activeState)
+        console.log("state:"+this.activeState)
       }).catch(err=>console.log(err))
     }
     setActiveChoice(){
@@ -91,4 +92,5 @@ export class ChatPageComponent implements OnInit {
         console.log("sent req" ,res)
       }).catch(err =>console.log(err))
     }
+
 }

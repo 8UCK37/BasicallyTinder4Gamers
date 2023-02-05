@@ -27,12 +27,10 @@
                         </div>
                     </div>
                     <div class="phi-info-right flexbox-right">
-                        <div>
+                        <!-- <div>
                             <button class="custom-btn btn-2"><span>Read More</span></button>
-                        </div>
-                        <div>
-                            <button routerLink="/linked-accounts" class="custom-btn btn-2"><span>Link</span></button>
-                        </div>
+                        </div> -->
+
                     </div>
                 </div>
                 <!-- Profile Header Image -->
@@ -46,13 +44,13 @@
 
             <input type="radio" id="tab1" name="tab-control" [checked]="radioActivaVal == 1 ? true : false">
             <input type="radio" id="tab2" name="tab-control" [checked]="radioActivaVal == 2 ? true : false">
-            <input type="radio" id="tab3" name="tab-control">
-            <input type="radio" id="tab4" name="tab-control">
+            <input type="radio" id="tab3" name="tab-control" [checked]="radioActivaVal == 3 ? true : false">
+            <input type="radio" id="tab4" name="tab-control" [checked]="radioActivaVal == 4 ? true : false">
             <ul>
                 <li title="Posts"><label for="tab1" role="button"><br><span (click)="changeToPost()">POSTS</span></label></li>
                 <li title="Games"><label for="tab2" role="button"><br><span (click)="changeToGame()">GAMES</span></label></li>
                 <li title="Friends"><label for="tab3" role="button"><br><span (click)="changeToFriends()">FRIENDS</span></label></li>
-                <li title="Returns"><label for="tab4" role="button"><br><span>Returns</span></label></li>
+                <li title="Returns"><label for="tab4" role="button"><br><span (click)="changeToLinkedAcc()">Linked Accounts</span></label></li>
             </ul>
 
             <div class="slider">
@@ -73,7 +71,8 @@
                     <app-friends></app-friends>
                 </section>
                 <section>
-                    <h2>Returns</h2>4
+                    <h2>Returns</h2>
+                    <app-linked-accounts></app-linked-accounts>
                 </section>
             </div>
         </div>
