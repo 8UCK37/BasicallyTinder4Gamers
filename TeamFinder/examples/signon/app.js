@@ -148,14 +148,14 @@ app.get("/accountData", ensureAuthenticated,async (req, res) => {
       steamId: true
     }
   })
-  //console.log(steamIdfromDb.steamId)
-  const c = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamIdfromDb.steamId}&include_appinfo=true&format=json`);
-  let games = c.data.response.games;
-  if (games == undefined || games == null) {
+  if(steamIdfromDb.steamId!=null){
+    const c = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamIdfromDb.steamId}&include_appinfo=true&format=json`);
+    let games = c.data.response.games;
+    if (games == undefined || games == null) {
     games = []
   }
-  
   res.send(JSON.stringify({ user: req.user, ownedGames: games }))
+  }else{console.log("null caught")}
   
 })
 
