@@ -51,5 +51,7 @@ export class ProfilePageComponent implements OnInit {
   changeToFriends(){
     this.router.navigate(['profile-page','friends']);
   }
-
+  changeToLinkedAcc(){
+    this.router.navigate(['profile-page','linked-accounts']);
+  }
 }

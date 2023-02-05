@@ -12,29 +12,49 @@
     <div class="col-md-auto">
     </div>
     <div class="col col-lg-2">
-      <input class="type-checkbox" id="toogle" type="checkbox" name="name">
-          <label class="estado" for="toogle">
-            <span class="aprobado">Friends</span>
-            <span class="desaprobado">Pending</span>
-          </label>
+      <input class="type-checkbox" id="toogle" type="checkbox" name="name" (click)="toggle()">
+      <label class="estado" for="toogle" >
+        <span class="aprobado">Friends</span>
+        <span class="desaprobado">Pending</span>
+      </label>
     </div>
   </div>
   <br>
-  <div class="row justify-content-md-center">
-    <div>
-      <div class="row">
-        <div class ="col" *ngFor="let user of friendList">
+  <ng-container *ngIf="show">
+    <div class="row justify-content-md-center">
+      <div>
+        <div class="row">
+          <div class="col" *ngFor="let user of friendList">
             <article class="profile">
-            <div class="profile-image">
-              <img [src]="user.element.profilePicture" />
-            </div>
-            <h2 class="profile-username">{{user.element.name}}</h2>
-            <small class="profile-user-handle"></small>
-            <div class="profile-actions"></div>
-          </article>
+              <div class="profile-image">
+                <img [src]="user.element.profilePicture" />
+              </div>
+              <h2 class="profile-username">{{user.element.name}}</h2>
+              <small class="profile-user-handle"></small>
+              <div class="profile-actions"></div>
+            </article>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
+  <ng-container *ngIf="hide">
+    <div class="row justify-content-md-center">
+      <div>
+        <div class="row">
+          <div class="col" *ngFor="let user2 of pendingResults">
+            <article class="profile">
+              <div class="profile-image">
+                <img [src]="user2.profilePicture" />
+              </div>
+              <h2 class="profile-username">{{user2.name}}</h2>
+              <small class="profile-user-handle"></small>
+              <div class="profile-actions"></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>
 

@@ -114,7 +114,8 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
         id: req.user.user_id,
         name: req.user.name,
         profilePicture:req.user.picture,
-        gmailId:req.user.email
+        gmailId:req.user.email,
+        activeChoice:true
       },
     })
 
@@ -153,11 +154,6 @@ app.get("/friend", ensureAuthenticated, async (req, res) => {
 })
 app.get("/friendData", ensureAuthenticated, async (req, res) => {
   const result = await prisma.$queryRaw`select * from User where id in (select reciever from Friends where sender =${req.user.user_id})`
-
-
-
-
-
   // const jsonObject = req.body;
   // console.log(jsonObject)
   // let userFriends = await prisma.Friends.findMany({
@@ -207,19 +203,20 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
 });
 
 app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
-  let pendingReq = await prisma.FriendRequest.findMany({
-    where: {
-      status: 'pending',
-      to: req.user.user_id
-    }
-  })
-  console.log(pendingReq)
-  let promises = [];
-  pendingReq.forEach(async element => {
-    //let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
-    let temp=element.from;
-    promises.push(temp)
-  });
+  // let pendingReq = await prisma.FriendRequest.findMany({
+  //   where: {
+  //     status: 'pending',
+  //     reciever: req.user.user_id
+  //   },
+    const result = await prisma.$queryRaw`select * from User where id in (select sender from FriendRequest where reciever =${req.user.user_id} and status='pending')`
+  // })
+  // console.log(pendingReq)
+  // let promises = [];
+  // pendingReq.forEach(async element => {
+  //   //let temp = axios.get(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${element.from}`);
+  //   let temp=element.from;
+  //   promises.push(temp)
+  // });
 
   // let serverResponse = []
   // Promise.all(promises).then(result => {
@@ -230,7 +227,7 @@ app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
   //   });
   //   res.send(JSON.stringify(serverResponse));
   // })
-  res.send(pendingReq)
+  res.send(result)
 })
 
 app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
@@ -283,6 +280,7 @@ app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res
   })
 
 })
+
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Steam authentication will involve redirecting
@@ -292,6 +290,7 @@ app.get('/auth/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
   function (req, res) {
     res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
+    
   });
 
 // GET /auth/steam/return
@@ -299,16 +298,146 @@ app.get('/auth/steam',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/steam/return',
-  passport.authenticate('steam', { failureRedirect: '/' }),
-  function (req, res) {
-    res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
+app.get('/auth/steam/return',passport.authenticate('steam', { failureRedirect: '/' }), function (req, res) {
+  
+  res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);  
   });
 app.get("/test",ensureAuthenticated, (req, res) => {
   res.sendStatus(200);
 })
 
 
+
+app.get('/activeState',ensureAuthenticated,async(req,res)=>{
+  let activeStateData = await prisma.User.findMany({
+    where: {
+      id: req.user.user_id
+    }
+  })
+  console.log(activeStateData)
+  res.send(JSON.stringify(activeStateData));
+});
+app.post('/activeStateChange',ensureAuthenticated, urlencodedParser,async(req,res)=>{
+  const jsonObject = req.body;
+  const updateUser = await prisma.User.update({
+    where: {
+      id: req.user.user_id,
+    },
+    data: {
+      activeChoice: jsonObject.state,
+    },
+  })
+});
+app.post('/setSteamId',ensureAuthenticated, urlencodedParser,async(req,res)=>{
+  const jsonObject = req.body;
+  const updateUser = await prisma.User.update({
+    where: {
+      id: req.user.user_id,
+    },
+    data: {
+      steamId: jsonObject.acc_id,
+    },
+  })
+});
+app.get('/getSteamId',ensureAuthenticated,async(req,res)=>{
+  let steamIdData = await prisma.User.findMany({
+    where: {
+      id: req.user.user_id
+    }
+  })
+  console.log(steamIdData)
+  res.send(JSON.stringify(steamIdData));
+});
+
+app.post('/deleteSteamId',ensureAuthenticated, urlencodedParser,async(req,res)=>{
+  
+  const updateUser = await prisma.User.update({
+    where: {
+      id: req.user.user_id,
+    },
+    data: {
+      steamId: null,
+    },
+  })
+});
+
+app.get('/chatData',ensureAuthenticated, async (req, res) => {
+  let fetchedChat = await prisma.Chat.findMany({
+    where:{
+      OR:[
+        {
+          sender: req.user.uid,
+          receiver: req.query.friendId
+        },
+        {
+          sender: req.query.friendId,
+          receiver: req.user.uid
+        }
+      ]
+    }
+  })
+  res.send(JSON.stringify(fetchedChat))
+});
+
+
+
+
+
+
+
+//chat
+io.on('connection', (socket) => {
+  // socketIdMap.set(socket.id)
+  console.log('a user connected' , socket.id);
+  
+  socket.on('setSocketId', (msg) => {
+    console.log('setSocket id' , msg.name, "====>"  , socket.id );
+    socketIdMap.set(msg.name, socket.id)
+  });
+  socket.on('disconnect', () => {
+    console.log('user disconnected' );
+  });
+  
+  socket.on('my message', async (receivedData) => {
+    console.log(receivedData)
+    let receiver = receivedData.receiver ;
+    let receivedSocketId = socketIdMap.get(receiver)
+    let sender = receivedData.sender
+
+    // console.log(sender)
+    console.log(socketIdMap)
+    chatData = await prisma.Chat.create({
+      data:{
+        sender: sender,
+        receiver: receiver,
+        msg: receivedData.msg
+      }
+    })
+    console.log(chatData)
+    console.log(sender , " msg koreche  user " , receivedSocketId)
+    io.to(receivedSocketId).emit('my broadcast' , receivedData.msg);
+    // io.emit('my broadcast', `server: ${msg}`);
+  });
+}); 
+
+
+//profilePic download
+let download = function(picurl , id ,res ,req) {
+  const url = picurl;
+
+  https.get(url, (response) => {
+    const path2 =path.join ( __dirname , `./../../public/profilePicture/${id}.jpg`);
+    const writeStream = fs.createWriteStream(path2);
+
+    response.pipe(writeStream);
+
+    writeStream.on("finish", () => {
+        writeStream.close();
+        console.log("Download Completed!");
+        res.send(JSON.stringify({ user: req.user }))
+    })
+  })
+}
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
 //   the request is authenticated (typically via a persistent login session),
@@ -350,90 +479,9 @@ function ensureAuthenticated(req, res, next) {
         req.sendStatus(403)
       
     });
-
+    
   // res.sendStatus(200)
 }
-
-
-app.get('/chatData',ensureAuthenticated, async (req, res) => {
-  let fetchedChat = await prisma.Chat.findMany({
-    where:{
-      OR:[
-        {
-          sender: req.user.uid,
-          receiver: req.query.friendId
-        },
-        {
-          sender: req.query.friendId,
-          receiver: req.user.uid
-        }
-      ]
-    }
-  })
-  res.send(JSON.stringify(fetchedChat))
-});
-
-
-
-io.on('connection', (socket) => {
-  // socketIdMap.set(socket.id)
-  console.log('a user connected' , socket.id);
-  
-  socket.on('setSocketId', (msg) => {
-    console.log('setSocket id' , msg.name, "====>"  , socket.id );
-    socketIdMap.set(msg.name, socket.id)
-  });
-  socket.on('disconnect', () => {
-    console.log('user disconnected' );
-  });
-  
-  socket.on('my message', async (receivedData) => {
-    console.log(receivedData)
-    let receiver = receivedData.receiver ;
-    let receivedSocketId = socketIdMap.get(receiver)
-    let sender = receivedData.sender
-
-    // console.log(sender)
-    console.log(socketIdMap)
-    chatData = await prisma.Chat.create({
-      data:{
-        sender: sender,
-        receiver: receiver,
-        msg: receivedData.msg
-      }
-    })
-    console.log(chatData)
-    console.log(sender , " msg koreche  user " , receivedSocketId)
-    io.to(receivedSocketId).emit('my broadcast' , receivedData.msg);
-    // io.emit('my broadcast', `server: ${msg}`);
-  });
-}); 
-
-
-
-
-
-
-
-
-
-let download = function(picurl , id ,res ,req) {
-  const url = picurl;
-
-  https.get(url, (response) => {
-    const path2 =path.join ( __dirname , `./../../public/profilePicture/${id}.jpg`);
-    const writeStream = fs.createWriteStream(path2);
-
-    response.pipe(writeStream);
-
-    writeStream.on("finish", () => {
-        writeStream.close();
-        console.log("Download Completed!");
-        res.send(JSON.stringify({ user: req.user }))
-    })
-  })
-}
-
 
 app.listen(3000);
 http.listen(5000, () => console.log(`Listening on port ${5000}`));
