@@ -1,10 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
-
+*{
+  scrollbar-width: none;
+}
 html{
   top: 00px;
-
+  overflow: scroll;
+  overflow-x: hidden;
   /* width: 0px;
   height: 0px; */
+}
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
 }
 .page-bg
 {

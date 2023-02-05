@@ -11,9 +11,9 @@
         <!-- <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li> -->
         <li><a [routerLink]="['/chat']">Chat</a></li>
     </ul>
-
+<div>
     <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" alt="logout.png" >
-
+</div>
    <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
     <div class="sub-menu" id="openmenu" >
         <div class="user-info" routerLink="/profile-page" style="cursor: pointer;">
