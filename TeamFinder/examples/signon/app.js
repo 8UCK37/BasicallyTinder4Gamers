@@ -139,14 +139,24 @@ app.get('/friend', ensureAuthenticated, async function (req, res) {
   res.sendFile(__dirname + '/client/friend.html')
 });
 
-app.get("/accountData", async (req, res) => {
-  const c = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${req.user.id}&include_appinfo=true&format=json`);
+app.get("/accountData", ensureAuthenticated,async (req, res) => {
+  let steamIdfromDb = await prisma.User.findUnique({
+    where: {
+      id: req.user.user_id
+    },
+    select: {
+      steamId: true
+    }
+  })
+  //console.log(steamIdfromDb.steamId)
+  const c = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamIdfromDb.steamId}&include_appinfo=true&format=json`);
   let games = c.data.response.games;
   if (games == undefined || games == null) {
     games = []
   }
-
+  
   res.send(JSON.stringify({ user: req.user, ownedGames: games }))
+  
 })
 
 app.get("/friend", ensureAuthenticated, async (req, res) => {
@@ -345,7 +355,6 @@ app.get('/getSteamId',ensureAuthenticated,async(req,res)=>{
       id: req.user.user_id
     }
   })
-  console.log(steamIdData)
   res.send(JSON.stringify(steamIdData));
 });
 

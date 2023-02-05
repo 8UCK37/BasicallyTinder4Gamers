@@ -1,5 +1,7 @@
+import { forEach } from '@angular-devkit/schematics';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import axios from 'axios';
 
 @Component({
   selector: 'app-showgames',
@@ -7,15 +9,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./showgames.component.css']
 })
 export class ShowgamesComponent implements OnInit {
-  public list:string[]=["BGMI","FREE FIRE"]
+  public GameNamelist:string[]=["BGMI","FREE FIRE"]
   public result: any
+  public steamId:string='';
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.result=[]
-    for (let i=0; i<this.list.length; i++){
-      this.result.push([this.list[i],false])
+    for (let i=0; i<this.GameNamelist.length; i++){
+      this.result.push([this.GameNamelist[i],false])
     }
+    this.getOwnedGames()
   }
   openScrollableContent(longContent:any) {
 		this.modalService.open(longContent, { scrollable: true });
@@ -26,5 +30,14 @@ export class ShowgamesComponent implements OnInit {
   submit(){
     console.log(this.result)
     this.modalService.dismissAll()
+  }
+  async getOwnedGames() {
+    await axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
+      console.log(res.data.ownedGames)
+      res.data.ownedGames.forEach((element: any) => {
+        this.GameNamelist.push(element.name)
+        
+      });
+    }).catch(err =>console.log(err))
   }
 }

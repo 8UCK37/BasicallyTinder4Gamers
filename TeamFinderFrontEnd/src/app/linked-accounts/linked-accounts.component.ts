@@ -13,14 +13,15 @@ export class LinkedAccountsComponent implements OnInit {
   constructor(private route: ActivatedRoute,private router: Router) { }
   public usr:any;
   public userparsed:any;
-  public sId:any;
   public linked:boolean=false;
   public unlinked:boolean=false;
+
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
     this.steamId = this.route.snapshot.queryParams['steamid'];
     this.getSteamId()
+
     // this.setSteamId()
   }
   printSteamId(){
