@@ -292,6 +292,7 @@ background: #171717;
 .chat-list:hover{
   /* border: 1px solid; */
   background: rgb(240, 240, 240);
+  border-radius: 10px;
 }
 .chat-list-item.active {
   background-color: var(--box-color);

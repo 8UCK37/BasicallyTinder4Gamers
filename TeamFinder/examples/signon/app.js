@@ -24,6 +24,18 @@ const { response } = require("express");
 const { json } = require("express");
 
 const prisma = new PrismaClient()
+const multer  = require('multer')
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null,  path.join(__dirname + './../../public/profilePicture'))
+  },
+  filename: function (req, file, cb) {
+    console.log(req.user)
+    const uniqueSuffix = req.user.user_id
+  cb(null,uniqueSuffix+'.'+ 'jpg')
+  }
+})
+const upload = multer({ storage: storage })
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -389,7 +401,10 @@ app.get('/chatData',ensureAuthenticated, async (req, res) => {
 });
 
 
+app.post("/uploadProfile",ensureAuthenticated, upload.single('avatar'),(req,res,next)=>{
 
+  res.sendStatus(200);
+})
 
 
 
