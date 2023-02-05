@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
+import { ShowgamesComponent } from '../showgames/showgames.component';
 
 @Component({
   selector: 'app-linked-accounts',
@@ -60,7 +61,6 @@ export class LinkedAccountsComponent implements OnInit {
   // }
 
   async getSteamId(){
-
     if(this.steamId==null){
       await axios.get('getSteamId').then(res=>{
         this.steamId=res.data[0].steamId
