@@ -4,3 +4,4 @@ node_modules
 .env
 key
 public/profilePicture
+prisma/dev.db
