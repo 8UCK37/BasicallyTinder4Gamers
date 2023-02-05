@@ -147,8 +147,8 @@ background: #171717;
   align-items: center;
   flex-direction: column;
   padding: 16px;
-  border-radius: 10px;
-  margin-bottom: 24px;
+  /* border-radius: 10px; */
+  /* margin-bottom: 24px;/ */
 }
 
 .app-profile-box {
@@ -287,6 +287,11 @@ background: #171717;
   margin-bottom: 10px;
   position: relative;
   cursor: pointer;
+  /* width: auto; */
+}
+.chat-list:hover{
+  /* border: 1px solid; */
+  background: rgb(240, 240, 240);
 }
 .chat-list-item.active {
   background-color: var(--box-color);
