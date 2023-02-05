@@ -137,7 +137,7 @@
             <path d="M18 15l-6-6-6 6" />
           </svg>
         </div>
-        <ul class="chat-list active" *ngFor="let frnd of friendList; let i = index">
+        <div class="chat-list active" *ngFor="let frnd of friendList; let i = index">
           <div class="app-profile-box-text-align-left chat-list-item active">
 
             <img [src]="frnd.element.profilePicture" />
@@ -156,7 +156,7 @@
               </div>
             </span>
           </div>
-        </ul>
+        </div>
       </div>
     </div>
   </div>
