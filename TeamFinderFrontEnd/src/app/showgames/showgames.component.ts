@@ -19,7 +19,7 @@ export class ShowgamesComponent implements OnInit {
     for (let i=0; i<this.GameNamelist.length; i++){
       this.result.push([this.GameNamelist[i],false])
     }
-    this.getOwnedGames()
+    //this.getOwnedGames()
   }
   openScrollableContent(longContent:any) {
 		this.modalService.open(longContent, { scrollable: true });
@@ -32,12 +32,14 @@ export class ShowgamesComponent implements OnInit {
     this.modalService.dismissAll()
   }
   async getOwnedGames() {
-    await axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
-      console.log(res.data.ownedGames)
-      res.data.ownedGames.forEach((element: any) => {
-        this.GameNamelist.push(element.name)
-        
-      });
-    }).catch(err =>console.log(err))
+    if(this.steamId!=null){
+      await axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
+        console.log(res.data.ownedGames)
+        res.data.ownedGames.forEach((element: any) => {
+          this.GameNamelist.push(element.name)
+
+        });
+      }).catch(err =>console.log(err))
+    }
   }
 }
