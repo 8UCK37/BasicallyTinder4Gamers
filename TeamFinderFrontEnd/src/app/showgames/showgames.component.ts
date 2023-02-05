@@ -11,15 +11,18 @@ import axios from 'axios';
 export class ShowgamesComponent implements OnInit {
   public GameNamelist:string[]=["BGMI","FREE FIRE"]
   public result: any
-  public steamId:string='';
+  steamId: any;
+
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
+
+    this.getOwnedGames();
     this.result=[]
     for (let i=0; i<this.GameNamelist.length; i++){
       this.result.push([this.GameNamelist[i],false])
     }
-    //this.getOwnedGames()
+
   }
   openScrollableContent(longContent:any) {
 		this.modalService.open(longContent, { scrollable: true });
@@ -31,15 +34,13 @@ export class ShowgamesComponent implements OnInit {
     console.log(this.result)
     this.modalService.dismissAll()
   }
-  async getOwnedGames() {
-    if(this.steamId!=null){
-      await axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
-        console.log(res.data.ownedGames)
+  getOwnedGames() {
+      console.log("showgames")
+      axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
+        //console.log(res.data.ownedGames)
         res.data.ownedGames.forEach((element: any) => {
           this.GameNamelist.push(element.name)
-
         });
       }).catch(err =>console.log(err))
-    }
   }
 }
