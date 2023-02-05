@@ -87,10 +87,15 @@ export class ChatPageComponent implements OnInit {
         console.log("state:"+this.activeState)
       }).catch(err=>console.log(err))
     }
-    setActiveChoice(){
-      axios.post('activeStateChange',{state:true}).then(res=>{
+    setActiveChoice(state:boolean){
+      axios.post('activeStateChange',{state}).then(res=>{
         console.log("sent req" ,res)
       }).catch(err =>console.log(err))
     }
-
+    toggleState(){
+      console.log("state:"+this.activeState)
+      this.activeState=!this.activeState;
+      console.log("state:"+this.activeState)
+      this.setActiveChoice(this.activeState);
+    }
 }

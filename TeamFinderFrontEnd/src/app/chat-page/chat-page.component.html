@@ -19,7 +19,7 @@
         <div class="app-profile-box-name">
           {{ userparsed.displayName }}
         </div>
-        <input class="type-checkbox" id="toogle" type="checkbox" name="name">
+        <input class="type-checkbox" id="toogle" type="checkbox" name="name" [checked]="!activeState" (click)="toggleState()">
         <label class="estado" for="toogle">
           <span class="aprobado">Online</span>
           <span class="desaprobado">Offline</span>
