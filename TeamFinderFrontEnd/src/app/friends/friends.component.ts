@@ -53,7 +53,7 @@ export class FriendsComponent implements OnInit {
       });
       //console.log(res.data)
     }).catch(err => console.log(err))
-    console.log(this.pendingResults)
+    //console.log(this.pendingResults)
   }
   getfriendlist() {
     this.friendList = [];
@@ -63,7 +63,7 @@ export class FriendsComponent implements OnInit {
       });
 
     }).catch(err => console.log(err))
-    console.log(this.friendList)
+    //console.log(this.friendList)
   }
   toggle() {
     this.show = !this.show;

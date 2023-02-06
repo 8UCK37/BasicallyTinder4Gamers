@@ -133,8 +133,6 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
 
     download(req.user.picture , req.user.user_id  ,res , req)
 
-
-
     console.log("new user created db updated", newUser)
   }else{
     console.log("user exists")
@@ -334,6 +332,9 @@ app.get('/activeState',ensureAuthenticated,async(req,res)=>{
   let activeStateData = await prisma.User.findMany({
     where: {
       id: req.user.user_id
+    },
+    select: {
+      activeChoice: true
     }
   })
   console.log(activeStateData)
@@ -406,8 +407,27 @@ app.post("/uploadProfile",ensureAuthenticated, upload.single('avatar'),(req,res,
   res.sendStatus(200);
 })
 
+app.post('/gameSelect',ensureAuthenticated, urlencodedParser,async(req,res)=>{
+  const jsonObject = req.body;
+  const selectedGames = await prisma.GameSelectInfo.create({
+    data: {
+      uid: req.user.user_id,
+      appid: jsonObject.appid,
+    }
+  })
+});
 
-
+app.get('/getSelectedGames',ensureAuthenticated,async(req,res)=>{
+  let selectedGamedata = await prisma.GameSelectInfo.findMany({
+    where: {
+      uid: req.user.user_id
+    },
+    select: {
+      appid: true
+    }
+  })
+  res.send(JSON.stringify(selectedGamedata));
+});
 
 //chat
 io.on('connection', (socket) => {

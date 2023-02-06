@@ -16,9 +16,9 @@ export class ShowgamesComponent implements OnInit {
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
-
     this.getOwnedGames();
-    this.result=[]
+
+    this.result=[];
     for (let i=0; i<this.GameNamelist.length; i++){
       this.result.push([this.GameNamelist[i],false])
     }
@@ -35,12 +35,23 @@ export class ShowgamesComponent implements OnInit {
     this.modalService.dismissAll()
   }
   getOwnedGames() {
-      console.log("showgames")
+      //console.log("showgames")
       axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
         //console.log(res.data.ownedGames)
         res.data.ownedGames.forEach((element: any) => {
           this.GameNamelist.push(element.name)
         });
       }).catch(err =>console.log(err))
+  }
+  //load the selected appids in a json and send it to the table golu bc toke bolchi
+  setSelectedGames(){
+    axios.post('gameSelect',{appid:'12345'}).then(res=>{
+      console.log("sent req" ,res)
+    }).catch(err =>console.log(err))
+  }
+  getSelectedGames(){
+    axios.get('getSelectedGames').then(res=>{
+      console.log(res.data)
+    }).catch(err=>console.log(err))
   }
 }

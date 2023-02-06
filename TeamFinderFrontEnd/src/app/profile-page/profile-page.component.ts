@@ -24,9 +24,9 @@ export class ProfilePageComponent implements OnInit {
   public userparsed:any;
   public profileurl:any;
   ngOnInit(): void {
-    console.log(this.router.url);
+    //console.log(this.router.url);
     let lastUrl = this.router.url.split('/')[2]
-    console.log(lastUrl)
+    //console.log(lastUrl)
     if(lastUrl == 'post') this.radioActivaVal = 1
     if(lastUrl == 'games') this.radioActivaVal = 2;
     if(lastUrl == 'friends') this.radioActivaVal = 3;
@@ -41,6 +41,8 @@ export class ProfilePageComponent implements OnInit {
         }).catch(err =>console.log(err))
       }
     })
+    this.usr = localStorage.getItem('user');
+    this.usr=JSON.parse(this.usr);
   }
   changeToGame(){
     this.router.navigate(['profile-page','games']);

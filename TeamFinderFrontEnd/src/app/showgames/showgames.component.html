@@ -9,25 +9,25 @@
 
     <ng-template #longContent let-modal>
       <div class="modal-header">
-      <h4 class="modal-title">Select Games</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        <h4 class="modal-title">Select Games</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
       </div>
       <div class="modal-body" style="overflow-y:scroll; max-height:70vh">
-      <div *ngFor="let item of GameNamelist;let i=index">
-      <div class="input-group mb-3">
-      <div class="input-group-text">
-      <input class="form-check-input mt-0" type="checkbox" value=""
-      aria-label="Checkbox for following text input" (change)="change(i)">
-      </div>
-      <span type="text" class="form-control" aria-label="Text input with checkbox">{{item}}</span>
-      </div>
-      </div>
+        <div *ngFor="let item of GameNamelist;let i=index">
+          <div class="input-group mb-3">
+            <div class="input-group-text">
+              <input class="form-check-input mt-0" type="checkbox" value=""
+                aria-label="Checkbox for following text input" (change)="change(i)">
+            </div>
+            <span type="text" class="form-control" aria-label="Text input with checkbox">{{item}}</span>
+          </div>
+        </div>
       </div>
       <div class="modal-footer d-flex justify-content-between">
-      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-      <button type="button" class="btn btn-light" (click)="submit()">Save</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-light" (click)="submit()">Save</button>
       </div>
-      </ng-template>
+    </ng-template>
 
   </div>
 </div>

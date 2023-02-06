@@ -69,7 +69,7 @@ export class LinkedAccountsComponent implements OnInit {
           console.log("unlinked")
         }else{
           this.linked=true;
-          console.log("linked")
+          //console.log("linked")
         }
       }).catch(err =>console.log(err))
     }else{
