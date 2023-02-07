@@ -10,7 +10,6 @@ import axios from 'axios';
   styleUrls: ['./showgames.component.css']
 })
 export class ShowgamesComponent implements OnInit {
-  
   public gameList:any[]=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
   public popList:any[]=[];
   public result: any
@@ -31,7 +30,7 @@ export class ShowgamesComponent implements OnInit {
     this.result[index][1]=!this.result[index][1]
   }
   submit(){
-    console.log(this.result)
+    //console.log(this.result)
     this.setSelectedGames();
     this.modalService.dismissAll()
   }
@@ -50,17 +49,15 @@ export class ShowgamesComponent implements OnInit {
   }
 
   setSelectedGames(){
+    this.deleteAppid();
     this.result.forEach((element: any) => {
         if(element[1]){
-          console.log(typeof(element[0].appid))
+          //console.log(typeof(element[0].appid))
           axios.post('gameSelect',{appid:element[0].appid}).then(res=>{
             console.log("sent req" ,res)
           }).catch(err =>console.log(err))
-        }else{
-          //delete existing
         }
     });
-
   }
   getSelectedGames(){
     axios.get('getSelectedGames').then(res=>{
@@ -76,5 +73,11 @@ export class ShowgamesComponent implements OnInit {
       });
       //console.log(this.result)
     }).catch(err=>console.log(err))
+  }
+  deleteAppid(){
+    //console.log("delete called")
+    axios.post('selectedDelete').then(res=>{
+      console.log("deletedq" ,res)
+    }).catch(err =>console.log(err))
   }
 }

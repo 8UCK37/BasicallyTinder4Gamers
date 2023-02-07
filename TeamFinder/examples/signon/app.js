@@ -428,6 +428,15 @@ app.get('/getSelectedGames',ensureAuthenticated,async(req,res)=>{
   })
   res.send(JSON.stringify(selectedGamedata));
 });
+app.post('/selectedDelete',ensureAuthenticated, urlencodedParser,async(req,res)=>{
+  const jsonObject = req.body;
+  let {affectedrows} = await prisma.GameSelectInfo.deleteMany({
+    where: {
+      uid: req.user.user_id
+    }
+  })
+  console.log(affectedrows)
+});
 
 //chat
 io.on('connection', (socket) => {
