@@ -46,6 +46,6 @@ model GameSelectInfo{
   id        Int   @id @default(autoincrement())
   createdAt DateTime @default(now())
   uid String
-  appid String
+  appid Int
 }
 

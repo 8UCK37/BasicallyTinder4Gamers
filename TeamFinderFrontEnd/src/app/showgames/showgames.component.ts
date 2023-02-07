@@ -1,4 +1,5 @@
 import { forEach } from '@angular-devkit/schematics';
+import { BoundElementProperty } from '@angular/compiler';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import axios from 'axios';
@@ -9,7 +10,9 @@ import axios from 'axios';
   styleUrls: ['./showgames.component.css']
 })
 export class ShowgamesComponent implements OnInit {
-  public GameNamelist:string[]=["BGMI","FREE FIRE"]
+  
+  public gameList:any[]=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
+  public popList:any[]=[];
   public result: any
   steamId: any;
 
@@ -17,11 +20,8 @@ export class ShowgamesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOwnedGames();
-
     this.result=[];
-    for (let i=0; i<this.GameNamelist.length; i++){
-      this.result.push([this.GameNamelist[i],false])
-    }
+
 
   }
   openScrollableContent(longContent:any) {
@@ -32,6 +32,7 @@ export class ShowgamesComponent implements OnInit {
   }
   submit(){
     console.log(this.result)
+    this.setSelectedGames();
     this.modalService.dismissAll()
   }
   getOwnedGames() {
@@ -39,19 +40,41 @@ export class ShowgamesComponent implements OnInit {
       axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
         //console.log(res.data.ownedGames)
         res.data.ownedGames.forEach((element: any) => {
-          this.GameNamelist.push(element.name)
+          this.gameList.push(element)
         });
+        for (let i=0; i<this.gameList.length; i++){
+          this.result.push([this.gameList[i],false])
+        }
+        this.getSelectedGames()
       }).catch(err =>console.log(err))
   }
-  //load the selected appids in a json and send it to the table golu bc toke bolchi
+
   setSelectedGames(){
-    axios.post('gameSelect',{appid:'12345'}).then(res=>{
-      console.log("sent req" ,res)
-    }).catch(err =>console.log(err))
+    this.result.forEach((element: any) => {
+        if(element[1]){
+          console.log(typeof(element[0].appid))
+          axios.post('gameSelect',{appid:element[0].appid}).then(res=>{
+            console.log("sent req" ,res)
+          }).catch(err =>console.log(err))
+        }else{
+          //delete existing
+        }
+    });
+
   }
   getSelectedGames(){
     axios.get('getSelectedGames').then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
+      res.data.forEach((element: any) => {
+          // console.log(element.appid)
+          this.result.forEach((gameEle: any) => {
+            //console.log(gameEle[1])
+            if(element.appid==gameEle[0].appid){
+              gameEle[1]=true
+            }
+          });
+      });
+      //console.log(this.result)
     }).catch(err=>console.log(err))
   }
 }

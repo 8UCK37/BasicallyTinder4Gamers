@@ -13,13 +13,13 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
       </div>
       <div class="modal-body" style="overflow-y:scroll; max-height:70vh">
-        <div *ngFor="let item of GameNamelist;let i=index">
+        <div *ngFor="let game of result;let i=index">
           <div class="input-group mb-3">
             <div class="input-group-text">
               <input class="form-check-input mt-0" type="checkbox" value=""
-                aria-label="Checkbox for following text input" (change)="change(i)">
+                aria-label="Checkbox for following text input" (change)="change(i)" [checked]="game[1]">
             </div>
-            <span type="text" class="form-control" aria-label="Text input with checkbox">{{item}}</span>
+            <span type="text" class="form-control" aria-label="Text input with checkbox">{{game[0].name}}</span>
           </div>
         </div>
       </div>
