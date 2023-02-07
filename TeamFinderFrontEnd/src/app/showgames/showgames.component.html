@@ -1,7 +1,18 @@
 <div class="profile-page-inner">
   <div class="profile-page-item flexbox">
-    <div class="card" (click)="openScrollableContent(longContent)">
 
+    <ng-container  *ngFor="let game of selectedList;let i=index">
+      <div *ngIf="game[1]">
+        <div class="card">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <!-- <img class="gamepic" src="https://cdn.cloudflare.steamstatic.com/steam/apps/{{game[0].appid}}/hero_capsule.jpg"> -->
+          <img class="gamepic" src="https://steamcdn-a.akamaihd.net/steam/apps/{{game[0].appid}}/library_600x900.jpg">
+          <!-- this cloudfalreapi fails for a lot of games tbh -->
+        </div>
+        <span>{{game[0].name}}</span>
+      </div>
+    </ng-container >
+    <div class="card" (click)="openScrollableContent(longContent)">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <i class="fa fa-plus-circle" style="font-size:130px;color:rgb(245, 245, 245)"></i>

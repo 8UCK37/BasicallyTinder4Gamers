@@ -1,6 +1,7 @@
 import { forEach } from '@angular-devkit/schematics';
 import { BoundElementProperty } from '@angular/compiler';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import axios from 'axios';
 
@@ -11,11 +12,11 @@ import axios from 'axios';
 })
 export class ShowgamesComponent implements OnInit {
   public gameList:any[]=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
-  public popList:any[]=[];
+  public selectedList:any[]=[];
   public result: any
   steamId: any;
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal,private router: Router) { }
 
   ngOnInit(): void {
     this.getOwnedGames();
@@ -33,6 +34,7 @@ export class ShowgamesComponent implements OnInit {
     //console.log(this.result)
     this.setSelectedGames();
     this.modalService.dismissAll()
+
   }
   getOwnedGames() {
       //console.log("showgames")
@@ -44,7 +46,7 @@ export class ShowgamesComponent implements OnInit {
         for (let i=0; i<this.gameList.length; i++){
           this.result.push([this.gameList[i],false])
         }
-        this.getSelectedGames()
+        this.getSelectedGames();
       }).catch(err =>console.log(err))
   }
 
@@ -63,7 +65,7 @@ export class ShowgamesComponent implements OnInit {
     axios.get('getSelectedGames').then(res=>{
       //console.log(res.data)
       res.data.forEach((element: any) => {
-          // console.log(element.appid)
+
           this.result.forEach((gameEle: any) => {
             //console.log(gameEle[1])
             if(element.appid==gameEle[0].appid){
@@ -73,6 +75,8 @@ export class ShowgamesComponent implements OnInit {
       });
       //console.log(this.result)
     }).catch(err=>console.log(err))
+    this.selectedList=this.result
+    //console.log(this.selectedList)
   }
   deleteAppid(){
     //console.log("delete called")

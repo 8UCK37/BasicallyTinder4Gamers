@@ -529,7 +529,7 @@ function ensureAuthenticated(req, res, next) {
       // Handle error
     
         console.log(error)
-        req.sendStatus(403)
+        res.sendStatus(403)
       
     });
     

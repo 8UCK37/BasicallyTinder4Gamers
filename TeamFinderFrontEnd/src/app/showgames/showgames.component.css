@@ -417,14 +417,14 @@
 }
 
 :root {
-    --card-height: 65vh;
-    --card-width: calc(var(--card-height) / 1.5);
+    --card-height: 224px;
+    --card-width: 187px;
 }
 
 .card {
     background: #191c29;
-    width: var(--card-width);
-    height: var(--card-height);
+    width: 189px;
+    height: 226px;
     padding: 75px;
     position: relative;
     border-radius: 6px;
@@ -459,4 +459,9 @@
     100% {
         --rotate: 360deg;
     }
+}
+.gamepic{
+  height: 224px;
+  width: 187px;
+  border-radius: 6px;
 }
