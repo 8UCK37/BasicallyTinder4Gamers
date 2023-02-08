@@ -357,10 +357,15 @@ app.post('/setSteamId',ensureAuthenticated, urlencodedParser,async(req,res)=>{
   const jsonObject = req.body;
   let steamIdData = await prisma.User.findMany({
     where: {
-      id: req.user.user_id
+      steamId: jsonObject.acc_id
+    },
+    select:{
+      id:true
     }
   });
-  if(steamIdData==null){
+  
+  
+  if(steamIdData[0]==null){
   const updateUser = await prisma.User.update({
     where: {
       id: req.user.user_id,
@@ -369,7 +374,7 @@ app.post('/setSteamId',ensureAuthenticated, urlencodedParser,async(req,res)=>{
       steamId: jsonObject.acc_id,
     },
   })
-  res.status(200).send({ message: 'New SteamId Linked' });
+  res.status(200).send({ message: 'New SteamId Linked'});
   }else{
     console.log("already linked")
     res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });

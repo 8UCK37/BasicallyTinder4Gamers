@@ -44,7 +44,18 @@ export class LinkedAccountsComponent implements OnInit {
 
   setSteamId(id:any){
     axios.post('setSteamId',{acc_id:id}).then(res=>{
-      console.log(res.data.message);
+
+      if(res.data.message=='New SteamId Linked'){
+        this.linked=true;
+        this.unlinked=false;
+        console.log(res.data.message);
+        this.router.navigate(['/profile-page/linked-accounts']);
+      }else if('This Steam Id is already linked with another existing account'){
+        this.linked=false;
+        this.unlinked=true;
+        console.log(res.data.message);
+        this.router.navigate(['/profile-page/linked-accounts']);
+      }
     }).catch(err =>console.log(err))
   }
   // async deleteSteamId(){
@@ -72,10 +83,7 @@ export class LinkedAccountsComponent implements OnInit {
       }).catch(err =>console.log(err))
     }else{
       this.setSteamId(this.steamId)
-      this.linked=true;
-      this.unlinked=false;
-      console.log("new steamId set")
-      this.router.navigate(['/profile-page/linked-accounts']);
+
     }
   }
 
