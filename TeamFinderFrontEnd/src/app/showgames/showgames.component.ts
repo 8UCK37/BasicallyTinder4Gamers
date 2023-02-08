@@ -13,7 +13,7 @@ import axios from 'axios';
 export class ShowgamesComponent implements OnInit {
   public gameList:any[]=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
   public selectedList:any[]=[];
-  public result: any
+  public result: any[]=[];
   steamId: any;
 
   constructor(private modalService: NgbModal,private router: Router) { }
@@ -28,11 +28,18 @@ export class ShowgamesComponent implements OnInit {
   change(index: any){
     this.result[index][1]=!this.result[index][1]
   }
-  submit(){
+  async submit(){
     //console.log(this.result)
     this.setSelectedGames();
     this.modalService.dismissAll()
-
+  }
+  close(){
+    //reverting to onInit State
+    this.gameList=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
+    this.result=[];
+    this.selectedList=[]
+    this.getOwnedGames();
+    this.modalService.dismissAll()
   }
   getOwnedGames() {
       //console.log("showgames")
@@ -52,9 +59,9 @@ export class ShowgamesComponent implements OnInit {
     this.deleteAppid();
     this.result.forEach((element: any) => {
         if(element[1]){
-          //console.log(typeof(element[0].appid))
+          //console.log(element[0].appid)
           axios.post('gameSelect',{appid:element[0].appid}).then(res=>{
-            console.log("sent req" ,res)
+            //console.log("sent req" ,res)
           }).catch(err =>console.log(err))
         }
     });

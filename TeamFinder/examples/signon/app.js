@@ -434,6 +434,7 @@ app.post('/gameSelect',ensureAuthenticated, urlencodedParser,async(req,res)=>{
       appid: jsonObject.appid,
     }
   })
+  res.sendStatus(200);
 });
 
 app.get('/getSelectedGames',ensureAuthenticated,async(req,res)=>{
