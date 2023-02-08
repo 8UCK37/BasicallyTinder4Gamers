@@ -21,8 +21,6 @@ export class ShowgamesComponent implements OnInit {
   ngOnInit(): void {
     this.getOwnedGames();
     this.result=[];
-
-
   }
   openScrollableContent(longContent:any) {
 		this.modalService.open(longContent, { scrollable: true });

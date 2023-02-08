@@ -21,8 +21,7 @@ export class LinkedAccountsComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
     this.steamId = this.route.snapshot.queryParams['steamid'];
-    this.getSteamId()
-
+    this.getSteamId();
     // this.setSteamId()
   }
   printSteamId(){
@@ -44,9 +43,8 @@ export class LinkedAccountsComponent implements OnInit {
   }
 
   setSteamId(id:any){
-
     axios.post('setSteamId',{acc_id:id}).then(res=>{
-
+      console.log(res.data.message);
     }).catch(err =>console.log(err))
   }
   // async deleteSteamId(){
