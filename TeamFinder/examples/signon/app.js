@@ -275,30 +275,29 @@ app.get("/pendingrequest", ensureAuthenticated, async (req, res) => {
   res.sendFile(__dirname + '/client/PendingRequest.html')
 })
 app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res) => {
+  const jsonObject = req.body;
   let friendReq = await prisma.FriendRequest.updateMany({
     where: {
-      to: req.user.id,
-      from: req.body.id
+      reciever: req.user.user_id,
+      sender: jsonObject.frnd_id
     },
     data: {
-
       status: 'accepted'
     }
   })
   let savedData = await prisma.Friends.create({
     data: {
-      from: req.user.id,
-      to: req.body.id
-
+      sender: req.user.user_id,
+      reciever: jsonObject.frnd_id
     }
   })
   let savedData1 = await prisma.Friends.create({
     data: {
-      to: req.user.id,
-      from: req.body.id
+      reciever: req.user.user_id,
+      sender: jsonObject.frnd_id
     }
   })
-
+  res.sendStatus(200);
 })
 
 // GET /auth/steam

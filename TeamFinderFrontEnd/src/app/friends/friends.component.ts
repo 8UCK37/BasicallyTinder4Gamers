@@ -3,6 +3,7 @@ import { UserService } from '../login/user.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AnimateTimings } from '@angular/animations';
 import axios from 'axios';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
@@ -14,7 +15,7 @@ export class FriendsComponent implements OnInit {
   public hide: boolean = false;
   public buttonName: any = 'Show';
 
-  constructor(public user: UserService, private auth: AngularFireAuth) { }
+  constructor(public user: UserService, private auth: AngularFireAuth,private router: Router) { }
   public usr: any;
   public userparsed: any;
   public pendingResults: any[] = [];
@@ -65,7 +66,21 @@ export class FriendsComponent implements OnInit {
     }).catch(err => console.log(err))
     //console.log(this.friendList)
   }
+  acceptReq(frndid:any){
+    axios.post('acceptFriend', { frnd_id: frndid}).then(res => {
+      console.log("accepted", res)
+      this.pendingResults=[];
+      this.friendList=[];
+      this.getfriendlist();
+      this.getPendingReq();
+    }).catch(err => console.log(err))
+
+  }
   toggle() {
+    this.pendingResults=[];
+    this.friendList=[];
+    this.getfriendlist();
+    this.getPendingReq();
     this.show = !this.show;
     this.hide = !this.hide;
     // Change the name of the button.

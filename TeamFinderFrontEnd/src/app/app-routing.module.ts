@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'profile-page', component: ProfilePageComponent,
     children: [
       { path: 'games', component: ShowgamesComponent },
-      { path: 'post', component: ShowgamesComponent },
+      { path: 'post', component: ProfilePageComponent },
       { path: 'friends', component: FriendsComponent },
       { path: 'linked-accounts', component: LinkedAccountsComponent },
     ],
@@ -26,9 +26,9 @@ const routes: Routes = [
       path: 'user', component: FrindsprofileComponent,
       children: [
         { path: 'games', component: ShowgamesComponent },
-        { path: 'post', component: ShowgamesComponent },
+        { path: 'post', component: ProfilePageComponent },
         { path: 'friends', component: FriendsComponent },
-        { path: 'linked-accounts', component: FriendsComponent },
+        { path: 'linked-accounts', component: LinkedAccountsComponent },
       ],
     canActivate: [AuthGuard]
   },

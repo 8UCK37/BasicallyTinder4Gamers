@@ -53,7 +53,7 @@ export class AppSearchComponent implements OnInit {
       res.data.forEach((element: {id:string, name: string,profilePicture:string; }) => {
         this.searchResults.push({id:element.id,name:element.name,dp:element.profilePicture});
       });
-      console.log(res.data)
+      //console.log(res.data)
     }).catch(err=>console.log(err))
   }
   sendReq(data:string){
