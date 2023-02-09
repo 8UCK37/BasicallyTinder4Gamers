@@ -1,0 +1,49 @@
+:root {
+  --card-height: 224px;
+  --card-width: 187px;
+}
+
+.card {
+  background: #191c29;
+  width: 189px;
+  height: 226px;
+  padding: 75px;
+  position: relative;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  font-size: 1.5em;
+  color: rgb(88 199 250 / 0%);
+  cursor: pointer;
+  font-family: cursive;
+}
+
+.card::before {
+  content: "";
+  width: 104%;
+  height: 102%;
+  border-radius: 8px;
+  background-image: linear-gradient(var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
+  position: absolute;
+  z-index: -1;
+  top: -1%;
+  left: -2%;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+      --rotate: 0deg;
+  }
+
+  100% {
+      --rotate: 360deg;
+  }
+}
+.gamepic{
+height: 224px;
+width: 187px;
+border-radius: 6px;
+}

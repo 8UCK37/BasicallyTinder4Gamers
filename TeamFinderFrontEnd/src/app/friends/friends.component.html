@@ -42,9 +42,9 @@
     <div class="row justify-content-md-center">
       <div>
         <div class="row" >
-          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user2 of pendingResults" (click)="onclick(user2.id)">
+          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user2 of pendingResults" >
             <div>
-              <div class="profile-image">
+              <div class="profile-image" (click)="onclick(user2.id)">
                 <img [src]="user2.profilePicture" />
               </div>
               <div class="profile-username">{{user2.name}}

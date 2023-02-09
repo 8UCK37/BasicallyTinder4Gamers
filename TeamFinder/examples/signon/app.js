@@ -447,6 +447,8 @@ app.get('/getSelectedGames',ensureAuthenticated,async(req,res)=>{
   })
   res.send(JSON.stringify(selectedGamedata));
 });
+
+
 app.post('/selectedDelete',ensureAuthenticated, urlencodedParser,async(req,res)=>{
   const jsonObject = req.body;
   let {affectedrows} = await prisma.GameSelectInfo.deleteMany({
@@ -456,6 +458,19 @@ app.post('/selectedDelete',ensureAuthenticated, urlencodedParser,async(req,res)=
   })
   console.log(affectedrows)
   res.sendStatus(200);
+});
+app.post('/getFrndSelectedGames',ensureAuthenticated,async(req,res)=>{
+  const jsonObject = req.body;
+  
+  let selectedGamedata = await prisma.GameSelectInfo.findMany({
+    where: {
+      uid: jsonObject.frnd_id
+    },
+    select: {
+      appid: true
+    }
+  })
+  res.send(JSON.stringify(selectedGamedata));
 });
 app.post('/getUserInfo',ensureAuthenticated,async(req,res)=>{
   const jsonObject = req.body;

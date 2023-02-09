@@ -40,12 +40,7 @@ export class FriendsComponent implements OnInit {
       }
     })
   }
-  sendReq(data: string) {
-    axios.post('addFriend', { from: this.userparsed.uid, to: data }).then(res => {
-      console.log("sent req", res)
-    }).catch(err => console.log(err))
-    //console.log(this.userparsed)
-  }
+  
   getPendingReq() {
     this.pendingResults = []
     axios.get('getPendingRequest').then(res => {

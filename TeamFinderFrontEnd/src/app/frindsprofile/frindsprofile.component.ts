@@ -29,16 +29,17 @@ export class FrindsprofileComponent implements OnInit {
     });
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
+    console.log(this.userparsed)
     this.getFrndInfo()
   }
   changeToGame(){
-    this.router.navigate(['user','games']);
+    this.router.navigate(['user','games'],{ queryParams: { id: this.frnd_id }});
   }
   changeToPost(){
-    this.router.navigate(['user','post']);
+    this.router.navigate(['user','post'],{ queryParams: { id: this.frnd_id }});
   }
   changeToFriends(){
-    this.router.navigate(['user','friends']);
+    this.router.navigate(['user','friends'],{ queryParams: { id: this.frnd_id }});
   }
   getFrndInfo(){
     axios.post('getUserInfo',{frnd_id:this.frnd_id}).then(res=>{

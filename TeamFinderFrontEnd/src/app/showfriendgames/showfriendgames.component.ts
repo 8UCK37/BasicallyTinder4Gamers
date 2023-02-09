@@ -1,15 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-
+import axios from 'axios';
+import { ActivatedRoute,Router } from '@angular/router';
 @Component({
   selector: 'app-showfriendgames',
   templateUrl: './showfriendgames.component.html',
   styleUrls: ['./showfriendgames.component.css']
 })
 export class ShowfriendgamesComponent implements OnInit {
-
-  constructor() { }
-
+  public frnd_id:any;
+  public frndData:any;
+  constructor(private route: ActivatedRoute) { }
+  public usr: any;
+  public userparsed: any;
+  public showcase:any[]=[];
   ngOnInit(): void {
-  }
+    this.usr = localStorage.getItem('user');
+    this.userparsed = JSON.parse(this.usr);
 
+    this.route.queryParams.subscribe(params => {
+      this.frnd_id = params['id'];
+    });
+    this.getShowCase();
+  }
+  getShowCase(){
+    this.showcase=[];
+    axios.post('getFrndSelectedGames',{frnd_id:this.frnd_id}).then(res=>{
+      this.showcase=res.data
+    }).catch(err =>console.log(err))
+  }
 }

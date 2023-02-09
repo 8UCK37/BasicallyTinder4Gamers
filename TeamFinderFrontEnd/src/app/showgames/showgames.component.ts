@@ -70,7 +70,6 @@ export class ShowgamesComponent implements OnInit {
     axios.get('getSelectedGames').then(res=>{
       //console.log(res.data)
       res.data.forEach((element: any) => {
-
           this.result.forEach((gameEle: any) => {
             //console.log(gameEle[1])
             if(element.appid==gameEle[0].appid){

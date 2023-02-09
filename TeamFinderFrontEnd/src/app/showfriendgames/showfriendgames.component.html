@@ -1,1 +1,9 @@
-<p>showfriendgames works!</p>
+<div class="profile-page-inner">
+  <div class="profile-page-item flexbox">
+        <div class="card" *ngFor="let game of showcase;let i=index">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <img class="gamepic" src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.appid}}/library_600x900.jpg">
+        </div>
+
+  </div>
+</div>
