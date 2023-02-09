@@ -1,9 +1,8 @@
 <!-- Main -->
 <main id="main" class="flexbox-col-start-center page-bg">
-
   <!-- Profile Page -->
+  <head><script src="https://kit.fontawesome.com/e5bca406a7.js" crossorigin="anonymous"></script></head>
   <div class="view-width">
-
       <!-- Profile Header -->
       <section class="profile-header">
           <div class="profile-header-inner flexbox">
@@ -13,20 +12,21 @@
                       <div class="phi-profile-picture-wrapper">
                           <div class="phi-profile-picture-inner flexbox">
                               <img class="phi-profile-picture"
-                                  src="https://images.unsplash.com/photo-1586156719269-d2f9faf80446?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80"
+                                  [src]="frndData.profilePicture"
                                   alt="">
                           </div>
                           <img class="phi-profile-picture-blur"
-                              src="https://images.unsplash.com/photo-1586156719269-d2f9faf80446?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80"
+                          [src]="frndData.profilePicture"
                               alt="">
                       </div>
                       <!-- Profile Username -->
                       <div class="phi-profile-username-wrapper flexbox-col-left">
-                          <h3 class="phi-profile-username flexbox">Username<span
+                          <h3 class="phi-profile-username flexbox">{{frndData.name}}<span
                                   class="material-icons-round">verified</span></h3>
                           <p class="phi-profile-tagline">Something neat and funny!</p>
                       </div>
                   </div>
+                  <i class="fa-solid fa-handshake-simple fa-2x" (click)="sendReq()"></i>
               </div>
               <!-- Profile Header Image -->
               <div class="profile-header-overlay"></div>

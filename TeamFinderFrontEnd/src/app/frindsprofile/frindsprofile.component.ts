@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
+import axios from 'axios';
 
 @Component({
   selector: 'app-frindsprofile',
@@ -9,14 +10,11 @@ import { Router } from '@angular/router';
 export class FrindsprofileComponent implements OnInit {
   radioActivaVal:any;
   radioAtGame:any = false;
-  constructor(private router : Router) {
-  //   router.events.pipe(
-  //     filter(event => event instanceof NavigationEnd)
-  // )
-  //     .subscribe(event => {
-  //         console.log(event);
-  //     });
-  }
+  public frnd_id:any;
+  public frndData:any;
+  constructor(private router : Router,private route: ActivatedRoute) {}
+  public usr: any;
+  public userparsed: any;
 
   ngOnInit(): void {
     //console.log(this.router.url);
@@ -26,6 +24,12 @@ export class FrindsprofileComponent implements OnInit {
     if(lastUrl == 'games') this.radioActivaVal = 2;
     if(lastUrl == 'friends') this.radioActivaVal = 3;
     // this.radioAtGame = true
+    this.route.queryParams.subscribe(params => {
+          this.frnd_id = params['id'];
+    });
+    this.usr = localStorage.getItem('user');
+    this.userparsed = JSON.parse(this.usr);
+    this.getFrndInfo()
   }
   changeToGame(){
     this.router.navigate(['user','games']);
@@ -36,6 +40,17 @@ export class FrindsprofileComponent implements OnInit {
   changeToFriends(){
     this.router.navigate(['user','friends']);
   }
-
+  getFrndInfo(){
+    axios.post('getUserInfo',{frnd_id:this.frnd_id}).then(res=>{
+      console.log(res.data)
+      this.frndData=res.data;
+    }).catch(err =>console.log(err))
+  }
+  sendReq(){
+    console.log(this.userparsed.uid);
+    axios.post('addFriend', { from: this.userparsed.uid, to:this.frndData.id}).then(res => {
+      console.log("sent req", res)
+    }).catch(err => console.log(err))
+  }
 }
 

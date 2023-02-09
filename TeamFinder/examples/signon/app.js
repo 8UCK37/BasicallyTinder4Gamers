@@ -213,8 +213,8 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
 
   let friendReq = await prisma.FriendRequest.create({
     data: {
-      from: req.user.user_id,
-      to: jsonObject.to,
+      sender: req.user.user_id,
+      reciever: jsonObject.to,
       status: 'pending'
     }
   })
@@ -455,8 +455,17 @@ app.post('/selectedDelete',ensureAuthenticated, urlencodedParser,async(req,res)=
     }
   })
   console.log(affectedrows)
+  res.sendStatus(200);
 });
-
+app.post('/getUserInfo',ensureAuthenticated,async(req,res)=>{
+  const jsonObject = req.body;
+  let userData = await prisma.User.findUnique({
+    where: {
+      id: jsonObject.frnd_id
+    }
+  })
+  res.send(JSON.stringify(userData));
+});
 //chat
 io.on('connection', (socket) => {
   // socketIdMap.set(socket.id)
