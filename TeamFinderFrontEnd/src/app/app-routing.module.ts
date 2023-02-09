@@ -40,6 +40,7 @@ const routes: Routes = [
   { path: 'search', pathMatch: 'full', component: AppSearchComponent , canActivate: [AuthGuard]},
   { path: 'user', pathMatch: 'full', component: FrindsprofileComponent , canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: LoginComponent, canActivate: [AuthGuard] },
+
 ];
 
 @NgModule({

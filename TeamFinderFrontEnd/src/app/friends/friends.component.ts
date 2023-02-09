@@ -76,6 +76,10 @@ export class FriendsComponent implements OnInit {
     }).catch(err => console.log(err))
 
   }
+  onclick(userid:any){
+    //console.log(userid)
+    this.router.navigate(['/user'], { queryParams: { id: userid } });
+  }
   toggle() {
     this.pendingResults=[];
     this.friendList=[];

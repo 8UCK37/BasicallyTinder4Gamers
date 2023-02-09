@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { UserService } from 'src/app/login/user.service';
 
@@ -16,7 +17,7 @@ export class AppSearchComponent implements OnInit {
   searchResults: any[] = [];
   public show:boolean =true;
 
-  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth) {
+  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private router: Router) {
     this.dropdown = new ElementRef(null)
   }
 
@@ -62,8 +63,9 @@ export class AppSearchComponent implements OnInit {
     }).catch(err =>console.log(err))
     //console.log(this.userparsed)
   }
-  onclick(userinfo:any){
-    console.log("clicked")
+  onclick(userid:any){
+    //console.log(userid)
+    this.router.navigate(['/user'], { queryParams: { id: userid } });
   }
   handleClickOutside(event: { target: any; }) {
     if (!this.dropdown.nativeElement.contains(event.target)) {

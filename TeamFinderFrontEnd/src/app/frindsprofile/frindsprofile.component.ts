@@ -19,9 +19,9 @@ export class FrindsprofileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.router.url);
+    //console.log(this.router.url);
     let lastUrl = this.router.url.split('/')[2]
-    console.log(lastUrl)
+    //console.log(lastUrl)
     if(lastUrl == 'post') this.radioActivaVal = 1
     if(lastUrl == 'games') this.radioActivaVal = 2;
     if(lastUrl == 'friends') this.radioActivaVal = 3;

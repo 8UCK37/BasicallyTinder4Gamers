@@ -34,8 +34,6 @@ export class ChatPageComponent implements OnInit {
 
     this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
       console.log(data);
-      // Do something with the incoming data
-
       this.allMsgs.push({rec:true,msg:data})
     });
     this.getfriendlist();
