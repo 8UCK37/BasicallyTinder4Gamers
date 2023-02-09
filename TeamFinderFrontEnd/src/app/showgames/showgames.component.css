@@ -423,7 +423,7 @@
 
 .card {
     background: #191c29;
-    width: 189px;
+    width: 152px;
     height: 226px;
     padding: 75px;
     position: relative;
@@ -462,6 +462,6 @@
 }
 .gamepic{
   height: 224px;
-  width: 187px;
+  width: 150px;
   border-radius: 6px;
 }
