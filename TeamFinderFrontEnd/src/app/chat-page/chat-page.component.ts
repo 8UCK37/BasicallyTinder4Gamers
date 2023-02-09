@@ -27,7 +27,7 @@ export class ChatPageComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
     this.socketService.setSocketId(this.userparsed.uid);
-    console.log("socket id: "+this.userparsed.uid);
+    //console.log("socket id: "+this.userparsed.uid);
     // this.fetchChatDate()
 
     this.getActiveChoice();
@@ -84,7 +84,7 @@ export class ChatPageComponent implements OnInit {
     getActiveChoice(){
       axios.get('activeState').then(res=>{
         this.activeState=res.data[0].activeChoice
-        console.log("state:"+this.activeState)
+        //console.log("state:"+this.activeState)
       }).catch(err=>console.log(err))
     }
     setActiveChoice(state:boolean){

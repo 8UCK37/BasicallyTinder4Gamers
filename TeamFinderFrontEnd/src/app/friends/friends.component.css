@@ -737,3 +737,62 @@ button {
 .btn-15:active {
   top: 2px;
 }
+.fa-solid.fa-check
+{
+ color: aqua;
+ height:25px;
+ width:45px
+}
+.fa-solid.fa-xmark
+{
+ color: rgb(255, 0, 0);
+ height:25px;
+ width:45px
+}
+.fa-solid.fa-ban
+{
+ color: rgb(255, 234, 0);
+ height:25px;
+ width:45px
+}
+.profile-image {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 45px;
+  height: 45px;
+  float: left;
+  margin-bottom: .5rem;
+  position: relative;
+}
+
+.profile-image img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.profile-username {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f1f3f3;
+  height: 23px;
+  float: left;
+  margin-left: 12px;
+}
+.friend-username {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f1f3f3;
+  height: 23px;
+  float: left;
+  margin-left: 12px;
+  margin-top: 12px;
+}
+.fa-circle
+{
+  color: chartreuse;
+  margin-left: 10px;
+}
+
