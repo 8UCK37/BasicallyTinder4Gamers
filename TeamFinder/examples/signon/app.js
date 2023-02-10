@@ -486,7 +486,7 @@ app.post('/getOnlineStatus',ensureAuthenticated,async(req,res)=>{
   const jsonObject = req.body;
   let OnStatus = await prisma.User.findMany({
     where: {
-      id: jsonObject.user_id
+      id: jsonObject.frnd_id
     },
     select: {
       activeChoice:true,

@@ -21,12 +21,13 @@ export class FriendsComponent implements OnInit {
   public pendingResults: any[] = [];
   public friendList: any[] = [];
   public profileurl: any;
+  public online:boolean=false;
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     this.getfriendlist();
     this.getPendingReq();
-
+    this.getOnlineStatus("a1WNZovxZvdSmIo9BT0QDAlSolj2");
     //console.log(this.userparsed);
     //this.getPendingReq()
     this.auth.authState.subscribe(user => {
@@ -40,7 +41,7 @@ export class FriendsComponent implements OnInit {
       }
     })
   }
-  
+
   getPendingReq() {
     this.pendingResults = []
     axios.get('getPendingRequest').then(res => {
@@ -74,6 +75,12 @@ export class FriendsComponent implements OnInit {
   onclick(userid:any){
     //console.log(userid)
     this.router.navigate(['/user'], { queryParams: { id: userid } });
+  }
+  getOnlineStatus(frndid:any){
+    axios.post('getOnlineStatus',{ frnd_id: frndid}).then(res => {
+      this.online=res.data[0].activeChoice && res.data[0].isConnected
+      //console.log(this.online)
+    }).catch(err => console.log(err))
   }
   toggle() {
     this.pendingResults=[];

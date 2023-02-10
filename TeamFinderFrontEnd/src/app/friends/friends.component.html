@@ -30,7 +30,7 @@
                 <img [src]="user.element.profilePicture" />
               </div>
               <div class="friend-username">{{user.element.name}}
-                <i class="fa-sharp fa-solid fa-circle"></i>
+                <i *ngIf="online"class="fa-sharp fa-solid fa-circle"></i>
               </div>
             </div>
           </div>
