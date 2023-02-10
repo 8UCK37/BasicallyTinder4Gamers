@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AnimateTimings } from '@angular/animations';
 import axios from 'axios';
 import { Router } from '@angular/router';
+import { map } from '@firebase/util';
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
@@ -22,12 +23,13 @@ export class FriendsComponent implements OnInit {
   public friendList: any[] = [];
   public profileurl: any;
   public online:boolean=false;
+  public status=new Map();
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     this.getfriendlist();
     this.getPendingReq();
-    this.getOnlineStatus("a1WNZovxZvdSmIo9BT0QDAlSolj2");
+
     //console.log(this.userparsed);
     //this.getPendingReq()
     this.auth.authState.subscribe(user => {
@@ -40,6 +42,15 @@ export class FriendsComponent implements OnInit {
 
       }
     })
+    setInterval(() => {
+      this.friendList.forEach(element => {
+        axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
+          //console.log(res.data)
+          //console.log(element.data.id,res.data.activeChoice&&res.data.isConnected)
+          this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
+        }).catch(err => console.log(err))
+      });
+    }, 1000);
   }
 
   getPendingReq() {
@@ -55,12 +66,13 @@ export class FriendsComponent implements OnInit {
   getfriendlist() {
     this.friendList = [];
     axios.get('friendData').then(res => {
-      res.data.forEach((element: any) => {
-        this.friendList.push({ element })
+      res.data.forEach((data: any) => {
+        this.friendList.push({ data })
+        this.status.set(data.id,false);
       });
 
     }).catch(err => console.log(err))
-    //console.log(this.friendList)
+    //console.log(this.status)
   }
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {
@@ -77,8 +89,9 @@ export class FriendsComponent implements OnInit {
     this.router.navigate(['/user'], { queryParams: { id: userid } });
   }
   getOnlineStatus(frndid:any){
-    axios.post('getOnlineStatus',{ frnd_id: frndid}).then(res => {
-      this.online=res.data[0].activeChoice && res.data[0].isConnected
+    axios.post('getUserInfo',{ frnd_id: frndid}).then(res => {
+      console.log(res.data)
+      //this.online=res.data[0].activeChoice && res.data[0].isConnected
       //console.log(this.online)
     }).catch(err => console.log(err))
   }

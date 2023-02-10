@@ -27,10 +27,10 @@
           <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;align-content: center;" *ngFor="let user of friendList" (click)="onclick(user.element.id)">
             <div>
               <div class="profile-image">
-                <img [src]="user.element.profilePicture" />
+                <img [src]="user.data.profilePicture" />
               </div>
-              <div class="friend-username">{{user.element.name}}
-                <i *ngIf="online"class="fa-sharp fa-solid fa-circle"></i>
+              <div class="friend-username">{{user.data.name}}
+                <i *ngIf="status.get(user.data.id)" class="fa-sharp fa-solid fa-circle"></i>
               </div>
             </div>
           </div>

@@ -482,20 +482,7 @@ app.post('/getUserInfo',ensureAuthenticated,async(req,res)=>{
   })
   res.send(JSON.stringify(userData));
 });
-app.post('/getOnlineStatus',ensureAuthenticated,async(req,res)=>{
-  const jsonObject = req.body;
-  let OnStatus = await prisma.User.findMany({
-    where: {
-      id: jsonObject.frnd_id
-    },
-    select: {
-      activeChoice:true,
-      isConnected:true
-    }
-  })
-  res.send(JSON.stringify(OnStatus));
-});
-//chat
+
 io.on('connection', (socket) => {
   // socketIdMap.set(socket.id)
   console.log('a user connected' , socket.id);
