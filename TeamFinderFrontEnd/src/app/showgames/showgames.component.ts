@@ -85,7 +85,7 @@ export class ShowgamesComponent implements OnInit {
   deleteAppid(){
     //console.log("delete called")
     axios.post('selectedDelete').then(res=>{
-      console.log("deletedq" ,res)
+      //console.log("deletedq" ,res)
     }).catch(err =>console.log(err))
   }
 }

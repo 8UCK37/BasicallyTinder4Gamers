@@ -127,7 +127,8 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
         name: req.user.name,
         profilePicture:req.user.picture,
         gmailId:req.user.email,
-        activeChoice:true
+        activeChoice:true,
+        isConnected:true
       },
     })
 
@@ -502,6 +503,7 @@ io.on('connection', (socket) => {
   socket.on('setSocketId', async (msg) => {
     console.log('setSocket id' , msg.name, "====>"  , socket.id );
     socketIdMap.set(socket.id,msg.name)
+    try{
     const updateStatus = await prisma.User.update({
       where: {
         id: msg.name,
@@ -509,11 +511,14 @@ io.on('connection', (socket) => {
       data: {
         isConnected: true,
       },
-    })
+    })}catch(err){
+      console.log("probs new user")
+    }
   });
   socket.on('disconnect', async () => {
     console.log('user disconnected' );
     //console.log(socketIdMap.get(socket.id));
+    try{
     const updateStatus = await prisma.User.update({
       where: {
         id: socketIdMap.get(socket.id),
@@ -522,6 +527,9 @@ io.on('connection', (socket) => {
         isConnected: false,
       },
     })
+  }catch(err){
+    console.log("probs new user disc lol")
+  }
   });
   
   socket.on('my message', async (receivedData) => {
