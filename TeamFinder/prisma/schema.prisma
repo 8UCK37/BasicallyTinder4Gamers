@@ -16,6 +16,7 @@ model User {
   steamId String?
   gmailId String?
   activeChoice Boolean?
+  isConnected Boolean?
 }
 
 

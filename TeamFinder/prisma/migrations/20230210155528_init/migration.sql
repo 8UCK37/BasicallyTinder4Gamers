@@ -6,7 +6,8 @@ CREATE TABLE "User" (
     "profilePicture" TEXT,
     "steamId" TEXT,
     "gmailId" TEXT,
-    "activeChoice" BOOLEAN
+    "activeChoice" BOOLEAN,
+    "isConnected" BOOLEAN
 );
 
 -- CreateTable
@@ -33,4 +34,12 @@ CREATE TABLE "Chat" (
     "sender" TEXT NOT NULL,
     "receiver" TEXT NOT NULL,
     "msg" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "GameSelectInfo" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "uid" TEXT NOT NULL,
+    "appid" INTEGER NOT NULL
 );

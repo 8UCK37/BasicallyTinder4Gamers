@@ -47,7 +47,7 @@
     "express": "^4.14.0",
     "express-session": "^1.13.0",
     "passport": "^0.3.2",
-    "prisma": "^4.9.0"
+    "prisma": "^4.10.1"
   },
   "scripts": {
     "start": "nodemon ./examples/signon/app.js",

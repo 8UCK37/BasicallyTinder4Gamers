@@ -336,7 +336,7 @@ app.get('/activeState',ensureAuthenticated,async(req,res)=>{
       activeChoice: true
     }
   })
-  console.log(activeStateData)
+  //console.log(activeStateData)
   res.send(JSON.stringify(activeStateData));
 });
 
@@ -481,17 +481,47 @@ app.post('/getUserInfo',ensureAuthenticated,async(req,res)=>{
   })
   res.send(JSON.stringify(userData));
 });
+app.post('/getOnlineStatus',ensureAuthenticated,async(req,res)=>{
+  const jsonObject = req.body;
+  let OnStatus = await prisma.User.findMany({
+    where: {
+      id: jsonObject.user_id
+    },
+    select: {
+      activeChoice:true,
+      isConnected:true
+    }
+  })
+  res.send(JSON.stringify(OnStatus));
+});
 //chat
 io.on('connection', (socket) => {
   // socketIdMap.set(socket.id)
   console.log('a user connected' , socket.id);
   
-  socket.on('setSocketId', (msg) => {
+  socket.on('setSocketId', async (msg) => {
     console.log('setSocket id' , msg.name, "====>"  , socket.id );
-    socketIdMap.set(msg.name, socket.id)
+    socketIdMap.set(socket.id,msg.name)
+    const updateStatus = await prisma.User.update({
+      where: {
+        id: msg.name,
+      },
+      data: {
+        isConnected: true,
+      },
+    })
   });
-  socket.on('disconnect', () => {
+  socket.on('disconnect', async () => {
     console.log('user disconnected' );
+    //console.log(socketIdMap.get(socket.id));
+    const updateStatus = await prisma.User.update({
+      where: {
+        id: socketIdMap.get(socket.id),
+      },
+      data: {
+        isConnected: false,
+      },
+    })
   });
   
   socket.on('my message', async (receivedData) => {

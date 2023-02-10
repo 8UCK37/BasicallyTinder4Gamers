@@ -23,10 +23,10 @@ export class ChatPageComponent implements OnInit {
   public activeState:boolean=true;
 
   ngOnInit() {
-    this.socketService.setupSocketConnection();
+    //this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
     this.userparsed=JSON.parse(this.usr);
-    this.socketService.setSocketId(this.userparsed.uid);
+    //this.socketService.setSocketId(this.userparsed.uid);
     //console.log("socket id: "+this.userparsed.uid);
     // this.fetchChatDate()
 
@@ -40,7 +40,7 @@ export class ChatPageComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.socketService.disconnect();
+    //this.socketService.disconnect();
   }
   sendMessage(txt:any){
     // this.to=address;

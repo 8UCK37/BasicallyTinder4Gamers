@@ -19,11 +19,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ShowgamesComponent } from './showgames/showgames.component';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
 import { FriendsComponent } from './friends/friends.component';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { AppSearchComponent } from './navbar/app-search/app-search.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
-import {TypeaheadModule} from 'ngx-bootstrap/typeahead';
+import { TypeaheadModule} from 'ngx-bootstrap/typeahead';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FrindsprofileComponent } from './frindsprofile/frindsprofile.component';
