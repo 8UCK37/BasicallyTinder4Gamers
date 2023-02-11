@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from './chat-services.service';
 import { Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import axios from 'axios';
   styleUrls: ['./chat-page.component.css']
 })
 export class ChatPageComponent implements OnInit {
+
   values: string = '';
   id : any ='';
   to : any ='';
@@ -113,3 +114,4 @@ export class ChatPageComponent implements OnInit {
     }
 
 }
+
