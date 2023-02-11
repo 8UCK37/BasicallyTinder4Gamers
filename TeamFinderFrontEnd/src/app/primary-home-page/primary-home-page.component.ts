@@ -16,19 +16,14 @@ export class PrimaryHomePageComponent implements OnInit {
   public show:boolean=true;
 
 
-  constructor(public user: UserService ,private renderer: Renderer2,private socketService : ChatServicesService ) { }
+  constructor(public user: UserService ,private renderer: Renderer2 ) { }
 
   public usr:any;
   public userparsed:any;
 
 
   ngOnInit(): void {
-    this.show=false;
-    this.usr = localStorage.getItem('user');
-    this.userparsed=JSON.parse(this.usr);
-    this.socketService.setupSocketConnection();
-    this.socketService.setSocketId(this.userparsed.uid);
-    //console.log(this.userparsed);
+
   }
 
   toggleMenu() {

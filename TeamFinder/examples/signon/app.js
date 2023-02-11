@@ -87,8 +87,8 @@ const io = require('socket.io')(http, {
   }
 });
 
-const socketIdMap = new Map();
-
+const socketUserMap = new Map();
+const userSocketMap = new Map();
 ;
 
 var app = express();
@@ -484,12 +484,12 @@ app.post('/getUserInfo',ensureAuthenticated,async(req,res)=>{
 });
 
 io.on('connection', (socket) => {
-  // socketIdMap.set(socket.id)
   console.log('a user connected' , socket.id);
   
   socket.on('setSocketId', async (msg) => {
     console.log('setSocket id' , msg.name, "====>"  , socket.id );
-    socketIdMap.set(socket.id,msg.name)
+    socketUserMap.set(socket.id,msg.name)
+    userSocketMap.set(msg.name,socket.id)
     try{
     const updateStatus = await prisma.User.update({
       where: {
@@ -498,35 +498,39 @@ io.on('connection', (socket) => {
       data: {
         isConnected: true,
       },
-    })}catch(err){
+    })
+    console.log(socketUserMap)
+  }catch(err){
       console.log("probs new user")
     }
   });
   socket.on('disconnect', async () => {
-    console.log('user disconnected' );
-    //console.log(socketIdMap.get(socket.id));
+    console.log('user disconnected with soc id: '+socket.id);
+  
     try{
     const updateStatus = await prisma.User.update({
       where: {
-        id: socketIdMap.get(socket.id),
+        id: socketUserMap.get(socket.id),
       },
       data: {
         isConnected: false,
       },
     })
+    socketUserMap.delete(socket.id)
+    console.log(socketUserMap)
   }catch(err){
-    console.log("probs new user disc lol")
+    console.log("probs new user disc lol"+err)
   }
   });
   
   socket.on('my message', async (receivedData) => {
     console.log(receivedData)
     let receiver = receivedData.receiver ;
-    let receivedSocketId = socketIdMap.get(receiver)
+    let receivedSocketId = userSocketMap.get(receiver)
     let sender = receivedData.sender
 
     // console.log(sender)
-    console.log(socketIdMap)
+    console.log(socketUserMap)
     chatData = await prisma.Chat.create({
       data:{
         sender: sender,

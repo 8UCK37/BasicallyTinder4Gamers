@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ChatServicesService } from '../chat-page/chat-services.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -15,7 +16,7 @@ export class NavbarComponent implements OnInit {
   public show:boolean=false;
   router: any;
 
-  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth) {
+  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private socketService : ChatServicesService) {
     this.renderer.listen('window', 'click',(e:Event)=>{
       /**
        * Only run when toggleButton is not clicked
@@ -41,6 +42,9 @@ export class NavbarComponent implements OnInit {
     this.auth.authState.subscribe(user=>{
       if(user) {
         this.userparsed = user
+        //console.log(this.userparsed.uid)
+        this.socketService.setupSocketConnection();
+        this.socketService.setSocketId(this.userparsed.uid);
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
           this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`

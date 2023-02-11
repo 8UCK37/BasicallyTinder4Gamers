@@ -21,7 +21,8 @@ export class ChatPageComponent implements OnInit {
   private incomingDataSubscription: Subscription | undefined;
   public friendList: any[]=[];
   public activeState:boolean=true;
-
+  public selectedFrnd:any=null;
+  public status=new Map();
   ngOnInit() {
     //this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
@@ -37,6 +38,17 @@ export class ChatPageComponent implements OnInit {
       this.allMsgs.push({rec:true,msg:data})
     });
     this.getfriendlist();
+
+    setInterval(() => {
+      this.friendList.forEach(element => {
+        axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
+          //console.log(res.data)
+          //console.log(element.data.id,res.data.activeChoice&&res.data.isConnected)
+          this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
+        }).catch(err => console.log(err))
+      });
+    }, 1000);
+
   }
 
   ngOnDestroy() {
@@ -54,28 +66,23 @@ export class ChatPageComponent implements OnInit {
   getfriendlist(){
     this.friendList=[];
     axios.get('friendData').then(res=>{
-      res.data.forEach((element: any) => {
-        this.friendList.push({element})
+      res.data.forEach((data: any) => {
+        this.friendList.push({data})
+        this.status.set(data.id,false);
       });
-
     }).catch(err=>console.log(err))
     //console.log(this.friendList)
   }
-  fetchChatDate(friendId:any){
+  fetchChatData(friendId:any){
     // let senderId = this.route.snapshot.queryParamMap.get('senderId');
     this.to = friendId
-    axios.get('/chatData',
-    {
-      params:
-      {
-        friendId: friendId
-      }
-    }).then(res=>{
+    axios.get('/chatData',{params:{friendId: friendId}}).then(res=>{
       this.allMsgs = []
       res.data.forEach((ele:any) => {
         let left = (ele.sender== this.userparsed.uid) ? false : true
         this.allMsgs.push({rec: left , msg: ele.msg})
         })
+        //console.log(this.allMsgs)
       });
     }
 
@@ -96,4 +103,13 @@ export class ChatPageComponent implements OnInit {
       console.log("state:"+this.activeState)
       this.setActiveChoice(this.activeState);
     }
+    onclick(frndid:any){
+      this.fetchChatData(frndid);
+      this.selectedFrnd=null;
+      axios.post('getUserInfo',{frnd_id:frndid}).then(res=>{
+        //console.log(res.data)
+        this.selectedFrnd=res.data
+      }).catch(err =>console.log(err))
+    }
+
 }
