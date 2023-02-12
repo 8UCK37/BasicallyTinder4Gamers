@@ -1152,3 +1152,23 @@ button {
         --rotate: 360deg;
     }
 }
+.phi-profile-picture-wrapper:hover .phi-edit-icon{
+  display: block;
+}
+
+.phi-edit-icon {
+  display: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.phi-edit-icon.fa-pencil{
+  position: absolute;
+  top: 5px;
+  right: -15px;
+}
+.phi-edit-icon.fa-check{
+  position: absolute;
+  top: 5px;
+  right: -30px;
+}

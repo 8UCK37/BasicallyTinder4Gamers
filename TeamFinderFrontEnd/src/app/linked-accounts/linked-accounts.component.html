@@ -9,7 +9,6 @@
   <br>
   <p>linked-accounts works!</p>
   <a type="button" href="http://localhost:3000/auth/steam">Link Steam</a>
-  <button type="button" (click)="callBackend()">Reload</button>
 </ng-container>
 <ng-container *ngIf="linked">
   <br>
@@ -20,7 +19,9 @@
   <br>
   <br>
   <br>
-  <p>linked-accounts works!</p>
-  <p>Steam Already Linked</p>
+  <p>Steam account linked</p>
+  <a href="https://steamcommunity.com/profiles/{{steamId}}" target="_blank">
+  <i class="fa-brands fa-steam fa-3x" ></i>
+  </a>
   <!-- <button type="button" (click)="deleteSteamId()">Unlink Steam</button> -->
 </ng-container>

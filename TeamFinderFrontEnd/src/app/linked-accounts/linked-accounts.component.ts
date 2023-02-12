@@ -24,9 +24,7 @@ export class LinkedAccountsComponent implements OnInit {
     this.getSteamId();
     // this.setSteamId()
   }
-  printSteamId(){
-    console.log(this.steamId);
-  }
+
   callBackend(){
     axios.get('/test?ID=12345')
     .then(function (response) {
@@ -83,7 +81,6 @@ export class LinkedAccountsComponent implements OnInit {
       }).catch(err =>console.log(err))
     }else{
       this.setSteamId(this.steamId)
-
     }
   }
 

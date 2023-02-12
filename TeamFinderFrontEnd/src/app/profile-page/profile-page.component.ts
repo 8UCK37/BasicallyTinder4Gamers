@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
@@ -10,8 +10,10 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
+  @ViewChild('image') input!:ElementRef;
   radioActivaVal:any;
   radioAtGame:any = false;
+  public  formData = new FormData();
   constructor(public user: UserService,private router : Router,private auth: AngularFireAuth) {
   //   router.events.pipe(
   //     filter(event => event instanceof NavigationEnd)
@@ -23,6 +25,7 @@ export class ProfilePageComponent implements OnInit {
   public usr:any;
   public userparsed:any;
   public profileurl:any;
+
   ngOnInit(): void {
     //console.log(this.router.url);
     let lastUrl = this.router.url.split('/')[2]
@@ -43,7 +46,19 @@ export class ProfilePageComponent implements OnInit {
     })
     this.usr = localStorage.getItem('user');
     this.usr=JSON.parse(this.usr);
+
+    setInterval(() => {
+      if(this.input.nativeElement.files[0]!=null){
+        let reader = new FileReader();
+        reader.onload = (e: any) => {
+        this.profileurl = e.target.result;
+    }
+    reader.readAsDataURL(this.input.nativeElement.files[0]);
+      }else{console.log("null")}
+    }, 1500);
+
   }
+
   changeToGame(){
     this.router.navigate(['profile-page','games']);
   }
@@ -55,5 +70,22 @@ export class ProfilePageComponent implements OnInit {
   }
   changeToLinkedAcc(){
     this.router.navigate(['profile-page','linked-accounts']);
+  }
+  upload(){
+    console.log(this.input.nativeElement.files[0])
+    let type = this.input.nativeElement.files[0].type
+    if(type != "image/jpeg" && type != "image/jpg"){
+      alert("wrong image type please upload jpg or Jpeg")
+      return
+    }
+
+    this.formData.append("avatar", this.input.nativeElement.files[0]);
+    axios.post('/uploadProfile', this.formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+    })
+    console.log(this.input)
+    
   }
 }

@@ -16,10 +16,12 @@
                                     [src]="profileurl"
                                     alt="">
                             </div>
-                            <img class="phi-profile-picture-blur"
-                                src=""
-                                alt="">
+                          <div>
+                            <i class="phi-edit-icon fa-solid fa-pencil" (click)="image.click()"></i>
+                            <i class="phi-edit-icon fa-solid fa-check" (click)="upload()" ></i>
+                          </div>
                         </div>
+                        <input type="file" name="" id="" style="display: none;" #image>
                         <!-- Profile Username -->
                         <div class="phi-profile-username-wrapper flexbox-col-left">
                             <h3 class="phi-profile-username flexbox">{{usr.displayName}}</h3>

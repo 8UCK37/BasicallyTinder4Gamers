@@ -679,6 +679,7 @@ background: #171717;
 
 .chat {
   height: calc(100% - 69px);
+  border-radius: 10%;
 }
 
 .chat-container {
