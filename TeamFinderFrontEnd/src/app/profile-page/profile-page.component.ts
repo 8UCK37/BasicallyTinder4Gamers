@@ -52,7 +52,7 @@ export class ProfilePageComponent implements OnInit {
         let reader = new FileReader();
         reader.onload = (e: any) => {
         this.profileurl = e.target.result;
-    }
+      }
     reader.readAsDataURL(this.input.nativeElement.files[0]);
       }else{//console.log("null")
       }
