@@ -54,7 +54,8 @@ export class ProfilePageComponent implements OnInit {
         this.profileurl = e.target.result;
     }
     reader.readAsDataURL(this.input.nativeElement.files[0]);
-      }else{console.log("null")}
+      }else{//console.log("null")
+      }
     }, 1500);
 
   }
@@ -86,6 +87,6 @@ export class ProfilePageComponent implements OnInit {
         }
     })
     console.log(this.input)
-    
+
   }
 }

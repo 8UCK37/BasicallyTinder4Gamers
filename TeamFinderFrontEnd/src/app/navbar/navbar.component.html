@@ -17,7 +17,7 @@
    <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
     <div class="sub-menu" id="openmenu" >
         <div class="user-info" routerLink="/profile-page/post" style="cursor: pointer;">
-            <img [src]="userparsed.photoURL">
+            <img [src]="profileurl">
             <h3>{{userparsed.displayName}}</h3>
         </div>
         <hr>
