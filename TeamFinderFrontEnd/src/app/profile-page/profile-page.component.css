@@ -335,6 +335,7 @@ select {
     width: 10em;
     height: 10em;
     position: relative;
+
 }
 
 .phi-profile-picture-inner {
@@ -1165,10 +1166,6 @@ button {
 .phi-edit-icon.fa-pencil{
   position: absolute;
   top: 5px;
-  right: -15px;
+  right: -12px;
 }
-.phi-edit-icon.fa-check{
-  position: absolute;
-  top: 5px;
-  right: -30px;
-}
+

@@ -25,7 +25,7 @@ export class ProfilePageComponent implements OnInit {
   public usr:any;
   public userparsed:any;
   public profileurl:any;
-
+  public save:boolean=false;
   ngOnInit(): void {
     //console.log(this.router.url);
     let lastUrl = this.router.url.split('/')[2]
@@ -52,9 +52,12 @@ export class ProfilePageComponent implements OnInit {
         let reader = new FileReader();
         reader.onload = (e: any) => {
         this.profileurl = e.target.result;
+        this.save=true;
       }
     reader.readAsDataURL(this.input.nativeElement.files[0]);
-      }else{//console.log("null")
+      }else{
+        //console.log("null")
+        this.save=false;
       }
     }, 1500);
 
@@ -73,7 +76,7 @@ export class ProfilePageComponent implements OnInit {
     this.router.navigate(['profile-page','linked-accounts']);
   }
   upload(){
-    console.log(this.input.nativeElement.files[0])
+    //console.log(this.input.nativeElement.files[0])
     let type = this.input.nativeElement.files[0].type
     if(type != "image/jpeg" && type != "image/jpg"){
       alert("wrong image type please upload jpg or Jpeg")
@@ -81,12 +84,11 @@ export class ProfilePageComponent implements OnInit {
     }
 
     this.formData.append("avatar", this.input.nativeElement.files[0]);
-    axios.post('/uploadProfile', this.formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-    })
-    console.log(this.input)
+    axios.post('/uploadProfile', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
+      this.save=false;
+      this.input.nativeElement.value=null;
+    }).catch(err =>console.log(err))
+    //console.log(this.input)
 
   }
 }
