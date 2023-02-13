@@ -29,7 +29,7 @@ export class FrindsprofileComponent implements OnInit {
     });
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
-    console.log(this.userparsed)
+    //console.log(this.userparsed)
     this.getFrndInfo()
   }
   changeToGame(){
@@ -43,14 +43,14 @@ export class FrindsprofileComponent implements OnInit {
   }
   getFrndInfo(){
     axios.post('getUserInfo',{frnd_id:this.frnd_id}).then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
       this.frndData=res.data;
     }).catch(err =>console.log(err))
   }
   sendReq(){
     console.log(this.userparsed.uid);
     axios.post('addFriend', { from: this.userparsed.uid, to:this.frndData.id}).then(res => {
-      console.log("sent req", res)
+      //console.log("sent req", res)
     }).catch(err => console.log(err))
   }
 }

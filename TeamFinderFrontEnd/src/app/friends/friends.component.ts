@@ -50,7 +50,7 @@ export class FriendsComponent implements OnInit {
           this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
         }).catch(err => console.log(err))
       });
-    }, 1000);
+    }, 500);
   }
 
   getPendingReq() {

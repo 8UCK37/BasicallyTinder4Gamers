@@ -7,7 +7,7 @@
       <section class="profile-header">
           <div class="profile-header-inner flexbox">
               <div class="phi-info-wrapper flexbox">
-                  <div class="phi-info-left flexbox">
+                  <div class="phi-info-left flexbox" *ngIf="frndData!=null">
                       <!-- Profile Picture -->
                       <div class="phi-profile-picture-wrapper">
                           <div class="phi-profile-picture-inner flexbox">
@@ -21,8 +21,7 @@
                       </div>
                       <!-- Profile Username -->
                       <div class="phi-profile-username-wrapper flexbox-col-left">
-                          <h3 class="phi-profile-username flexbox">{{frndData.name}}<span
-                                  class="material-icons-round">verified</span></h3>
+                          <h3 class="phi-profile-username flexbox">{{frndData.name}}</h3>
                           <p class="phi-profile-tagline">Something neat and funny!</p>
                       </div>
                   </div>
@@ -45,7 +44,7 @@
               <li title="Posts"><label for="tab1" role="button"><br><span (click)="changeToPost()">POSTS</span></label></li>
               <li title="Games"><label for="tab2" role="button"><br><span (click)="changeToGame()">GAMES</span></label></li>
               <li title="Friends"><label for="tab3" role="button"><br><span (click)="changeToFriends()">FRIENDS</span></label></li>
-              <li title="Returns"><label for="tab4" role="button"><br><span>Returns</span></label></li>
+              <li title="Returns"><label for="tab4" role="button"><br><span>Linked Accounts</span></label></li>
           </ul>
 
           <div class="slider">
@@ -66,7 +65,8 @@
                   <app-showfriendfriendlist></app-showfriendfriendlist>
               </section>
               <section>
-                  <h2>Placeholder</h2>4
+                  <h2>frnd Linked acc</h2>
+                  <app-friendlinkedacount></app-friendlinkedacount>
               </section>
           </div>
       </div>

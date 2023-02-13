@@ -25,9 +25,11 @@ export class NavbarComponent implements OnInit {
        * And the menu itself is checked here, and it's where we check just outside of
        * the menu and button the condition abbove must close the menu
        */
+    if(this.toggleButton.nativeElement!=null && this.menu.nativeElement!=null){
      if(e.target !== this.toggleButton.nativeElement && e.target!==this.menu.nativeElement){
          this.show=false;
       }
+    }
     });
   }
 

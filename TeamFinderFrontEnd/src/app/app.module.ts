@@ -31,6 +31,7 @@ import { ShowfriendgamesComponent } from './showfriendgames/showfriendgames.comp
 import { ShowfriendpostsComponent } from './showfriendposts/showfriendposts.component';
 import { ShowfriendfriendlistComponent } from './showfriendfriendlist/showfriendfriendlist.component';
 import { PendingRequestComponent } from './pending-request/pending-request.component';
+import { FriendlinkedacountComponent } from './friendlinkedacount/friendlinkedacount.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { PendingRequestComponent } from './pending-request/pending-request.compo
       ShowfriendpostsComponent,
       ShowfriendfriendlistComponent,
       PendingRequestComponent,
+      FriendlinkedacountComponent,
    ],
   imports: [
     BrowserModule,
