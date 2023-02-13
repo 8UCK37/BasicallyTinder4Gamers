@@ -20,6 +20,7 @@
                             <i class="phi-edit-icon fa-solid fa-pencil" (click)="image.click()"></i>
                           </div>
                           <i class="fa-sharp fa-regular fa-floppy-disk fa-2x" *ngIf="save" (click)="upload()"></i>
+                          <i class="fa-sharp fa-solid fa-xmark fa-2x" *ngIf="save" (click)="cancel()"></i>
                         </div>
                         <input type="file" name="" id="" style="display: none;" #image>
                         <!-- Profile Username -->

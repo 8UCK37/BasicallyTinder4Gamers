@@ -91,4 +91,17 @@ export class ProfilePageComponent implements OnInit {
     //console.log(this.input)
 
   }
+  cancel(){
+    this.input.nativeElement.value=null;
+    this.auth.authState.subscribe(user=>{
+      if(user) {
+        this.userparsed = user
+        //console.log(this.userparsed)
+        axios.get('saveuser').then(res=>{
+          //console.log("save user" ,res)
+          this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
+        }).catch(err =>console.log(err))
+      }
+    })
+  }
 }
