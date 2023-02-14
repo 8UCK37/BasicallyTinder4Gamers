@@ -26,11 +26,12 @@ export class FrindsprofileComponent implements OnInit {
     // this.radioAtGame = true
     this.route.queryParams.subscribe(params => {
           this.frnd_id = params['id'];
+          this.getFrndInfo()
     });
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     //console.log(this.userparsed)
-    this.getFrndInfo()
+
   }
   changeToGame(){
     this.router.navigate(['user','games'],{ queryParams: { id: this.frnd_id }});

@@ -3,7 +3,7 @@
   <!-- <pre class="card card-block card-header mb-3">Model: {{selected | json}}</pre> -->
 <input [(ngModel)]="selected"
        class="form-control" placeholder="Search" (keyup)="getUsers()">
-      <div #dropdown>
+      <div class="searchResults" #dropdown>
       <div class="row" *ngFor="let user of searchResults" (click)="onclick(user.id)">
 
         <div class="col">

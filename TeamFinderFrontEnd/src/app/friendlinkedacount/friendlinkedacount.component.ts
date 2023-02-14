@@ -16,8 +16,9 @@ export class FriendlinkedacountComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.frnd_id = params['id'];
+      this.getFrndInfo();
     });
-    this.getFrndInfo();
+
   }
   getFrndInfo(){
     axios.post('getUserInfo',{frnd_id:this.frnd_id}).then(res=>{

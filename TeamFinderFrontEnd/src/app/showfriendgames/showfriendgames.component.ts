@@ -19,8 +19,9 @@ export class ShowfriendgamesComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.frnd_id = params['id'];
+      this.getShowCase();
     });
-    this.getShowCase();
+
   }
   getShowCase(){
     this.showcase=[];
