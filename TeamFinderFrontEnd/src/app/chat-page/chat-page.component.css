@@ -765,6 +765,7 @@ background: #171717;
 
 .conversation {
   height: calc(100% - 12px);
+  width:450px;
   position: relative;
   background: #261923 ;
   border-bottom-right-radius: 10px;

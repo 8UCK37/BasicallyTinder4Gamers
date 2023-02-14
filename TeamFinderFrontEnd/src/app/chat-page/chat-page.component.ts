@@ -64,8 +64,8 @@ export class ChatPageComponent implements OnInit {
     // this.to=address;
     this.values=txt;
     let data = {receiver: this.to , msg : this.values , sender : this.userparsed.uid}
-    console.log("sending to: "+this.to);
-    console.log("msg txt: "+this.values);
+    //console.log("sending to: "+this.to);
+    //console.log("msg txt: "+this.values);
     this.socketService.send(data);
     this.allMsgs.push({rec:false,msg:this.values,time:this.getLocalTime()})
     //console.log(this.getLocalTime())
