@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit,ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from './chat-services.service';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import axios from 'axios';
   styleUrls: ['./chat-page.component.css']
 })
 export class ChatPageComponent implements OnInit {
-
+  @ViewChild('messageContainer', {static: false}) messageContainer!: ElementRef;
   values: string = '';
   id : any ='';
   to : any ='';
@@ -127,6 +127,12 @@ export class ChatPageComponent implements OnInit {
       this.timeNow=this.now.toLocaleString('en-US', { hour12: true })
       this.timeArr=this.timeNow.split(" ")[1].split(":");
       return (this.timeArr[0]+":"+this.timeArr[1])
+    }
+    scrollToBottom() {
+      this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+    }
+    ngAfterViewChecked() {
+      this.scrollToBottom();
     }
 }
 

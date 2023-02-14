@@ -68,7 +68,7 @@
           </div>
         </div>
         <div class="conversation">
-          <div class="conversation-container">
+          <div #messageContainer class="conversation-container">
             <div *ngFor="let i of allMsgs">
               <ng-container *ngIf="i.rec; else elseBlock">
                 <div class="message received">

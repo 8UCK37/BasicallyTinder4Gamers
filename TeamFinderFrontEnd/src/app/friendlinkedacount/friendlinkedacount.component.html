@@ -1,4 +1,9 @@
-<p>Go to friend's Steam Profile!</p>
+<ng-container *ngIf="steamId!=null">
+<p style="color: aliceblue;">Go to friend's Steam Profile! </p>
 <a href="https://steamcommunity.com/profiles/{{steamId}}" target="_blank">
   <i class="fa-brands fa-steam fa-3x" ></i>
   </a>
+</ng-container>
+<ng-container *ngIf="steamId==null">
+  <p style="color: aliceblue;">Steam Account not linked </p>
+</ng-container>
