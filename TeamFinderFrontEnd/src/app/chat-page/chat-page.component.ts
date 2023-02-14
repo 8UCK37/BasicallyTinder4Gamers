@@ -24,6 +24,11 @@ export class ChatPageComponent implements OnInit {
   public activeState:boolean=true;
   public selectedFrnd:any=null;
   public status=new Map();
+  public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  public now = new Date();
+  public utcDateTime:any;
+  public timeNow:any;
+  public timeArr:any;
   ngOnInit() {
     //this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
@@ -36,7 +41,7 @@ export class ChatPageComponent implements OnInit {
 
     this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
       console.log(data);
-      this.allMsgs.push({rec:true,msg:data})
+      this.allMsgs.push({rec:true,msg:data,time:this.getLocalTime()})
     });
     this.getfriendlist();
 
@@ -62,7 +67,8 @@ export class ChatPageComponent implements OnInit {
     console.log("sending to: "+this.to);
     console.log("msg txt: "+this.values);
     this.socketService.send(data);
-    this.allMsgs.push({rec:false,msg:this.values})
+    this.allMsgs.push({rec:false,msg:this.values,time:this.getLocalTime()})
+    //console.log(this.getLocalTime())
   }
   getfriendlist(){
     this.friendList=[];
@@ -79,14 +85,15 @@ export class ChatPageComponent implements OnInit {
     this.to = friendId
     axios.get('/chatData',{params:{friendId: friendId}}).then(res=>{
       this.allMsgs = []
+
       res.data.forEach((ele:any) => {
+        this.timeArr=this.utcToLocal(ele.createdAt).split(" ")[1].split(":")
         let left = (ele.sender== this.userparsed.uid) ? false : true
-        this.allMsgs.push({rec: left , msg: ele.msg})
+        this.allMsgs.push({rec: left , msg: ele.msg,time:this.timeArr[0]+":"+this.timeArr[1]})
         })
         //console.log(this.allMsgs)
       });
     }
-
     getActiveChoice(){
       axios.get('activeState').then(res=>{
         this.activeState=res.data[0].activeChoice
@@ -112,6 +119,14 @@ export class ChatPageComponent implements OnInit {
         this.selectedFrnd=res.data
       }).catch(err =>console.log(err))
     }
-
+    utcToLocal(utcTime:any){
+        this.utcDateTime = new Date(utcTime);
+        return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
+    }
+    getLocalTime(){
+      this.timeNow=this.now.toLocaleString('en-US', { hour12: true })
+      this.timeArr=this.timeNow.split(" ")[1].split(":");
+      return (this.timeArr[0]+":"+this.timeArr[1])
+    }
 }
 

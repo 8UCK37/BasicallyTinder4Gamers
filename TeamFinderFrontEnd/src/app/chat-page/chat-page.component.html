@@ -73,11 +73,17 @@
               <ng-container *ngIf="i.rec; else elseBlock">
                 <div class="message received">
                   {{ i.msg }}
+                  <span class="metadata">
+                    <span class="time">{{i.time}}</span>
+                  </span>
                 </div>
               </ng-container>
               <ng-template #elseBlock>
                 <div class="message sent">
                   {{ i.msg }}
+                  <span class="metadata">
+                    <span class="time">{{i.time}}</span>
+                  </span>
                 </div>
               </ng-template>
             </div>
