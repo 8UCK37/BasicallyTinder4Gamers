@@ -1177,3 +1177,7 @@ button {
 .fa-handshake-simple{
   color:chartreuse
 }
+.btn-danger{
+  width:105px;
+  height:40px
+}

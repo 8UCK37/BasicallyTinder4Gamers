@@ -64,9 +64,9 @@ export class AppSearchComponent implements OnInit {
     //console.log(this.userparsed)
   }
   onclick(userid:any){
-    console.log(userid)
+    //console.log(userid)
     this.router.navigate(['/user'], { queryParams: { id: userid } });
-    
+
   }
   handleClickOutside(event: { target: any; }) {
     if (!this.dropdown.nativeElement.contains(event.target)) {

@@ -15,7 +15,8 @@ export class FrindsprofileComponent implements OnInit {
   constructor(private router : Router,private route: ActivatedRoute) {}
   public usr: any;
   public userparsed: any;
-
+  public isFrnd!: boolean;
+  public btnTxt:any="Send Req";
   ngOnInit(): void {
     //console.log(this.router.url);
     let lastUrl = this.router.url.split('/')[2]
@@ -25,9 +26,11 @@ export class FrindsprofileComponent implements OnInit {
     if(lastUrl == 'friends') this.radioActivaVal = 3;
     // this.radioAtGame = true
     this.route.queryParams.subscribe(params => {
-          this.frnd_id = params['id'];
-          this.getFrndInfo()
+        this.frnd_id = params['id'];
+        this.getFrndInfo();
+        this.ifFriend();
     });
+
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     //console.log(this.userparsed)
@@ -49,9 +52,25 @@ export class FrindsprofileComponent implements OnInit {
     }).catch(err =>console.log(err))
   }
   sendReq(){
-    console.log(this.userparsed.uid);
+    //console.log(this.userparsed.uid);
     axios.post('addFriend', { from: this.userparsed.uid, to:this.frndData.id}).then(res => {
       //console.log("sent req", res)
+    }).catch(err => console.log(err))
+  }
+  ifFriend(){
+    axios.post('isFriend',{id:this.frnd_id}).then(res => {
+      //console.log(res.data)
+      if(res.data.length!=0){
+        if(res.data[0].status=="accepted"){
+          this.isFrnd=true;
+        }else if(res.data[0].status=="pending"){
+          this.isFrnd=false;
+          this.btnTxt="Pending";
+        }
+      }else{
+        this.btnTxt="Send Req"
+        this.isFrnd=false;
+      }
     }).catch(err => console.log(err))
   }
 }

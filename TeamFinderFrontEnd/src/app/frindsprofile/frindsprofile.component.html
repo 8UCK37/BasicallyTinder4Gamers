@@ -25,7 +25,7 @@
                           <p class="phi-profile-tagline">Something neat and funny!</p>
                       </div>
                   </div>
-                  <i class="fa-solid fa-handshake-simple fa-2x" (click)="sendReq()"></i>
+                  <button type="button" class="btn btn-danger" (click)="sendReq()" *ngIf="!isFrnd">{{btnTxt}}</button>
               </div>
               <!-- Profile Header Image -->
               <div class="profile-header-overlay"></div>

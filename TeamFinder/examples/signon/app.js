@@ -108,6 +108,7 @@ app.use(session({
 // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.json());
 app.use('/static',express.static(__dirname + '/../../public'));
 
 app.get('/saveuser', ensureAuthenticated , async function (req, res) {
@@ -173,6 +174,27 @@ app.get("/accountData", ensureAuthenticated,async (req, res) => {
 app.get("/friend", ensureAuthenticated, async (req, res) => {
   res.sendFile(__dirname + '/client/friend.html')
 })
+
+app.post("/isFriend", ensureAuthenticated, urlencodedParser, async (req, res) => {
+  const isfrnd = await prisma.FriendRequest.findMany({
+    where: {
+      OR:[
+        {
+            sender: req.user.user_id,
+            reciever:req.body.id
+        },
+        {
+            reciever: req.user.user_id,
+            sender:req.body.id
+        }
+
+      ]
+    },select:{
+      status:true,
+    }
+  })
+  res.send(JSON.stringify(isfrnd));
+})
 app.get("/friendData", ensureAuthenticated, async (req, res) => {
   const result = await prisma.$queryRaw`select * from User where id in (select reciever from Friends where sender =${req.user.user_id})`
   // const jsonObject = req.body;
@@ -201,7 +223,7 @@ app.get("/friendData", ensureAuthenticated, async (req, res) => {
   // })
   res.send(JSON.stringify(result));
 })
-app.use(bodyParser.json());
+
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
 
@@ -422,7 +444,6 @@ app.get('/chatData',ensureAuthenticated, async (req, res) => {
 
 
 app.post("/uploadProfile",ensureAuthenticated, upload.single('avatar'),(req,res,next)=>{
-
   res.sendStatus(200);
 })
 
