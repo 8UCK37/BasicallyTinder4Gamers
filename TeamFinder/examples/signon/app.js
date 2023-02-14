@@ -195,6 +195,16 @@ app.post("/isFriend", ensureAuthenticated, urlencodedParser, async (req, res) =>
   })
   res.send(JSON.stringify(isfrnd));
 })
+app.get("/sentPending", ensureAuthenticated, async (req, res) => {
+  const result = await prisma.FriendRequest.findMany({
+    where: 
+      {
+        sender: req.user.user_id,
+        status:"pending"    
+      }
+  })
+  res.send(JSON.stringify(result));
+})
 app.get("/friendData", ensureAuthenticated, async (req, res) => {
   const result = await prisma.$queryRaw`select * from User where id in (select reciever from Friends where sender =${req.user.user_id})`
   // const jsonObject = req.body;

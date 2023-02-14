@@ -21,6 +21,7 @@ export class FriendsComponent implements OnInit {
   public userparsed: any;
   public pendingResults: any[] = [];
   public friendList: any[] = [];
+  public sentPending:any[]=[];
   public profileurl: any;
   public online:boolean=false;
   public status=new Map();
@@ -29,7 +30,7 @@ export class FriendsComponent implements OnInit {
     this.userparsed = JSON.parse(this.usr);
     this.getfriendlist();
     this.getPendingReq();
-
+    this.getsentPending();
     //console.log(this.userparsed);
     //this.getPendingReq()
     this.auth.authState.subscribe(user => {
@@ -70,7 +71,6 @@ export class FriendsComponent implements OnInit {
         this.friendList.push({ data })
         this.status.set(data.id,false);
       });
-
     }).catch(err => console.log(err))
     //console.log(this.status)
   }
@@ -90,16 +90,30 @@ export class FriendsComponent implements OnInit {
   }
   getOnlineStatus(frndid:any){
     axios.post('getUserInfo',{ frnd_id: frndid}).then(res => {
-      console.log(res.data)
+      //console.log(res.data)
       //this.online=res.data[0].activeChoice && res.data[0].isConnected
       //console.log(this.online)
     }).catch(err => console.log(err))
+  }
+  getsentPending() {
+    this.sentPending = [];
+    axios.get('sentPending').then(res => {
+      res.data.forEach((frnd: any) => {
+        axios.post('getUserInfo',{ frnd_id: frnd.reciever}).then(res => {
+          this.sentPending.push(res.data)
+          //this.online=res.data[0].activeChoice && res.data[0].isConnected
+          //console.log(this.online)
+        }).catch(err => console.log(err))
+      });
+    }).catch(err => console.log(err))
+    //console.log(this.sentPending)
   }
   toggle() {
     this.pendingResults=[];
     this.friendList=[];
     this.getfriendlist();
     this.getPendingReq();
+    this.getsentPending();
     this.show = !this.show;
     this.hide = !this.hide;
     // Change the name of the button.

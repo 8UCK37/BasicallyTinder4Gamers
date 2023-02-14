@@ -40,6 +40,7 @@
   </ng-container>
   <ng-container *ngIf="hide">
     <div class="row justify-content-md-center">
+      <span style="color: antiquewhite;">Incoming Requests : {{pendingResults.length}}</span>
       <div>
         <div class="row" >
           <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user2 of pendingResults" >
@@ -52,6 +53,24 @@
                 <i class="fa-solid fa-check fa-lg" (click)="acceptReq(user2.id)"></i>
                 <i class="fa-solid fa-xmark fa-lg"></i>
                 <i class="fa-solid fa-ban "></i>
+              </div>
+            </div>
+            <!-- <button class="custom-btn btn-15" (click)="acceptReq(user2.id)">Accept</button> -->
+          </div>
+        </div>
+      </div>
+      <br>
+      <span style="color: rgb(129, 85, 27);">Outgoing Requests : {{sentPending.length}}</span>
+      <div>
+        <div class="row" >
+          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user3 of sentPending" >
+            <div>
+              <div class="profile-image" (click)="onclick(user3.id)">
+                <img [src]="user3.profilePicture" />
+              </div>
+              <div class="friend-username">{{user3.name}}
+                <br>
+
               </div>
             </div>
             <!-- <button class="custom-btn btn-15" (click)="acceptReq(user2.id)">Accept</button> -->

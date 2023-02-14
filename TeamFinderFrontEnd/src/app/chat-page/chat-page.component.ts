@@ -69,6 +69,7 @@ export class ChatPageComponent implements OnInit {
     this.socketService.send(data);
     this.allMsgs.push({rec:false,msg:this.values,time:this.getLocalTime()})
     //console.log(this.getLocalTime())
+    this.scrollToBottom();
   }
   getfriendlist(){
     this.friendList=[];
@@ -93,6 +94,7 @@ export class ChatPageComponent implements OnInit {
         })
         //console.log(this.allMsgs)
       });
+      this.scrollToBottom();
     }
     getActiveChoice(){
       axios.get('activeState').then(res=>{
@@ -129,10 +131,10 @@ export class ChatPageComponent implements OnInit {
       return (this.timeArr[0]+":"+this.timeArr[1])
     }
     scrollToBottom() {
-      this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+      setTimeout(() => {
+        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+      }, 100);
     }
-    ngAfterViewChecked() {
-      this.scrollToBottom();
-    }
+
 }
 

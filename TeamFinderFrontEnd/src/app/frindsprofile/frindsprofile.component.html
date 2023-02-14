@@ -22,10 +22,12 @@
                       <!-- Profile Username -->
                       <div class="phi-profile-username-wrapper flexbox-col-left">
                           <h3 class="phi-profile-username flexbox">{{frndData.name}}</h3>
-                          <p class="phi-profile-tagline">Something neat and funny!</p>
+                          <i class="fa-regular fa-handshake" *ngIf="isFrnd"></i>
+                          <p class="phi-profile-tagline" >mock about</p>
                       </div>
                   </div>
                   <button type="button" class="btn btn-danger" (click)="sendReq()" *ngIf="!isFrnd">{{btnTxt}}</button>
+
               </div>
               <!-- Profile Header Image -->
               <div class="profile-header-overlay"></div>
