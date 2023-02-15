@@ -70,6 +70,7 @@
         <div class="conversation">
           <div #messageContainer class="conversation-container">
             <div *ngFor="let i of allMsgs">
+              <ng-container *ngIf="i.sender==selectedFrndId">
               <ng-container *ngIf="i.rec; else elseBlock">
                 <div class="message received">
                   {{ i.msg }}
@@ -86,6 +87,7 @@
                   </span>
                 </div>
               </ng-template>
+            </ng-container>
             </div>
           </div>
           <form class="conversation-compose" >

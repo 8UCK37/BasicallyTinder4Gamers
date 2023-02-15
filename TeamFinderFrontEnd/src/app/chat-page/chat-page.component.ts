@@ -23,6 +23,7 @@ export class ChatPageComponent implements OnInit {
   public friendList: any[]=[];
   public activeState:boolean=true;
   public selectedFrnd:any=null;
+  public selectedFrndId:any=null;
   public status=new Map();
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   public now = new Date();
@@ -38,12 +39,8 @@ export class ChatPageComponent implements OnInit {
     // this.fetchChatDate()
 
     this.getActiveChoice();
-
-    this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
-      console.log(data);
-      this.allMsgs.push({rec:true,msg:data,time:this.getLocalTime()})
-    });
     this.getfriendlist();
+    this.incMsg();
 
     setInterval(() => {
       this.friendList.forEach(element => {
@@ -90,7 +87,7 @@ export class ChatPageComponent implements OnInit {
       res.data.forEach((ele:any) => {
         this.timeArr=this.utcToLocal(ele.createdAt).split(" ")[1].split(":")
         let left = (ele.sender== this.userparsed.uid) ? false : true
-        this.allMsgs.push({rec: left , msg: ele.msg,time:this.timeArr[0]+":"+this.timeArr[1]})
+        this.allMsgs.push({sender:friendId,rec: left , msg: ele.msg,time:this.timeArr[0]+":"+this.timeArr[1]})
         })
         //console.log(this.allMsgs)
       });
@@ -115,6 +112,7 @@ export class ChatPageComponent implements OnInit {
     }
     onclick(frndid:any){
       this.fetchChatData(frndid);
+      this.selectedFrndId=frndid;
       this.selectedFrnd=null;
       axios.post('getUserInfo',{frnd_id:frndid}).then(res=>{
         //console.log(res.data)
@@ -135,6 +133,17 @@ export class ChatPageComponent implements OnInit {
         this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
       }, 100);
     }
+    incMsg(){
+      this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
+        const recData = typeof data === 'string' ? JSON.parse(data) : data;
+        //console.log(recData.sender);
+        this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime()});
+        if(recData.sender==this.selectedFrndId){
+        this.scrollToBottom()
+        }
+      });
+    }
+
 
 }
 

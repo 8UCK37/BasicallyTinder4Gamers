@@ -571,7 +571,7 @@ io.on('connection', (socket) => {
     })
     console.log(chatData)
     console.log(sender , " msg koreche  user " , receivedSocketId)
-    io.to(receivedSocketId).emit('my broadcast' , receivedData.msg);
+    io.to(receivedSocketId).emit('my broadcast' , {sender:receivedData.sender,msg:receivedData.msg});
     // io.emit('my broadcast', `server: ${msg}`);
   });
 }); 
