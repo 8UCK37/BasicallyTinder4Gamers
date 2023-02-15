@@ -76,13 +76,21 @@ export class FriendsComponent implements OnInit {
   }
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {
-      console.log("accepted", res)
+      //console.log("accepted", res)
       this.pendingResults=[];
       this.friendList=[];
       this.getfriendlist();
       this.getPendingReq();
     }).catch(err => console.log(err))
-
+  }
+  rejectReq(frndid:any){
+    axios.post('rejectFriend', { frnd_id: frndid}).then(res => {
+      //console.log("rejected", res)
+      this.pendingResults=[];
+      this.friendList=[];
+      this.getfriendlist();
+      this.getPendingReq();
+    }).catch(err => console.log(err))
   }
   onclick(userid:any){
     //console.log(userid)

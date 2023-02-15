@@ -51,8 +51,7 @@
               <div class="profile-username">{{user2.name}}
                 <br>
                 <i class="fa-solid fa-check fa-lg" (click)="acceptReq(user2.id)"></i>
-                <i class="fa-solid fa-xmark fa-lg"></i>
-                <i class="fa-solid fa-ban "></i>
+                <i class="fa-solid fa-ban" (click)="rejectReq(user2.id)"></i>
               </div>
             </div>
             <!-- <button class="custom-btn btn-15" (click)="acceptReq(user2.id)">Accept</button> -->

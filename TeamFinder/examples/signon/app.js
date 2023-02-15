@@ -332,7 +332,20 @@ app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res
   })
   res.sendStatus(200);
 })
-
+app.post("/rejectFriend", ensureAuthenticated, urlencodedParser, async (req, res) => {
+  const jsonObject = req.body;
+  let friendReq = await prisma.FriendRequest.updateMany({
+    where: {
+      reciever: req.user.user_id,
+      sender: jsonObject.frnd_id
+    },
+    data: {
+      status: 'rejected'
+    }
+  })
+ 
+  res.sendStatus(200);
+})
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Steam authentication will involve redirecting
