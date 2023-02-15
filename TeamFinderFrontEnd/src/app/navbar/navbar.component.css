@@ -52,7 +52,7 @@ nav ul li {
 }
 nav ul li:hover{
   border-radius: 3px;
-  background: rgb(18, 38, 148);
+  background: rgb(43, 57, 137);
 }
 nav ul li a {
   margin: 10px;
@@ -187,12 +187,12 @@ input:focus {
 
 }
 .wrapper{
-  height:5px;
+  height:0px;
   justify-content:center;
   align-items:center;
   position: relative;
   cursor: pointer;
-  background-color:#001a33;
+  background-color:#00000000;
 }
 .chat-link {
   position: relative;
