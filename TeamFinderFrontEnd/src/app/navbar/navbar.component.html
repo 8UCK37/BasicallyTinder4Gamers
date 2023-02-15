@@ -5,11 +5,17 @@
     <app-app-search></app-app-search>
 
     <ul>
-        <li><a [routerLink]="['/first-component']">Home</a></li>
-        <li><a >Features</a></li>
-        <li><a >About</a></li>
+        <li><a class="nav-btn" [routerLink]="['/first-component']">Home</a></li>
+        <li><a class="nav-btn"  >Features</a></li>
+        <li><a class="nav-btn"  >About</a></li>
         <!-- <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li> -->
-        <li><a [routerLink]="['/chat']">Chat</a></li>
+        <li><a class="nav-btn" style="align-items: center;" (click)="onchatClicked()">Chat</a>
+          <div class="wrapper" >
+            <i *ngIf="noti" class="fa fa-bell icon"></i>
+          </div>
+        </li>
+
+
     </ul>
 <div>
     <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" alt="logout.png" >

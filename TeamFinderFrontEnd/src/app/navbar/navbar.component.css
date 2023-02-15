@@ -186,3 +186,48 @@ input:focus {
   opacity: 0.9;
 
 }
+.wrapper{
+  height:5px;
+  justify-content:center;
+  align-items:center;
+  position: relative;
+  cursor: pointer;
+  background-color:#001a33;
+}
+.chat-link {
+  position: relative;
+  display: inline-block;
+}
+.icon{
+  animation:notification 2s infinite;
+  font-size:20px;
+  color:#540980;
+  position: absolute;
+  top:0;
+  right:20px;
+  top:-40px
+}
+
+@keyframes notification{
+
+  5%{
+      transform:rotate(10deg);
+  }
+
+  10%{
+      transform:rotate(-10deg);
+  }
+
+  15%{
+      transform:rotate(10deg);
+  }
+
+  20%{
+      transform:rotate(0deg);
+  }
+
+
+}
+.nav-btn{
+  cursor:pointer;
+}

@@ -4,6 +4,8 @@ import axios from 'axios';
 import { UserService } from '../login/user.service';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ChatServicesService } from '../chat-page/chat-services.service';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -14,9 +16,10 @@ export class NavbarComponent implements OnInit {
   @ViewChild('toggleButton') toggleButton!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
   public show:boolean=false;
-  router: any;
+  private incomingDataSubscription: Subscription | undefined;
+  
 
-  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private socketService : ChatServicesService) {
+  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private socketService : ChatServicesService,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
       /**
        * Only run when toggleButton is not clicked
@@ -36,6 +39,7 @@ export class NavbarComponent implements OnInit {
   public usr:any;
   public userparsed:any;
   public profileurl:any;
+  public noti:boolean=false;
   ngOnInit(): void {
     // this.show=false;
     // this.usr = localStorage.getItem('user');
@@ -53,10 +57,21 @@ export class NavbarComponent implements OnInit {
         }).catch(err =>console.log(err))
       }
     })
+    this.incMsg();
   }
 
   toggleMenu() {
     this.show=!this.show;
   }
-
+  incMsg(){
+    this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
+      const recData = typeof data === 'string' ? JSON.parse(data) : data;
+      console.log(recData.sender);
+      this.noti=true;
+    });
+  }
+  onchatClicked(){
+    this.noti=false;
+    this.router.navigate(['chat']);
+  }
 }
