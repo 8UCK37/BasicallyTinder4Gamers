@@ -5,14 +5,12 @@
        class="form-control" placeholder="Search" (keyup)="getUsers()">
       <div class="searchResults" #dropdown>
       <div class="row" *ngFor="let user of searchResults" (click)="onclick(user.id)">
-
         <div class="col">
           <div class="profile-image">
             <img [src]="user.dp" />
           </div>
           <div class="profile-username">{{user.name}}</div>
         </div>
-
       </div>
     </div>
 </div>

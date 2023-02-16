@@ -12,17 +12,8 @@ export class ProfilePostComponent implements OnInit {
   constructor() { }
   public  formData = new FormData();
   ngOnInit() {
-    // setInterval(() => {
-    //   if(this.input.nativeElement.files[0]!=null){
-    //     let reader = new FileReader();
-    //     reader.onload = (e: any) => {
-    //     this.previewUrl = e.target.result;
-    // }
-    // reader.readAsDataURL(this.input.nativeElement.files[0]);
-    //   }else{console.log("null")}
-    // }, 1500);
-
   }
+  
   upload(){
     console.log(this.input.nativeElement.files[0])
     let type = this.input.nativeElement.files[0].type

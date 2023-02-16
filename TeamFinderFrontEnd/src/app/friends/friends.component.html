@@ -24,7 +24,7 @@
     <div class="row justify-content-md-center">
       <div>
         <div class="row">
-          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;align-content: center;" *ngFor="let user of friendList" (click)="onclick(user.data.id)">
+          <div class="col-4"  style="margin-top: 20px; margin-bottom: 20px;align-content: center;cursor:pointer;" *ngFor="let user of friendList" (click)="onclick(user.data.id)">
             <div>
               <div class="profile-image">
                 <img [src]="user.data.profilePicture" />

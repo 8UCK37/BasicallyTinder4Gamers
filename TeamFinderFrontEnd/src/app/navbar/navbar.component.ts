@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
   @ViewChild('menu') menu!: ElementRef;
   public show:boolean=false;
   private incomingDataSubscription: Subscription | undefined;
-  
+
 
   constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private socketService : ChatServicesService,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
@@ -66,7 +66,7 @@ export class NavbarComponent implements OnInit {
   incMsg(){
     this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
       const recData = typeof data === 'string' ? JSON.parse(data) : data;
-      console.log(recData.sender);
+      //console.log(recData.sender);
       this.noti=true;
     });
   }
