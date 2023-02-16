@@ -6,6 +6,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ChatServicesService } from '../chat-page/chat-services.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ChatPageComponent } from '../chat-page/chat-page.component';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -40,6 +41,7 @@ export class NavbarComponent implements OnInit {
   public userparsed:any;
   public profileurl:any;
   public noti:boolean=false;
+  public recData:any;
   ngOnInit(): void {
     // this.show=false;
     // this.usr = localStorage.getItem('user');
@@ -65,8 +67,9 @@ export class NavbarComponent implements OnInit {
   }
   incMsg(){
     this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
-      const recData = typeof data === 'string' ? JSON.parse(data) : data;
+      this.recData = typeof data === 'string' ? JSON.parse(data) : data;
       //console.log(recData.sender);
+      ChatPageComponent.incSenderIds.push(this.recData.sender)
       this.noti=true;
     });
   }

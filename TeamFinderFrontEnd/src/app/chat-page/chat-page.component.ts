@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from './chat-services.service';
 import { Subscription } from 'rxjs';
 import axios from 'axios';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-chat-page',
@@ -16,7 +17,7 @@ export class ChatPageComponent implements OnInit {
   to : any ='';
   incomingmsg: string='';
   allMsgs:any []=[];
-  constructor(private socketService : ChatServicesService , private route: ActivatedRoute) { }
+  constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth) { }
   public usr:any;
   public userparsed:any;
   private incomingDataSubscription: Subscription | undefined;
@@ -25,11 +26,16 @@ export class ChatPageComponent implements OnInit {
   public selectedFrnd:any=null;
   public selectedFrndId:any=null;
   public status=new Map();
+  public notification=new Map();
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   public now = new Date();
   public utcDateTime:any;
   public timeNow:any;
   public timeArr:any;
+  public profileurl:any;
+
+  public static incSenderIds:any[]=[];
+
   ngOnInit() {
     //this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
@@ -37,7 +43,18 @@ export class ChatPageComponent implements OnInit {
     //this.socketService.setSocketId(this.userparsed.uid);
     //console.log("socket id: "+this.userparsed.uid);
     // this.fetchChatDate()
+    //console.log(ChatPageComponent.incSenderIds)
 
+    this.auth.authState.subscribe(user=>{
+      if(user) {
+        this.userparsed = user
+        //console.log(this.userparsed)
+        axios.get('saveuser').then(res=>{
+          //console.log("save user" ,res)
+          this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
+        }).catch(err =>console.log(err))
+      }
+    })
     this.getActiveChoice();
     this.getfriendlist();
     this.incMsg();
@@ -51,9 +68,17 @@ export class ChatPageComponent implements OnInit {
         }).catch(err => console.log(err))
       });
     }, 1000);
+    setInterval(() => {
+      this.friendList.forEach(frnd => {
+        ChatPageComponent.incSenderIds.forEach(sender => {
+          if(frnd.data.id==sender){
+            this.notification.set(frnd.data.id,true)
+          }
+        });
+      });
+    }, 500);
 
   }
-
   ngOnDestroy() {
     //this.socketService.disconnect();
   }
@@ -74,6 +99,7 @@ export class ChatPageComponent implements OnInit {
       res.data.forEach((data: any) => {
         this.friendList.push({data})
         this.status.set(data.id,false);
+        this.notification.set(data.id,false);
       });
     }).catch(err=>console.log(err))
     //console.log(this.friendList)

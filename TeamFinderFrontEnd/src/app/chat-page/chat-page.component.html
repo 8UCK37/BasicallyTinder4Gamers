@@ -2,7 +2,7 @@
   <div class="app-container" style="padding-top: 100px; float: initial">
     <div class="app-left">
       <div class="app-profile-box">
-        <img [src]="userparsed.photoURL" alt="profile" />
+        <img [src]="profileurl" alt="profile" />
         <div class="app-profile-box-name">
           {{ userparsed.displayName }}
         </div>
@@ -27,6 +27,9 @@
           <div class="app-profile-box-text-align-left">
             <ul class="chat-list active" *ngFor="let frnd of friendList; let i = index">
               <div class="chat-list-item active" (click)="onclick(frnd.data.id)">
+                <div class="wrapper" >
+                  <i *ngIf="notification.get(frnd.data.id)" class="fa fa-bell icon"></i>
+                </div>
                 <img [src]="frnd.data.profilePicture" />
                 <span class="chat-list-name">{{ frnd.data.name }}</span>
                 <i *ngIf="status.get(frnd.data.id)" class="fa-sharp fa-solid fa-circle"></i>

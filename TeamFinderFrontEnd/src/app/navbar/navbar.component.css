@@ -186,6 +186,7 @@ input:focus {
   opacity: 0.9;
 
 }
+/*noti bell*/
 .wrapper{
   height:0px;
   justify-content:center;
@@ -194,10 +195,7 @@ input:focus {
   cursor: pointer;
   background-color:#00000000;
 }
-.chat-link {
-  position: relative;
-  display: inline-block;
-}
+
 .icon{
   animation:notification 2s infinite;
   font-size:20px;

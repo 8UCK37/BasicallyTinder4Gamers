@@ -1017,3 +1017,43 @@ background: #171717;
   color: chartreuse;
   margin-left: 10px;
 }
+/*noti bell*/
+.wrapper{
+  height:0px;
+  justify-content:center;
+  align-items:center;
+  position: relative;
+  cursor: pointer;
+  background-color:#00000000;
+}
+
+.icon{
+  animation:notification 2s infinite;
+  font-size:20px;
+  color:#540980;
+  position: absolute;
+  top:0;
+  right:5px;
+  top:-20px
+}
+
+@keyframes notification{
+
+  5%{
+      transform:rotate(10deg);
+  }
+
+  10%{
+      transform:rotate(-10deg);
+  }
+
+  15%{
+      transform:rotate(10deg);
+  }
+
+  20%{
+      transform:rotate(0deg);
+  }
+
+
+}

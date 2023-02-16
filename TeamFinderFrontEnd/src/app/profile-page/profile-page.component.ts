@@ -4,6 +4,7 @@ import axios from 'axios';
 import { UserService } from '../login/user.service';
 import {filter} from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
