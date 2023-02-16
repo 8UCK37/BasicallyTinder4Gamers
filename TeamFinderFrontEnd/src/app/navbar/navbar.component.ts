@@ -60,6 +60,12 @@ export class NavbarComponent implements OnInit {
       }
     })
     this.incMsg();
+    setInterval(() => {
+      console.log(this.router.url);
+      if(this.router.url=="/chat"){
+        this.noti=false;
+      }
+    }, 5000);
   }
 
   toggleMenu() {

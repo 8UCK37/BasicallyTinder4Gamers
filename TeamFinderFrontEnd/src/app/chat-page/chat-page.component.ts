@@ -69,7 +69,7 @@ export class ChatPageComponent implements OnInit {
       });
     }, 1000);
     setTimeout(() => {
-      console.log(ChatPageComponent.incSenderIds)
+      //console.log(ChatPageComponent.incSenderIds)
       this.friendList.forEach(frnd => {
         ChatPageComponent.incSenderIds.forEach(sender => {
           if(frnd.data.id==sender){
