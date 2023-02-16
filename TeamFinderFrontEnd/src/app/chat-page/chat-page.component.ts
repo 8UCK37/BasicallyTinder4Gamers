@@ -68,7 +68,8 @@ export class ChatPageComponent implements OnInit {
         }).catch(err => console.log(err))
       });
     }, 1000);
-    setInterval(() => {
+    setTimeout(() => {
+      console.log(ChatPageComponent.incSenderIds)
       this.friendList.forEach(frnd => {
         ChatPageComponent.incSenderIds.forEach(sender => {
           if(frnd.data.id==sender){
@@ -76,7 +77,7 @@ export class ChatPageComponent implements OnInit {
           }
         });
       });
-    }, 500);
+    }, 300);
 
   }
   ngOnDestroy() {
@@ -140,6 +141,7 @@ export class ChatPageComponent implements OnInit {
       this.fetchChatData(frndid);
       this.selectedFrndId=frndid;
       this.selectedFrnd=null;
+      this.notification.set(frndid,false);
       axios.post('getUserInfo',{frnd_id:frndid}).then(res=>{
         //console.log(res.data)
         this.selectedFrnd=res.data
@@ -166,6 +168,8 @@ export class ChatPageComponent implements OnInit {
         this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime()});
         if(recData.sender==this.selectedFrndId){
         this.scrollToBottom()
+        }else{
+          this.notification.set(recData.sender,true);
         }
       });
     }
