@@ -35,7 +35,18 @@ const storage = multer.diskStorage({
   cb(null,uniqueSuffix+'.'+ 'jpg')
   }
 })
+const bannerStr = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null,  path.join(__dirname + './../../public/profileBanner'))
+  },
+  filename: function (req, file, cb) {
+    console.log(req.user)
+    const uniqueSuffix = req.user.user_id
+  cb(null,uniqueSuffix+'.'+ 'jpg')
+  }
+})
 const upload = multer({ storage: storage })
+const bnUpload = multer({ storage: bannerStr })
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -467,9 +478,12 @@ app.get('/chatData',ensureAuthenticated, async (req, res) => {
 
 
 app.post("/uploadProfile",ensureAuthenticated, upload.single('avatar'),(req,res,next)=>{
+ 
   res.sendStatus(200);
 })
-
+app.post("/uploadBanner",ensureAuthenticated, bnUpload.single('banner'),(req,res,next)=>{
+  res.sendStatus(200);
+})
 app.post('/gameSelect',ensureAuthenticated, urlencodedParser,async(req,res)=>{
   const jsonObject = req.body;
   const selectedGames = await prisma.GameSelectInfo.create({

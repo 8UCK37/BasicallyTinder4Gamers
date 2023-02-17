@@ -12,9 +12,10 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class ProfilePageComponent implements OnInit {
   @ViewChild('image') input!:ElementRef;
+  @ViewChild('banner') banner!:ElementRef;
   radioActivaVal:any;
   radioAtGame:any = false;
-  public  formData = new FormData();
+
   constructor(public user: UserService,private router : Router,private auth: AngularFireAuth) {
   //   router.events.pipe(
   //     filter(event => event instanceof NavigationEnd)
@@ -26,7 +27,10 @@ export class ProfilePageComponent implements OnInit {
   public usr:any;
   public userparsed:any;
   public profileurl:any;
-  public save:boolean=false;
+  public bannerUrl:any;
+  public dPsave:boolean=false;
+  public bNsave:boolean=false;
+  public  formData:any;
   ngOnInit(): void {
     //console.log(this.router.url);
     let lastUrl = this.router.url.split('/')[2]
@@ -42,6 +46,8 @@ export class ProfilePageComponent implements OnInit {
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
           this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
+          this.bannerUrl = `http://localhost:3000/static/profileBanner/${user.uid}.jpg`
+          //console.log(this.bannerUrl)
         }).catch(err =>console.log(err))
       }
     })
@@ -53,14 +59,27 @@ export class ProfilePageComponent implements OnInit {
         let reader = new FileReader();
         reader.onload = (e: any) => {
         this.profileurl = e.target.result;
-        this.save=true;
+        this.dPsave=true;
       }
     reader.readAsDataURL(this.input.nativeElement.files[0]);
       }else{
         //console.log("null")
-        this.save=false;
+        this.dPsave=false;
       }
-    }, 1500);
+
+      if(this.banner.nativeElement.files[0]!=null){
+        let reader = new FileReader();
+        reader.onload = (e: any) => {
+        this.bannerUrl = e.target.result;
+        this.bNsave=true;
+      }
+    reader.readAsDataURL(this.banner.nativeElement.files[0]);
+      }else{
+        //console.log("null")
+
+        this.bNsave=false;
+      }
+    }, 300);
 
   }
 
@@ -76,23 +95,24 @@ export class ProfilePageComponent implements OnInit {
   changeToLinkedAcc(){
     this.router.navigate(['profile-page','linked-accounts']);
   }
-  upload(){
-    //console.log(this.input.nativeElement.files[0])
+  uploadProfilePic(){
+    this.formData = new FormData();
+    //this.input.nativeElement.value=null;
+    console.log(this.input.nativeElement.files[0])
     let type = this.input.nativeElement.files[0].type
     if(type != "image/jpeg" && type != "image/jpg"){
       alert("wrong image type please upload jpg or Jpeg")
       return
     }
-
     this.formData.append("avatar", this.input.nativeElement.files[0]);
     axios.post('/uploadProfile', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
-      this.save=false;
+      this.dPsave=false;
       this.input.nativeElement.value=null;
     }).catch(err =>console.log(err))
     //console.log(this.input)
-
+    console.log(this.formData)
   }
-  cancel(){
+  cancelProfileUpload(){
     this.input.nativeElement.value=null;
     this.auth.authState.subscribe(user=>{
       if(user) {
@@ -104,5 +124,36 @@ export class ProfilePageComponent implements OnInit {
         }).catch(err =>console.log(err))
       }
     })
+  }
+  uploadBanner(){
+    //this.banner.nativeElement.value=null;
+    this.formData = new FormData();
+    let type = this.banner.nativeElement.files[0].type
+    if(type != "image/jpeg" && type != "image/jpg"){
+      alert("wrong image type please upload jpg or Jpeg")
+      return
+    }
+    this.formData.append("banner", this.banner.nativeElement.files[0]);
+    axios.post('/uploadBanner', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
+      this.bNsave=false;
+      this.banner.nativeElement.value=null;
+    }).catch(err =>console.log(err))
+    //console.log(this.input)
+  }
+  cancelBannerUpload(){
+    this.banner.nativeElement.value=null;
+    this.auth.authState.subscribe(user=>{
+      if(user) {
+        this.userparsed = user
+        //console.log(this.userparsed)
+        axios.get('saveuser').then(res=>{
+          //console.log("save user" ,res)
+          this.bannerUrl = `http://localhost:3000/static/profileBanner/${user.uid}.jpg`
+        }).catch(err =>console.log(err))
+      }
+    })
+  }
+  onBannerError() {
+    this.bannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
   }
 }

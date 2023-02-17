@@ -13,7 +13,7 @@ export class ProfilePostComponent implements OnInit {
   public  formData = new FormData();
   ngOnInit() {
   }
-  
+
   upload(){
     console.log(this.input.nativeElement.files[0])
     let type = this.input.nativeElement.files[0].type
@@ -22,13 +22,14 @@ export class ProfilePostComponent implements OnInit {
       return
     }
 
-    this.formData.append("avatar", this.input.nativeElement.files[0]);
-    axios.post('/uploadProfile', this.formData, {
+    this.formData.append("banner", this.input.nativeElement.files[0]);
+    axios.post('/uploadBanner', this.formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
     })
     console.log(this.input)
+    //this.input.nativeElement.value=null;
   }
 
 }

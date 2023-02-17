@@ -3,7 +3,6 @@
 
     <!-- Profile Page -->
     <div class="view-width">
-
         <!-- Profile Header -->
         <section class="profile-header">
             <div class="profile-header-inner flexbox">
@@ -19,10 +18,11 @@
                           <div>
                             <i class="phi-edit-icon fa-solid fa-pencil" (click)="image.click()"></i>
                           </div>
-                          <i class="fa-sharp fa-regular fa-floppy-disk fa-2x" *ngIf="save" (click)="upload()"></i>
-                          <i class="fa-sharp fa-solid fa-xmark fa-2x" *ngIf="save" (click)="cancel()"></i>
+                          <i class="fa-sharp fa-regular fa-floppy-disk fa-2x" *ngIf="dPsave" (click)="uploadProfilePic()"></i>
+                          <i class="fa-sharp fa-solid fa-xmark fa-2x" *ngIf="dPsave" (click)="cancelProfileUpload()"></i>
                         </div>
                         <input type="file" name="" id="" style="display: none;" #image>
+                        <input type="file" name="" id="" style="display: none;" #banner>
                         <!-- Profile Username -->
                         <div class="phi-profile-username-wrapper flexbox-col-left">
                             <h3 class="phi-profile-username flexbox">{{usr.displayName}}</h3>
@@ -30,16 +30,15 @@
                         </div>
                     </div>
                     <div class="phi-info-right flexbox-right">
-                        <!-- <div>
-                            <button class="custom-btn btn-2"><span>Read More</span></button>
-                        </div> -->
-
+                        <i class="ban-edit-icon fa-solid fa-pencil fa-2x" (click)="banner.click()"></i>
+                        <i class="fa-sharp fa-regular fa-floppy-disk fa-2x" *ngIf="bNsave" (click)="uploadBanner()"></i>
+                        <i class="fa-sharp fa-solid fa-xmark fa-2x" *ngIf="bNsave" (click)="cancelBannerUpload()"></i>
                     </div>
                 </div>
                 <!-- Profile Header Image -->
                 <div class="profile-header-overlay"></div>
                 <img class="profile-header-image"
-                    src="https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg"
+                    [src]="bannerUrl" (error)="onBannerError()"
                     alt="">
             </div>
         </section>

@@ -1177,3 +1177,27 @@ button {
   color: #540980;
   padding-left: 90px;
 }
+
+.phi-info-wrapper:hover .ban-edit-icon{
+  display: block;
+}
+
+.ban-edit-icon {
+  display: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.ban-edit-icon.fa-pencil{
+  position: absolute;
+  top: -250px;
+  right: -12px;
+  color: #540980;
+}
+.fa-floppy-disk{
+  color: #540980;
+}
+.fa-xmark{
+  color: #540980;
+  padding-left: 90px;
+}
