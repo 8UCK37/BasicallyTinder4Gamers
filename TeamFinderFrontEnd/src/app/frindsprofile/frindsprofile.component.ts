@@ -16,6 +16,8 @@ export class FrindsprofileComponent implements OnInit {
   public usr: any;
   public userparsed: any;
   public isFrnd!: boolean;
+  public frndprofileurl:any;
+  public frndbannerUrl:any;
   public btnTxt:any="Send Req";
   ngOnInit(): void {
     //console.log(this.router.url);
@@ -49,6 +51,8 @@ export class FrindsprofileComponent implements OnInit {
     axios.post('getUserInfo',{frnd_id:this.frnd_id}).then(res=>{
       //console.log(res.data)
       this.frndData=res.data;
+      this.frndprofileurl = `http://localhost:3000/static/profilePicture/${this.frnd_id}.jpg`
+      this.frndbannerUrl = `http://localhost:3000/static/profileBanner/${this.frnd_id}.jpg`
     }).catch(err =>console.log(err))
   }
   sendReq(){
