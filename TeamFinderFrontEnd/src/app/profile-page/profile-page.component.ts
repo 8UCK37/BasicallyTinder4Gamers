@@ -31,6 +31,7 @@ export class ProfilePageComponent implements OnInit {
   public dPsave:boolean=false;
   public bNsave:boolean=false;
   public  formData:any;
+  backgroundColor = 'rgb(255, 0, 0)';
   ngOnInit(): void {
     //console.log(this.router.url);
     let lastUrl = this.router.url.split('/')[2]
@@ -156,4 +157,5 @@ export class ProfilePageComponent implements OnInit {
   onBannerError() {
     this.bannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
   }
+  
 }
