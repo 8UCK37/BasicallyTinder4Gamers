@@ -25,6 +25,7 @@ export class FriendsComponent implements OnInit {
   public profileurl: any;
   public online:boolean=false;
   public status=new Map();
+  public dp=new Map();
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
@@ -70,6 +71,7 @@ export class FriendsComponent implements OnInit {
       res.data.forEach((data: any) => {
         this.friendList.push({ data })
         this.status.set(data.id,false);
+        this.dp.set(data.id,`http://localhost:3000/static/profilePicture/${data.id}.jpg`)
       });
     }).catch(err => console.log(err))
     //console.log(this.status)

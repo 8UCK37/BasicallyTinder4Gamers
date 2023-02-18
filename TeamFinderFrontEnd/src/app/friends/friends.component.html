@@ -27,7 +27,7 @@
           <div class="col-4"  style="margin-top: 20px; margin-bottom: 20px;align-content: center;cursor:pointer;" *ngFor="let user of friendList" (click)="onclick(user.data.id)">
             <div>
               <div class="profile-image">
-                <img [src]="user.data.profilePicture" />
+                <img [src]="dp.get(user.data.id)" />
               </div>
               <div class="friend-username">{{user.data.name}}
                 <i *ngIf="status.get(user.data.id)" class="fa-sharp fa-solid fa-circle"></i>
