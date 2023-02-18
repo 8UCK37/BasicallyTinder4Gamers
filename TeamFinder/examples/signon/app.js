@@ -541,6 +541,46 @@ app.post('/getUserInfo',ensureAuthenticated,async(req,res)=>{
   res.send(JSON.stringify(userData));
 });
 
+app.post('/saveOwnedgames',ensureAuthenticated,async(req,res)=>{
+  const fetchUser = await prisma.OwnedGames.findUnique({
+    where: {
+      uid: req.user.user_id
+    }
+  })
+  
+  if(fetchUser==null){
+  const savegame = await prisma.OwnedGames.create({
+    data: {
+      uid: req.user.user_id,
+      games:JSON.stringify(req.body.data)
+    }
+  });
+  }else{
+    const savegame = await prisma.OwnedGames.update({
+      where:{
+        uid: req.user.user_id,
+      },
+      data: {
+        games:JSON.stringify(req.body.data)
+      }
+    });
+  }
+  res.sendStatus(200);
+});
+
+app.get('/getOwnedgames',ensureAuthenticated, async (req, res) => {
+  let fetchedGames = await prisma.OwnedGames.findMany({
+    where:{
+      uid:req.user.user_id
+    },
+    select:{
+      games:true,
+    }
+  })
+  res.send(JSON.stringify(fetchedGames))
+});
+
+
 io.on('connection', (socket) => {
   console.log('a user connected' , socket.id);
   

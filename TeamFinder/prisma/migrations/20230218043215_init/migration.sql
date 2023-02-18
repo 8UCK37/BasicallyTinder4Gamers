@@ -1,0 +1,7 @@
+-- CreateTable
+CREATE TABLE "OwnedGames" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "uid" TEXT NOT NULL,
+    "games" TEXT NOT NULL
+);

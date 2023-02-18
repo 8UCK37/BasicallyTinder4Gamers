@@ -50,3 +50,8 @@ model GameSelectInfo{
   appid Int
 }
 
+model OwnedGames{
+  uid        String   @id
+  createdAt DateTime @default(now())
+  games String
+}

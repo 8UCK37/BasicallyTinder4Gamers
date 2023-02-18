@@ -1,3 +1,4 @@
+import { json } from '@angular-devkit/core';
 import { forEach } from '@angular-devkit/schematics';
 import { BoundElementProperty } from '@angular/compiler';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
@@ -14,12 +15,14 @@ export class ShowgamesComponent implements OnInit {
   public gameList:any[]=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
   public selectedList:any[]=[];
   public result: any[]=[];
+  public ownedGames:any;
   steamId: any;
 
   constructor(private modalService: NgbModal,private router: Router) { }
 
   ngOnInit(): void {
-    this.getOwnedGames();
+    //this.getOwnedGames();
+    this.getOwnedGamesfrmDb();
     this.result=[];
   }
   openScrollableContent(longContent:any) {
@@ -38,22 +41,25 @@ export class ShowgamesComponent implements OnInit {
     this.gameList=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
     this.result=[];
     this.selectedList=[]
-    this.getOwnedGames();
+    this.getOwnedGamesfrmDb();
     this.modalService.dismissAll()
   }
-  getOwnedGames() {
-      //console.log("showgames")
-      axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
-        //console.log(res.data.ownedGames)
-        res.data.ownedGames.forEach((element: any) => {
-          this.gameList.push(element)
-        });
-        for (let i=0; i<this.gameList.length; i++){
-          this.result.push([this.gameList[i],false])
-        }
-        this.getSelectedGames();
-      }).catch(err =>console.log(err))
-  }
+
+
+  //old getgames func replaced due to api cooldown
+  // getOwnedGames() {
+  //     //console.log("showgames")
+  //     axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
+  //       //console.log(res.data.ownedGames)
+  //       res.data.ownedGames.forEach((element: any) => {
+  //         this.gameList.push(element)
+  //       });
+  //       for (let i=0; i<this.gameList.length; i++){
+  //         this.result.push([this.gameList[i],false])
+  //       }
+  //       this.getSelectedGames();
+  //     }).catch(err =>console.log(err))
+  // }
 
   setSelectedGames(){
     this.deleteAppid();
@@ -87,5 +93,28 @@ export class ShowgamesComponent implements OnInit {
     axios.post('selectedDelete').then(res=>{
       //console.log("deletedq" ,res)
     }).catch(err =>console.log(err))
+  }
+  async saveOwnedGames(){
+    await axios.get('accountData',{params:{id:this.steamId}}).then(res=>{
+      //console.log(res.data.ownedGames)
+      this.ownedGames=res.data.ownedGames
+    }).catch(err =>console.log(err))
+    //console.log(typeof(this.ownedGames));
+    axios.post('saveOwnedGames',{data:JSON.stringify(this.ownedGames)}).then(res=>{
+      this.getOwnedGamesfrmDb();
+    }).catch(err =>console.log(err))
+  }
+  getOwnedGamesfrmDb(){
+    axios.get('getOwnedgames').then(res=>{
+      const ownedGames=JSON.parse(JSON.parse(res.data[0].games))
+
+      ownedGames.forEach((element: any) => {
+        this.gameList.push(element)
+      });
+      for (let i=0; i<this.gameList.length; i++){
+        this.result.push([this.gameList[i],false])
+      }
+      this.getSelectedGames();
+    }).catch(err=>console.log(err))
   }
 }
