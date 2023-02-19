@@ -194,9 +194,8 @@ export class ChatPageComponent implements OnInit {
           this.activeConvList.push(res.data)
         }).catch(err =>console.log(err))
       });
-      console.log(this.activeConvList)
+      //console.log(this.activeConvList)
       }).catch(err=>console.log(err))
     }
-
 }
 
