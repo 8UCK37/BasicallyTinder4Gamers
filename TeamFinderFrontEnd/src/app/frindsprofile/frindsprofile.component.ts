@@ -59,6 +59,7 @@ export class FrindsprofileComponent implements OnInit {
     //console.log(this.userparsed.uid);
     axios.post('addFriend', { from: this.userparsed.uid, to:this.frndData.id}).then(res => {
       //console.log("sent req", res)
+      this.btnTxt="Pending";
     }).catch(err => console.log(err))
   }
   ifFriend(){
@@ -76,6 +77,12 @@ export class FrindsprofileComponent implements OnInit {
         this.isFrnd=false;
       }
     }).catch(err => console.log(err))
+  }
+  onDpError() {
+    this.frndprofileurl = this.frndData.profilePicture;
+  }
+  onBannerError() {
+    this.frndbannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
   }
 }
 

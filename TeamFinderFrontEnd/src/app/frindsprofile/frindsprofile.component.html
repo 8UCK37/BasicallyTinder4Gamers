@@ -12,11 +12,11 @@
                       <div class="phi-profile-picture-wrapper">
                           <div class="phi-profile-picture-inner flexbox">
                               <img class="phi-profile-picture"
-                                  [src]="frndprofileurl"
+                                  [src]="frndprofileurl" (error)="onDpError()"
                                   alt="">
                           </div>
                           <img class="phi-profile-picture-blur"
-                          [src]="frndData.profilePicture"
+                          [src]=""
                               alt="">
                       </div>
                       <!-- Profile Username -->
@@ -32,7 +32,7 @@
               <!-- Profile Header Image -->
               <div class="profile-header-overlay"></div>
               <img class="profile-header-image"
-                  [src]="frndbannerUrl"
+                  [src]="frndbannerUrl" (error)="onBannerError()"
                   alt="">
           </div>
       </section>

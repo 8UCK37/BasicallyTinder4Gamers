@@ -67,6 +67,7 @@ export class ChatPageComponent implements OnInit {
           this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
         }).catch(err => console.log(err))
       });
+
     }, 1000);
     setTimeout(() => {
       //console.log(ChatPageComponent.incSenderIds)
@@ -78,10 +79,7 @@ export class ChatPageComponent implements OnInit {
         });
       });
     }, 300);
-
-
     this.getActiveConvo();
-
   }
   ngOnDestroy() {
     //this.socketService.disconnect();
@@ -170,9 +168,11 @@ export class ChatPageComponent implements OnInit {
         //console.log(recData.sender);
         this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime()});
         if(recData.sender==this.selectedFrndId){
-        this.scrollToBottom()
+        this.scrollToBottom();
+        this.getActiveConvo();
         }else{
           this.notification.set(recData.sender,true);
+          this.getActiveConvo();
         }
       });
     }
@@ -192,14 +192,11 @@ export class ChatPageComponent implements OnInit {
         //console.log(sender)
         axios.post('getUserInfo',{frnd_id:sender}).then(res=>{
           this.activeConvList.push(res.data)
-
         }).catch(err =>console.log(err))
       });
       console.log(this.activeConvList)
       }).catch(err=>console.log(err))
-
-
-
     }
+
 }
 

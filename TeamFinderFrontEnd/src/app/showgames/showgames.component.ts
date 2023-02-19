@@ -22,7 +22,10 @@ export class ShowgamesComponent implements OnInit {
 
   ngOnInit(): void {
     //this.getOwnedGames();
-    this.getOwnedGamesfrmDb();
+    if(this.steamId!=null){
+      this.getOwnedGamesfrmDb();
+    }
+
     this.result=[];
   }
   openScrollableContent(longContent:any) {
@@ -107,7 +110,6 @@ export class ShowgamesComponent implements OnInit {
   getOwnedGamesfrmDb(){
     axios.get('getOwnedgames').then(res=>{
       const ownedGames=JSON.parse(JSON.parse(res.data[0].games))
-
       ownedGames.forEach((element: any) => {
         this.gameList.push(element)
       });
