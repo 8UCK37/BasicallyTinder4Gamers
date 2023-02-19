@@ -25,14 +25,14 @@
         </div>
         <div class="chat-list active">
           <div class="app-profile-box-text-align-left">
-            <ul class="chat-list active" *ngFor="let frnd of friendList; let i = index">
-              <div class="chat-list-item active" (click)="onclick(frnd.data.id)">
+            <ul class="chat-list active" *ngFor="let frnd of activeConvList; let i = index">
+              <div class="chat-list-item active" (click)="onclick(frnd.id)">
                 <div class="wrapper" >
-                  <i *ngIf="notification.get(frnd.data.id)" class="fa fa-bell icon"></i>
+                  <i *ngIf="notification.get(frnd.id)" class="fa fa-bell icon"></i>
                 </div>
-                <img [src]="frnd.data.profilePicture" />
-                <span class="chat-list-name">{{ frnd.data.name }}</span>
-                <i *ngIf="status.get(frnd.data.id)" class="fa-sharp fa-solid fa-circle"></i>
+                <img [src]="frnd.profilePicture" />
+                <span class="chat-list-name">{{ frnd.name }}</span>
+                <i *ngIf="status.get(frnd.id)" class="fa-sharp fa-solid fa-circle"></i>
               </div>
             </ul>
           </div>
@@ -104,6 +104,31 @@
                 </div>
               </button>
           </form>
+        </div>
+      </div>
+    </div>
+    <div class="app-right">
+      <div class="app-profile-box">
+        <div class="chat-list-header">
+          Friendlist
+          <span class="c-number">{{ friendList.length }}</span>
+          <svg class="list-header-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+            class="feather feather-chevron-up" viewBox="0 0 24 24">
+            <defs />
+            <path d="M18 15l-6-6-6 6" />
+          </svg>
+        </div>
+        <div class="chat-list active">
+          <div class="app-profile-box-text-align-left">
+            <ul class="chat-list active" *ngFor="let frnd of friendList; let i = index">
+              <div class="chat-list-item active" (click)="onclick(frnd.data.id)">
+                <img [src]="frnd.data.profilePicture" />
+                <span class="chat-list-name">{{ frnd.data.name }}</span>
+                <i *ngIf="status.get(frnd.data.id)" class="fa-sharp fa-solid fa-circle"></i>
+              </div>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

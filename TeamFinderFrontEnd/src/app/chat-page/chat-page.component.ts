@@ -33,7 +33,7 @@ export class ChatPageComponent implements OnInit {
   public timeNow:any;
   public timeArr:any;
   public profileurl:any;
-
+  public activeConvList:any[]=[];
   public static incSenderIds:any[]=[];
 
   ngOnInit() {
@@ -78,6 +78,9 @@ export class ChatPageComponent implements OnInit {
         });
       });
     }, 300);
+
+
+    this.getActiveConvo();
 
   }
   ngOnDestroy() {
@@ -172,6 +175,31 @@ export class ChatPageComponent implements OnInit {
           this.notification.set(recData.sender,true);
         }
       });
+    }
+    getActiveConvo(){
+      this.activeConvList=[];
+      const uniqueConv:any=[];
+      axios.get('getActiveList').then(res=>{
+       //console.log(res.data)
+       res.data.forEach((element: any)=> {
+        //console.log(element.sender)
+        if(!uniqueConv.includes(element.sender)){
+          uniqueConv.push(element.sender)
+        }
+       });
+        //console.log(uniqueConv)
+        uniqueConv.forEach((sender: any) => {
+        //console.log(sender)
+        axios.post('getUserInfo',{frnd_id:sender}).then(res=>{
+          this.activeConvList.push(res.data)
+
+        }).catch(err =>console.log(err))
+      });
+      console.log(this.activeConvList)
+      }).catch(err=>console.log(err))
+
+
+
     }
 }
 

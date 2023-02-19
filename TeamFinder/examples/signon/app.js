@@ -476,6 +476,16 @@ app.get('/chatData',ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(fetchedChat))
 });
 
+app.get('/getActiveList',ensureAuthenticated, async (req, res) => {
+  let fetchedChat = await prisma.Chat.findMany({
+    where:{
+          receiver: req.user.uid,    
+    },select:{
+      sender:true,
+    }
+  })
+  res.send(JSON.stringify(fetchedChat))
+});
 
 app.post("/uploadProfile",ensureAuthenticated, upload.single('avatar'),(req,res,next)=>{
  
