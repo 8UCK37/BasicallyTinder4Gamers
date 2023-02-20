@@ -94,15 +94,18 @@ body[data-theme=dark] {
 }
 
 .app-container {
-background: #171717;
+  padding-top: 100px;
+  float: initial;
+  justify-content: left;
+  background: #171717;
   display: flex;
   min-height: 100vh;
   height: 640px;
   width: 100%;
-  padding: 24px;
 }
 
 .app-left {
+  justify-content: right;
   flex-basis: 320px;
   flex-shrink: 0;
   height: 100%;
@@ -348,7 +351,7 @@ background: #171717;
   height: 100%;
   display: flex;
   flex-direction: column;
-  margin-left: 200px;
+  margin-left: auto;
   margin-right: 24px;
   transition: 0.2s;
   overflow: auto;
@@ -686,7 +689,7 @@ background: #171717;
 }
 
 .chat-container {
-  height: 100%;
+  height: inherit;
 }
 
 /* User Bar */
@@ -752,7 +755,7 @@ background: #171717;
   text-overflow: ellipsis;
   letter-spacing: 0.3px;
   margin: 0 0 0 8px;
-  overflow: hidden;
+  overflow: visible;
   white-space: nowrap;
   width: 110px;
 }

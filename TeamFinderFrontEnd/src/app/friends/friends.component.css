@@ -787,12 +787,20 @@ button {
   color: #f1f3f3;
   height: 23px;
   float: left;
-  margin-left: 12px;
+  margin-left: 80px;
   margin-top: 12px;
 }
 .fa-circle
 {
   color: chartreuse;
   margin-left: 10px;
+}
+
+.friend-Box{
+  margin-top: 20px;
+  border-style: solid;
+  background-color: currentColor;
+  cursor:pointer;
+  border-radius: 10px;
 }
 

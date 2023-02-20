@@ -1,5 +1,5 @@
 <main>
-  <div class="app-container" style="padding-top: 100px; float: initial;justify-content: center;">
+  <div class="app-container">
     <div class="app-left">
       <div class="app-profile-box">
         <img [src]="profileurl" alt="profile" />
@@ -53,6 +53,7 @@
         <h1>QuickChat</h1>
       </div>
     </div>
+    <div>
     <div class="chat" *ngIf="selectedFrnd!=null">
       <div class="chat-container">
         <div class="user-bar">
@@ -107,6 +108,7 @@
         </div>
       </div>
     </div>
+  </div>
     <div class="app-right">
       <div class="app-profile-box">
         <div class="chat-list-header">
