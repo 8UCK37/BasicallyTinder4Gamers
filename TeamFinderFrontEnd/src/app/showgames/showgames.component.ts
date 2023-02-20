@@ -22,10 +22,7 @@ export class ShowgamesComponent implements OnInit {
 
   ngOnInit(): void {
     //this.getOwnedGames();
-    if(this.steamId!=null){
-      this.getOwnedGamesfrmDb();
-    }
-
+    this.getOwnedGamesfrmDb();
     this.result=[];
   }
   openScrollableContent(longContent:any) {

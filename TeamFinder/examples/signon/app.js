@@ -614,7 +614,7 @@ io.on('connection', (socket) => {
   });
   socket.on('disconnect', async () => {
     console.log('user disconnected with soc id: '+socket.id);
-  
+    //console.log(socketUserMap.get(socket.id))
     try{
     const updateStatus = await prisma.User.update({
       where: {
