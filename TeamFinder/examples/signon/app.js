@@ -487,6 +487,19 @@ app.get('/getActiveList',ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(fetchedChat))
 });
 
+
+app.get('/sentOnly',ensureAuthenticated, async (req, res) => {
+  let fetchedChat = await prisma.Chat.findMany({
+    where:{
+          sender: req.user.uid,
+    }
+  })
+  res.send(JSON.stringify(fetchedChat))
+});
+
+
+
+
 app.post("/uploadProfile",ensureAuthenticated, upload.single('avatar'),(req,res,next)=>{
  
   res.sendStatus(200);
@@ -614,7 +627,7 @@ io.on('connection', (socket) => {
   });
   socket.on('disconnect', async () => {
     console.log('user disconnected with soc id: '+socket.id);
-  
+    //console.log(socketUserMap.get(socket.id))
     try{
     const updateStatus = await prisma.User.update({
       where: {
