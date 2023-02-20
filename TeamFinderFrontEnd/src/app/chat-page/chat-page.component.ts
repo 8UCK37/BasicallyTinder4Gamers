@@ -80,10 +80,13 @@ export class ChatPageComponent implements OnInit {
       });
     }, 300);
     this.getActiveConvo();
+
   }
+
   ngOnDestroy() {
     //this.socketService.disconnect();
   }
+
   sendMessage(txt:any){
     // this.to=address;
     this.values=txt;
@@ -94,7 +97,9 @@ export class ChatPageComponent implements OnInit {
     this.allMsgs.push({sender:this.to,rec:false,msg:this.values,time:this.getLocalTime()})
     //console.log(this.getLocalTime())
     this.scrollToBottom();
+    this.getActiveConvo();
   }
+
   getfriendlist(){
     this.friendList=[];
     axios.get('friendData').then(res=>{
@@ -111,7 +116,6 @@ export class ChatPageComponent implements OnInit {
     this.to = friendId
     axios.get('/chatData',{params:{friendId: friendId}}).then(res=>{
       this.allMsgs = []
-
       res.data.forEach((ele:any) => {
         this.timeArr=this.utcToLocal(ele.createdAt).split(" ")[1].split(":")
         let left = (ele.sender== this.userparsed.uid) ? false : true
@@ -121,23 +125,27 @@ export class ChatPageComponent implements OnInit {
       });
       this.scrollToBottom();
     }
+
     getActiveChoice(){
       axios.get('activeState').then(res=>{
         this.activeState=res.data[0].activeChoice
         //console.log("state:"+this.activeState)
       }).catch(err=>console.log(err))
     }
+
     setActiveChoice(state:boolean){
       axios.post('activeStateChange',{state}).then(res=>{
         console.log("sent req" ,res)
       }).catch(err =>console.log(err))
     }
+
     toggleState(){
       console.log("state:"+this.activeState)
       this.activeState=!this.activeState;
       console.log("state:"+this.activeState)
       this.setActiveChoice(this.activeState);
     }
+
     onclick(frndid:any){
       this.fetchChatData(frndid);
       this.selectedFrndId=frndid;
@@ -148,20 +156,24 @@ export class ChatPageComponent implements OnInit {
         this.selectedFrnd=res.data
       }).catch(err =>console.log(err))
     }
+
     utcToLocal(utcTime:any){
         this.utcDateTime = new Date(utcTime);
         return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
     }
+
     getLocalTime(){
       this.timeNow=this.now.toLocaleString('en-US', { hour12: true })
       this.timeArr=this.timeNow.split(" ")[1].split(":");
       return (this.timeArr[0]+":"+this.timeArr[1])
     }
+
     scrollToBottom() {
       setTimeout(() => {
         this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
       }, 100);
     }
+
     incMsg(){
       this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
         const recData = typeof data === 'string' ? JSON.parse(data) : data;
@@ -176,9 +188,11 @@ export class ChatPageComponent implements OnInit {
         }
       });
     }
+
     getActiveConvo(){
       this.activeConvList=[];
       const uniqueConv:any=[];
+
       axios.get('getActiveList').then(res=>{
        //console.log(res.data)
        res.data.forEach((element: any)=> {
@@ -187,14 +201,23 @@ export class ChatPageComponent implements OnInit {
           uniqueConv.push(element.sender)
         }
        });
-        //console.log(uniqueConv)
-        uniqueConv.forEach((sender: any) => {
-        //console.log(sender)
-        axios.post('getUserInfo',{frnd_id:sender}).then(res=>{
-          this.activeConvList.push(res.data)
-        }).catch(err =>console.log(err))
-      });
-      //console.log(this.activeConvList)
+
+      axios.get('sentOnly').then(res=>{
+          res.data.forEach((element: any) => {
+            if(!uniqueConv.includes(element.receiver)){
+              uniqueConv.push(element.receiver)
+            }
+
+          });
+        //console.log(uniqueConv.length)
+          uniqueConv.forEach((sender: any) => {
+            console.log(sender)
+            axios.post('getUserInfo',{frnd_id:sender}).then(res=>{
+              this.activeConvList.push(res.data)
+            }).catch(err =>console.log(err))
+              });
+            }).catch(err=>console.log(err))
+
       }).catch(err=>console.log(err))
     }
 }
