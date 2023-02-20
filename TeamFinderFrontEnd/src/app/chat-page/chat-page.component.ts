@@ -211,7 +211,7 @@ export class ChatPageComponent implements OnInit {
           });
         //console.log(uniqueConv.length)
           uniqueConv.forEach((sender: any) => {
-            console.log(sender)
+            //console.log(sender)
             axios.post('getUserInfo',{frnd_id:sender}).then(res=>{
               this.activeConvList.push(res.data)
             }).catch(err =>console.log(err))
