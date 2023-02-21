@@ -180,7 +180,7 @@ app.get("/accountData", ensureAuthenticated,async (req, res) => {
   res.send(JSON.stringify({ user: req.user, ownedGames: games }))
   }else{console.log("null caught")}
   
-})
+});
 
 app.get("/friend", ensureAuthenticated, async (req, res) => {
   res.sendFile(__dirname + '/client/friend.html')
@@ -382,6 +382,24 @@ app.get("/test",ensureAuthenticated, (req, res) => {
   res.sendStatus(200);
 })
 
+app.get("/steamUserInfo", ensureAuthenticated,async (req, res) => {
+  let steamIdfromDb = await prisma.User.findUnique({
+    where: {
+      id: req.user.user_id
+    },
+    select: {
+      steamId: true
+    }
+  })
+  if(steamIdfromDb.steamId!=null){
+    const c = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamIdfromDb.steamId}`);
+    let players= c.data.response.players;
+    if (players == undefined || players == null) {
+    players = []
+    }
+    res.send(JSON.stringify({ info: players }))
+  }else{console.log("null caught")}
+});
 
 
 app.get('/activeState',ensureAuthenticated,async(req,res)=>{
