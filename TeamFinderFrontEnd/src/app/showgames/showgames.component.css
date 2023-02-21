@@ -203,7 +203,6 @@
     margin: 0;
     flex-grow: 1;
     position: relative;
-    cursor: pointer;
     gap: 50px;
     padding-right: 2px;
 }
