@@ -14,7 +14,7 @@ import axios from 'axios';
   animations: [
     trigger('flipState', [
       state('active', style({
-        transform: 'rotateY(179deg)'
+        transform: 'rotateY(180deg)'
       })),
       state('inactive', style({
         transform: 'rotateY(0)'
@@ -130,10 +130,10 @@ export class ShowgamesComponent implements OnInit {
     }).catch(err=>console.log(err))
   }
 
-  toggleFlip(index:any):void {
+  toggleFlip(index:any) {
     const result=[...this.selectedList];
     const {flipState}=result[index];
-    result[index] = { ...result[index], flipState: flipState ==  'inactive' ? 'active' : 'inactive' };
+    result[index] = {...result[index], flipState: flipState ==  'inactive' ? 'active' : 'inactive' };
     this.selectedList = result;
     console.log(index);
   }

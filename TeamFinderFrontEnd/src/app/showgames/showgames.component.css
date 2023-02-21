@@ -483,11 +483,8 @@
   position: absolute;
   backface-visibility: hidden;
 
-  color: #fff;
+  color:#171717;
   text-align: center;
-  line-height: 100px;
-  font-size: 24px;
-  font-weight: 700;
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
