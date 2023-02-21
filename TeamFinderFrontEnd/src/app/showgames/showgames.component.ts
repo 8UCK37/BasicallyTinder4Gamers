@@ -1,5 +1,6 @@
 import { json } from '@angular-devkit/core';
 import { forEach } from '@angular-devkit/schematics';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BoundElementProperty } from '@angular/compiler';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,7 +10,19 @@ import axios from 'axios';
 @Component({
   selector: 'app-showgames',
   templateUrl: './showgames.component.html',
-  styleUrls: ['./showgames.component.css']
+  styleUrls: ['./showgames.component.css'],
+  animations: [
+    trigger('flipState', [
+      state('active', style({
+        transform: 'rotateY(179deg)'
+      })),
+      state('inactive', style({
+        transform: 'rotateY(0)'
+      })),
+      transition('active => inactive', animate('500ms ease-out')),
+      transition('inactive => active', animate('500ms ease-in'))
+    ])
+  ]
 })
 export class ShowgamesComponent implements OnInit {
   public gameList:any[]=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
@@ -17,7 +30,7 @@ export class ShowgamesComponent implements OnInit {
   public result: any[]=[];
   public ownedGames:any;
   steamId: any;
-
+  flip: string = 'inactive';
   constructor(private modalService: NgbModal,private router: Router) { }
 
   ngOnInit(): void {
@@ -115,5 +128,13 @@ export class ShowgamesComponent implements OnInit {
       }
       this.getSelectedGames();
     }).catch(err=>console.log(err))
+  }
+
+  toggleFlip(index:any):void {
+    const result=[...this.selectedList];
+    const {flipState}=result[index];
+    result[index] = { ...result[index], flipState: flipState ==  'inactive' ? 'active' : 'inactive' };
+    this.selectedList = result;
+    console.log(index);
   }
 }
