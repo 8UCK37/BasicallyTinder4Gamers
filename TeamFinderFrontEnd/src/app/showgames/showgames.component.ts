@@ -37,6 +37,7 @@ export class ShowgamesComponent implements OnInit {
     //this.getOwnedGames();
     this.getOwnedGamesfrmDb();
     this.result=[];
+
   }
   openScrollableContent(longContent:any) {
 		this.modalService.open(longContent, { scrollable: true });
@@ -99,6 +100,7 @@ export class ShowgamesComponent implements OnInit {
       //console.log(this.result)
     }).catch(err=>console.log(err))
     this.selectedList=this.result
+    this.flipinit();
     //console.log(this.selectedList)
   }
   deleteAppid(){
@@ -130,11 +132,23 @@ export class ShowgamesComponent implements OnInit {
     }).catch(err=>console.log(err))
   }
 
+
+  flipinit(){
+    const result=[...this.selectedList];
+    console.log(result);
+    result.forEach(element => {
+      //console.log(element)
+      element.flipState='inactive'
+    });
+    this.selectedList = result;
+  }
+
   toggleFlip(index:any) {
     const result=[...this.selectedList];
     const {flipState}=result[index];
     result[index] = {...result[index], flipState: flipState ==  'inactive' ? 'active' : 'inactive' };
     this.selectedList = result;
-    console.log(index);
+    //console.log(index);
+    //console.log(result);
   }
 }
