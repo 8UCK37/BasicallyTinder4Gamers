@@ -143,9 +143,9 @@ export class ChatPageComponent implements OnInit {
     }
 
     toggleState(){
-      console.log("state:"+this.activeState)
+      //console.log("state:"+this.activeState)
       this.activeState=!this.activeState;
-      console.log("state:"+this.activeState)
+      //console.log("state:"+this.activeState)
       this.setActiveChoice(this.activeState);
     }
 
@@ -222,7 +222,7 @@ export class ChatPageComponent implements OnInit {
             }).catch(err=>console.log(err))
 
       }).catch(err=>console.log(err))
-      console.log(this.activeConvList)
+      //console.log(this.activeConvList)
     }
 }
 
