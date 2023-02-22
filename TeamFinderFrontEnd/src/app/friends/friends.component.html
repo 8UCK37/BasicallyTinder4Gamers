@@ -24,10 +24,10 @@
     <div class="row justify-content-md-center">
       <div>
         <div class="row" style="justify-content: space-between;">
-          <div class="col-3 friend-Box" *ngFor="let user of friendList" (click)="onclick(user.data.id)">
+          <div class="col-3 friend-Box" *ngFor="let user of friendList; let i=index" (click)="onclick(user.data.id)">
             <div style="margin-block-start: 9px;">
               <div class="profile-image">
-                <img [src]="dp.get(user.data.id)"/>
+                <img [src]="dp.get(user.data.id)" referrerpolicy="no-referrer" (error)="onDpError(i)"/>
               </div>
               <div class="friend-username">{{user.data.name}}
                 <i *ngIf="status.get(user.data.id)" class="fa-sharp fa-solid fa-circle"></i>
@@ -46,7 +46,7 @@
           <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user2 of pendingResults" >
             <div>
               <div class="profile-image" (click)="onclick(user2.id)">
-                <img [src]="user2.profilePicture" />
+                <img [src]="user2.profilePicture" referrerpolicy="no-referrer"/>
               </div>
               <div class="profile-username">{{user2.name}}
                 <br>
@@ -65,7 +65,7 @@
           <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user3 of sentPending" >
             <div>
               <div class="profile-image" (click)="onclick(user3.id)">
-                <img [src]="user3.profilePicture" />
+                <img [src]="user3.profilePicture" referrerpolicy="no-referrer"/>
               </div>
               <div class="friend-username">{{user3.name}}
                 <br>
