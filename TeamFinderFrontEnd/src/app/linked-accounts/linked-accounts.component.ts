@@ -11,6 +11,7 @@ import { ShowgamesComponent } from '../showgames/showgames.component';
 export class LinkedAccountsComponent implements OnInit {
 
   public steamId: string = '';
+  changeText: any=false;
   constructor(private route: ActivatedRoute, private router: Router) { }
   public usr: any;
   public userparsed: any;
@@ -92,6 +93,16 @@ export class LinkedAccountsComponent implements OnInit {
       console.log(this.steamInfo)
     }).catch(err => console.log(err))
 
+  }
+  getStyle() {
+    if (this.changeText) return `url(${this.steamInfo.info[0].avatarfull}) left center no-repeat`;
+    return `url("https://th.bing.com/th/id/OIP.nU9BElP8zdnYq1ckl5Ly2wAAAA?pid=ImgDet&rs=1") center center no-repeat`;
+  }
+  getSize(){
+    if (this.changeText)
+
+    return '480px'
+    return '300px'
   }
 //   getUrl() {
 //     return `url('${this.steamInfo.info[0].avatarfull}')`;

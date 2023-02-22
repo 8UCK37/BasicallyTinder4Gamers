@@ -1,9 +1,6 @@
-
-   /* steamInfo.info[0].avatarfull */
-   /* [ngStyle]="{'background-image': getUrl()} */
-   :root{
-
-   }
+/* steamInfo.info[0].avatarfull */
+/* [ngStyle]="{'background-image': getUrl()} */
+:root {}
 
 .container {
   height: 100vh;
@@ -17,19 +14,9 @@
   align-items: center;
   margin: 0 auto;
 }
-.border {
-  height: 369px;
-  width: 290px;
-  background: transparent;
-  border-radius: 10px;
-  transition: border 1s;
-  position: relative;
-}
-.border:hover {
-  border: 1px solid #fff;
-}
+
 .card {
-  height: 379px;
+  height: 300px;
   width: 300px;
   background: #808080;
   border-radius: 10px;
@@ -42,27 +29,28 @@
   align-items: center;
   position: relative;
 }
-.card0 {
-  background: url("https://th.bing.com/th/id/OIP.nU9BElP8zdnYq1ckl5Ly2wAAAA?pid=ImgDet&rs=1") center center no-repeat;
-  background-size: 300px;
-}
-.card0:hover {
-  /* background:url(var(`--image:${steamInfo.info[0].avatarfull}`)) left center no-repeat;*/
-  background-size: 600px;
-}
+
+.card0 {}
+
+.card0:hover {}
+
 .card0:hover h2 {
   opacity: 1;
 }
+
 .card0:hover .fa {
   opacity: 1;
 }
+
 h2 {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #623030;
-  margin: 20px;
+  color: #a23333;
+  margin-bottom: 230px;
+  margin-right: 155px;
   opacity: 0;
   transition: opacity 1s;
 }
+
 .fa {
   opacity: 0;
   transition: opacity 1s;
@@ -73,7 +61,8 @@ h2 {
   fill: #fff;
   color: #fff;
   height: 130px;
-  top: 226px;
+  top: 200px;
+  left: 6px;
   width: 50px;
   display: flex;
   flex-direction: column;

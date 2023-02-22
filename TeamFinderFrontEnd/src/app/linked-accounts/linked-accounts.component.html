@@ -10,20 +10,15 @@
   <a type="button" href="http://localhost:3000/auth/steam">Link Steam</a> -->
 </ng-container>
 <ng-container *ngIf="linked">
-  <div class="container text-center">
-    <div class="row">
+  <div class="row">
+    <div class="col">
       <div class="col">
-        <div class="col">
-          <div class="card card0 " style="background-image: url('https://th.bing.com/th/id/OIP.nU9BElP8zdnYq1ckl5Ly2wAAAA?pid=ImgDet&rs=1')"
-          onmouseover="this.style.background= 'red'"
-          >
-            <div class="border">
-              <h2>{{steamInfo.info[0].personaname }}</h2>
-              <div class="icons">
-                <a type="button" href="https://steamcommunity.com/profiles/{{steamId}}" target="_blank"><i
-                    class="fa fa-steam fa-2x" aria-hidden="true"></i></a>
-              </div>
-            </div>
+        <div class="card card0 " [ngStyle]="{ background: getStyle(),backgroundSize: getSize()}"
+          (mouseover)="changeText = true" (mouseout)="changeText = false">
+          <h2>{{steamInfo.info[0].personaname }}</h2>
+          <div class="icons">
+            <a type="button" href="https://steamcommunity.com/profiles/{{steamId}}" target="_blank"><i
+                class="fa fa-steam fa-2x" aria-hidden="true"></i></a>
           </div>
         </div>
       </div>
