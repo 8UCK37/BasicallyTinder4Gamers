@@ -133,7 +133,7 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
   if (fetchUser == null) {
     // console.log("user not found ")
 
-    const newUser = await prisma.User.create({
+    const newUser = await prisma.user.create({
       data: {
         id: req.user.user_id,
         name: req.user.name,
@@ -217,7 +217,7 @@ app.get("/sentPending", ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(result));
 })
 app.get("/friendData", ensureAuthenticated, async (req, res) => {
-  const result = await prisma.$queryRaw`select * from User where id in (select reciever from Friends where sender =${req.user.user_id})`
+  const result = await prisma.$queryRaw`select * from public."User" where id in (select reciever from public."Friends" where sender =${req.user.user_id})`
   // const jsonObject = req.body;
   // console.log(jsonObject)
   // let userFriends = await prisma.Friends.findMany({
@@ -242,6 +242,8 @@ app.get("/friendData", ensureAuthenticated, async (req, res) => {
   //   });
   //   res.send(JSON.stringify(serverResponse));
   // })
+ 
+  
   res.send(JSON.stringify(result));
 })
 
@@ -272,7 +274,7 @@ app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
   //     status: 'pending',
   //     reciever: req.user.user_id
   //   },
-    const result = await prisma.$queryRaw`select * from User where id in (select sender from FriendRequest where reciever =${req.user.user_id} and status='pending')`
+    const result = await prisma.$queryRaw`select * from public."User" where id in (select sender from public."FriendRequest" where reciever =${req.user.user_id} and status='pending')`
   // })
   // console.log(pendingReq)
   // let promises = [];
@@ -630,7 +632,7 @@ io.on('connection', (socket) => {
     socketUserMap.set(socket.id,msg.name)
     userSocketMap.set(msg.name,socket.id)
     try{
-    const updateStatus = await prisma.User.update({
+    const updateStatus = await prisma.user.update({
       where: {
         id: msg.name,
       },
@@ -647,7 +649,7 @@ io.on('connection', (socket) => {
     console.log('user disconnected with soc id: '+socket.id);
     //console.log(socketUserMap.get(socket.id))
     try{
-    const updateStatus = await prisma.User.update({
+    const updateStatus = await prisma.user.update({
       where: {
         id: socketUserMap.get(socket.id),
       },
