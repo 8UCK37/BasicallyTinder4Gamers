@@ -1,5 +1,6 @@
 import { json } from '@angular-devkit/core';
 import { forEach } from '@angular-devkit/schematics';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BoundElementProperty } from '@angular/compiler';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,7 +10,19 @@ import axios from 'axios';
 @Component({
   selector: 'app-showgames',
   templateUrl: './showgames.component.html',
-  styleUrls: ['./showgames.component.css']
+  styleUrls: ['./showgames.component.css'],
+  animations: [
+    trigger('flipState', [
+      state('active', style({
+        transform: 'rotateY(180deg)'
+      })),
+      state('inactive', style({
+        transform: 'rotateY(0)'
+      })),
+      transition('active => inactive', animate('500ms ease-out')),
+      transition('inactive => active', animate('500ms ease-in'))
+    ])
+  ]
 })
 export class ShowgamesComponent implements OnInit {
   public gameList:any[]=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
@@ -17,13 +30,14 @@ export class ShowgamesComponent implements OnInit {
   public result: any[]=[];
   public ownedGames:any;
   steamId: any;
-
+  flip: string = 'inactive';
   constructor(private modalService: NgbModal,private router: Router) { }
 
   ngOnInit(): void {
     //this.getOwnedGames();
     this.getOwnedGamesfrmDb();
     this.result=[];
+
   }
   openScrollableContent(longContent:any) {
 		this.modalService.open(longContent, { scrollable: true });
@@ -86,6 +100,7 @@ export class ShowgamesComponent implements OnInit {
       //console.log(this.result)
     }).catch(err=>console.log(err))
     this.selectedList=this.result
+    this.flipinit();
     //console.log(this.selectedList)
   }
   deleteAppid(){
@@ -115,5 +130,25 @@ export class ShowgamesComponent implements OnInit {
       }
       this.getSelectedGames();
     }).catch(err=>console.log(err))
+  }
+
+
+  flipinit(){
+    const result=[...this.selectedList];
+    console.log(result);
+    result.forEach(element => {
+      //console.log(element)
+      element.flipState='inactive'
+    });
+    this.selectedList = result;
+  }
+
+  toggleFlip(index:any) {
+    const result=[...this.selectedList];
+    const {flipState}=result[index];
+    result[index] = {...result[index], flipState: flipState ==  'inactive' ? 'active' : 'inactive' };
+    this.selectedList = result;
+    //console.log(index);
+    //console.log(result);
   }
 }

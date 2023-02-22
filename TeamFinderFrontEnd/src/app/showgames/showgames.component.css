@@ -467,3 +467,37 @@
 .btn-info{
   margin-left: 175px;
 }
+
+.tp-box {
+  position: relative;
+  margin: 3rem auto;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transform         : transform 1s;
+      -ms-transform         : transform 1s;
+          transform         : transform 1s;
+}
+.tp-box__side {
+   width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+
+  color:#171717;
+  text-align: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.tp-box__front {
+  -webkit-transform : rotateY(0deg);
+  -ms-transform     : rotateY(0deg);
+  transform         : rotateY(0deg);
+}
+.tp-box__back {
+  -webkit-transform : rotateY(-180deg);
+  -ms-transform     : rotateY(-180deg);
+  transform         : rotateY(-180deg);
+}

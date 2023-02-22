@@ -2,9 +2,10 @@
   <div class="profile-page-item flexbox">
     <ng-container  *ngFor="let game of selectedList;let i=index">
       <div *ngIf="game[1]">
-        <div class="card">
+        <div class="card tp-box" (click)="toggleFlip(i)" [@flipState]="game.flipState">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <img class="gamepic" src="https://steamcdn-a.akamaihd.net/steam/apps/{{game[0].appid}}/library_600x900.jpg">
+          <img class="gamepic tp-box__side tp-box__front" src="https://steamcdn-a.akamaihd.net/steam/apps/{{game[0].appid}}/library_600x900.jpg">
+          <div class="tp-box__side tp-box__back">gg</div>
         </div>
       </div>
   </ng-container>

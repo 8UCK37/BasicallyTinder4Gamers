@@ -23,6 +23,7 @@ export class LinkedAccountsComponent implements OnInit {
     this.steamId = this.route.snapshot.queryParams['steamid'];
     this.getSteamId();
     // this.setSteamId()
+    this.getSteamInfo();
   }
 
   callBackend(){
@@ -83,5 +84,9 @@ export class LinkedAccountsComponent implements OnInit {
       this.setSteamId(this.steamId)
     }
   }
-
+  getSteamInfo(){
+    axios.get('steamUserInfo',{params:{id:this.steamId}}).then(res=>{
+      console.log(res.data)
+    }).catch(err =>console.log(err))
+  }
 }
