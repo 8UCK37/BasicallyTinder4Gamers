@@ -97,9 +97,12 @@ export class ChatPageComponent implements OnInit {
     this.allMsgs.push({sender:this.to,rec:false,msg:this.values,time:this.getLocalTime()})
     //console.log(this.getLocalTime())
     this.scrollToBottom();
+    if(this.selectedFrndId!=this.to)
+    {
     setTimeout(() => {
       this.getActiveConvo();
     }, 400);
+    }
 
   }
 
@@ -184,7 +187,7 @@ export class ChatPageComponent implements OnInit {
         this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime()});
         if(recData.sender==this.selectedFrndId){
         this.scrollToBottom();
-        this.getActiveConvo();
+        //this.getActiveConvo();
         }else{
           this.notification.set(recData.sender,true);
           this.getActiveConvo();
