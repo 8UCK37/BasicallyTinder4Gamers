@@ -80,6 +80,7 @@ export class FrindsprofileComponent implements OnInit {
   }
   onDpError() {
     this.frndprofileurl = this.frndData.profilePicture;
+    console.log("dperror"+this.frndprofileurl)
   }
   onBannerError() {
     this.frndbannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
