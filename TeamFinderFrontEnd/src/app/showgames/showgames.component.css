@@ -471,14 +471,10 @@
 .tp-box {
   position: relative;
   margin: 3rem auto;
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-  -webkit-transform         : transform 1s;
-      -ms-transform         : transform 1s;
-          transform         : transform 1s;
+  perspective: 1000px;
 }
 .tp-box__side {
-   width: 100%;
+    width: 100%;
   height: 100%;
   position: absolute;
   backface-visibility: hidden;
@@ -486,18 +482,17 @@
   color:#171717;
   text-align: center;
   cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  transition: all 0.8s ease;
+  
 }
-.tp-box__front {
-  -webkit-transform : rotateY(0deg);
-  -ms-transform     : rotateY(0deg);
-  transform         : rotateY(0deg);
-}
+
 .tp-box__back {
-  -webkit-transform : rotateY(-180deg);
-  -ms-transform     : rotateY(-180deg);
-  transform         : rotateY(-180deg);
+    transform: rotateY(180deg);
+}
+.tp-box:hover .tp-box__back {
+    transform: rotateY(0);
+}
+
+.tp-box:hover .tp-box__front {
+    transform: rotateY(-180deg);
 }
