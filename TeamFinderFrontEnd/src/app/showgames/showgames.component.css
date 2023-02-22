@@ -1,5 +1,4 @@
 .flexbox {
-    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -203,6 +202,7 @@
     margin: 0;
     flex-grow: 1;
     position: relative;
+
     gap: 50px;
     padding-right: 2px;
 }
