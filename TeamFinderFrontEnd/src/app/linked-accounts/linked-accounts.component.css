@@ -47,6 +47,7 @@ h2 {
   color: #a23333;
   margin-bottom: auto;
   margin-right: auto;
+  margin-left: 6px;
   opacity: 0;
   transition: opacity 1s;
 }
