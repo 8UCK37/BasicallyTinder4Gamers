@@ -24,6 +24,7 @@ export class FriendsComponent implements OnInit {
   public sentPending:any[]=[];
   public profileurl: any;
   public online:boolean=false;
+
   public status=new Map();
   public dp=new Map();
   ngOnInit(): void {
@@ -74,7 +75,7 @@ export class FriendsComponent implements OnInit {
         this.dp.set(data.id,`http://localhost:3000/static/profilePicture/${data.id}.jpg`)
       });
     }).catch(err => console.log(err))
-    //console.log(this.status)
+    console.log(this.friendList)
   }
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {
@@ -117,6 +118,10 @@ export class FriendsComponent implements OnInit {
       });
     }).catch(err => console.log(err))
     //console.log(this.sentPending)
+  }
+  onDpError(i:any) {
+    this.dp.set(this.friendList[i].data.id,this.friendList[i].data.profilePicture)
+    //console.log("dperror"+this.dp)
   }
   toggle() {
     this.pendingResults=[];

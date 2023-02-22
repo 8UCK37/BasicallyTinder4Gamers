@@ -30,7 +30,7 @@
                 <div class="wrapper" >
                   <i *ngIf="notification.get(frnd.id)" class="fa fa-bell icon"></i>
                 </div>
-                <img [src]="frnd.profilePicture" />
+                <img [src]="frnd.profilePicture" referrerpolicy="no-referrer"/>
                 <span class="chat-list-name">{{ frnd.name }}</span>
                 <i *ngIf="status.get(frnd.id)" class="fa-sharp fa-solid fa-circle"></i>
               </div>
@@ -58,7 +58,7 @@
       <div class="chat-container">
         <div class="user-bar">
           <div class="avatar">
-            <img [src]="selectedFrnd.profilePicture" alt="Avatar">
+            <img [src]="selectedFrnd.profilePicture" referrerpolicy="no-referrer"alt="Avatar">
           </div>
           <div class="name">
             <span>{{selectedFrnd.name}}</span>

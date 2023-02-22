@@ -57,10 +57,14 @@ export class FrindsprofileComponent implements OnInit {
   }
   sendReq(){
     //console.log(this.userparsed.uid);
+    if(this.btnTxt!='Pending'){
     axios.post('addFriend', { from: this.userparsed.uid, to:this.frndData.id}).then(res => {
       //console.log("sent req", res)
       this.btnTxt="Pending";
     }).catch(err => console.log(err))
+    }else{
+      //console.log("a pending req exists")
+    }
   }
   ifFriend(){
     axios.post('isFriend',{id:this.frnd_id}).then(res => {
@@ -80,6 +84,7 @@ export class FrindsprofileComponent implements OnInit {
   }
   onDpError() {
     this.frndprofileurl = this.frndData.profilePicture;
+    console.log("dperror"+this.frndprofileurl)
   }
   onBannerError() {
     this.frndbannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';

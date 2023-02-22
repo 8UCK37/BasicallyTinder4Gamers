@@ -97,7 +97,10 @@ export class ChatPageComponent implements OnInit {
     this.allMsgs.push({sender:this.to,rec:false,msg:this.values,time:this.getLocalTime()})
     //console.log(this.getLocalTime())
     this.scrollToBottom();
-    this.getActiveConvo();
+    setTimeout(() => {
+      this.getActiveConvo();
+    }, 400);
+
   }
 
   getfriendlist(){
@@ -140,9 +143,9 @@ export class ChatPageComponent implements OnInit {
     }
 
     toggleState(){
-      console.log("state:"+this.activeState)
+      //console.log("state:"+this.activeState)
       this.activeState=!this.activeState;
-      console.log("state:"+this.activeState)
+      //console.log("state:"+this.activeState)
       this.setActiveChoice(this.activeState);
     }
 
@@ -219,6 +222,7 @@ export class ChatPageComponent implements OnInit {
             }).catch(err=>console.log(err))
 
       }).catch(err=>console.log(err))
+      //console.log(this.activeConvList)
     }
 }
 

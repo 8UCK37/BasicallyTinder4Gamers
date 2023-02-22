@@ -135,7 +135,7 @@ export class ShowgamesComponent implements OnInit {
 
   flipinit(){
     const result=[...this.selectedList];
-    console.log(result);
+    //console.log(result);
     result.forEach(element => {
       //console.log(element)
       element.flipState='inactive'
