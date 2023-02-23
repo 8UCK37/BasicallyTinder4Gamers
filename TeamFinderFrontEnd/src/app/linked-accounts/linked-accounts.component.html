@@ -36,7 +36,7 @@
 
     <i class="fa-brands fa-steam fa-3x" (click)="link.click()" style="cursor: pointer;"></i>
     </ng-container>
-    <i *ngIf="linked" class="fa-brands fa-steam fa-3x" style="cursor: pointer;" ></i>
+    <i *ngIf="linked" class="fa-brands fa-steam fa-3x" ></i>
 
     </div>
     <ng-container *ngIf="linked">
@@ -48,7 +48,7 @@
               <h2>{{steamInfo.info[0].personaname }}</h2>
               <div class="icons">
                 <a type="button" href="https://steamcommunity.com/profiles/{{steamId}}" target="_blank">
-                  <i class="fa fa-steam fa-2x" aria-hidden="true"></i></a>
+                  <i class="fa fa-steam fa-2x" aria-hidden="true" style="top: 30px;right: 15px;"></i></a>
               </div>
             </div>
           </div>
