@@ -45,8 +45,9 @@
 h2 {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #a23333;
-  margin-bottom: 230px;
-  margin-right: 155px;
+  margin-bottom: auto;
+  margin-right: auto;
+  margin-left: 6px;
   opacity: 0;
   transition: opacity 1s;
 }
