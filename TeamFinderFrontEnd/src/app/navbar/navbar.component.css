@@ -19,6 +19,7 @@ nav {
   justify-content: space-between;
   position: fixed;
   z-index: 15;
+  background-color: #262626;
 }
 app-app-search{
   width: 629px;

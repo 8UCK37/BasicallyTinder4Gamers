@@ -16,8 +16,8 @@
 }
 
 .card {
-  height: 150px;
-  width: 150px;
+  height: 250px;
+  width: 250px;
   background: #808080;
   border-radius: 10px;
   transition: background 0.8s;
@@ -47,9 +47,9 @@ h2 {
   color: #a23333;
   margin-bottom: auto;
   margin-right: auto;
+  margin-left: 6px;
   opacity: 0;
   transition: opacity 1s;
-  font-size:larger;
 }
 
 .fa {
@@ -62,8 +62,8 @@ h2 {
   fill: #fff;
   color: #fff;
   height: 130px;
-  top: 65px;
-  left: 2px;
+  top: 150px;
+  left: 6px;
   width: 50px;
   display: flex;
   flex-direction: column;
