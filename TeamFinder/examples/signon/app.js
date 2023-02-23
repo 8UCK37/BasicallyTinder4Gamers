@@ -623,6 +623,20 @@ app.get('/getOwnedgames',ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(fetchedGames))
 });
 
+app.post('/getFrndOwnedgames',ensureAuthenticated, async (req, res) => {
+  const jsonObject = req.body;
+  let fetchedGames = await prisma.OwnedGames.findMany({
+    where:{
+      uid:jsonObject.frnd_id
+    },
+    select:{
+      games:true,
+    }
+  })
+  res.send(JSON.stringify(fetchedGames))
+});
+
+
 
 io.on('connection', (socket) => {
   console.log('a user connected' , socket.id);

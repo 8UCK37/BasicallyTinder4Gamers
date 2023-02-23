@@ -13,6 +13,7 @@ export class ShowfriendgamesComponent implements OnInit {
   public usr: any;
   public userparsed: any;
   public showcase:any[]=[];
+  public frndownedgames:any[]=[]
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
@@ -25,8 +26,21 @@ export class ShowfriendgamesComponent implements OnInit {
   }
   getShowCase(){
     this.showcase=[];
-    axios.post('getFrndSelectedGames',{frnd_id:this.frnd_id}).then(res=>{
-      this.showcase=res.data
+    this.frndownedgames=[];
+    axios.post('getFrndOwnedGames',{frnd_id:this.frnd_id}).then(res=>{
+      this.frndownedgames=JSON.parse(JSON.parse(res.data[0].games))
+      //console.log(this.frndownedgames)
+      axios.post('getFrndSelectedGames',{frnd_id:this.frnd_id}).then(res=>{
+        res.data.forEach((selected: any) => {
+          this.frndownedgames.forEach(owned => {
+            //console.log(selected.appid)
+            if(owned.appid==selected.appid){
+              this.showcase.push(owned)
+            }
+          });
+        });
+      }).catch(err =>console.log(err))
+      //console.log(this.showcase)
     }).catch(err =>console.log(err))
   }
 }
