@@ -1,17 +1,19 @@
 <main>
-    <div class="hero page-bg">
-        <!-- <nav class="nav-bg">
-            <img src="./../../assets/icon-resource/logo-no-background.png" class="logo">
+  <div style="height:120px"></div>
+    <input #image type="file" name="" id="">
+    <input #tagInput type="text" placeholder="tags">
+    <button (click)="addTagToList()"> add tag</button>
+    <br/>
+    <div *ngFor="let tags of tagsList">
+      <span> {{tags}}</span>
+      <br/>
+    </div>
+    <button  style="width: 100px;height: 50px;" (click)="uploadPostFile()">upload</button>
+    <div class="hero page-bg" style="">
+     <div *ngFor="let post of posts">
 
-            <ul>
-                <li><a >Home</a></li>
-                <li><a >Features</a></li>
-                <li><a >About</a></li>
-                <li><a >Contact</a></li>
-                <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li>
-            </ul>
-
-            <img [src]="userparsed.photoURL" class="user-pic" (click)="toggleMenu()" alt="logout.png"> -->
+      <img [src]="post" alt="" height="400px">
+     </div>
 
   </div>
 

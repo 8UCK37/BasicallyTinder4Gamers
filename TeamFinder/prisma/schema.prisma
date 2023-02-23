@@ -55,3 +55,22 @@ model OwnedGames{
   createdAt DateTime @default(now())
   games String
 }
+
+
+model Posts{
+  id        Int   @id @default(autoincrement())
+  author    String 
+  createdAt DateTime @default(now())
+  data     String
+}
+model Tags{
+  id Int   @id @default(autoincrement())
+  tagName String
+  post Int
+}
+model Activity{
+  id Int   @id @default(autoincrement())
+  post Int 
+  weight Int
+  author Int
+}
