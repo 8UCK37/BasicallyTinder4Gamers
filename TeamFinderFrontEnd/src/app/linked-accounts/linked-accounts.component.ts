@@ -100,9 +100,8 @@ export class LinkedAccountsComponent implements OnInit {
   }
   getSize(){
     if (this.changeText)
-
-    return '480px'
-    return '300px'
+    return '190px'
+    return '150px'
   }
 //   getUrl() {
 //     return `url('${this.steamInfo.info[0].avatarfull}')`;

@@ -404,6 +404,7 @@ app.get("/steamUserInfo", ensureAuthenticated,async (req, res) => {
 });
 
 
+
 app.get('/activeState',ensureAuthenticated,async(req,res)=>{
   let activeStateData = await prisma.User.findMany({
     where: {
@@ -635,7 +636,6 @@ app.post('/getFrndOwnedgames',ensureAuthenticated, async (req, res) => {
   })
   res.send(JSON.stringify(fetchedGames))
 });
-
 
 
 io.on('connection', (socket) => {
