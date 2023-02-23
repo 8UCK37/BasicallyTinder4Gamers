@@ -70,3 +70,32 @@ h2 {
   align-items: center;
   justify-content: space-around;
 }
+
+
+.con{
+  height: 150px;
+  width: auto ;
+  border-radius: 20px;
+  color: rgb(249, 250, 250);
+  background-color: #262626;
+
+}
+
+h1{
+  position: absolute;
+  margin-top: 0.8rem;
+  margin-left: 1rem;
+  font-size: larger;
+}
+
+.fa-steam{
+  color:#4e7aaf;
+  position: absolute;
+  margin-top: 4.5rem;
+  margin-left: 1rem;
+}
+
+.col :nth-child(1){
+  margin-top: 20px;
+
+}
