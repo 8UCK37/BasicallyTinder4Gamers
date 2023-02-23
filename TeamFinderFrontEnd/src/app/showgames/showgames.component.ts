@@ -89,10 +89,12 @@ export class ShowgamesComponent implements OnInit {
   getSelectedGames(){
     axios.get('getSelectedGames').then(res=>{
       //console.log(res.data)
+
       res.data.forEach((element: any) => {
           this.result.forEach((gameEle: any) => {
             //console.log(gameEle[1])
             if(element.appid==gameEle[0].appid){
+              gameEle[0].playtime_forever=(gameEle[0].playtime_forever/60).toFixed(2)
               gameEle[1]=true
             }
           });
