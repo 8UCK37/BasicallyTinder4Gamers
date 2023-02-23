@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'first-component', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
-  { path: 'chat', pathMatch: 'full', component: ChatPageComponent },
+  { path: 'chat', pathMatch: 'full', component: ChatPageComponent, canActivate: [AuthGuard]},
   { path: 'search', pathMatch: 'full', component: AppSearchComponent , canActivate: [AuthGuard]},
   { path: 'user', pathMatch: 'full', component: FrindsprofileComponent , canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: LoginComponent, canActivate: [AuthGuard] },
