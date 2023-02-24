@@ -110,8 +110,16 @@ h1{
   justify-content: space-around;
 }
 
-
 .col :nth-child(1){
   margin-top: 20px;
 
 }
+
+.fa-battle-net{
+  color:#4e7aaf;
+  position: absolute;
+  font-size: 45px;
+  margin-top: 4.5rem;
+  margin-left: 5rem;
+}
+
