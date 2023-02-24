@@ -29,34 +29,31 @@
 
 
 
-  <div class="con" >
-    <h1>Securely Link Accounts to Your Profile</h1>
-    <ng-container *ngIf="unlinked" >
-    <a  #link type="button" href="http://localhost:3000/auth/steam"  style="display:none ;"></a>
-
+<div class="con">
+  <h1>Securely Link Accounts to Your Profile</h1>
+  <ng-container *ngIf="unlinked">
+    <a #link type="button" href="http://localhost:3000/auth/steam" style="display:none ;"></a>
     <i class="fa-brands fa-steam fa-3x" (click)="link.click()" style="cursor: pointer;"></i>
-    </ng-container>
-    <i *ngIf="linked" class="fa-brands fa-steam fa-3x" ></i>
+  </ng-container>
+  <i *ngIf="linked" class="fa-brands fa-steam fa-3x"></i>
+  <ng-container>
+    <i class="fa-brands fa-battle-net"></i>
+  </ng-container>
+</div>
+<ng-container *ngIf="linked">
+  <div class="row">
+    <div class="col">
+      <div class="col">
+        <div class="card card0 " [ngStyle]="{ background: getStyle(),backgroundSize: getSize()}"
+          (mouseover)="changeText = true" (mouseout)="changeText = false">
+          <h2>{{steamInfo.info[0].personaname }}</h2>
+          <div class="icons">
+            <a type="button" href="https://steamcommunity.com/profiles/{{steamId}}" target="_blank">
+              <i class="fa fa-steam fa-2x" aria-hidden="true" style="top: 30px;right: 15px;"></i></a>
 
-    </div>
-    <ng-container *ngIf="linked">
-      <div class="row">
-        <div class="col">
-          <div class="col">
-            <div class="card card0 " [ngStyle]="{ background: getStyle(),backgroundSize: getSize()}"
-              (mouseover)="changeText = true" (mouseout)="changeText = false">
-              <h2>{{steamInfo.info[0].personaname }}</h2>
-              <div class="icons">
-                <a type="button" href="https://steamcommunity.com/profiles/{{steamId}}" target="_blank">
-                  <i class="fa fa-steam fa-2x" aria-hidden="true" style="top: 30px;right: 15px;"></i></a>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-    </ng-container>
-
-
-
-
-
+    </div>
+  </div>
+</ng-container>
