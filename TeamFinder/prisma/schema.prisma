@@ -72,5 +72,7 @@ model Activity{
   id Int   @id @default(autoincrement())
   post Int 
   weight Int
-  author Int
+  author String
+  createdAt DateTime @default(now())
+  type String
 }

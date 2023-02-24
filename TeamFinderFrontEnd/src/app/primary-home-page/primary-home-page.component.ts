@@ -34,7 +34,7 @@ export class PrimaryHomePageComponent implements OnInit {
       console.log(res.data)
       res.data.forEach((url : any)=> {
         let eachUrl  ="http://localhost:3000/static/post/" + url.data
-        this.posts.push(eachUrl)
+        this.posts.push({url : eachUrl, id : url.id})
       });
     })
    }
@@ -63,5 +63,10 @@ export class PrimaryHomePageComponent implements OnInit {
     this.tagsList.push(this.tagInput.nativeElement.value)
     this.tagInput.nativeElement.value = ""
   }
-
+  likeButtonClick(post:any){
+    axios.get(`/likePost?id=${post.id}` ).then(res =>{
+      console.log(res)
+    })
+    console.log(post)
+  }
 }
