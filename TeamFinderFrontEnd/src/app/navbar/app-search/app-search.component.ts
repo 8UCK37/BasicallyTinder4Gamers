@@ -48,7 +48,7 @@ export class AppSearchComponent implements OnInit {
     await axios.post('searchFriend',{searchTerm: this.selected}).then(res=>{
       this.searchResults=res.data;
     }).catch(err=>console.log(err))
-  }
+    }
   else{
     this.searchResults=[];
   }
