@@ -16,14 +16,17 @@ export class PrimaryHomePageComponent implements OnInit {
   public show:boolean=true;
   public formData: any;
   public tagsList : string[] = [];
+  selectedImage: any;
 
   constructor(public user: UserService ,private renderer: Renderer2 ) { }
 
   public usr:any;
   public userparsed:any;
   public posts : any[] = [];
-  @ViewChild('image') input!:ElementRef;
+  @ViewChild('imageInput') input!:ElementRef;
   @ViewChild('tagInput') tagInput!:ElementRef;
+  imageFile!: File;
+  imageSrcs: string[] = [];
   ngOnInit(): void {
     this.fetchPost()
 
@@ -69,4 +72,25 @@ export class PrimaryHomePageComponent implements OnInit {
     })
     console.log(post)
   }
+
+
+  onFileSelected(event: any): void {
+    const files: File[] = this.input.nativeElement.files;
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = e => this.imageSrcs.push(reader.result as string);
+        reader.readAsDataURL(files[i]);
+      }
+    }
+  }
+  removeImage(index: number): void {
+    this.imageSrcs.splice(index, 1);
+  }
+
+  clearImages(): void {
+    this.imageSrcs = [];
+  }
 }
+
+

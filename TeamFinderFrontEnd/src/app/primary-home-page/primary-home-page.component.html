@@ -1,21 +1,45 @@
-<main>
-  <div style="height:120px"></div>
-    <input #image type="file" name="" id="">
-    <input #tagInput type="text" placeholder="tags">
-    <button (click)="addTagToList()"> add tag</button>
-    <br/>
-    <div *ngFor="let tags of tagsList">
-      <span> {{tags}}</span>
-      <br/>
+<main style="padding-top: 100px;">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Post Story
+  </button>
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Post Generator</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h4>Tag you Friends or whatever you feel like</h4>
+          <br>
+          <app-utiliyTag></app-utiliyTag>
+          <br>
+          <h4>Uplode File</h4>
+          <br>
+          <div class="card">
+            <input #imageInput type="file" (change)="onFileSelected($event)" multiple>
+            <div *ngIf="imageSrcs.length" class="card">
+              <h4>Selected Images:</h4>
+              <button class="btn btn-secondary"(click)="clearImages()">Remove All</button>
+              <br>
+              <div *ngFor="let imageSrc of imageSrcs; let i = index;" class="card">
+                <div class="image-preview" class="card">
+                  <img [src]="imageSrc" alt="Selected Image">
+                  <button type="button" class="btn btn-secondary" (click)="removeImage(i)">Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="uploadPostFile()">Post</button>
+        </div>
+      </div>
     </div>
-    <button  style="width: 100px;height: 50px;" (click)="uploadPostFile()">upload</button>
-    <div class="hero page-bg" style="">
-     <div *ngFor="let post of posts ; index as i">
-
-      <img [src]="post.url" alt="" height="400px">
-      <button (click)="likeButtonClick(post)"> like </button>
-     </div>
-
   </div>
-
 </main>

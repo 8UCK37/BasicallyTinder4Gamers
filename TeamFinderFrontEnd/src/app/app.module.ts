@@ -20,7 +20,7 @@ import { ShowgamesComponent } from './showgames/showgames.component';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
 import { FriendsComponent } from './friends/friends.component';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AppSearchComponent } from './navbar/app-search/app-search.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import { TypeaheadModule} from 'ngx-bootstrap/typeahead';
@@ -32,6 +32,8 @@ import { ShowfriendpostsComponent } from './showfriendposts/showfriendposts.comp
 import { ShowfriendfriendlistComponent } from './showfriendfriendlist/showfriendfriendlist.component';
 import { PendingRequestComponent } from './pending-request/pending-request.component';
 import { FriendlinkedacountComponent } from './friendlinkedacount/friendlinkedacount.component';
+import { TagInputModule } from 'ngx-chips';
+import { UtiliyTagComponent } from './primary-home-page/utiliyTag/utiliyTag.component';
 
 
 @NgModule({
@@ -53,6 +55,7 @@ import { FriendlinkedacountComponent } from './friendlinkedacount/friendlinkedac
       ShowfriendfriendlistComponent,
       PendingRequestComponent,
       FriendlinkedacountComponent,
+      UtiliyTagComponent
    ],
   imports: [
     BrowserModule,
@@ -66,7 +69,9 @@ import { FriendlinkedacountComponent } from './friendlinkedacount/friendlinkedac
     TooltipModule.forRoot(),
     TypeaheadModule,
     FontAwesomeModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TagInputModule,
+    ReactiveFormsModule,
   ],
   providers: [
     ChatServicesService

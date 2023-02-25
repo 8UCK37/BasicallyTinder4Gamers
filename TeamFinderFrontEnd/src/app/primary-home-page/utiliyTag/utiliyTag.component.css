@@ -1,0 +1,5 @@
+.force-to-the-bottom {
+  min-width: inherit;
+  position: relative;
+  border-right: 100px;
+}
