@@ -317,12 +317,13 @@ app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function 
   const searchresult = await prisma.User.findMany({
     where: {
       name: {
-        contains: jsonObject.searchTerm
+        contains: jsonObject.searchTerm,
+        mode: 'insensitive',
       },
-    },
-    take: 2
+    }
   })
-  //console.log(searchresult)
+  console.log("searchresults for"+jsonObject.searchTerm)
+  console.log(searchresult)
   res.send(JSON.stringify(searchresult));
   //res.sendStatus(200);
 });

@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { UserService } from 'src/app/login/user.service';
@@ -12,11 +11,9 @@ import { UserService } from 'src/app/login/user.service';
 })
 export class AppSearchComponent implements OnInit {
   @ViewChild('dropdown', { static: true }) dropdown: ElementRef;
-  faCoffee = faCoffee;
   selected?: string;
   searchResults: any[] = [];
   public show:boolean =true;
-
   constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private router: Router) {
     this.dropdown = new ElementRef(null)
   }
@@ -45,17 +42,16 @@ export class AppSearchComponent implements OnInit {
   ngOnDestroy() {
     document.removeEventListener('click', this.handleClickOutside.bind(this));
   }
-  getUsers(){
+  async getUsers(){
     this.searchResults=[];
-    axios.post('searchFriend',{searchTerm: this.selected}).then(res=>{
-      // res.data.forEach((element: { name: string; }) => {
-      //   this.searchResults.push(element.name);
-      // });
-      res.data.forEach((element: {id:string, name: string,profilePicture:string; }) => {
-        this.searchResults.push({id:element.id,name:element.name,dp:element.profilePicture});
-      });
-      //console.log(res.data)
+    if(this.selected?.length!=0){
+    await axios.post('searchFriend',{searchTerm: this.selected}).then(res=>{
+      this.searchResults=res.data;
     }).catch(err=>console.log(err))
+  }
+  else{
+    this.searchResults=[];
+  }
   }
   sendReq(data:string){
     axios.post('addFriend',{from:this.userparsed.uid,to:data}).then(res=>{

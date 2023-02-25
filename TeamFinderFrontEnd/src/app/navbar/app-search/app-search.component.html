@@ -7,7 +7,7 @@
       <div class="row" *ngFor="let user of searchResults" (click)="onclick(user.id)">
         <div class="col">
           <div class="profile-image">
-            <img [src]="user.dp" />
+            <img [src]="user.profilePicture" referrerpolicy="no-referrer" />
           </div>
           <div class="profile-username">{{user.name}}</div>
         </div>
