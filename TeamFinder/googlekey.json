@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "divine-axis-379007",
+  "private_key_id": "bf47289ddac67e1c73df958fbcb39406c961305c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDPKX1iAWetCzBi\n3AeuL2AhHAzRAM3ne8CkRNGmJ5/IgDcxE+Lsvx/DmJ9EmaMwgpHc8Fjnm28ezqVL\ndFgxDUwLNa5J6z3367u/mT0suMl/DEPGO1mbpvXcj9riifk9INNNaow5zzgwBkUQ\ni0JZPoJ4reO8pLtHG+mP2yWDyQtRCHckNR/AfcO5tM/7+z9l3xwdshRDJF2yElAW\njP5tGktKm1wSArNcJ16SXDI6dzsxXoVOF7OBD/RxprfScGCdhvYJnwzGxY/uDlv/\nczXcoHWwJlTfqurIfGG2IJOf7FwK1UxT52yiR7+hGq6xhObvK7wu+k25pved2wv5\nezrxT7njAgMBAAECggEADKBoQoF4ar0sWVI066J6lvoJM/H7GtlZoAmLx7dRj1x1\nQLoIEksB6h+S0ZEVt761mkRR/ufj6XpJ6+Pu/ipj0KkYcuvyLnrBSkfSSTgIHATI\n2rvCVfDiumtQOY+UT+wAxQ6x9lIRiCfRrNT4Gc1sEWPz5gsaWRaz8S83xaUK2gjw\nevU6kKi4sbJNPoNo3S9veUz3WSg7XdfakoJQsF8Ki1p4BxDFSYf1s1j/ZiJbSbaE\nfwkID/yQXcxybQdJLSxYHh1HNJnzdNQ2LGCzcPJHIf4zHa0jH4azPeBWZB9KdzPf\nFA+NK0gxCuxQQonUlyV1q44bY29hN6WFpLIEKvM/YQKBgQDo6U5lNJqPILMIGrAs\ncDugAFmR2xZxaUdw17xaDtHb67h52a4uIakvvfnAuPzVF8DBgLYAsGqg1qVhHTt8\nzYt0zyX2GMaay+vAanDVGg/cTxpwtCa6DqLCNIiwNTX/Jb3md/uwT3fQSe/QY6Pe\n1MmZjgSWyWNL0Sza48hFwNzR4QKBgQDjsruQWgIzk9ke5DtAjVkZsTNsxNEaEgwO\nGkKLx08CbXcovy87BvNBz+K7ZBPMefQDmT6CAsEuquEGHlyUUFFM1splWwYZhHe3\ndGWAeWTrAo8rODi9SvT4tkTH7PW1Vj/Z/bgQ3cvYMoStGBI+OhqPg3YmnADZdev8\ndFjTm/ZMQwKBgQDkyQhw8ZNBNOWn+E9F15k6Oh3B4GvTS48ZkVE7RYNve8TiLKmk\nNvxyITLL1OrGh2aYrU4arzCOfUpGcuiUV3O9ch3f98ZfGCCkCep76fXaevmF6/B+\noxHNor0CGcLIttIrKYDaV7VhrL8c/ENkB7FgXNi1JW2cdASTn1yC6EgBAQKBgApO\n8izj1kutetvqK0CN5aXDHvfipTDP9lnBGJgpastKV2Wx2hqLAwJMvhALxNWyA7kR\n/AF4zHQnak6Tm09fn36iDsGt8EXBeIYGr/20ATyefgrP3cm8FgEYh16hvLH7+KIO\n2YFx+SONjfIkL9c/XCp5IiU3VNaDfy6LueXCntDvAoGAcEnWtEgv6IA6nxDWaubO\nUob/ywAfV21TIDJG0ph5r/S15ieP37LIMBEBUyN33xtgWooyrzJ1nioGxhGvq07E\n8P3zfk2Xeoq2aeOaFqJPnvKbCq57jkj2z67jfu2LWRoEWV/VVWnRkk/QVYxy7oxF\nV03IYd0xwhe2t2sh1Wd3XxY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "teamfinderserviceaccount@divine-axis-379007.iam.gserviceaccount.com",
+  "client_id": "107633929019171139483",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/teamfinderserviceaccount%40divine-axis-379007.iam.gserviceaccount.com"
+}

@@ -50,7 +50,7 @@ const bannerStr = multer.diskStorage({
   }
 })
 
-const uploadPostStorage = multer.diskStorage({
+const uploadPostStorage = multer.memoryStorage({
   destination: function (req, file, cb) {
     cb(null,  path.join(__dirname + './../../public/post'))
   },
