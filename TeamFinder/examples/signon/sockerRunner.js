@@ -37,7 +37,7 @@ async function execute(io , socketUserMap ,  userSocketMap){
           socketUserMap.delete(socket.id)
           console.log(socketUserMap)
         }catch(err){
-          console.log("probs new user disc lol"+err)
+          console.log("probs new user disc lol")
         }
         });
         

@@ -12,7 +12,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class ChatPageComponent implements OnInit {
   @ViewChild('messageContainer', {static: false}) messageContainer!: ElementRef;
-  
+
   name = 'Angular';
   message = '';
   showEmojiPicker = false;
@@ -166,6 +166,7 @@ export class ChatPageComponent implements OnInit {
     }
 
     onclick(frndid:any){
+      this.values='';
       this.fetchChatData(frndid);
       this.selectedFrndId=frndid;
       this.selectedFrnd=null;
@@ -251,7 +252,7 @@ export class ChatPageComponent implements OnInit {
       console.log(message);
       console.log(`${event.emoji.native}`)
       const text = `${message}${event.emoji.native}`;
-  
+
       this.values += text;
       // this.showEmojiPicker = false;
     }

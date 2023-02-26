@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import { ChatServicesService } from '../chat-page/chat-services.service';
 import { UserService } from '../login/user.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-primary-home-page',
@@ -18,7 +18,7 @@ export class PrimaryHomePageComponent implements OnInit {
   public tagsList : string[] = [];
   selectedImage: any;
 
-  constructor(public user: UserService ,private renderer: Renderer2 ) { }
+  constructor(private modalService: NgbModal,public user: UserService ,private renderer: Renderer2 ) { }
 
   public usr:any;
   public userparsed:any;
@@ -57,7 +57,8 @@ export class PrimaryHomePageComponent implements OnInit {
     //console.log(this.input)
     console.log(this.formData)
     this.tagsList = []
-    this.fetchPost()
+    this.fetchPost();
+    
   }
   toggleMenu() {
     this.show=!this.show;
