@@ -1,3 +1,7 @@
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient()
+
+
 async function createPost(req, res, prisma){
     let newPost = await prisma.Posts.create({
         data :{
