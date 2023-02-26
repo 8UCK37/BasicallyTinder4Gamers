@@ -34,7 +34,7 @@ import { PendingRequestComponent } from './pending-request/pending-request.compo
 import { FriendlinkedacountComponent } from './friendlinkedacount/friendlinkedacount.component';
 import { TagInputModule } from 'ngx-chips';
 import { UtiliyTagComponent } from './primary-home-page/utiliyTag/utiliyTag.component';
-
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [
@@ -72,6 +72,7 @@ import { UtiliyTagComponent } from './primary-home-page/utiliyTag/utiliyTag.comp
     BrowserAnimationsModule,
     TagInputModule,
     ReactiveFormsModule,
+    PickerModule
   ],
   providers: [
     ChatServicesService
