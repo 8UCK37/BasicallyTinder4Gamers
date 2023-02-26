@@ -89,7 +89,6 @@ export class ShowgamesComponent implements OnInit {
   getSelectedGames(){
     axios.get('getSelectedGames').then(res=>{
       //console.log(res.data)
-
       res.data.forEach((element: any) => {
           this.result.forEach((gameEle: any) => {
             //console.log(gameEle[1])
@@ -102,7 +101,6 @@ export class ShowgamesComponent implements OnInit {
       //console.log(this.result)
     }).catch(err=>console.log(err))
     this.selectedList=this.result
-
     console.log(this.selectedList)
   }
   deleteAppid(){
@@ -122,6 +120,8 @@ export class ShowgamesComponent implements OnInit {
     }).catch(err =>console.log(err))
   }
   getOwnedGamesfrmDb(){
+    this.result=[];
+    this.gameList=[];
     axios.get('getOwnedgames').then(res=>{
       const ownedGames=JSON.parse(JSON.parse(res.data[0].games))
       ownedGames.forEach((element: any) => {

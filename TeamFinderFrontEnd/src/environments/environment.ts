@@ -5,14 +5,14 @@
 export const environment = {
   production: false,
 	SOCKET_ENDPOINT: 'http://localhost:5000',
-  firebaseConfig: {
-    apiKey: "AIzaSyDWKkHHqpBi7T59CXsctG3OVO0Skt2u0bA",
-  authDomain: "teamfinder42069.firebaseapp.com",
-  projectId: "teamfinder42069",
-  storageBucket: "teamfinder42069.appspot.com",
-  messagingSenderId: "191592069132",
-  appId: "1:191592069132:web:9c7aae51069932483f5629",
-  measurementId: "G-NHWRHE2Z32"
+  firebaseConfig : {
+    apiKey: "AIzaSyDpR4P95ehxX3iN0IwLjVM8KFWP6JCN33Q",
+    authDomain: "teamfinder-e7048.firebaseapp.com",
+    projectId: "teamfinder-e7048",
+    storageBucket: "teamfinder-e7048.appspot.com",
+    messagingSenderId: "760131924547",
+    appId: "1:760131924547:web:9e93ae9834f848699fdaf6",
+    measurementId: "G-Q0LNWXCFB6"
   }
 };
 
