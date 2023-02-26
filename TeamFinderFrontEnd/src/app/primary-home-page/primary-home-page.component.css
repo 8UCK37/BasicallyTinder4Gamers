@@ -116,3 +116,34 @@ nav ul li a{
 .app-logo svg .path-2 {
   fill: white;
 }
+.page
+{
+  min-height: 100vh;
+  background-color:  #171717;
+  padding-top: 100px;
+}
+
+body {
+  background-attachment: fixed;
+}
+.container:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.container:before {
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+}
+.container:before {
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+  filter: blur(10px);
+}
+.container {
+  background: inherit;
+}
+.container:before {
+  background: inherit;
+}

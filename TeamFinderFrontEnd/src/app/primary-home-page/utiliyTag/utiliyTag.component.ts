@@ -13,9 +13,9 @@ export interface AutoCompleteModel {
 export class UtiliyTagComponent implements OnInit {
   //TODO: change the harcoded tags.
   public items = [
-    {display: 'Pizza', value: 1},
-    {display: 'Pasta', value: 2},
-    {display: 'Parmesan', value: 3},
+    {display: 'RandomBullShitGo', value: 1},
+    {display: 'GG', value: 2},
+    {display: 'Noob', value: 3},
   ];
 
   constructor() { }
