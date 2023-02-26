@@ -12,6 +12,20 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class ChatPageComponent implements OnInit {
   @ViewChild('messageContainer', {static: false}) messageContainer!: ElementRef;
+  
+  name = 'Angular';
+  message = '';
+  showEmojiPicker = false;
+  sets = [
+    'native',
+    'google',
+    'twitter',
+    'facebook',
+    'emojione',
+    'apple',
+    'messenger'
+  ]
+  set1:String= 'google' ;
   values: string = '';
   id : any ='';
   to : any ='';
@@ -89,7 +103,7 @@ export class ChatPageComponent implements OnInit {
 
   sendMessage(txt:any){
     // this.to=address;
-    this.values=txt;
+    //this.values=txt;
     let data = {receiver: this.to , msg : this.values , sender : this.userparsed.uid}
     //console.log("sending to: "+this.to);
     //console.log("msg txt: "+this.values);
@@ -226,6 +240,21 @@ export class ChatPageComponent implements OnInit {
 
       }).catch(err=>console.log(err))
       //console.log(this.activeConvList)
+    }
+    toggleEmojiPicker() {
+      console.log(this.showEmojiPicker);
+          this.showEmojiPicker = !this.showEmojiPicker;
+    }
+
+    addEmoji(event:any) {
+      console.log(this.message)
+      const { message } = this;
+      console.log(message);
+      console.log(`${event.emoji.native}`)
+      const text = `${message}${event.emoji.native}`;
+  
+      this.values += text;
+      // this.showEmojiPicker = false;
     }
 }
 

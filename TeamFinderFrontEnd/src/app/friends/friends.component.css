@@ -741,7 +741,8 @@ button {
 {
  color: aqua;
  height:25px;
- width:45px
+ width:45px;
+ cursor: pointer;
 }
 .fa-solid.fa-xmark
 {
@@ -753,7 +754,8 @@ button {
 {
  color: rgb(255, 0, 0);
  height:25px;
- width:45px
+ width:45px;
+ cursor: pointer;
 }
 .profile-image {
   border-radius: 50%;
