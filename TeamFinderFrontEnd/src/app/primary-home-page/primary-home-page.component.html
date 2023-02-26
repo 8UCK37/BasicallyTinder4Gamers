@@ -1,14 +1,31 @@
 <main class="page">
   <!-- Button trigger modal -->
+  <div class="con">
   <div>
   <div class="d-grid gap-2 col-6 mx-auto">
-  <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  style="border-radius: 20px;">
-    Say somthing Funny/Post a story
+    <div style="
+    left: 27rem;
+    position: absolute;
+    bottom: 46.8rem;
+">
+      <img [src]="profileurl" class="user-pic" alt="logout.png" >
+  </div>
+  <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  style="border-radius: 35px; position: relative; font-weight: bold; border: 2px solid; text-align: left;">
+    Complain about those lootboxes here......
   </button>
+  <input #imageInput type="file"(change)="onFileSelected($event)" multiple [hidden]="true">
+  <a  type="button" class="btn image" (click)="imageInput.click()"><img src="./../../assets/icon-resource/image.png" height="30px"><span>Image</span></a>
   </div>
 </div>
+</div>
   <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  <style>
+    .modal-dialog {
+       top: 57px;
+        right: 0px;
+    }
+    </style>
+  <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
