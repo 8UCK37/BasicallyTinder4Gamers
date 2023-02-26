@@ -31,6 +31,7 @@
   },
   "main": "./lib/passport-steam",
   "dependencies": {
+    "@google-cloud/storage": "^6.9.3",
     "@passport-next/passport-openid": "^1.0.0",
     "@prisma/client": "^4.9.0",
     "axios": "^1.2.4",
