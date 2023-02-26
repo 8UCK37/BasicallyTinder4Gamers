@@ -1,8 +1,31 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient()
+
+const {Storage} = require('@google-cloud/storage')
 
 
+const bucketName = 'gs://teamfinder-e7048.appspot.com/';
+
+
+// const contents = 'these are my contents';
+
+const destFileName = 'Bucket1/tiger3.jpg';
+
+// Imports the Google Cloud Node.js client library
 async function createPost(req, res, prisma){
+    console.log(req.file)
+    if(req.file){
+        const storage = new Storage();
+        async function uploadFromMemory() {
+            await storage.bucket(bucketName).file(destFileName).save(req.file.buffer);
+          
+            console.log(
+              `${destFileName}  uploaded to ${bucketName}.`
+            );
+          }
+
+            // authenticateImplicitWithAdc();          
+          uploadFromMemory().catch(console.error);
+    }
+
     let newPost = await prisma.Posts.create({
         data :{
             author : req.user.user_id,
