@@ -17,6 +17,7 @@ nav{
     height:50px;
 }
 .user-pic{
+    margin-top:25px;
     width: 56px;
     border-radius: 50%;
     cursor: pointer;
@@ -154,12 +155,21 @@ body {
   background-color: #262626;
   width: 55%;
   margin-left: 26rem;
+  text-align: center;
 }
 .btn-outline-light {
-  top: 24px;
+    top: 24px;
     right: 9rem;
-    width: 54rem;
+    width: auto;
+    min-width: 50rem;
     height: 54px;
+    margin-top: 25px;
+    border-radius: 35px;
+    position: inherit;
+    font-weight: bold;
+    border: 2px solid;
+    text-align: left;
+    margin-left: 75px;
 }
 .image {
   height: 35px;

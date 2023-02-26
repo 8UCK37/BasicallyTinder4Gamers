@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 // Imports the Google Cloud Node.js client library
 async function createPost(req, res, prisma){
-    console.log(req.file);
+    //console.log(req.file);
     if(req.file){
     const newUUID = uuidv4();
     const destFileName = 'Posts/'+newUUID+'.jpg';
@@ -28,12 +28,12 @@ async function createPost(req, res, prisma){
      // TODO : fix this code , make one like insert to the db , 
      // this is for temporary soluction
      //console.log(req.body.data)   
-     let body = JSON.parse(req.body.data)
-        
+    let body = JSON.parse(req.body.data)
+    //console.log(req.body.data)
         body.data.forEach( async ele => {
             let tag = await prisma.Tags.create({
                 data :{
-                    tagName : ele,
+                    tagName : ele.display,
                     post : newPost.id
                 }
             })
@@ -48,8 +48,8 @@ async function createPost(req, res, prisma){
         })
 
         // console.log(req.file)
-    console.log(newPost)
-    console.log(JSON.parse (req.body.data))
+    //console.log(newPost)
+    //console.log(JSON.parse (req.body.data))
     }
 
 }

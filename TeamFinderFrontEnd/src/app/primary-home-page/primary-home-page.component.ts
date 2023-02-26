@@ -16,7 +16,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class PrimaryHomePageComponent implements OnInit {
   public show:boolean=true;
   public formData: any;
-  public tagsList : string[] = [];
   selectedImage: any;
   public profileurl:any;
   constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2 ) { }
@@ -28,6 +27,11 @@ export class PrimaryHomePageComponent implements OnInit {
   @ViewChild('tagInput') tagInput!:ElementRef;
   imageFile!: File;
   imageSrcs: string[] = [];
+  public tagList = [
+    {display: 'RandomBullShitGo', value: 1},
+    {display: 'GG', value: 2},
+    {display: 'Noob', value: 3},
+  ];
   ngOnInit(): void {
     this.auth.authState.subscribe(user=>{
       if(user) {
@@ -60,23 +64,31 @@ export class PrimaryHomePageComponent implements OnInit {
       return
     }
     this.formData.append("post", this.input.nativeElement.files[0]);
-    this.formData.append("data" , JSON.stringify({data : this.tagsList}) )
+    console.log(this.tagList)
+    this.formData.append("data" , JSON.stringify({data : this.tagList}) )
+
     axios.post('/createPost', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
 
     }).catch(err =>console.log(err))
     //console.log(this.input)
     console.log(this.formData)
-    this.tagsList = []
-    this.fetchPost();
 
+    this.tagList = [
+      {display: 'RandomBullShitGo', value: 1},
+      {display: 'GG', value: 2},
+      {display: 'Noob', value: 3},
+    ];
+    this.fetchPost();
+    console.log(this.tagList)
   }
   toggleMenu() {
     this.show=!this.show;
   }
-  addTagToList(){
-    this.tagsList.push(this.tagInput.nativeElement.value)
-    this.tagInput.nativeElement.value = ""
-  }
+  //eta algbei na direct item die korbo
+  // addTagToList(){
+  //   this.tagsList.push(this.tagInput.nativeElement.value)
+  //   this.tagInput.nativeElement.value = ""
+  // }
   likeButtonClick(post:any){
     axios.get(`/likePost?id=${post.id}` ).then(res =>{
       console.log(res)

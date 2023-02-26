@@ -21,9 +21,7 @@ export class UtiliyTagComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    const urerTags =[{
-
-    }];
+    const urerTags =[{}];
 
   }
 
