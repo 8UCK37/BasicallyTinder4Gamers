@@ -23,7 +23,7 @@
             <input #imageInput type="file" (change)="onFileSelected($event)" multiple>
             <div *ngIf="imageSrcs.length" class="card">
               <h4>Selected Images:</h4>
-              <button class="btn btn-secondary"(click)="clearImages()">Remove All</button>
+              <button class="btn btn-danger"(click)="clearImages()">Remove All</button>
               <br>
               <div *ngFor="let imageSrc of imageSrcs; let i = index;" class="card">
                 <div class="image-preview" class="card">
