@@ -67,7 +67,6 @@ export class ChatPageComponent implements OnInit {
           this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
         }).catch(err => console.log(err))
       });
-
     }, 1000);
     setTimeout(() => {
       //console.log(ChatPageComponent.incSenderIds)

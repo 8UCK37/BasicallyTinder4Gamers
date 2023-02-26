@@ -36,6 +36,17 @@ export class FrindsprofileComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     //console.log(this.userparsed)
+    setInterval(() => {
+      //console.log("test")
+      axios.post('isFriend',{id:this.frnd_id}).then(res => {
+        //console.log(res.data)
+        if(res.data.length!=0){
+          if(res.data[0].status=="accepted"){
+            this.isFrnd=true;
+          }
+        }
+      }).catch(err => console.log(err))
+    }, 1000);
 
   }
   changeToGame(){
