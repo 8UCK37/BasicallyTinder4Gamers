@@ -92,7 +92,6 @@ export class LinkedAccountsComponent implements OnInit {
       this.steamInfo = res.data
       console.log(this.steamInfo)
     }).catch(err => console.log(err))
-
   }
   getStyle() {
     if (this.changeText) return `url(${this.steamInfo.info[0].avatarfull}) left center no-repeat`;

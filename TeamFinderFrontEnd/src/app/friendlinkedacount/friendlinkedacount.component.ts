@@ -25,4 +25,5 @@ export class FriendlinkedacountComponent implements OnInit {
       this.steamId=res.data.steamId
     }).catch(err =>console.log(err))
   }
+  
 }
