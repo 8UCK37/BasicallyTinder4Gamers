@@ -42,13 +42,18 @@ export class ProfilePageComponent implements OnInit {
     // this.radioAtGame = true
     this.auth.authState.subscribe(user=>{
       if(user) {
-        this.userparsed = user
+        this.usr = localStorage.getItem('user');
+        this.userparsed=JSON.parse(this.usr);
         //console.log(this.userparsed)
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
-          this.bannerUrl = `http://localhost:3000/static/profileBanner/${user.uid}.jpg`
-          //console.log(this.bannerUrl)
+          axios.get('getprofilepicture').then(res=>{
+            this.profileurl=res.data
+          }).catch(err=>console.log(err))
+          axios.get('getBanner').then(res=>{
+            this.bannerUrl=res.data
+          }).catch(err=>console.log(err))
+
         }).catch(err =>console.log(err))
       }
     })
@@ -154,8 +159,11 @@ export class ProfilePageComponent implements OnInit {
       }
     })
   }
+  onProfilePicError() {
+    this.profileurl = this.userparsed.photoURL;
+  }
   onBannerError() {
     this.bannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
   }
-  
+
 }

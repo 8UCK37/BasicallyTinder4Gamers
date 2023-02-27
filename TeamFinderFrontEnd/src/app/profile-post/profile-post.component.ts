@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import axios from 'axios';
 
 @Component({
@@ -8,28 +9,17 @@ import axios from 'axios';
 })
 export class ProfilePostComponent implements OnInit {
   @ViewChild('image') input!:ElementRef;
-  public previewUrl: any;
-  constructor() { }
-  public  formData = new FormData();
+
+  constructor(private auth: AngularFireAuth) { }
+public picture:any;
   ngOnInit() {
+    this.getPicture();
+
   }
-
-  upload(){
-    console.log(this.input.nativeElement.files[0])
-    let type = this.input.nativeElement.files[0].type
-    if(type != "image/jpeg" && type != "image/jpg"){
-      alert("wrong image type please upload jpg or Jpeg")
-      return
-    }
-
-    this.formData.append("banner", this.input.nativeElement.files[0]);
-    axios.post('/uploadBanner', this.formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-    })
-    console.log(this.input)
-    //this.input.nativeElement.value=null;
+  getPicture(){
+    axios.get('getpicture').then(res=>{
+      this.picture=res.data
+    }).catch(err=>console.log(err))
   }
 
 }

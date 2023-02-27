@@ -29,7 +29,7 @@ const prisma = new PrismaClient()
 const multer  = require('multer');
 const socketRunner = require('./sockerRunner')
 const { randomUUID } = require("crypto");
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
   destination: function (req, file, cb) {
     cb(null,  path.join(__dirname + './../../public/profilePicture'))
   },
@@ -39,7 +39,7 @@ const storage = multer.diskStorage({
   cb(null,uniqueSuffix+'.'+ 'jpg')
   }
 })
-const bannerStr = multer.diskStorage({
+const bannerStr = multer.memoryStorage({
   destination: function (req, file, cb) {
     cb(null,  path.join(__dirname + './../../public/profileBanner'))
   },
@@ -154,6 +154,7 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
         id: req.user.user_id,
         name: req.user.name,
         profilePicture:req.user.picture,
+        profileBanner:'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg',
         gmailId:req.user.email,
         activeChoice:true,
         isConnected:true
@@ -538,13 +539,7 @@ app.get('/sentOnly',ensureAuthenticated, async (req, res) => {
 
 
 
-app.post("/uploadProfile",ensureAuthenticated, upload.single('avatar'),(req,res,next)=>{
- 
-  res.sendStatus(200);
-})
-app.post("/uploadBanner",ensureAuthenticated, bnUpload.single('banner'),(req,res,next)=>{
-  res.sendStatus(200);
-})
+
 app.post('/gameSelect',ensureAuthenticated, urlencodedParser,async(req,res)=>{
   const jsonObject = req.body;
   const selectedGames = await prisma.GameSelectInfo.create({
@@ -653,9 +648,30 @@ app.post('/getFrndOwnedgames',ensureAuthenticated, async (req, res) => {
   })
   res.send(JSON.stringify(fetchedGames))
 });
+
+app.get('/getprofilepicture',ensureAuthenticated, async (req, res) => {
+  res.send(`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ProfilePicture%2F${req.user.user_id}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`)
+});
+app.get('/getBanner',ensureAuthenticated, async (req, res) => {
+  res.send(`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ProfileBanner%2F${req.user.user_id}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`)
+});
+
 app.get('/getPost',ensureAuthenticated, (req,res)=>postHelper.getPost(req,res,prisma))
 app.post('/createPost' , ensureAuthenticated, uploadPost.single('post') , urlencodedParser,(req,res)=>postHelper.createPost(req,res,prisma))
 app.get('/likePost' , ensureAuthenticated ,(req,res)=>postHelper.likePost(req,res,prisma))
+
+app.post("/uploadProfile", ensureAuthenticated, upload.single('avatar'), (req, res) => {
+  postHelper.upProfilePic(req, res, prisma);
+  res.sendStatus(200);
+});
+app.post("/uploadBanner",ensureAuthenticated, bnUpload.single('banner'),(req,res)=>{
+  postHelper.upBanner(req, res, prisma);
+  res.sendStatus(200);
+});
+
+
+
+
 
 socketRunner.execute(io , socketUserMap ,  userSocketMap)
 

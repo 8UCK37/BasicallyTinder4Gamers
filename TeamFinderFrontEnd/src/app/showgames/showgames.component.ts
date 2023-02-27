@@ -101,7 +101,7 @@ export class ShowgamesComponent implements OnInit {
       //console.log(this.result)
     }).catch(err=>console.log(err))
     this.selectedList=this.result
-    console.log(this.selectedList)
+    //console.log(this.selectedList)
   }
   deleteAppid(){
     //console.log("delete called")
