@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import { FriendsComponent } from './friends/friends.component';
-import { FrindsprofileComponent } from './frindsprofile/frindsprofile.component';
+import { FrindsprofileComponent } from './frinedsprofile/frindsprofile.component';
 import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.component';
 import { LoginComponent } from './login/login.component';
 import { AppSearchComponent } from './navbar/app-search/app-search.component';

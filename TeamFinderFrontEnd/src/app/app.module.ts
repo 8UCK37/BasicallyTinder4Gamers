@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.component';
 import { LoginComponent } from './login/login.component';
-
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
@@ -26,7 +24,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import { TypeaheadModule} from 'ngx-bootstrap/typeahead';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FrindsprofileComponent } from './frindsprofile/frindsprofile.component';
+import { FrindsprofileComponent } from './frinedsprofile/frindsprofile.component';
 import { ShowfriendgamesComponent } from './showfriendgames/showfriendgames.component';
 import { ShowfriendpostsComponent } from './showfriendposts/showfriendposts.component';
 import { ShowfriendfriendlistComponent } from './showfriendfriendlist/showfriendfriendlist.component';
@@ -35,6 +33,7 @@ import { FriendlinkedacountComponent } from './friendlinkedacount/friendlinkedac
 import { TagInputModule } from 'ngx-chips';
 import { UtiliyTagComponent } from './primary-home-page/utiliyTag/utiliyTag.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { SettingsComponent } from './settings/Settings.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +54,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
       ShowfriendfriendlistComponent,
       PendingRequestComponent,
       FriendlinkedacountComponent,
-      UtiliyTagComponent
+      UtiliyTagComponent,
+      SettingsComponent
    ],
   imports: [
     BrowserModule,
