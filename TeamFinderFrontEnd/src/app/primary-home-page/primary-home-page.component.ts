@@ -27,11 +27,7 @@ export class PrimaryHomePageComponent implements OnInit {
   @ViewChild('tagInput') tagInput!:ElementRef;
   imageFile!: File;
   imageSrcs: string[] = [];
-  public tagList = [
-    {display: 'RandomBullShitGo', value: 1},
-    {display: 'GG', value: 2},
-    {display: 'Noob', value: 3},
-  ];
+  public tagList = [];
   ngOnInit(): void {
     this.auth.authState.subscribe(user=>{
       if(user) {
@@ -39,7 +35,9 @@ export class PrimaryHomePageComponent implements OnInit {
         //console.log(this.userparsed.uid)
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
+          axios.get('getprofilepicture').then(res=>{
+            this.profileurl=res.data
+          }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
       }
     })
@@ -73,11 +71,7 @@ export class PrimaryHomePageComponent implements OnInit {
     //console.log(this.input)
     console.log(this.formData)
 
-    this.tagList = [
-      {display: 'RandomBullShitGo', value: 1},
-      {display: 'GG', value: 2},
-      {display: 'Noob', value: 3},
-    ];
+    this.tagList = [];
     this.fetchPost();
     console.log(this.tagList)
   }

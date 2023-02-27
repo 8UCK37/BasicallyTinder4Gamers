@@ -17,7 +17,7 @@
         </li>
     </ul>
 <div>
-    <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" alt="logout.png" >
+    <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" (error)="onProfilePicError()" >
 </div>
    <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
     <div class="sub-menu" id="openmenu" >

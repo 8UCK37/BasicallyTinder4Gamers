@@ -44,18 +44,20 @@ export class NavbarComponent implements OnInit {
   public recData:any;
   ngOnInit(): void {
     // this.show=false;
-    // this.usr = localStorage.getItem('user');
-    // this.userparsed=JSON.parse(this.usr);
+    //
     // console.log("logged in :" ,  this.user.isLoggedIn)
     this.auth.authState.subscribe(user=>{
       if(user) {
-        this.userparsed = user
-        //console.log(this.userparsed.uid)
+        this.usr = localStorage.getItem('user');
+        this.userparsed=JSON.parse(this.usr);
+        //console.log(this.userparsed)
         this.socketService.setupSocketConnection();
         this.socketService.setSocketId(this.userparsed.uid);
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
+          axios.get('getprofilepicture').then(res=>{
+            this.profileurl=res.data
+          }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
       }
     })
@@ -82,5 +84,8 @@ export class NavbarComponent implements OnInit {
   onchatClicked(){
     this.noti=false;
     this.router.navigate(['chat']);
+  }
+  onProfilePicError() {
+    this.profileurl = this.userparsed.photoURL;
   }
 }
