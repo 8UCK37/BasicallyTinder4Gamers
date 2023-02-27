@@ -103,10 +103,12 @@ export class PrimaryHomePageComponent implements OnInit {
   }
   removeImage(index: number): void {
     this.imageSrcs.splice(index, 1);
+    this.input.nativeElement.value ='';
   }
 
   clearImages(): void {
     this.imageSrcs = [];
+    this.input.nativeElement.value ='';
   }
 }
 
