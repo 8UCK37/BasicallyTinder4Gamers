@@ -13,12 +13,13 @@ export class ProfilePostComponent implements OnInit {
   constructor(private auth: AngularFireAuth) { }
 public picture:any;
   ngOnInit() {
-    this.getPicture();
+    this.getPost();
 
   }
-  getPicture(){
-    axios.get('getpicture').then(res=>{
-      this.picture=res.data
+  getPost(){
+    axios.get('getpost').then(res=>{
+      //this.picture=res.data
+      console.log(res.data)
     }).catch(err=>console.log(err))
   }
 

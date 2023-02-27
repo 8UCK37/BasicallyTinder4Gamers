@@ -41,7 +41,7 @@ export class PrimaryHomePageComponent implements OnInit {
         }).catch(err =>console.log(err))
       }
     })
-    this.fetchPost()
+    //this.fetchPost()
    }
    fetchPost(){
     this.posts = []
