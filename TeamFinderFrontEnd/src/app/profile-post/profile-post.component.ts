@@ -22,5 +22,4 @@ public picture:any;
       console.log(res.data)
     }).catch(err=>console.log(err))
   }
-
 }

@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="app-left">
       <div class="app-profile-box">
-        <img [src]="profileurl" alt="profile" />
+        <img [src]="profileurl" alt="profile" referrerpolicy="no-referrer" (error)="onProfilePicError()"/>
         <div class="app-profile-box-name">
           {{ userparsed.displayName }}
         </div>

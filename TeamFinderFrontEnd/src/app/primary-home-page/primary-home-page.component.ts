@@ -111,7 +111,7 @@ export class PrimaryHomePageComponent implements OnInit {
     this.input.nativeElement.value ='';
   }
   onProfilePicError() {
-    this.profileurl = this.userparsed.photoURL;
+    this.profileurl = this.userparsed?.photoURL;
   }
 }
 

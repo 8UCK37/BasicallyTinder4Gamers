@@ -4,7 +4,7 @@
     <div class="con">
       <div class="row">
         <div class="profileimg">
-          <img [src]="profileurl" class="user-pic" alt="logout.png" (error)="onProfilePicError()">
+          <img [src]="profileurl" class="user-pic" alt="logout.png" (error)="onProfilePicError()" referrerpolicy="no-referrer">
         </div>
         <div class="col-md-auto">
           <button #open type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">

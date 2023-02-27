@@ -4,7 +4,6 @@
   <nav class="nav-bg">
     <img src="./../../assets/icon-resource/logo-no-background.png" class="logo">
     <app-app-search></app-app-search>
-
     <ul>
         <li><a class="nav-btn" [routerLink]="['/first-component']">Home</a></li>
         <li><a class="nav-btn"  >Features</a></li>
@@ -17,7 +16,7 @@
         </li>
     </ul>
 <div>
-    <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" (error)="onProfilePicError()" >
+    <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" (error)="onProfilePicError()" referrerpolicy="no-referrer" >
 </div>
    <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
     <div class="sub-menu" id="openmenu" >

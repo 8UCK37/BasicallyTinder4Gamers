@@ -65,7 +65,10 @@ export class ChatPageComponent implements OnInit {
         //console.log(this.userparsed)
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
+          axios.get('getprofilepicture').then(res=>{
+            this.profileurl=res.data
+            console.log(this.profileurl)
+          }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
       }
     })
@@ -255,6 +258,9 @@ export class ChatPageComponent implements OnInit {
 
       this.values += text;
       // this.showEmojiPicker = false;
+    }
+    onProfilePicError() {
+      this.profileurl = this.userparsed.photoURL;
     }
 }
 
