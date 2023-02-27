@@ -20,7 +20,6 @@ nav{
     margin-top:25px;
     width: 56px;
     border-radius: 50%;
-    cursor: pointer;
     margin-left: 30px;
 }
 nav ul{
@@ -177,7 +176,6 @@ body {
   position: relative;
   width: 126px;
   top: 16px;
-  left: 42px;
   display: flex;
   align-items: center;
   vertical-align: middle;
@@ -188,4 +186,8 @@ body {
     height: 40px;
     left: 1.5rem;
     top: 2px;
+}
+.modal-dialog {
+  top: 57px;
+   right: 0px;
 }

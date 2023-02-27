@@ -7,27 +7,21 @@
           <img [src]="profileurl" class="user-pic" alt="logout.png">
         </div>
         <div class="col-md-auto">
-          <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <button #open type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Rant about those lootboxes here.......
           </button>
         </div>
       </div>
       <div class="row">
         <div class="col-md-auto">
-        <input #imageInput type="file" (change)="onFileSelected($event)" multiple [hidden]="true">
-        <a type="button" class="btn image" (click)="imageInput.click()"><img src="./../../assets/icon-resource/image.png"
-            height="30px" style="margin-left: 100px;"><span style="color: aliceblue; left: 6px;position: relative;">Image</span></a>
+        <a type="button" class="btn image " style="left: 85px;"  (click)="imageInput.click()" (click)="open.click()"><img src="./../../assets/icon-resource/image.png"
+            style="height: 30px" ><span style="color: aliceblue; left: 6px;position: relative;">Image</span></a>
       </div>
     </div>
   </div>
 
   <!-- Modal -->
-  <style>
-    .modal-dialog {
-       top: 57px;
-        right: 0px;
-    }
-    </style>
+
   <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
