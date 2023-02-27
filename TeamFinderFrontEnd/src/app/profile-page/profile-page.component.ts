@@ -160,7 +160,7 @@ export class ProfilePageComponent implements OnInit {
     })
   }
   onProfilePicError() {
-    this.profileurl = this.userparsed.photoURL;
+    this.profileurl = this.userparsed?.photoURL;
   }
   onBannerError() {
     this.bannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
