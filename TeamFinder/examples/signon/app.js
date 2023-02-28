@@ -162,7 +162,7 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
     })
 
     //download(req.user.picture , req.user.user_id  ,res , req)
-
+    //postHelper.downProfilePic(req,res)
     console.log("new user created db updated", newUser)
   }else{
     console.log("user exists")
@@ -600,6 +600,7 @@ app.post('/getFrndSelectedGames',ensureAuthenticated,async(req,res)=>{
 });
 app.post('/getUserInfo',ensureAuthenticated,async(req,res)=>{
   const jsonObject = req.body;
+  //console.log(jsonObject.frnd_id)
   let userData = await prisma.User.findUnique({
     where: {
       id: jsonObject.frnd_id

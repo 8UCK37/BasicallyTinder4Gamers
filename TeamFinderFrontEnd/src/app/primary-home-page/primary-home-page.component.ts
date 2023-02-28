@@ -19,6 +19,8 @@ export class PrimaryHomePageComponent implements OnInit {
   public usr:any;
   public userparsed:any;
   public posts : any[] = [];
+  public utcDateTime:any;
+  public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   @ViewChild('imageInput') input!:ElementRef;
   @ViewChild('tagInput') tagInput!:ElementRef;
   imageFile!: File;
@@ -37,16 +39,18 @@ export class PrimaryHomePageComponent implements OnInit {
         }).catch(err =>console.log(err))
       }
     })
-    //this.fetchPost()
+    this.fetchPost()
    }
    fetchPost(){
     this.posts = []
     axios.get("/getPost").then(res=>{
       console.log(res.data)
-      res.data.forEach((url : any)=> {
-        let eachUrl  ="http://localhost:3000/static/post/" + url.data
-        this.posts.push({url : eachUrl, id : url.id})
+      res.data.forEach((post: any) => {
+        //console.log(JSON.parse(post.data))
+        //console.log(post.author)
+        this.posts.push({author:post.author,authorUrl:`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ProfilePicture%2F${post.author}.jpg?alt=media&token=6ea26735-b6be-436d-a5a0-00b02836a08b`,createdAt:post.createdAt,desc:JSON.parse(post.data).desc,photoUrl:JSON.parse(post.data).photoUrl,tags:JSON.parse(post.data).tags})
       });
+      //console.log(this.posts)
     })
    }
    uploadPostFile(){
@@ -109,6 +113,18 @@ export class PrimaryHomePageComponent implements OnInit {
   onProfilePicError() {
     this.profileurl = this.userparsed?.photoURL;
   }
+  async onPostPicError(i:any) {
+    //console.log(this.posts[i].author)
+    await axios.post('getUserInfo',{frnd_id:this.posts[i].author}).then(res=>{
+      //console.log(res.data)
+      this.posts[i].authorUrl=res.data.profilePicture
+      //console.log(res.data.profilePicture)
+    }).catch(err =>console.log(err))
+  }
+  utcToLocal(utcTime:any){
+    this.utcDateTime = new Date(utcTime);
+    return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
+}
 }
 
 

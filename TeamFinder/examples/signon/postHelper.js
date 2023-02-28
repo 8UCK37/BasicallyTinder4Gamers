@@ -56,15 +56,13 @@ async function createPost(req, res, prisma){
 
 async function getPost(req , res , prisma){
    console.log("get post")
-   let posts = await prisma.$queryRaw`select * from public."Posts" where id in(select post from public."Activity" where author in (select reciever from public."Friends" where sender = ${req.user.user_id}))`
+   let posts = await prisma.$queryRaw`select * from public."Posts" where id in(select post from public."Activity" where author in (select reciever from public."Friends" where sender = ${req.user.user_id})) order by "createdAt"`
    console.log(posts)
    res.send(JSON.stringify(posts))
 }
 async function getOwnPost(req , res , prisma){
   console.log("get post")
-  
   let posts = await prisma.$queryRaw`select * from public."Posts" where author=${req.user.user_id}`
-  
   res.send(JSON.stringify(posts))
 }
 
@@ -107,12 +105,28 @@ async function upProfilePic(req, res, prisma){
           }) 
     }
 
-    
-
-
-
 }
-async function upBanner(req, res, prisma){
+
+// async function downProfilePic(req, res, prisma){
+//   console.log(req.user);
+//   console.log("called")
+//   const destFileName = 'ProfilePicture/'+req.user.user_id+'.jpg';
+//   //console.log(myUUID);
+//       const storage = new Storage();
+//       async function uploadFromMemory() {
+//           await storage.bucket(bucketName).file(destFileName).download("https://lh3.googleusercontent.com/a/AGNmyxYrMz3_UNXetTtvTilKGbU7dasRf0rhfFTnWoyDsA=s96-c");
+        
+//           console.log(
+//             `${destFileName}  uploaded to ${bucketName}.`
+//           );
+//         }
+//         uploadFromMemory().catch(console.error);      
+  
+// }
+
+
+async function upBanner(req, res){
+
     console.log(req.file);
     if(req.file){
     const destFileName = 'ProfileBanner/'+req.user.user_id+'.jpg';
