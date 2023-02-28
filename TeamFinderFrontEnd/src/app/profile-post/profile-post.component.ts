@@ -37,10 +37,10 @@ public usr:any;
     axios.get('getOwnpost').then(res=>{
       res.data.forEach((r: any)=> {
         // console.log(r)
-        // console.log(JSON.parse(r.data))
-        this.ownPosts.push({createdAt:r.createdAt,desc:JSON.parse(r.data).desc,photoUrl:JSON.parse(r.data).photoUrl})
+        //console.log(typeof(JSON.parse(r.data).tags))
+        this.ownPosts.push({createdAt:r.createdAt,desc:JSON.parse(r.data).desc,photoUrl:JSON.parse(r.data).photoUrl,tags:JSON.parse(r.data).tags})
       });
-      console.log(this.ownPosts)
+      //console.log(this.ownPosts)
     }).catch(err=>console.log(err))
   }
   onProfilePicError() {

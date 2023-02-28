@@ -11,7 +11,7 @@ async function createPost(req, res, prisma){
     //console.log(myUUID);
     //console.log(req.body.data.desc)
     let body = JSON.parse(req.body.data)
-    //console.log(body.desc)  
+    console.log(body.data)  
         const storage = new Storage();
         async function uploadFromMemory() {
             await storage.bucket(bucketName).file(destFileName).save(req.file.buffer);
@@ -24,7 +24,7 @@ async function createPost(req, res, prisma){
           let newPost = await prisma.Posts.create({
             data :{
                 author : req.user.user_id,
-                data : {photoUrl:`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F${newUUID}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`,desc:body.desc}
+                data : {photoUrl:`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F${newUUID}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`,desc:body.desc,tags:body.data}
             }
         })
      // TODO : fix this code , make one like insert to the db , 
