@@ -9,6 +9,9 @@ async function createPost(req, res, prisma){
     const newUUID = uuidv4();
     const destFileName = 'Posts/'+newUUID+'.jpg';
     //console.log(myUUID);
+    //console.log(req.body.data.desc)
+    let body = JSON.parse(req.body.data)
+    //console.log(body.desc)  
         const storage = new Storage();
         async function uploadFromMemory() {
             await storage.bucket(bucketName).file(destFileName).save(req.file.buffer);
@@ -21,14 +24,13 @@ async function createPost(req, res, prisma){
           let newPost = await prisma.Posts.create({
             data :{
                 author : req.user.user_id,
-                data : newUUID
+                data : {photoUrl:`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F${newUUID}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`,desc:body.desc}
             }
         })
      // TODO : fix this code , make one like insert to the db , 
      // this is for temporary soluction
      //console.log(req.body.data)   
-    let body = JSON.parse(req.body.data)
-    //console.log(req.body.data)
+    
         body.data.forEach( async ele => {
             let tag = await prisma.Tags.create({
                 data :{
@@ -63,10 +65,6 @@ async function getOwnPost(req , res , prisma){
   
   let posts = await prisma.$queryRaw`select * from public."Posts" where author=${req.user.user_id}`
   
-  posts.forEach((post) => {
-    post.data=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F${post.data}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`
-    });
-    console.log(posts)
   res.send(JSON.stringify(posts))
 }
 

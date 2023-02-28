@@ -62,7 +62,7 @@ model Posts{
   id        Int   @id @default(autoincrement())
   author    String 
   createdAt DateTime @default(now())
-  data     String
+  data      Json
 }
 model Tags{
   id Int   @id @default(autoincrement())

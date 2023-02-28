@@ -1,11 +1,8 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
 import axios from 'axios';
-import { ChatServicesService } from '../chat-page/chat-services.service';
 import { UserService } from '../login/user.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-primary-home-page',
@@ -19,7 +16,6 @@ export class PrimaryHomePageComponent implements OnInit {
   selectedImage: any;
   public profileurl:any;
   constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2 ) { }
-
   public usr:any;
   public userparsed:any;
   public posts : any[] = [];
@@ -61,24 +57,25 @@ export class PrimaryHomePageComponent implements OnInit {
       alert("wrong image type please upload jpg or Jpeg")
       return
     }
+    const textareaElement = document.getElementById("message-text") as HTMLTextAreaElement;
+    const text = textareaElement.value;
+    //console.log(text);
     this.formData.append("post", this.input.nativeElement.files[0]);
     console.log(this.tagList)
-    this.formData.append("data" , JSON.stringify({data : this.tagList}) )
-
+    this.formData.append("data" , JSON.stringify({data : this.tagList,desc:text}))
     axios.post('/createPost', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
-
     }).catch(err =>console.log(err))
     //console.log(this.input)
-    console.log(this.formData)
-
+    console.log(this.formData.data)
     this.tagList = [];
     this.fetchPost();
     console.log(this.tagList)
+
   }
   toggleMenu() {
     this.show=!this.show;
   }
-  //eta algbei na direct item die korbo
+  //eta lagbei na direct item die korbo
   // addTagToList(){
   //   this.tagsList.push(this.tagInput.nativeElement.value)
   //   this.tagInput.nativeElement.value = ""
@@ -89,7 +86,6 @@ export class PrimaryHomePageComponent implements OnInit {
     })
     console.log(post)
   }
-
 
   onFileSelected(event: any): void {
     const files: File[] = this.input.nativeElement.files;

@@ -35,7 +35,11 @@ public usr:any;
   }
   getOwnPost(){
     axios.get('getOwnpost').then(res=>{
-      this.ownPosts=res.data
+      res.data.forEach((r: any)=> {
+        // console.log(r)
+        // console.log(JSON.parse(r.data))
+        this.ownPosts.push({createdAt:r.createdAt,desc:JSON.parse(r.data).desc,photoUrl:JSON.parse(r.data).photoUrl})
+      });
       console.log(this.ownPosts)
     }).catch(err=>console.log(err))
   }
