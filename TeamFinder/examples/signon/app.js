@@ -161,7 +161,7 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
       },
     })
 
-    download(req.user.picture , req.user.user_id  ,res , req)
+    //download(req.user.picture , req.user.user_id  ,res , req)
 
     console.log("new user created db updated", newUser)
   }else{
