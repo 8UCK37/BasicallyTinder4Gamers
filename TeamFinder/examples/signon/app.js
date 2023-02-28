@@ -671,6 +671,9 @@ app.get('/getPost',ensureAuthenticated, (req,res)=>postHelper.getPost(req,res,pr
 app.post('/createPost' , ensureAuthenticated, uploadPost.single('post') , urlencodedParser,(req,res)=>postHelper.createPost(req,res,prisma))
 app.get('/likePost' , ensureAuthenticated ,(req,res)=>postHelper.likePost(req,res,prisma))
 
+app.get('/getOwnPost',ensureAuthenticated, (req,res)=>postHelper.getOwnPost(req,res,prisma))
+
+
 app.post("/uploadProfile", ensureAuthenticated, upload.single('avatar'), (req, res) => {
   postHelper.upProfilePic(req, res, prisma);
   res.sendStatus(200);

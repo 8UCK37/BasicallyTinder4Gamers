@@ -88,9 +88,9 @@ export class LinkedAccountsComponent implements OnInit {
   }
   getSteamInfo() {
     axios.get('steamUserInfo', { params: { id: this.steamId } }).then(res => {
-      console.log(res.data)
+      //console.log(res.data)
       this.steamInfo = res.data
-      console.log(this.steamInfo)
+      //console.log(this.steamInfo)
     }).catch(err => console.log(err))
   }
   getStyle() {

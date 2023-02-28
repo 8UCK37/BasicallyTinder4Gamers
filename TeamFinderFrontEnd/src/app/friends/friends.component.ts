@@ -74,7 +74,7 @@ export class FriendsComponent implements OnInit {
         this.status.set(data.id,false);
       });
     }).catch(err => console.log(err))
-    console.log(this.friendList)
+    //console.log(this.friendList)
   }
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {
@@ -118,7 +118,7 @@ export class FriendsComponent implements OnInit {
     }).catch(err => console.log(err))
     //console.log(this.sentPending)
   }
-  
+
   toggle() {
     this.pendingResults=[];
     this.friendList=[];

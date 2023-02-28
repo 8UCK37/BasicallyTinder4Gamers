@@ -12,7 +12,6 @@ async function createPost(req, res, prisma){
         const storage = new Storage();
         async function uploadFromMemory() {
             await storage.bucket(bucketName).file(destFileName).save(req.file.buffer);
-          
             console.log(
               `${destFileName}  uploaded to ${bucketName}.`
             );
@@ -51,15 +50,26 @@ async function createPost(req, res, prisma){
     //console.log(newPost)
     //console.log(JSON.parse (req.body.data))
     }
-
 }
 
 async function getPost(req , res , prisma){
-    console.log("get post")
+   console.log("get post")
    let posts = await prisma.$queryRaw`select * from public."Posts" where id in(select post from public."Activity" where author in (select reciever from public."Friends" where sender = ${req.user.user_id}))`
    console.log(posts)
    res.send(JSON.stringify(posts))
 }
+async function getOwnPost(req , res , prisma){
+  console.log("get post")
+  
+  let posts = await prisma.$queryRaw`select * from public."Posts" where author=${req.user.user_id}`
+  
+  posts.forEach((post) => {
+    post.data=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F${post.data}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`
+    });
+    console.log(posts)
+  res.send(JSON.stringify(posts))
+}
+
 async function likePost(req, res, prisma){
     // console.log("post liked")
     // console.log()
@@ -73,6 +83,8 @@ async function likePost(req, res, prisma){
     })
     res.send(JSON.stringify({status: 'ok'}))
 }
+
+
 async function upProfilePic(req, res, prisma){
     console.log(req.file);
     if(req.file){
@@ -126,4 +138,4 @@ async function upBanner(req, res, prisma){
           })        
     }
 }
-module.exports =  { createPost,getPost,likePost,upProfilePic,upBanner}
+module.exports =  { createPost,getPost,likePost,upProfilePic,upBanner,getOwnPost}

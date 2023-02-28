@@ -8,18 +8,42 @@ import axios from 'axios';
   styleUrls: ['./profile-post.component.css']
 })
 export class ProfilePostComponent implements OnInit {
-  @ViewChild('image') input!:ElementRef;
+@ViewChild('image') input!:ElementRef;
 
-  constructor(private auth: AngularFireAuth) { }
-public picture:any;
+constructor(private auth: AngularFireAuth) { }
+public ownPosts:any=[];
+public usr:any;
+  public userparsed:any;
+  public profileurl:any;
+  public utcDateTime:any;
+  public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   ngOnInit() {
-    this.getPost();
-
+    this.getOwnPost();
+    this.auth.authState.subscribe(user=>{
+      if(user) {
+        this.usr = localStorage.getItem('user');
+        this.userparsed=JSON.parse(this.usr);
+        //console.log(this.userparsed.photoURL)
+        axios.get('saveuser').then(res=>{
+          //console.log("save user" ,res)
+          axios.get('getprofilepicture').then(res=>{
+            this.profileurl=res.data
+          }).catch(err=>console.log(err))
+        }).catch(err =>console.log(err))
+      }
+    })
   }
-  getPost(){
-    axios.get('getpost').then(res=>{
-      //this.picture=res.data
-      console.log(res.data)
+  getOwnPost(){
+    axios.get('getOwnpost').then(res=>{
+      this.ownPosts=res.data
+      console.log(this.ownPosts)
     }).catch(err=>console.log(err))
   }
+  onProfilePicError() {
+    this.profileurl = this.userparsed?.photoURL;
+  }
+  utcToLocal(utcTime:any){
+    this.utcDateTime = new Date(utcTime);
+    return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
+}
 }
