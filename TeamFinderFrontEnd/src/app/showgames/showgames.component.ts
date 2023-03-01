@@ -123,6 +123,7 @@ export class ShowgamesComponent implements OnInit {
     this.result=[];
     this.gameList=[];
     axios.get('getOwnedgames').then(res=>{
+      if(res.data.length!=0){
       const ownedGames=JSON.parse(JSON.parse(res.data[0].games))
       ownedGames.forEach((element: any) => {
         this.gameList.push(element)
@@ -130,7 +131,7 @@ export class ShowgamesComponent implements OnInit {
       for (let i=0; i<this.gameList.length; i++){
         this.result.push([this.gameList[i],false])
       }
-      this.getSelectedGames();
+      this.getSelectedGames();}
     }).catch(err=>console.log(err))
   }
 

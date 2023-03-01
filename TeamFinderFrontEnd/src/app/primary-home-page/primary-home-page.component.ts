@@ -56,7 +56,7 @@ export class PrimaryHomePageComponent implements OnInit {
         }).catch(err =>console.log(err))
       });
 
-      console.log(this.posts)
+      //console.log(this.posts)
     })
    }
    uploadPostFile(){
