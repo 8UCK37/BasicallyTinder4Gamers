@@ -26,14 +26,14 @@
               <div class="card">
                   <div class="d-flex justify-content-between p-2 px-3">
                       <div class="d-flex flex-row align-items-center"> <img [src]="post.authorUrl" width="50" class="rounded-circle" (error)="onPostPicError(i)">
-                          <div class="d-flex flex-column ml-2"> <span class="font-weight-bold" style="margin-left: 10px;">{{post.displayName}}</span></div>
+                          <div class="d-flex flex-column ml-2"> <span class="font-weight-bold" style="margin-left: 10px;">{{post.authorName}}</span></div>
                       </div>
                       <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{this.utcToLocal(post?.createdAt)}}</small></div>
                   </div>
                   <div class="p-2">
-                  <p class="text-justify">{{post.desc}}</p>
-                   <ng-container *ngFor="let tag of post.tags">
-                    <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag.display}}</a>
+                  <p class="text-justify">{{post.description}}</p>
+                   <ng-container *ngFor="let tag of post.tagnames.split(',')">
+                    <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag}}</a>
                   </ng-container>
                 </div>
                   <img [src]="post.photoUrl" class="img-fluid">
@@ -57,7 +57,7 @@
                           </div>
                       </div> -->
                       <div class="comment-input"> <input type="text" class="form-control">
-                        <!-- <div class="fonts"> <i class="fa fa-camera"></i> </div> -->
+
                     </div>
                   </div>
               </div>

@@ -24,7 +24,8 @@ async function createPost(req, res, prisma){
           let newPost = await prisma.Posts.create({
             data :{
                 author : req.user.user_id,
-                data : {photoUrl:`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F${newUUID}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`,desc:body.desc,tags:body.data}
+                photoUrl:`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F${newUUID}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`,
+                description:body.desc
             }
         })
      // TODO : fix this code , make one like insert to the db , 
@@ -56,13 +57,37 @@ async function createPost(req, res, prisma){
 
 async function getPost(req , res , prisma){
    console.log("get post")
-   let posts = await prisma.$queryRaw`select * from public."Posts" where id in(select post from public."Activity" where author in (select reciever from public."Friends" where sender = ${req.user.user_id})) order by "createdAt"`
-   console.log(posts)
+   
+   let posts=await prisma.$queryRaw`SELECT p.*, t.tagNames
+   FROM public."Posts" p
+   LEFT JOIN (
+     SELECT post, STRING_AGG("tagName", ',') AS tagNames
+     FROM public."Tags"
+     GROUP BY "post"
+   ) t ON p.id = t.post
+   WHERE p.id IN (
+     SELECT a.post
+     FROM public."Activity" a
+     WHERE a.author IN (
+       SELECT f.reciever
+       FROM public."Friends" f
+       WHERE f.sender = ${req.user.user_id}
+     )
+   )
+   ORDER BY p."createdAt";`
    res.send(JSON.stringify(posts))
 }
 async function getOwnPost(req , res , prisma){
   console.log("get post")
-  let posts = await prisma.$queryRaw`select * from public."Posts" where author=${req.user.user_id}`
+  let posts=await prisma.$queryRaw`SELECT p.*, t.tagNames
+   FROM public."Posts" p
+   LEFT JOIN (
+     SELECT post, STRING_AGG("tagName", ',') AS tagNames
+     FROM public."Tags"
+     GROUP BY "post"
+   ) t ON p.id = t.post
+   WHERE p.author=${req.user.user_id}
+   ORDER BY p."createdAt";`
   res.send(JSON.stringify(posts))
 }
 

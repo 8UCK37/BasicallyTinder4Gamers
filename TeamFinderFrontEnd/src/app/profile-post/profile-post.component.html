@@ -10,9 +10,9 @@
                   <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{this.utcToLocal(post?.createdAt)}}</small></div>
               </div>
               <div class="p-2">
-              <p class="text-justify">{{post.desc}}</p>
-               <ng-container *ngFor="let tag of post.tags">
-                <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag.display}}</a>
+              <p class="text-justify">{{post.description}}</p>
+               <ng-container *ngFor="let tag of post.tagnames.split(',')">
+                <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag}}</a>
               </ng-container>
             </div>
               <img [src]="post.photoUrl" class="img-fluid">
@@ -36,7 +36,7 @@
                       </div>
                   </div> -->
                   <div class="comment-input"> <input type="text" class="form-control">
-                    <!-- <div class="fonts"> <i class="fa fa-camera"></i> </div> -->
+
                 </div>
               </div>
           </div>

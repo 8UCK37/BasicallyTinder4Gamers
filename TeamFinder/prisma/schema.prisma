@@ -59,10 +59,11 @@ model OwnedGames{
 
 
 model Posts{
-  id        Int   @id @default(autoincrement())
-  author    String 
-  createdAt DateTime @default(now())
-  data      Json
+  id          Int   @id @default(autoincrement())
+  author      String 
+  createdAt   DateTime @default(now())
+  photoUrl         String
+  description String
 }
 model Tags{
   id Int   @id @default(autoincrement())

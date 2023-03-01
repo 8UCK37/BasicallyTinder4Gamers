@@ -50,11 +50,12 @@ export class PrimaryHomePageComponent implements OnInit {
         //console.log(post.author)
         await axios.post('getUserInfo',{frnd_id:post.author}).then(res=>{
           //console.log(res.data)
-          this.posts.push({displayName:res.data.name,author:post.author,authorUrl:`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ProfilePicture%2F${post.author}.jpg?alt=media&token=6ea26735-b6be-436d-a5a0-00b02836a08b`,createdAt:post.createdAt,desc:JSON.parse(post.data).desc,photoUrl:JSON.parse(post.data).photoUrl,tags:JSON.parse(post.data).tags})
+          post.authorName=res.data.name
+          post.authorPhoto=res.data.profilePicture
+          this.posts.push(post)
         }).catch(err =>console.log(err))
-
       });
-      //console.log(this.posts)
+      console.log(this.posts)
     })
    }
    uploadPostFile(){
