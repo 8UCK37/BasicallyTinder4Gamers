@@ -52,11 +52,9 @@ export class PrimaryHomePageComponent implements OnInit {
           //console.log(res.data)
           post.authorName=res.data.name
           post.authorPhoto=res.data.profilePicture
-          this.posts.push(post)
         }).catch(err =>console.log(err))
       });
-
-      //console.log(this.posts)
+      this.posts=res.data
     })
    }
    uploadPostFile(){

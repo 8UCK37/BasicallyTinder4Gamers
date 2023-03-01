@@ -38,7 +38,7 @@ public usr:any;
       //console.log(res.data)
       this.ownPosts=res.data
 
-      //console.log(this.ownPosts)
+      console.log(this.ownPosts)
     }).catch(err=>console.log(err))
   }
   onProfilePicError() {
