@@ -71,16 +71,18 @@ export class PrimaryHomePageComponent implements OnInit {
     const text = textareaElement.value;
     //console.log(text);
     this.formData.append("post", this.input.nativeElement.files[0]);
-    console.log(this.tagList)
+    //console.log(this.tagList)
     this.formData.append("data" , JSON.stringify({data : this.tagList,desc:text}))
     axios.post('/createPost', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
     }).catch(err =>console.log(err))
     //console.log(this.input)
-    console.log(this.formData.data)
+    //console.log(this.formData.data)
     this.tagList = [];
     this.fetchPost();
-    console.log(this.tagList)
-
+    //console.log(this.tagList)
+    this,this.clearImages()
+    textareaElement.value=''
+    this.ngOnInit()
   }
   toggleMenu() {
     this.show=!this.show;

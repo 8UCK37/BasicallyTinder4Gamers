@@ -32,7 +32,7 @@
                   </div>
                   <div class="p-2">
                   <p class="text-justify">{{post.description}}</p>
-                   <ng-container *ngFor="let tag of post.tagnames.split(',')">
+                   <ng-container *ngFor="let tag of post.tagnames?.split(',')">
                     <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag}}</a>
                   </ng-container>
                 </div>
@@ -78,7 +78,7 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label for="message-text" class="col-form-label">Say somthing Funny or not</label>
+            <label for="message-text" class="col-form-label">Add somthing Funny or maybe not</label>
             <textarea class="form-control" id="message-text"></textarea>
           </div>
           <div>
@@ -115,7 +115,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" (click)="uploadPostFile()">Post</button>
+          <button type="button" class="btn btn-primary" (click)="uploadPostFile()" data-bs-dismiss="modal">Post</button>
         </div>
       </div>
     </div>

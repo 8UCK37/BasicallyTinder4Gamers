@@ -11,7 +11,7 @@
               </div>
               <div class="p-2">
               <p class="text-justify">{{post.description}}</p>
-               <ng-container *ngFor="let tag of post.tagnames.split(',')">
+              <ng-container *ngFor="let tag of post.tagnames?.split(',')">
                 <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag}}</a>
               </ng-container>
             </div>

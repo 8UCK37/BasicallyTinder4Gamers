@@ -143,6 +143,7 @@ export class ProfilePageComponent implements OnInit {
     axios.post('/uploadBanner', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
       this.bNsave=false;
       this.banner.nativeElement.value=null;
+
     }).catch(err =>console.log(err))
     //console.log(this.input)
   }
