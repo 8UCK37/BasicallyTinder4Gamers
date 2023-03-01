@@ -37,9 +37,9 @@ export class PrimaryHomePageComponent implements OnInit {
             this.profileurl=res.data
           }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
+        this.fetchPost()
       }
     })
-    this.fetchPost()
    }
    fetchPost(){
     this.posts = []
