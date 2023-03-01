@@ -45,16 +45,17 @@ export class PrimaryHomePageComponent implements OnInit {
     this.posts = []
     axios.get("/getPost").then(res=>{
       //console.log(res.data)
-      res.data.forEach(async (post: any) => {
+      res.data.forEach( (post: any) => {
         //console.log(JSON.parse(post.data))
         //console.log(post.author)
-        await axios.post('getUserInfo',{frnd_id:post.author}).then(res=>{
+        axios.post('getUserInfo',{frnd_id:post.author}).then(res=>{
           //console.log(res.data)
           post.authorName=res.data.name
           post.authorPhoto=res.data.profilePicture
           this.posts.push(post)
         }).catch(err =>console.log(err))
       });
+
       console.log(this.posts)
     })
    }

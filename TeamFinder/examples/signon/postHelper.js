@@ -74,7 +74,8 @@ async function getPost(req , res , prisma){
        WHERE f.sender = ${req.user.user_id}
      )
    )
-   ORDER BY p."createdAt";`
+   ORDER BY p."createdAt" DESC;`
+   console.log(posts)
    res.send(JSON.stringify(posts))
 }
 async function getOwnPost(req , res , prisma){
@@ -87,7 +88,7 @@ async function getOwnPost(req , res , prisma){
      GROUP BY "post"
    ) t ON p.id = t.post
    WHERE p.author=${req.user.user_id}
-   ORDER BY p."createdAt";`
+   ORDER BY  p."createdAt" DESC;`
   res.send(JSON.stringify(posts))
 }
 
