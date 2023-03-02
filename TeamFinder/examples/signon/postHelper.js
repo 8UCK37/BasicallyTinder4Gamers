@@ -94,7 +94,7 @@ async function getOwnPost(req , res , prisma){
    ) t ON p.id = t.post
    WHERE p.author=${req.user.user_id}
    ORDER BY  p."createdAt" DESC;`
-   console.log(posts)
+   //console.log(posts)
   res.send(JSON.stringify(posts))
 }
 
