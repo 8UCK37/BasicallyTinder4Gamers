@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { AppSearchComponent } from './navbar/app-search/app-search.component';
 import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { SettingsComponent } from './settings/Settings.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { ShowgamesComponent } from './showgames/showgames.component';
 
@@ -35,6 +36,7 @@ const routes: Routes = [
 
   { path: 'first-component', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
+  { path: 'settings', pathMatch: 'full', component: SettingsComponent },
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
   { path: 'chat', pathMatch: 'full', component: ChatPageComponent, canActivate: [AuthGuard]},
   { path: 'search', pathMatch: 'full', component: AppSearchComponent , canActivate: [AuthGuard]},

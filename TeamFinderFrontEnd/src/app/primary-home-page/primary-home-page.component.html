@@ -37,7 +37,7 @@
                     <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag}}</a>
                   </ng-container>
                 </div>
-                <carousel>
+                <carousel [isAnimated]="true" [interval]="myInterval" [(activeSlide)]="activeSlideIndex">
                   <slide *ngFor="let img of post.photoArray">
                     <img [src]="img" alt="first slide" style="display: block; width: 100%;">
                   </slide>

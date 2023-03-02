@@ -27,6 +27,8 @@ export class PrimaryHomePageComponent implements OnInit {
   imageSrcs: string[] = [];
   public tagList = [];
   public imageBlobs:any[]=[];
+  myInterval = 0;
+  activeSlideIndex = 0;
 
   images = [
     { src: 'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F262823c0-c21c-4022-baa1-5a2d31632255.jpg?alt=media&token=9295d3eb-a1ce-430b-a56e-0e008dcbe817', alt: 'Image 1' },
@@ -59,7 +61,7 @@ export class PrimaryHomePageComponent implements OnInit {
       {
         this.posts[i].photoArray=this.posts[i].photoUrl.split(',');
       }
-      console.log(this.posts)//remove later not needed only for testing 
+      console.log(this.posts)//remove later not needed only for testing
     })
    }
    uploadPostFile(){

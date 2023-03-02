@@ -346,16 +346,16 @@ body[data-theme=dark] {
 
 /*cut stop*/
 .app-right {
-  flex-basis: 320px;
-  flex-shrink: 0;
-  float:right;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-left: auto;
-  margin-right: 24px;
-  transition: 0.2s;
-  overflow: auto;
+  position: relative;
+    flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 480px;
+    margin-right: 24px;
+    margin-left: auto;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 .app-right .app-profile-box-title {
@@ -771,13 +771,14 @@ body[data-theme=dark] {
 /* Conversation */
 
 .conversation {
+  justify-content: space-between;
   height: calc(100% - 12px);
-  width:1045px;
+  width: 1130px;
   position: relative;
-  background: url("https://img.freepik.com/free-vector/dark-hexagonal-background-with-gradient-color_79603-1409.jpg?w=1380&t=st=1677407621~exp=1677408221~hmac=5a5f7a0ea866144f17a4aa0be7f5c95e2cb474509984dd8ba3227be9cf273a9e");
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
   background-repeat: no-repeat;
+  background-color: currentColor;
   /* background-attachment: fixed; */
   background-position: center;
   border-bottom-right-radius: 10px;
@@ -810,7 +811,7 @@ body[data-theme=dark] {
 
 .conversation .conversation-container:after {
   content: "";
-  display: table;
+  display: block;
   clear: both;
 }
 
