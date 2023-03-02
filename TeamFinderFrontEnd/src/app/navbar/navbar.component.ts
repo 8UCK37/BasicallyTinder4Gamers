@@ -40,6 +40,7 @@ export class NavbarComponent implements OnInit {
   public usr:any;
   public userparsed:any;
   public profileurl:any;
+  public userName:any;
   public noti:boolean=false;
   public recData:any;
   ngOnInit(): void {
@@ -55,8 +56,10 @@ export class NavbarComponent implements OnInit {
         this.socketService.setSocketId(this.userparsed.uid);
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          axios.get('getprofilepicture').then(res=>{
-            this.profileurl=res.data
+          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+             this.profileurl=res.data.profilePicture;
+             this.userName=res.data.name;
+            console.log(res.data);
           }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
       }

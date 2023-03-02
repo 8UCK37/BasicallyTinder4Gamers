@@ -157,7 +157,7 @@ async function upProfilePic(req, res, prisma){
 // }
 
 
-async function upBanner(req, res){
+async function upBanner(req, res,prisma){
 
     console.log(req.file);
     if(req.file){

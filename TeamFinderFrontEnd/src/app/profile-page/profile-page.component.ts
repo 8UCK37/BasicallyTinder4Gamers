@@ -30,7 +30,8 @@ export class ProfilePageComponent implements OnInit {
   public bannerUrl:any;
   public dPsave:boolean=false;
   public bNsave:boolean=false;
-  public  formData:any;
+  public formData:any;
+  public userName:any;
   backgroundColor = 'rgb(255, 0, 0)';
   ngOnInit(): void {
     //console.log(this.router.url);
@@ -47,12 +48,12 @@ export class ProfilePageComponent implements OnInit {
         //console.log(this.userparsed.photoURL)
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          axios.get('getprofilepicture').then(res=>{
-            this.profileurl=res.data
-          }).catch(err=>console.log(err))
-          axios.get('getBanner').then(res=>{
-            this.bannerUrl=res.data
-          }).catch(err=>console.log(err))
+          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+            this.profileurl=res.data.profilePicture;
+            this.userName=res.data.name;
+            this.bannerUrl=res.data.profileBanner;
+           console.log(res.data);
+         }).catch(err=>console.log(err))
 
         }).catch(err =>console.log(err))
       }

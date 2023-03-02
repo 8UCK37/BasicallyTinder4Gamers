@@ -13,6 +13,7 @@ export class ProfilePostComponent implements OnInit {
 constructor(private auth: AngularFireAuth) { }
 public ownPosts:any=[];
 public usr:any;
+public userName:any;
   public userparsed:any;
   public profileurl:any;
   public utcDateTime:any;
@@ -26,9 +27,11 @@ public usr:any;
         //console.log(this.userparsed.photoURL)
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          axios.get('getprofilepicture').then(res=>{
-            this.profileurl=res.data
-          }).catch(err=>console.log(err))
+          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+            this.profileurl=res.data.profilePicture;
+            this.userName=res.data.name;
+           console.log(res.data);
+         }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
       }
     })
