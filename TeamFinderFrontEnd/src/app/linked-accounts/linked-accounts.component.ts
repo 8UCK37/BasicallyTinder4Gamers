@@ -87,11 +87,13 @@ export class LinkedAccountsComponent implements OnInit {
     }
   }
   getSteamInfo() {
+    if(this.steamId!=null){
     axios.get('steamUserInfo', { params: { id: this.steamId } }).then(res => {
       //console.log(res.data)
       this.steamInfo = res.data
       //console.log(this.steamInfo)
     }).catch(err => console.log(err))
+  }
   }
   getStyle() {
     if (this.changeText) return `url(${this.steamInfo.info[0].avatarfull}) left center no-repeat`;

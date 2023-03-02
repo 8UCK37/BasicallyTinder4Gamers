@@ -669,7 +669,7 @@ app.get('/getBanner',ensureAuthenticated, async (req, res) => {
 });
 
 app.get('/getPost',ensureAuthenticated, (req,res)=>postHelper.getPost(req,res,prisma))
-app.post('/createPost' , ensureAuthenticated, uploadPost.single('post') , urlencodedParser,(req,res)=>postHelper.createPost(req,res,prisma))
+app.post('/createPost' , ensureAuthenticated, uploadPost.array('post',10) , urlencodedParser,(req,res)=>postHelper.createPost(req,res,prisma))
 app.get('/likePost' , ensureAuthenticated ,(req,res)=>postHelper.likePost(req,res,prisma))
 
 app.get('/getOwnPost',ensureAuthenticated, (req,res)=>postHelper.getOwnPost(req,res,prisma))

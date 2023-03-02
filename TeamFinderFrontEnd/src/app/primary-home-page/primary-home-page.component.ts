@@ -7,7 +7,7 @@ import { UserService } from '../login/user.service';
 @Component({
   selector: 'app-primary-home-page',
   templateUrl: './primary-home-page.component.html',
-  styleUrls: ['./primary-home-page.component.css']
+  styleUrls: ['./primary-home-page.component.css'],
 })
 
 export class PrimaryHomePageComponent implements OnInit {
@@ -26,6 +26,15 @@ export class PrimaryHomePageComponent implements OnInit {
   imageFile!: File;
   imageSrcs: string[] = [];
   public tagList = [];
+  public imageBlobs:any[]=[];
+
+  images = [
+    { src: 'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F262823c0-c21c-4022-baa1-5a2d31632255.jpg?alt=media&token=9295d3eb-a1ce-430b-a56e-0e008dcbe817', alt: 'Image 1' },
+    { src: 'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F2be7b6c3-7fa6-4a8b-b2de-37db733b9126.jpg?alt=media&token=4f234405-dd8f-4a3f-a2e3-4442928d4e38', alt: 'Image 2' },
+    { src: 'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F2e21f4c5-1c9c-4da8-9dcf-75574ce2e889.jpg?alt=media&token=ae031762-0954-4531-8d25-7c544561226a', alt: 'Image 3' }
+  ];
+
+
   ngOnInit(): void {
     this.auth.authState.subscribe(user=>{
       if(user) {
@@ -44,16 +53,7 @@ export class PrimaryHomePageComponent implements OnInit {
    fetchPost(){
     this.posts = []
     axios.get("/getPost").then(res=>{
-      //console.log(res.data)
-      res.data.forEach( (post: any) => {
-        //console.log(JSON.parse(post.data))
-        //console.log(post.author)
-        axios.post('getUserInfo',{frnd_id:post.author}).then(res=>{
-          //console.log(res.data)
-          post.authorName=res.data.name
-          post.authorPhoto=res.data.profilePicture
-        }).catch(err =>console.log(err))
-      });
+      console.log(res.data)
       this.posts=res.data
     })
    }
@@ -67,9 +67,12 @@ export class PrimaryHomePageComponent implements OnInit {
     }
     const textareaElement = document.getElementById("message-text") as HTMLTextAreaElement;
     const text = textareaElement.value;
-    //console.log(text);
-    this.formData.append("post", this.input.nativeElement.files[0]);
-    //console.log(this.tagList)
+    //console.log(this.input.nativeElement.files);
+    for(let i=0;i< this.imageBlobs.length;i++){
+      this.formData.append("post", this.imageBlobs[i]);
+
+    }
+    console.log(this.imageBlobs)
     this.formData.append("data" , JSON.stringify({data : this.tagList,desc:text}))
     axios.post('/createPost', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
     }).catch(err =>console.log(err))
@@ -81,6 +84,7 @@ export class PrimaryHomePageComponent implements OnInit {
     this,this.clearImages()
     textareaElement.value=''
     this.ngOnInit()
+    this.imageBlobs=[]
   }
   toggleMenu() {
     this.show=!this.show;
@@ -98,10 +102,14 @@ export class PrimaryHomePageComponent implements OnInit {
   }
 
   onFileSelected(event: any): void {
+
     const files: File[] = this.input.nativeElement.files;
+    //console.log(this.input.nativeElement.files)
+
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
+        this.imageBlobs.push(files[i])
         reader.onload = e => this.imageSrcs.push(reader.result as string);
         reader.readAsDataURL(files[i]);
       }
@@ -130,7 +138,12 @@ export class PrimaryHomePageComponent implements OnInit {
   utcToLocal(utcTime:any){
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
-}
+  }
+  onNextClick(event:any) {
+    event.preventDefault();
+
+  }
+  
 }
 
 

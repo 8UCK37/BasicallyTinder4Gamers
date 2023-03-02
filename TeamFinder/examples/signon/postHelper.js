@@ -4,27 +4,39 @@ const { v4: uuidv4 } = require('uuid');
 
 // Imports the Google Cloud Node.js client library
 async function createPost(req, res, prisma){
-    console.log(req.file);
-    if(req.file){
-    const newUUID = uuidv4();
-    const destFileName = 'Posts/'+newUUID+'.jpg';
-    //console.log(myUUID);
-    //console.log(req.body.data.desc)
     let body = JSON.parse(req.body.data)
-    console.log(body.data)  
-        const storage = new Storage();
+    //console.log(body.data)
+    //console.log(req.files);
+    var urlArr = [];
+    
+    if(req.files){
+      const storage = new Storage();
+      req.files.forEach(file => {
+        console.log(file)
+        const newUUID = uuidv4();
+        const destFileName = 'Posts/'+newUUID+'.jpg';
+        const url=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F${newUUID}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`
+        urlArr.push(url)
+        
         async function uploadFromMemory() {
-            await storage.bucket(bucketName).file(destFileName).save(req.file.buffer);
+            await storage.bucket(bucketName).file(destFileName).save(file.buffer);
             console.log(
               `${destFileName}  uploaded to ${bucketName}.`
             );
           }
           uploadFromMemory().catch(console.error);
+      });
+    //console.log(urlArr.toString())
+    
+    //console.log(myUUID);
+    //console.log(req.body.data.desc)
+      
+        
           
           let newPost = await prisma.Posts.create({
             data :{
                 author : req.user.user_id,
-                photoUrl:`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F${newUUID}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`,
+                photoUrl:urlArr.toString(),
                 description:body.desc
             }
         })
@@ -53,25 +65,22 @@ async function createPost(req, res, prisma){
 
 async function getPost(req , res , prisma){
    console.log("get post")
-   
-   let posts=await prisma.$queryRaw`SELECT p.*, t.tagNames
+   let posts=await prisma.$queryRaw`SELECT p.*, t.tagNames, u."name", u."profilePicture"
    FROM public."Posts" p
    LEFT JOIN (
      SELECT post, STRING_AGG("tagName", ',') AS tagNames
      FROM public."Tags"
      GROUP BY "post"
    ) t ON p.id = t.post
-   WHERE p.id IN (
-     SELECT a.post
-     FROM public."Activity" a
-     WHERE a.author IN (
-       SELECT f.reciever
-       FROM public."Friends" f
-       WHERE f.sender = ${req.user.user_id}
-     )
+   LEFT JOIN public."Activity" a ON p.id = a.post
+   LEFT JOIN public."User" u ON a.author = u.id
+   WHERE a.author IN (
+     SELECT f.reciever
+     FROM public."Friends" f
+     WHERE f.sender = ${req.user.user_id}
    )
    ORDER BY p."createdAt" DESC;`
-   console.log(posts)
+   //console.log(posts)
    res.send(JSON.stringify(posts))
 }
 async function getOwnPost(req , res , prisma){
