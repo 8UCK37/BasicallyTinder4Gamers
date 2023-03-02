@@ -20,6 +20,7 @@ export class SettingsComponent implements OnInit {
 
       //console.log(res.data.profilePicture)
     }).catch(err => console.log(err))
+    window.location.reload();
   }
 
 }
