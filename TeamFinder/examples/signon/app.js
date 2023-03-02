@@ -171,6 +171,19 @@ app.get('/saveuser', ensureAuthenticated , async function (req, res) {
  
 });
 
+app.post('/userNameUpdate',ensureAuthenticated,urlencodedParser,async (req, res)=>{
+  console.log(req.body.name);
+  const updateUserName=await prisma.User.update({
+    where:{
+      id:req.user.user_id
+    },
+    data:{
+      name:req.body.name
+    }
+  })
+  res.sendStatus(200);
+});
+
 app.get('/account', ensureAuthenticated, async function (req, res) {
   res.sendFile(__dirname + '/client/account.html')
 });
