@@ -33,12 +33,12 @@
                   </div>
                   <div class="p-2">
                   <p class="text-justify">{{post.description}}</p>
-                   <ng-container *ngFor="let tag of post.tagnames?.split(',')">
+                   <ng-container *ngFor="let tag of post.tagArr">
                     <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag}}</a>
                   </ng-container>
                 </div>
                 <carousel [isAnimated]="true" [interval]="myInterval" [(activeSlide)]="activeSlideIndex">
-                  <slide *ngFor="let img of post.photoArray">
+                  <slide *ngFor="let img of post.urlArr">
                     <img [src]="img" alt="first slide" style="display: block; width: 100%;">
                   </slide>
                 </carousel>
