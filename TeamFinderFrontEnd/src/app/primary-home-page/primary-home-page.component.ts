@@ -55,6 +55,11 @@ export class PrimaryHomePageComponent implements OnInit {
     axios.get("/getPost").then(res=>{
       console.log(res.data)
       this.posts=res.data
+      for (let i=0;i<this.posts.length; i++)
+      {
+        this.posts[i].photoArray=this.posts[i].photoUrl.split(',');
+      }
+      console.log(this.posts)//remove later not needed only for testing 
     })
    }
    uploadPostFile(){
@@ -143,7 +148,7 @@ export class PrimaryHomePageComponent implements OnInit {
     event.preventDefault();
 
   }
-  
+
 }
 
 

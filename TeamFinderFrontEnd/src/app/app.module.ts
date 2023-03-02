@@ -34,6 +34,7 @@ import { TagInputModule } from 'ngx-chips';
 import { UtiliyTagComponent } from './primary-home-page/utiliyTag/utiliyTag.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { SettingsComponent } from './settings/Settings.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { SettingsComponent } from './settings/Settings.component';
     BrowserAnimationsModule,
     TagInputModule,
     ReactiveFormsModule,
-    PickerModule
+    PickerModule,
+    CarouselModule.forRoot()
   ],
   providers: [
     ChatServicesService
