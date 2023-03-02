@@ -125,10 +125,10 @@ export class ProfilePageComponent implements OnInit {
       if(user) {
         this.userparsed = user
         //console.log(this.userparsed)
-        axios.get('saveuser').then(res=>{
-          //console.log("save user" ,res)
-          this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
-        }).catch(err =>console.log(err))
+        axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+          this.profileurl=res.data.profilePicture;
+         console.log(res.data);
+       }).catch(err=>console.log(err))
       }
     })
   }
@@ -154,10 +154,10 @@ export class ProfilePageComponent implements OnInit {
       if(user) {
         this.userparsed = user
         //console.log(this.userparsed)
-        axios.get('saveuser').then(res=>{
-          //console.log("save user" ,res)
-          this.bannerUrl = `http://localhost:3000/static/profileBanner/${user.uid}.jpg`
-        }).catch(err =>console.log(err))
+        axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+          this.bannerUrl=res.data.profileBanner;
+          console.log(res.data);
+       }).catch(err=>console.log(err))
       }
     })
   }
