@@ -36,9 +36,12 @@ public usr:any;
   getOwnPost(){
     axios.get('getOwnpost').then(res=>{
       //console.log(res.data)
+      res.data.forEach((post: any) => {
+        post.tagArr=post.tagnames?.split(',')
+        post.urlArr=post.photoUrl?.split(',')
+      });
       this.ownPosts=res.data
-
-      console.log(this.ownPosts)
+      //console.log(this.ownPosts)
     }).catch(err=>console.log(err))
   }
   onProfilePicError() {
