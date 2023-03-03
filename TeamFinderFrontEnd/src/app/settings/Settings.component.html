@@ -1,7 +1,19 @@
-<p>
-  Settings works!
-</p>
-<div style="padding-top: 100px;">
-<input type="text" [(ngModel)]="newUserName">
-<button (click)="changeName()">Submit</button>
+<main id="main">
+<div class="container">
+  <div class="con">
+    <div >
+      <div class="profileimg">
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <div class="mb-3">
+          <label for="recipient-name" class="col-form-label" >Whats your New DogTag</label>
+          <input class="form-control" id="recipient-name" [(ngModel)]="newUserName">
+        </div>
+        <button type="button" class="btn btn-outline-light posi" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="changeName()" >
+          Issue New DogTag
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+</main>
