@@ -29,13 +29,7 @@ export class PrimaryHomePageComponent implements OnInit {
   public imageBlobs:any[]=[];
   myInterval = 0;
   activeSlideIndex = 0;
-
-  images = [
-    { src: 'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F262823c0-c21c-4022-baa1-5a2d31632255.jpg?alt=media&token=9295d3eb-a1ce-430b-a56e-0e008dcbe817', alt: 'Image 1' },
-    { src: 'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F2be7b6c3-7fa6-4a8b-b2de-37db733b9126.jpg?alt=media&token=4f234405-dd8f-4a3f-a2e3-4442928d4e38', alt: 'Image 2' },
-    { src: 'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/Posts%2F2e21f4c5-1c9c-4da8-9dcf-75574ce2e889.jpg?alt=media&token=ae031762-0954-4531-8d25-7c544561226a', alt: 'Image 3' }
-  ];
-
+  public userName:any;
 
   ngOnInit(): void {
     this.auth.authState.subscribe(user=>{
@@ -44,9 +38,11 @@ export class PrimaryHomePageComponent implements OnInit {
         //console.log(this.userparsed.uid)
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          axios.get('getprofilepicture').then(res=>{
-            this.profileurl=res.data
-          }).catch(err=>console.log(err))
+          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+            this.profileurl=res.data.profilePicture;
+            this.userName=res.data.name;
+           //console.log(res.data);
+         }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
         this.fetchPost()
       }
@@ -58,14 +54,11 @@ export class PrimaryHomePageComponent implements OnInit {
       //console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
-        post.urlArr=post.photoUrl?.split(',')
+        post.photoUrlArr=post.photoUrl?.split(',')
       });
       this.posts=res.data
-      for (let i=0;i<this.posts.length; i++)
-      {
-        this.posts[i].photoArray=this.posts[i].photoUrl.split(',');
-      }
-      console.log(this.posts)//remove later not needed only for testing
+
+      //console.log(this.posts)//remove later not needed only for testing
     })
    }
    uploadPostFile(){

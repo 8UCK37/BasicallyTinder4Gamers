@@ -23,8 +23,8 @@
   <ng-container *ngIf="show">
     <div class="row justify-content-md-center">
       <div>
-        <div class="row" style="justify-content: space-between;">
-          <div class="col-3 friend-Box" *ngFor="let user of friendList; let i=index" (click)="onclick(user.data.id)">
+        <div class="row" style="justify-content: left;">
+          <div class="col-4 col-md-4 friend-Box" *ngFor="let user of friendList; let i=index" (click)="onclick(user.data.id)">
             <div style="margin-block-start: 9px;">
               <div class="profile-image">
                 <img [src]="user.data.profilePicture" referrerpolicy="no-referrer" />

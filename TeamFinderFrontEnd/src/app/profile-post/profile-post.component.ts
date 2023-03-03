@@ -30,7 +30,7 @@ public userName:any;
           axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
             this.profileurl=res.data.profilePicture;
             this.userName=res.data.name;
-           console.log(res.data);
+           //console.log(res.data);
          }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
       }

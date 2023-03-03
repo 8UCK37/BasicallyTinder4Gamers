@@ -184,13 +184,6 @@ app.post('/userNameUpdate',ensureAuthenticated,urlencodedParser,async (req, res)
   res.sendStatus(200);
 });
 
-app.get('/account', ensureAuthenticated, async function (req, res) {
-  res.sendFile(__dirname + '/client/account.html')
-});
-
-app.get('/friend', ensureAuthenticated, async function (req, res) {
-  res.sendFile(__dirname + '/client/friend.html')
-});
 
 app.get("/accountData", ensureAuthenticated,async (req, res) => {
   let steamIdfromDb = await prisma.User.findUnique({
@@ -348,9 +341,6 @@ app.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
-app.get("/pendingrequest", ensureAuthenticated, async (req, res) => {
-  res.sendFile(__dirname + '/client/PendingRequest.html')
-})
 app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res) => {
   const jsonObject = req.body;
   let friendReq = await prisma.FriendRequest.updateMany({
@@ -561,9 +551,6 @@ app.get('/sentOnly',ensureAuthenticated, async (req, res) => {
 });
 
 
-
-
-
 app.post('/gameSelect',ensureAuthenticated, urlencodedParser,async(req,res)=>{
   const jsonObject = req.body;
   const selectedGames = await prisma.GameSelectInfo.create({
@@ -574,6 +561,7 @@ app.post('/gameSelect',ensureAuthenticated, urlencodedParser,async(req,res)=>{
   })
   res.sendStatus(200);
 });
+
 
 app.get('/getSelectedGames',ensureAuthenticated,async(req,res)=>{
   let selectedGamedata = await prisma.GameSelectInfo.findMany({
@@ -674,32 +662,24 @@ app.post('/getFrndOwnedgames',ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(fetchedGames))
 });
 
-app.get('/getprofilepicture',ensureAuthenticated, async (req, res) => {
-  res.send(`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ProfilePicture%2F${req.user.user_id}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`)
-});
-app.get('/getBanner',ensureAuthenticated, async (req, res) => {
-  res.send(`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ProfileBanner%2F${req.user.user_id}.jpg?alt=media&token=13a7d5b5-e441-4a5f-8204-60aff096a1bf`)
-});
 
 app.get('/getPost',ensureAuthenticated, (req,res)=>postHelper.getPost(req,res,prisma))
+
 app.post('/createPost' , ensureAuthenticated, uploadPost.array('post',10) , urlencodedParser,(req,res)=>postHelper.createPost(req,res,prisma))
+
 app.get('/likePost' , ensureAuthenticated ,(req,res)=>postHelper.likePost(req,res, prisma))
 
 app.get('/getOwnPost',ensureAuthenticated, (req,res)=>postHelper.getOwnPost(req,res, prisma))
-
 
 app.post("/uploadProfile", ensureAuthenticated, upload.single('avatar'), (req, res) => {
   postHelper.upProfilePic(req, res, prisma);
   res.sendStatus(200);
 });
+
 app.post("/uploadBanner",ensureAuthenticated, bnUpload.single('banner'),(req,res)=>{
   postHelper.upBanner(req, res, prisma);
   res.sendStatus(200);
 });
-
-
-
-
 
 socketRunner.execute(io , socketUserMap ,  userSocketMap)
 

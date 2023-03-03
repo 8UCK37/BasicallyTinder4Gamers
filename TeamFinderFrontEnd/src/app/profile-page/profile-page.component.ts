@@ -52,7 +52,7 @@ export class ProfilePageComponent implements OnInit {
             this.profileurl=res.data.profilePicture;
             this.userName=res.data.name;
             this.bannerUrl=res.data.profileBanner;
-           console.log(res.data);
+           //console.log(res.data);
          }).catch(err=>console.log(err))
 
         }).catch(err =>console.log(err))

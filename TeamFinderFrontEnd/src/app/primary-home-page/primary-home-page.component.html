@@ -38,7 +38,7 @@
                   </ng-container>
                 </div>
                 <carousel [isAnimated]="true" [interval]="myInterval" [(activeSlide)]="activeSlideIndex">
-                  <slide *ngFor="let img of post.urlArr">
+                  <slide *ngFor="let img of post.photoUrlArr">
                     <img [src]="img" alt="first slide" style="display: block; width: 100%;">
                   </slide>
                 </carousel>
