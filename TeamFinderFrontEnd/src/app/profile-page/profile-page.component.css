@@ -1208,6 +1208,8 @@ button {
 .profile__subtitle {
   display: inline-block;
   color: white;
+  position: relative;
+  top: 26px;
 }
 
 .profile__actions {
