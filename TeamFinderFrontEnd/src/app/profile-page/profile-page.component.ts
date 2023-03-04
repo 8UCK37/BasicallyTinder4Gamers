@@ -106,11 +106,15 @@ export class ProfilePageComponent implements OnInit {
   uploadProfilePic(){
     this.formData = new FormData();
     //this.input.nativeElement.value=null;
-    console.log(this.input.nativeElement.files[0])
-    let type = this.input.nativeElement.files[0].type
+    //console.log(this.input.nativeElement.files[0])
+
+    if(this.input.nativeElement.files[0]!=null){
+      console.log("not null")
+      let type = this.input.nativeElement.files[0].type
     if(type != "image/jpeg" && type != "image/jpg"){
       alert("wrong image type please upload jpg or Jpeg")
       return
+    }
     }
     this.formData.append("avatar", this.input.nativeElement.files[0]);
     axios.post('/uploadProfile', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
@@ -136,11 +140,16 @@ export class ProfilePageComponent implements OnInit {
   }
   uploadBanner(){
     //this.banner.nativeElement.value=null;
+    console.log("here")
     this.formData = new FormData();
-    let type = this.banner.nativeElement.files[0].type
+
+    if(this.input.nativeElement.files[0]!=null){
+      console.log("not null")
+      let type = this.input.nativeElement.files[0].type
     if(type != "image/jpeg" && type != "image/jpg"){
       alert("wrong image type please upload jpg or Jpeg")
       return
+    }
     }
     this.formData.append("banner", this.banner.nativeElement.files[0]);
     axios.post('/uploadBanner', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
@@ -169,5 +178,8 @@ export class ProfilePageComponent implements OnInit {
   onBannerError() {
     this.bannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
   }
-
+  combineUpload(){
+    this.uploadBanner();
+    this.uploadProfilePic();
+  }
 }

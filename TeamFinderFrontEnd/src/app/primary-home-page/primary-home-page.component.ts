@@ -64,10 +64,13 @@ export class PrimaryHomePageComponent implements OnInit {
    uploadPostFile(){
     console.error("click"  ,this.input)
     this.formData = new FormData();
-    let type = this.input.nativeElement.files[0].type
+    if(this.input.nativeElement.files[0]!=null){
+      console.log("not null")
+      let type = this.input.nativeElement.files[0].type
     if(type != "image/jpeg" && type != "image/jpg"){
       alert("wrong image type please upload jpg or Jpeg")
       return
+    }
     }
     const textareaElement = document.getElementById("message-text") as HTMLTextAreaElement;
     const text = textareaElement.value;

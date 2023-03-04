@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 async function createPost(req, res, prisma){
     let body = JSON.parse(req.body.data)
     //console.log(body.data);
-    //console.log(req.files);
+    console.log(req.files);
     var urlArr = [];
     
     if(req.files){

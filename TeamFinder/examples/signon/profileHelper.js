@@ -3,7 +3,7 @@ const bucketName = 'gs://teamfinder-e7048.appspot.com/';
 
 
 async function upProfilePic(req, res, prisma){
-  //console.log(req.file);
+  console.log(req.file);
   if(req.file){
   const destFileName = 'ProfilePicture/'+req.user.user_id+'.jpg';
   //console.log(myUUID);
@@ -46,8 +46,7 @@ async function upProfilePic(req, res, prisma){
 // }
 
 async function upBanner(req, res,prisma){
-
-  //console.log(req.file);
+  console.log(req.file);
   if(req.file){
   const destFileName = 'ProfileBanner/'+req.user.user_id+'.jpg';
   //console.log(myUUID);
