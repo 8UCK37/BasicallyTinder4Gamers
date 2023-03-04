@@ -14,6 +14,7 @@ var express = require('express')
 require("dotenv").config()
 
 let postHelper = require('./postHelper')
+let profileHelper = require('./profileHelper')
 var bodyParser = require('body-parser')
 // create application/json parser
 var jsonParser = bodyParser.json()
@@ -672,12 +673,12 @@ app.get('/likePost' , ensureAuthenticated ,(req,res)=>postHelper.likePost(req,re
 app.get('/getOwnPost',ensureAuthenticated, (req,res)=>postHelper.getOwnPost(req,res, prisma))
 
 app.post("/uploadProfile", ensureAuthenticated, upload.single('avatar'), (req, res) => {
-  postHelper.upProfilePic(req, res, prisma);
+  profileHelper.upProfilePic(req, res, prisma);
   res.sendStatus(200);
 });
 
 app.post("/uploadBanner",ensureAuthenticated, bnUpload.single('banner'),(req,res)=>{
-  postHelper.upBanner(req, res, prisma);
+  profileHelper.upBanner(req, res, prisma);
   res.sendStatus(200);
 });
 
