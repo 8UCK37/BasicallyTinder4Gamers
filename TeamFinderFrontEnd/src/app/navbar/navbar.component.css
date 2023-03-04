@@ -92,9 +92,12 @@ nav ul li a {
 }
 
 .user-info img {
-  width: 60px;
   border-radius: 50%;
-  margin-right: 15px;
+  width: 8vmin;
+  height: 8vmin;
+  cursor: pointer;
+  margin-left: 0px;
+  margin-right: 28px;
 }
 
 .sub-menu hr {
@@ -230,3 +233,4 @@ input:focus {
 .nav-btn{
   cursor:pointer;
 }
+
