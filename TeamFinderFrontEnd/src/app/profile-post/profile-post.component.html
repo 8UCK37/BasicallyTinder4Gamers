@@ -15,11 +15,13 @@
                 <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag}}</a>
               </ng-container>
             </div>
-            <carousel>
+            <ng-container *ngIf="post.photoUrl.length!=0" >
+            <carousel >
               <slide *ngFor="let img of post.urlArr">
                 <img [src]="img" alt="first slide" style="display: block; width: 100%;">
               </slide>
             </carousel>
+          </ng-container>
               <div class="p-2">
                   <hr>
                   <div class="d-flex justify-content-between align-items-center">

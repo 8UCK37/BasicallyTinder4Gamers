@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 // Imports the Google Cloud Node.js client library
 async function createPost(req, res, prisma){
     let body = JSON.parse(req.body.data)
-    //console.log(body.data)
+    //console.log(body.data);
     //console.log(req.files);
     var urlArr = [];
     
