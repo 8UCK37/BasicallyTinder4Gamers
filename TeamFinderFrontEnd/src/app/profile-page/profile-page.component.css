@@ -1102,57 +1102,6 @@ button {
         display: block;
     }
 }
-
-@property --rotate {
-    syntax: "<angle>";
-    initial-value: 132deg;
-    inherits: false;
-}
-
-:root {
-    --card-height: 65vh;
-    --card-width: calc(var(--card-height) / 1.5);
-}
-
-.card {
-    background: #191c29;
-    width: var(--card-width);
-    height: var(--card-height);
-    padding: 75px;
-    position: relative;
-    border-radius: 6px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    font-size: 1.5em;
-    color: rgb(88 199 250 / 0%);
-    cursor: pointer;
-    font-family: cursive;
-}
-
-.card::before {
-    content: "";
-    width: 104%;
-    height: 102%;
-    border-radius: 8px;
-    background-image: linear-gradient(var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
-    position: absolute;
-    z-index: -1;
-    top: -1%;
-    left: -2%;
-    animation: spin 2.5s linear infinite;
-}
-
-@keyframes spin {
-    0% {
-        --rotate: 0deg;
-    }
-
-    100% {
-        --rotate: 360deg;
-    }
-}
 .phi-edit-icon {
   display: block;
   position: absolute;
@@ -1193,13 +1142,13 @@ button {
   top: 9rem;
 }
 .profile {
-  background-color: white;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #262626;
   width: 100%;
-  border: 1px solid #ddd;
   box-sizing: border-box;
-  margin: 0 auto;
+  margin-top: 6.499999px;
   box-shadow: 0px 0px 16px -1px rgba(0, 0, 0, 0.55);
-  border-radius: 20px;
   position: relative;
   height: 34rem;
 }
@@ -1212,8 +1161,6 @@ button {
 }
 
 .profile__header-image {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
   position: absolute;
   top: 0;
   left: 0;
@@ -1224,8 +1171,7 @@ button {
   .profile__header-image {
     object-fit: cover;
     height: 73%;
-    border-top-right-radius:20px;
-    border-top-left-radius:20px;
+
   }
 }
 
@@ -1240,7 +1186,7 @@ button {
 
 .profile__avatar {
   border-radius: 50%;
-  border: 10px solid white;
+  border: 10px solid #262626;
   display: inline-block;
   width: 200px;
   height: 200px;
@@ -1256,11 +1202,12 @@ button {
 
 .profile__name {
   margin-bottom: 0;
+  color: white;
 }
 
 .profile__subtitle {
   display: inline-block;
-  color: #aaa;
+  color: white;
 }
 
 .profile__actions {
@@ -1284,7 +1231,7 @@ button {
   color: #000000;
 }
 .profile-modal {
-  background-color: white;
+  background-color: #262626;
   width: 100%;
   border: 1px solid #ddd;
   box-sizing: border-box;
@@ -1331,7 +1278,7 @@ button {
 
 .profile__avatar-modal {
   border-radius: 50%;
-  border: 10px solid white;
+  border: 10px solid #262626;
   display: inline-block;
   width: 200px;
   height: 200px;

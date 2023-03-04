@@ -17,10 +17,11 @@ nav{
     height:50px;
 }
 .user-pic{
-    margin-top:25px;
-    width: 56px;
+    margin-top:21.5px;
+    width: 7vmin;
     border-radius: 50%;
     margin-left: 30px;
+    height: 7vmin;
 }
 nav ul{
     width: 100%;
@@ -183,13 +184,19 @@ body {
 }
 .profileimg{
   position: relative;
-    width: 40px;
-    height: 40px;
     left: 1.5rem;
     top: 2px;
+    width: 7vmin;
+    height: 7vmin;
+    border-radius: 50%;
+
 }
 .modal-dialog {
   top: 57px;
    right: 0px;
+}
+.rounded-circle{
+  width: 4vmin;
+  height: 4vmin;
 }
 
