@@ -4,6 +4,7 @@ import axios from 'axios';
 import { UserService } from '../login/user.service';
 import {filter} from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-profile-page',
@@ -16,7 +17,7 @@ export class ProfilePageComponent implements OnInit {
   radioActivaVal:any;
   radioAtGame:any = false;
 
-  constructor(public user: UserService,private router : Router,private auth: AngularFireAuth) {
+  constructor(public modalService: NgbModal, user: UserService,private router : Router,private auth: AngularFireAuth) {
   //   router.events.pipe(
   //     filter(event => event instanceof NavigationEnd)
   // )
@@ -116,6 +117,7 @@ export class ProfilePageComponent implements OnInit {
       this.dPsave=false;
       this.input.nativeElement.value=null;
     }).catch(err =>console.log(err))
+    window.location.reload();
     //console.log(this.input)
     console.log(this.formData)
   }

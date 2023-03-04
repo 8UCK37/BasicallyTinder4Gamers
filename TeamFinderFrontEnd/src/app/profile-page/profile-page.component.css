@@ -335,7 +335,7 @@ select {
     width: 10em;
     height: 10em;
     position: relative;
-
+    bottom: 84px;
 }
 
 .phi-profile-picture-inner {
@@ -1153,51 +1153,191 @@ button {
         --rotate: 360deg;
     }
 }
-.phi-profile-picture-wrapper:hover .phi-edit-icon{
-  display: block;
-}
-
 .phi-edit-icon {
-  display: none;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-.phi-edit-icon.fa-pencil{
-  position: absolute;
-  top: 5px;
-  right: -12px;
-  color: #540980;
-}
-
-.fa-floppy-disk{
-  color: #540980;
-}
-.fa-xmark{
-  color: #540980;
-  padding-left: 90px;
-}
-
-.phi-info-wrapper:hover .ban-edit-icon{
   display: block;
-}
-
-.ban-edit-icon {
-  display: none;
   position: absolute;
   top: 5px;
   right: 5px;
+  opacity: 1;
 }
-.ban-edit-icon.fa-pencil{
+.fa.fa-camera{
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1;
+  text-align: center;
+  display: block;
+  height: 3.125rem;
+  width: 3.125rem;
+  padding-top: 0.9375rem;
+  text-shadow: 1px 1px 0px #d6850b;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.15);
+  top: 62px;
+  right: 34px;
+}
+
+.fa-2x{
+  border-radius: 50%;
+  color: rgb(0, 0, 0);
+  font-size: 1.25rem;
+  line-height: 1;
+  text-align: center;
+  display: block;
+  height: 3.125rem;
+  width: 3.125rem;
+  padding-top: 0.9375rem;
+  text-shadow: 1px 1px 0px #d6850b;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.15);
+  position: relative;
+  left: 43rem;
+  top: 9rem;
+}
+.profile {
+  background-color: white;
+  width: 100%;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  margin: 0 auto;
+  box-shadow: 0px 0px 16px -1px rgba(0, 0, 0, 0.55);
+  border-radius: 20px;
+  position: relative;
+  height: 34rem;
+}
+
+.profile__header-image-container {
+  position: relative;
+  padding-bottom: 40%;
+  overflow: hidden;
+  margin-bottom: -50px;
+}
+
+.profile__header-image {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   position: absolute;
-  top: -265px;
-  right: -50px;
-  color: #540980;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
-.fa-floppy-disk{
-  color: #540980;
+
+@supports (object-fit: cover) {
+  .profile__header-image {
+    object-fit: cover;
+    height: 73%;
+    border-top-right-radius:20px;
+    border-top-left-radius:20px;
+  }
 }
-.fa-xmark{
-  color: #540980;
-  padding-left: 90px;
+
+.profile__user {
+  display: flex;
+  align-items: center;
+  margin: 0 40px;
+  position: relative;
+  bottom: 136px;
+
+}
+
+.profile__avatar {
+  border-radius: 50%;
+  border: 10px solid white;
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  top: -10px;
+}
+
+.profile__details {
+  display: inline-block;
+  position: relative;
+  margin-left: 30px;
+}
+
+.profile__name {
+  margin-bottom: 0;
+}
+
+.profile__subtitle {
+  display: inline-block;
+  color: #aaa;
+}
+
+.profile__actions {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.button {
+  display: inline-block;
+  background-color: #697663;
+  padding: 12px 25px;
+  color: white;
+  text-decoration: none;
+  border: 2px solid #697663;
+  border-radius: 25px;
+  transition: all 0.2s ease-out;
+}
+
+.button:hover {
+  background-color: #697663;
+  color: #000000;
+}
+.profile-modal {
+  background-color: white;
+  width: 100%;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  margin: 0 auto;
+  box-shadow: 0px 0px 16px -1px rgba(0, 0, 0, 0.55);
+  border-radius: 20px;
+  position: relative;
+  height: 23rem;
+}
+
+.profile__header-image-container-modal {
+  position: relative;
+  padding-bottom: 40%;
+  overflow: hidden;
+  margin-bottom: -50px;
+}
+
+.profile__header-image-modal {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+@supports (object-fit: cover) {
+  .profile__header-image-modal {
+    object-fit: cover;
+    height: 73%;
+    border-top-right-radius:20px;
+    border-top-left-radius:20px;
+  }
+}
+
+.profile__user-modal {
+  display: flex;
+  align-items: center;
+  margin: 0 40px;
+  position: relative;
+  bottom: 82px;
+
+}
+
+.profile__avatar-modal {
+  border-radius: 50%;
+  border: 10px solid white;
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  top: -10px;
+}
+.custom-modal-class .modal-content {
+  height: 60rem !important;
 }

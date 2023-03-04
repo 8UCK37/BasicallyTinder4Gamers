@@ -5,10 +5,32 @@
     <div class="view-width">
         <!-- Profile Header -->
         <section class="profile-header">
+            <!-- Profile Banner -->
+    <div class="profile">
+      <div class="profile__header-image-container">
+        <img class="profile__header-image" [src]="bannerUrl">
+      </div>
+          <!-- Profile Avater -->
+      <div class="profile__user">
+        <img class="profile__avatar" [src]="profileurl">
+        <div class="profile__details">
+          <!-- Main header -->
+          <h1 class="profile__name">{{userName}}</h1>
+          <!-- SubHeader -->
+          <p class="profile__subtitle">A Front End Web Developer
+        </div>
+          <!-- "Follow" button -->
+        <div class="profile__actions">
+          <a class="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Edit Profile</a>
+        </div>
+      </div>
+    </div>
+        </section>
+        <!-- <section class="profile-header">
             <div class="profile-header-inner flexbox">
                 <div class="phi-info-wrapper flexbox">
                     <div class="phi-info-left flexbox">
-                        <!-- Profile Picture -->
+
                         <div class="phi-profile-picture-wrapper">
                             <div class="phi-profile-picture-inner flexbox">
                                 <img class="phi-profile-picture"
@@ -23,7 +45,7 @@
                         </div>
                         <input type="file" name="" id="" style="display: none;" #image>
                         <input type="file" name="" id="" style="display: none;" #banner>
-                        <!-- Profile Username -->
+
                         <div class="phi-profile-username-wrapper flexbox-col-left">
                             <h3 class="phi-profile-username flexbox">{{userName}}</h3>
                             <p class="phi-profile-tagline">Random bullshit about</p>
@@ -35,15 +57,49 @@
                         <i class="fa-sharp fa-solid fa-xmark fa-2x" *ngIf="bNsave" (click)="cancelBannerUpload()"></i>
                     </div>
                 </div>
-                <!-- Profile Header Image -->
+
                 <div class="profile-header-overlay"></div>
                 <img class="profile-header-image"
                     [src]="bannerUrl" (error)="onBannerError()"
                     alt="">
             </div>
-        </section>
-        <div class="tabs">
+        </section> -->
+        <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content"  style="background-color: currentColor; height: 52rem;" >
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: whitesmoke;">Edit Profile</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelProfileUpload() ; cancelBannerUpload()"></button>
+            </div>
 
+          <div class="modal-body" style="overflow-y:scroll; max-height:70vh">
+            <div class="profile-modal">
+              <div class="profile__header-image-container-modal">
+                <img class="profile__header-image-modal" [src]="bannerUrl">
+                <div>
+                  <i class="phi-edit-icon fa-solid fa fa-camera" (click)="banner.click()"></i>
+                  <i class="fa-sharp fa-solid fa-xmark fa-2x" *ngIf="bNsave" (click)="cancelBannerUpload()"></i>
+                </div>
+              </div>
+                  <!-- Profile Avater -->
+                  <div class="phi-profile-picture-wrapper">
+                <img class="profile__avatar-modal" [src]="profileurl">
+                <div>
+                  <i class="phi-edit-icon fa-solid fa fa-camera" (click)="image.click()"></i>
+                </div>
+              <input type="file" name="" id="" style="display: none;" #image>
+              <input type="file" name="" id="" style="display: none;" #banner>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-between" style="position: relative; top: 30px;">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="bottom: 9px;left: 40rem;position: relative;" (click)="uploadProfilePic() ; uploadBanner()">Save</button>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="tabs">
             <input type="radio" id="tab1" name="tab-control" [checked]="radioActivaVal == 1 ? true : false">
             <input type="radio" id="tab2" name="tab-control" [checked]="radioActivaVal == 2 ? true : false">
             <input type="radio" id="tab3" name="tab-control" [checked]="radioActivaVal == 3 ? true : false">
@@ -83,5 +139,6 @@
 
 
     </div>
+
 
 </main>
