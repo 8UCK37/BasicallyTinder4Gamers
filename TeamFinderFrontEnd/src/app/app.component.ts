@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.component';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -5,29 +5,31 @@
   <div class="view-width">
     <!-- Profile Header -->
     <div class="container">
-    <section class="profile-header">
-      <!-- Profile Banner -->
-      <div class="profile">
-        <div class="profile__header-image-container">
-          <img class="profile__header-image" [src]="bannerUrl" (error)="onProfilePicError()">
-        </div>
-        <!-- Profile Avater -->
-        <div class="profile__user">
-          <img class="profile__avatar" [src]="profileurl" (error)="onBannerError()">
-          <div class="profile__details">
-            <!-- Main header -->
-            <h1 class="profile__name">{{userName}}</h1>
-            <!-- SubHeader -->
-            <p class="profile__subtitle">{{bio}}
+      <section class="profile-header">
+        <!-- Profile Banner -->
+        <div class="profile">
+          <div class="profile__header-image-container">
+            <img class="profile__header-image" [src]="bannerUrl" (error)="onProfilePicError()">
           </div>
-          <!-- "Follow" button -->
-          <div class="profile__actions">
-            <a class="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor:pointer">Edit Profile</a>
+          <!-- Profile Avater -->
+          <div class="profile__user">
+            <
+            <img class="profile__avatar" [src]="profileurl" (error)="onBannerError()" >
+
+            <div class="profile__details">
+              <!-- Main header -->
+              <h1 class="profile__name">{{userName}}</h1>
+              <!-- SubHeader -->
+              <p class="profile__subtitle">{{bio}}
+            </div>
+            <!-- "Follow" button -->
+            <div class="profile__actions">
+              <a class="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor:pointer" >Edit Profile</a>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
- </div>
+      </section>
+    </div>
     <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
       tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable">
@@ -44,24 +46,24 @@
                 <img class="profile__header-image-modal" [src]="bannerUrl">
                 <div>
                   <i class="phi-edit-icon fa-solid fa fa-camera" (click)="banner.click()"></i>
-                  </div>
-              </div>
-              <!-- Profile Avater -->
-              <div class="phi-profile-picture-wrapper">
-                <img class="profile__avatar-modal" [src]="profileurl">
-                <div>
-                  <i class="phi-edit-icon fa-solid fa fa-camera" (click)="image.click()"></i>
                 </div>
-                <input type="file" name="" id="" style="display: none;" #image>
-                <input type="file" name="" id="" style="display: none;" #banner>
+              </div>
+              <input type="file" name="" id="" style="display: none;" #image>
+              <input type="file" name="" id="" style="display: none;" #banner>
+              <!-- Profile Avater -->
+              <div>
+              <div class="phi-profile-picture-wrapper">
+                <img class="profile__avatar-modal" [src]="profileurl" style="cursor:pointer" placement="top" tooltip="Change profile picture" >
               </div>
             </div>
+            </div>
+
             <div class="mb-3" style="margin-top: 15px;">
-              <label for="message-text" class="col-form-label"  style="color: whitesmoke;">Tell your friends a lil bit about yourself</label>
+              <label for="message-text" class="col-form-label" style="color: whitesmoke;" >Tell your friends a lil bit
+                about yourself</label>
               <textarea placeholder="{{bio}}" class="form-control" id="bio-text" (click)="setBio()"></textarea>
             </div>
           </div>
-
           <div class="modal-footer d-flex justify-content-between" style="position: relative; top: 30px;">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
               style="bottom: 9px;left: 40rem;position: relative;" (click)="combineUpload()">Save</button>
