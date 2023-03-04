@@ -129,4 +129,14 @@ async function likePost(req, res, prisma){
   
 // }
 
-module.exports =  { createPost,getPost,likePost,getOwnPost}
+
+async function getPostByTags(req, res,prisma){
+  console.log(req.query)
+  let param = req.query.tags;
+  let postsByTag = await prisma.$queryRaw`select t.* , p.* from (select * from public."Posts" where id in  
+  (SELECT post FROM public."Tags" where "tagName" = ${param} )) as p left join (SELECT post, STRING_AGG("tagName", ',') AS tagNames
+      FROM public."Tags"
+      GROUP BY "post") as t on p.id = t.post;`
+  res.send(JSON.stringify(postsByTag))
+}
+module.exports =  { createPost,getPost,likePost,getOwnPost,getPostByTags}

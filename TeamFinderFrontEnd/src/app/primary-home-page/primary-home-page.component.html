@@ -34,7 +34,7 @@
                   <div class="p-2">
                   <p class="text-justify">{{post.description}}</p>
                    <ng-container *ngFor="let tag of post.tagArr">
-                    <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag}}</a>
+                    <a class="text-justify" style="cursor: pointer; margin-left: 15px;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
                   </ng-container>
                 </div>
                 <ng-container *ngIf="post.photoUrl.length!=0" >

@@ -147,6 +147,17 @@ export class PrimaryHomePageComponent implements OnInit {
     event.preventDefault();
 
   }
+  fetchByTag(tag:any){
+    axios.get(`/getpostbytagname?tags=${tag}`).then(res=>{
+      this.posts = []
+      res.data.forEach((post: any) => {
+        post.tagArr=post.tagnames?.split(',')
+        post.photoUrlArr=post.photoUrl?.split(',')
+      });
+      this.posts=res.data
+    })
+    // console.log(tag)
+  }
 
 }
 

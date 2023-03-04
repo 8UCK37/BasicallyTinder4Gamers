@@ -672,6 +672,8 @@ app.get('/likePost' , ensureAuthenticated ,(req,res)=>postHelper.likePost(req,re
 
 app.get('/getOwnPost',ensureAuthenticated, (req,res)=>postHelper.getOwnPost(req,res, prisma))
 
+app.get('/getpostbytagname' ,(req,res)=>postHelper.getPostByTags(req,res,prisma))
+
 app.post("/uploadProfile", ensureAuthenticated, upload.single('avatar'), (req, res) => {
   profileHelper.upProfilePic(req, res, prisma);
   res.sendStatus(200);
