@@ -29,6 +29,7 @@ export class ProfilePageComponent implements OnInit {
   public userparsed:any;
   public profileurl:any;
   public bannerUrl:any;
+  public bio:any;
   public dPsave:boolean=false;
   public bNsave:boolean=false;
   public formData:any;
@@ -48,14 +49,14 @@ export class ProfilePageComponent implements OnInit {
         this.userparsed=JSON.parse(this.usr);
         //console.log(this.userparsed.photoURL)
         axios.get('saveuser').then(res=>{
-          //console.log("save user" ,res)
           axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+            //console.log(res.data)
             this.profileurl=res.data.profilePicture;
             this.userName=res.data.name;
             this.bannerUrl=res.data.profileBanner;
+            this.bio=res.data.bio;
            //console.log(res.data);
          }).catch(err=>console.log(err))
-
         }).catch(err =>console.log(err))
       }
     })
@@ -121,9 +122,8 @@ export class ProfilePageComponent implements OnInit {
       this.dPsave=false;
       this.input.nativeElement.value=null;
     }).catch(err =>console.log(err))
-    window.location.reload();
     //console.log(this.input)
-    console.log(this.formData)
+    //console.log(this.formData)
   }
   cancelProfileUpload(){
     this.input.nativeElement.value=null;
@@ -133,18 +133,16 @@ export class ProfilePageComponent implements OnInit {
         //console.log(this.userparsed)
         axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
           this.profileurl=res.data.profilePicture;
-         console.log(res.data);
+         //console.log(res.data);
        }).catch(err=>console.log(err))
       }
     })
   }
   uploadBanner(){
     //this.banner.nativeElement.value=null;
-    console.log("here")
     this.formData = new FormData();
-
     if(this.input.nativeElement.files[0]!=null){
-      console.log("not null")
+      //console.log("not null")
       let type = this.input.nativeElement.files[0].type
     if(type != "image/jpeg" && type != "image/jpg"){
       alert("wrong image type please upload jpg or Jpeg")
@@ -155,7 +153,6 @@ export class ProfilePageComponent implements OnInit {
     axios.post('/uploadBanner', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
       this.bNsave=false;
       this.banner.nativeElement.value=null;
-
     }).catch(err =>console.log(err))
     //console.log(this.input)
   }
@@ -167,10 +164,26 @@ export class ProfilePageComponent implements OnInit {
         //console.log(this.userparsed)
         axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
           this.bannerUrl=res.data.profileBanner;
-          console.log(res.data);
+          //console.log(res.data);
        }).catch(err=>console.log(err))
       }
     })
+  }
+  setBio(){
+    const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;
+    textareaElement.value=this.bio;
+  }
+  updateBio(){
+    const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;
+    const text = textareaElement.value;
+    axios.post('updateBio',{bio:text}).then(res=>{
+      //console.log("updatebiohit")
+      textareaElement.value=''
+      axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+        this.bio=res.data.bio;
+        //console.log(res.data);
+     }).catch(err=>console.log(err))
+   }).catch(err=>console.log(err))
   }
   onProfilePicError() {
     this.profileurl = this.userparsed?.photoURL;
@@ -179,7 +192,9 @@ export class ProfilePageComponent implements OnInit {
     this.bannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
   }
   combineUpload(){
+    this.updateBio();
     this.uploadBanner();
     this.uploadProfilePic();
+    //window.location.reload()
   }
 }

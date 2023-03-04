@@ -4,11 +4,10 @@
   <head><script src="https://kit.fontawesome.com/e5bca406a7.js" crossorigin="anonymous"></script></head>
   <div class="view-width">
       <!-- Profile Header -->
-      <section class="profile-header">
+      <!-- <section class="profile-header">
           <div class="profile-header-inner flexbox">
               <div class="phi-info-wrapper flexbox">
                   <div class="phi-info-left flexbox" *ngIf="frndData!=null">
-                      <!-- Profile Picture -->
                       <div class="phi-profile-picture-wrapper">
                           <div class="phi-profile-picture-inner flexbox">
                               <img class="phi-profile-picture"
@@ -19,7 +18,7 @@
                           [src]=""
                               alt="">
                       </div>
-                      <!-- Profile Username -->
+
                       <div class="phi-profile-username-wrapper flexbox-col-left">
                           <h3 class="phi-profile-username flexbox">{{frndData.name}}</h3>
                           <i class="fa-regular fa-handshake" *ngIf="isFrnd"></i>
@@ -29,12 +28,35 @@
                   <button type="button" class="btn btn-danger" (click)="sendReq()" *ngIf="!isFrnd">{{btnTxt}}</button>
 
               </div>
-              <!-- Profile Header Image -->
+
               <div class="profile-header-overlay"></div>
               <img class="profile-header-image"
                   [src]="frndData.profileBanner" (error)="onBannerError()"
                   alt="">
           </div>
+      </section> -->
+      <section class="profile-header">
+        <!-- Profile Banner -->
+        <div class="profile">
+          <div class="profile__header-image-container">
+            <img class="profile__header-image" [src]="frndData.profileBanner" (error)="onBannerError()">
+          </div>
+          <!-- Profile Avater -->
+          <div class="profile__user">
+            <img class="profile__avatar" [src]="frndData.profilePicture" (error)="onDpError()">
+            <div class="profile__details">
+              <!-- Main header -->
+              <h1 class="profile__name">{{frndData.name}}</h1>
+              <!-- SubHeader -->
+              <p class="profile__subtitle">A Front End Web Developer
+            </div>
+            <!-- "Follow" button -->
+            <div class="profile__actions">
+              <button class="button"  (click)="sendReq()" *ngIf="!isFrnd">{{btnTxt}}</button>
+              <i class="fa-regular fa-handshake fa-2x" *ngIf="isFrnd"></i>
+            </div>
+          </div>
+        </div>
       </section>
       <div class="tabs">
 

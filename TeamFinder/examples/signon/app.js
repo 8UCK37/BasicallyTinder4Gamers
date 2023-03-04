@@ -684,6 +684,17 @@ app.post("/uploadBanner",ensureAuthenticated, bnUpload.single('banner'),(req,res
   res.sendStatus(200);
 });
 
+app.post("/updateBio",ensureAuthenticated,async (req,res)=>{
+  const updateStatus = await prisma.user.update({
+    where: {
+      id: req.user.user_id,
+    },
+    data: {
+      bio: req.body.bio,
+    },
+  })
+  res.sendStatus(200);
+});
 socketRunner.execute(io , socketUserMap ,  userSocketMap)
 
 

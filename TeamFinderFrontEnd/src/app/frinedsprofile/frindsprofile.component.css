@@ -1184,3 +1184,153 @@ button {
 .fa-handshake{
   color:#540980 ;
 }
+.profile {
+  background-color: white;
+  width: 100%;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  margin: 0 auto;
+  box-shadow: 0px 0px 16px -1px rgba(0, 0, 0, 0.55);
+  border-radius: 20px;
+  position: relative;
+  height: 34rem;
+  margin-top: 10px;
+}
+
+.profile__header-image-container {
+  position: relative;
+  padding-bottom: 40%;
+  overflow: hidden;
+  margin-bottom: -50px;
+}
+
+.profile__header-image {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+@supports (object-fit: cover) {
+  .profile__header-image {
+    object-fit: cover;
+    height: 73%;
+    border-top-right-radius:20px;
+    border-top-left-radius:20px;
+  }
+}
+
+.profile__user {
+  display: flex;
+  align-items: center;
+  margin: 0 40px;
+  position: relative;
+  bottom: 136px;
+
+}
+
+.profile__avatar {
+  border-radius: 50%;
+  border: 10px solid white;
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  top: -10px;
+}
+
+.profile__details {
+  display: inline-block;
+  position: relative;
+  margin-left: 30px;
+}
+
+.profile__name {
+  margin-bottom: 0;
+}
+
+.profile__subtitle {
+  display: inline-block;
+  color: #aaa;
+}
+
+.profile__actions {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.button {
+  display: inline-block;
+  background-color: #697663;
+  padding: 12px 25px;
+  color: white;
+  text-decoration: none;
+  border: 2px solid #697663;
+  border-radius: 25px;
+  transition: all 0.2s ease-out;
+}
+
+.button:hover {
+  background-color: #697663;
+  color: #000000;
+}
+.profile-modal {
+  background-color: white;
+  width: 100%;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  margin: 0 auto;
+  box-shadow: 0px 0px 16px -1px rgba(0, 0, 0, 0.55);
+  border-radius: 20px;
+  position: relative;
+  height: 23rem;
+}
+
+.profile__header-image-container-modal {
+  position: relative;
+  padding-bottom: 40%;
+  overflow: hidden;
+  margin-bottom: -50px;
+}
+
+.profile__header-image-modal {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+@supports (object-fit: cover) {
+  .profile__header-image-modal {
+    object-fit: cover;
+    height: 73%;
+    border-top-right-radius:20px;
+    border-top-left-radius:20px;
+  }
+}
+
+.profile__user-modal {
+  display: flex;
+  align-items: center;
+  margin: 0 40px;
+  position: relative;
+  bottom: 82px;
+
+}
+
+.profile__avatar-modal {
+  border-radius: 50%;
+  border: 10px solid white;
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  top: -10px;
+}
+.custom-modal-class .modal-content {
+  height: 60rem !important;
+}
