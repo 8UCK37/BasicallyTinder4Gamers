@@ -51,11 +51,12 @@
               <input type="file" name="" id="" style="display: none;" #image>
               <input type="file" name="" id="" style="display: none;" #banner>
               <!-- Profile Avater -->
-              <div>
+
               <div class="phi-profile-picture-wrapper" (click)="image.click()">
-                <img class="profile__avatar-modal" [src]="profileurl" style="cursor:pointer" placement="top" tooltip="Change profile picture" >
+                <img class="profile__avatar-modal" [src]="profileurl" style="cursor:pointer">
+                <div class="camera-icon" style><i class="phi-edit-icon fa-solid fa fa-camera"></i></div>
               </div>
-            </div>
+
             </div>
 
             <div class="mb-3" style="margin-top: 15px;">
