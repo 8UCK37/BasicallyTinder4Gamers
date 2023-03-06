@@ -9,7 +9,7 @@
         </div>
       </div>
   </ng-container>
-    <div class="card" (click)="openScrollableContent(longContent)">
+    <div class="card" (click)="saveOwnedGames();openScrollableContent(longContent)">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <i class="fa fa-plus-circle" style="font-size:130px;color:rgb(245, 245, 245)"></i>
@@ -18,7 +18,7 @@
     <ng-template #longContent let-modal>
       <div class="modal-header">
         <h4 class="modal-title">Select Games</h4>
-        <button type="button" class="btn btn-info" (click)="saveOwnedGames()">Load games</button>
+        <!-- <button type="button" class="btn btn-info" (click)="saveOwnedGames()">Load games</button> -->
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
       </div>
       <div class="modal-body" style="overflow-y:scroll; max-height:70vh">
