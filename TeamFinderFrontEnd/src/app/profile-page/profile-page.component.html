@@ -58,11 +58,11 @@
               </div>
             </div>
 
-            <div class="mb-3" style="margin-top: 15px;">
-              <label for="message-text" class="col-form-label" style="color: whitesmoke;" >Tell your friends a lil bit
-                about yourself</label>
-              <textarea placeholder="{{bio}}" class="form-control" id="bio-text" (click)="setBio()"></textarea>
+            <div class="mb-3" style="margin-top: 15px; user-select: auto;">
+              <label for="message-text" class="col-form-label" style="color: whitesmoke;" >Tell your friends a lil bit about yourself</label>
+              <textarea  placeholder="{{bio}}" class="form-control" id="bio-text" [(ngModel)]="bio"></textarea>
             </div>
+
           </div>
           <div class="modal-footer d-flex justify-content-between" style="position: relative; top: 30px;">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"

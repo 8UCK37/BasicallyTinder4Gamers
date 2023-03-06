@@ -85,7 +85,6 @@ export class ProfilePageComponent implements OnInit {
     reader.readAsDataURL(this.banner.nativeElement.files[0]);
       }else{
         //console.log("null")
-
         this.bNsave=false;
       }
     }, 300);
@@ -173,12 +172,11 @@ export class ProfilePageComponent implements OnInit {
     const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;
     textareaElement.value=this.bio;
   }
+  
+
   updateBio(){
-    const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;
-    const text = textareaElement.value;
-    axios.post('updateBio',{bio:text}).then(res=>{
+    axios.post('updateBio',{bio:this.bio}).then(res=>{
       //console.log("updatebiohit")
-      textareaElement.value=''
       axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
         this.bio=res.data.bio;
         //console.log(res.data);
