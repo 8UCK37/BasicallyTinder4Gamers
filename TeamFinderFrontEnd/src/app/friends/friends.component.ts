@@ -3,8 +3,10 @@ import { UserService } from '../login/user.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AnimateTimings } from '@angular/animations';
 import axios from 'axios';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from '@firebase/util';
+import { ChatServicesService } from '../chat-page/chat-services.service';
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
@@ -16,7 +18,7 @@ export class FriendsComponent implements OnInit {
   public hide: boolean = false;
   public buttonName: any = 'Show';
 
-  constructor(public user: UserService, private auth: AngularFireAuth,private router: Router) { }
+  constructor(private socketService : ChatServicesService ,public user: UserService, private auth: AngularFireAuth,private router: Router) { }
   public usr: any;
   public userparsed: any;
   public pendingResults: any[] = [];
@@ -24,7 +26,8 @@ export class FriendsComponent implements OnInit {
   public sentPending:any[]=[];
   public profileurl: any;
   public online:boolean=false;
-
+  public recData:any;
+  private incomingNotiSubscription: Subscription | undefined;
   public status=new Map();
 
   ngOnInit(): void {
@@ -45,15 +48,16 @@ export class FriendsComponent implements OnInit {
 
       }
     })
-    setInterval(() => {
-      this.friendList.forEach(element => {
-        axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
-          //console.log(res.data)
-          //console.log(element.data.id,res.data.activeChoice&&res.data.isConnected)
-          this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
-        }).catch(err => console.log(err))
-      });
-    }, 500);
+    // setInterval(() => {
+    //   this.friendList.forEach(element => {
+    //     axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
+    //       //console.log(res.data)
+    //       //console.log(element.data.id,res.data.activeChoice&&res.data.isConnected)
+    //       this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
+    //     }).catch(err => console.log(err))
+    //   });
+    // }, 500);
+    this.incNotification();
   }
   getPendingReq() {
     this.pendingResults = []
@@ -70,7 +74,7 @@ export class FriendsComponent implements OnInit {
     axios.get('friendData').then(res => {
       res.data.forEach((data: any) => {
         this.friendList.push({ data })
-        this.status.set(data.id,false);
+        this.status.set(data.id,data.activeChoice&&data.isConnected)
       });
     }).catch(err => console.log(err))
     //console.log(this.friendList)
@@ -117,7 +121,23 @@ export class FriendsComponent implements OnInit {
     }).catch(err => console.log(err))
     //console.log(this.sentPending)
   }
-
+  incNotification(){
+    this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
+      this.recData = typeof data === 'string' ? JSON.parse(data) : data;
+      //console.log(this.recData);
+      if(this.recData.notification=='disc'){
+        axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+         //console.log(res.data);
+         this.status.set(this.recData.sender,res.data.activeChoice&&false)
+          }).catch(err=>console.log(err));
+      }else if(this.recData.notification=='online'){
+        axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+          //console.log(res.data)
+          this.status.set(this.recData.sender,res.data.activeChoice&&true)
+          }).catch(err=>console.log(err));
+      }
+    });
+  };
   toggle() {
     this.pendingResults=[];
     this.friendList=[];

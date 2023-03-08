@@ -208,7 +208,7 @@ export class ChatPageComponent implements OnInit {
     incNotification(){
       this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
         this.recData = typeof data === 'string' ? JSON.parse(data) : data;
-        console.log(this.recData);
+        //console.log(this.recData);
         if(this.recData.notification=='disc'){
           axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
            //console.log(res.data);
