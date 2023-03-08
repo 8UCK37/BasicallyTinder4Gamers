@@ -59,6 +59,7 @@ export class ChatPageComponent implements OnInit {
           //console.log("save user" ,res)
           axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
             this.profileurl=res.data.profilePicture;
+
            //console.log(res.data);
          }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
@@ -117,8 +118,9 @@ export class ChatPageComponent implements OnInit {
     axios.get('friendData').then(res=>{
       res.data.forEach((data: any) => {
         this.friendList.push({data})
-        this.status.set(data.id,false);
+        //this.status.set(data.id,false);
         this.notification.set(data.id,false);
+        this.status.set(data.id,data.activeChoice&&data.isConnected)
       });
     }).catch(err=>console.log(err))
     //console.log(this.friendList)
