@@ -25,10 +25,21 @@ async function execute(io , socketUserMap ,  userSocketMap){
         }catch(err){
             console.log("probs new user")
           }
+          const friendlist = await prisma.$queryRaw`select reciever from public."Friends" where sender =${socketUserMap.get(socket.id)}`
+          //console.log(friendlist)
+          friendlist.forEach(frnd => {
+            let receiver = userSocketMap.get(frnd.reciever)
+            io.to(receiver).emit('notification' , {sender:socketUserMap.get(socket.id),notification:'online'});
+          });
         });
         socket.on('disconnect', async () => {
           console.log('user disconnected with soc id: '+socket.id);
-          
+          const friendlist = await prisma.$queryRaw`select reciever from public."Friends" where sender =${socketUserMap.get(socket.id)}`
+          //console.log(friendlist)
+          friendlist.forEach(frnd => {
+            let receiver = userSocketMap.get(frnd.reciever)
+            io.to(receiver).emit('notification' , {sender:socketUserMap.get(socket.id),notification:'disc'});
+          });
           try{
           const updateStatus = await prisma.user.update({
             where: {
@@ -71,6 +82,5 @@ async function sendNotification(io , userSocketMap,notification,sender_id,receiv
   // console.log(receiver_id)
   let receiver = userSocketMap.get(receiver_id)
   io.to(receiver).emit('notification' , {sender:sender_id,notification:notification});
-  
 }
 module.exports = { execute,sendNotification }

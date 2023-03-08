@@ -469,6 +469,15 @@ app.post('/activeStateChange',ensureAuthenticated, urlencodedParser,async(req,re
       activeChoice: jsonObject.state,
     },
   })
+  const friendlist = await prisma.$queryRaw`select reciever from public."Friends" where sender =${req.user.user_id}`
+  //console.log(friendlist)
+  friendlist.forEach(frnd => {
+    if(jsonObject.state){
+      socketRunner.sendNotification(io , userSocketMap,"online",req.user.user_id,frnd.reciever)
+    }else{
+      socketRunner.sendNotification(io , userSocketMap,"disc",req.user.user_id,frnd.reciever)
+    }
+  });
 });
 
 app.post('/setSteamId',ensureAuthenticated, urlencodedParser,async(req,res)=>{

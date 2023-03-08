@@ -21,7 +21,7 @@ export class ChatServicesService {
     });
     this.socket.on('notification', (data: string) => {
       //incoming notification
-      console.log("inc notification:");
+      //console.log("inc notification:");
       this.incomingNotiSubject.next(data);
       //console.log(data)
     });

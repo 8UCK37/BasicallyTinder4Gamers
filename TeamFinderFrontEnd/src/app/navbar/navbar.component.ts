@@ -104,7 +104,8 @@ export class NavbarComponent implements OnInit {
   incNotification(){
     this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
       this.recData = typeof data === 'string' ? JSON.parse(data) : data;
-      console.log(this.recData);
+      //console.log(this.recData);
+      if(this.recData.notification!='disc' && this.recData.notification!='online'){
       this.notificationArray.push({sender:this.recData.sender,notiType:this.recData.notification})
       this.notificationArray.forEach((noti: any) => {
         //TODO:handle each notification by their  notification type
@@ -114,9 +115,9 @@ export class NavbarComponent implements OnInit {
          //console.log(res.data);
        }).catch(err=>console.log(err))
       });
-      console.log(this.notificationArray)
+      }
+      //console.log(this.notificationArray)
     });
-
   }
   onchatClicked(){
     this.noti=false;

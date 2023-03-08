@@ -26,6 +26,7 @@ export class ChatPageComponent implements OnInit {
   public usr:any;
   public userparsed:any;
   private incomingDataSubscription: Subscription | undefined;
+  private incomingNotiSubscription: Subscription | undefined;
   public friendList: any[]=[];
   public activeState:boolean=true;
   public selectedFrnd:any=null;
@@ -40,7 +41,7 @@ export class ChatPageComponent implements OnInit {
   public profileurl:any;
   public activeConvList:any[]=[];
   public static incSenderIds:any[]=[];
-
+  public recData:any;
   ngOnInit() {
     //this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
@@ -67,15 +68,15 @@ export class ChatPageComponent implements OnInit {
     this.getfriendlist();
     this.incMsg();
 
-    setInterval(() => {
-      this.friendList.forEach(element => {
-        axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
-          //console.log(res.data)
-          //console.log(element.data.id,res.data.activeChoice&&res.data.isConnected)
-          this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
-        }).catch(err => console.log(err))
-      });
-    }, 1000);
+    // setInterval(() => {
+    //   this.friendList.forEach(element => {
+    //     axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
+    //       //console.log(res.data)
+    //       //console.log(element.data.id,res.data.activeChoice&&res.data.isConnected)
+    //       this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
+    //     }).catch(err => console.log(err))
+    //   });
+    // }, 1000);
     setTimeout(() => {
       //console.log(ChatPageComponent.incSenderIds)
       this.friendList.forEach(frnd => {
@@ -87,7 +88,7 @@ export class ChatPageComponent implements OnInit {
       });
     }, 300);
     this.getActiveConvo();
-
+    this.incNotification();
   }
 
   ngOnDestroy() {
@@ -201,6 +202,25 @@ export class ChatPageComponent implements OnInit {
         }
       });
     }
+
+    incNotification(){
+      this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
+        this.recData = typeof data === 'string' ? JSON.parse(data) : data;
+        console.log(this.recData);
+        if(this.recData.notification=='disc'){
+          axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+           //console.log(res.data);
+           this.status.set(this.recData.sender,res.data.activeChoice&&false)
+            }).catch(err=>console.log(err));
+        }else if(this.recData.notification=='online'){
+          axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+            //console.log(res.data)
+            this.status.set(this.recData.sender,res.data.activeChoice&&true)
+            }).catch(err=>console.log(err));
+        }
+      });
+    };
+
 
     getActiveConvo(){
       this.activeConvList=[];
