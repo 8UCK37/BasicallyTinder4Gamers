@@ -16,15 +16,6 @@ export class ChatPageComponent implements OnInit {
   name = 'Angular';
   message = '';
   showEmojiPicker = false;
-  sets = [
-    'native',
-    'google',
-    'twitter',
-    'facebook',
-    'emojione',
-    'apple',
-    'messenger'
-  ]
   set1:String= 'google' ;
   values: string = '';
   id : any ='';
@@ -65,10 +56,10 @@ export class ChatPageComponent implements OnInit {
         //console.log(this.userparsed)
         axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          axios.get('getprofilepicture').then(res=>{
-            this.profileurl=res.data
-            console.log(this.profileurl)
-          }).catch(err=>console.log(err))
+          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+            this.profileurl=res.data.profilePicture;
+           //console.log(res.data);
+         }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
       }
     })
@@ -103,9 +94,8 @@ export class ChatPageComponent implements OnInit {
     //this.socketService.disconnect();
   }
 
-  sendMessage(txt:any){
-    // this.to=address;
-    //this.values=txt;
+  sendMessage(){
+
     let data = {receiver: this.to , msg : this.values , sender : this.userparsed.uid}
     //console.log("sending to: "+this.to);
     //console.log("msg txt: "+this.values);
@@ -119,7 +109,6 @@ export class ChatPageComponent implements OnInit {
       this.getActiveConvo();
     }, 400);
     }
-
   }
 
   getfriendlist(){
@@ -178,6 +167,7 @@ export class ChatPageComponent implements OnInit {
         //console.log(res.data)
         this.selectedFrnd=res.data
       }).catch(err =>console.log(err))
+      this.scrollToBottom();
     }
 
     utcToLocal(utcTime:any){
@@ -198,7 +188,7 @@ export class ChatPageComponent implements OnInit {
     }
 
     incMsg(){
-      this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
+      this.incomingDataSubscription = this.socketService.getIncomingMsg().subscribe((data) => {
         const recData = typeof data === 'string' ? JSON.parse(data) : data;
         //console.log(recData.sender);
         this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime()});
@@ -261,6 +251,13 @@ export class ChatPageComponent implements OnInit {
     }
     onProfilePicError() {
       this.profileurl = this.userparsed.photoURL;
+    }
+    sendnoti(frndid:any){
+      // console.log("test clicked : "+frndid)
+      // this.socketService.sendNoti({sender:this.userparsed.uid,receiver:frndid,noti:"test notification"})
+      axios.post('sendNoti',{receiver_id:frndid}).then(res=>{
+        console.log(res.data);
+     }).catch(err=>console.log(err))
     }
 }
 

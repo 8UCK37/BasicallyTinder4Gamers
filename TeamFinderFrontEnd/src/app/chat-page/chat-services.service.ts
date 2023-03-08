@@ -8,7 +8,8 @@ import { Subject } from 'rxjs';
 })
 export class ChatServicesService {
   socket : any;
-  private incomingDataSubject = new Subject<string>();
+  private incomingMsgSubject = new Subject<string>();
+  private incomingNotiSubject = new Subject<string>();
   constructor() {}
   setupSocketConnection() {
     this.socket = io(environment.SOCKET_ENDPOINT);
@@ -16,7 +17,13 @@ export class ChatServicesService {
     this.socket.on('my broadcast', (data: string) => {
       //incoming msg
       //console.log("inc msg from services:"+data);
-      this.incomingDataSubject.next(data);
+      this.incomingMsgSubject.next(data);
+    });
+    this.socket.on('notification', (data: string) => {
+      //incoming notification
+      console.log("inc notification:");
+      this.incomingNotiSubject.next(data);
+      //console.log(data)
     });
   }
   setSocketId(id : any){
@@ -32,9 +39,15 @@ export class ChatServicesService {
     console.log("sending this msg : " + msg);
     this.socket.emit('my message', msg);
   }
-  getIncomingData() {
-    return this.incomingDataSubject.asObservable();
+  sendNoti(noti:object){
+    console.log("sending this noti : " + noti);
+    this.socket.emit('notification', noti);
   }
-
+  getIncomingMsg() {
+    return this.incomingMsgSubject.asObservable();
+  }
+  getIncomingNoti() {
+    return this.incomingNotiSubject.asObservable();
+  }
 }
 

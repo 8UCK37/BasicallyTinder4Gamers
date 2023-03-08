@@ -270,10 +270,17 @@ app.get("/friendData", ensureAuthenticated, async (req, res) => {
   
   res.send(JSON.stringify(result));
 })
-
+//TODO:testing function for notification
+app.post("/sendNoti",ensureAuthenticated,async (req,res)=>{
+  // console.log(req.user.user_id);
+  // console.log(req.body.receiver_id);
+  socketRunner.sendNotification(io , userSocketMap,"poke",req.user.user_id,req.body.receiver_id)
+  res.sendStatus(200);
+});
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
-
+  console.log(req.body.to)
+  socketRunner.sendNotification(io , userSocketMap,"frnd req",req.user.user_id,jsonObject.to)
   // let savedData  = await prisma.Friends.create({
   //   data:{
   //     from : req.user.id,
@@ -288,7 +295,8 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
       status: 'pending'
     }
   })
-  console.log(friendReq)
+  
+  //console.log(friendReq)
   res.sendStatus(200);
 });
 
@@ -330,8 +338,8 @@ app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function 
       },
     }
   })
-  console.log("searchresults for"+jsonObject.searchTerm)
-  console.log(searchresult)
+  //console.log("searchresults for"+jsonObject.searchTerm)
+  //console.log(searchresult)
   res.send(JSON.stringify(searchresult));
   //res.sendStatus(200);
 });
@@ -695,6 +703,9 @@ app.post("/updateBio",ensureAuthenticated,async (req,res)=>{
   })
   res.sendStatus(200);
 });
+
+
+
 socketRunner.execute(io , socketUserMap ,  userSocketMap)
 
 

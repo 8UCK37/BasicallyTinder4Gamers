@@ -8,6 +8,10 @@ async function execute(io , socketUserMap ,  userSocketMap){
           console.log('setSocket id' , msg.name, "====>"  , socket.id );
           socketUserMap.set(socket.id,msg.name)
           userSocketMap.set(msg.name,socket.id)
+          // console.log("socketTousermap")
+          // console.log(socketUserMap)
+          // console.log("userTosocketmap")
+          // console.log(userSocketMap)
           try{
           const updateStatus = await prisma.user.update({
             where: {
@@ -17,14 +21,14 @@ async function execute(io , socketUserMap ,  userSocketMap){
               isConnected: true,
             },
           })
-          console.log(socketUserMap)
+          
         }catch(err){
             console.log("probs new user")
           }
         });
         socket.on('disconnect', async () => {
           console.log('user disconnected with soc id: '+socket.id);
-          //console.log(socketUserMap.get(socket.id))
+          
           try{
           const updateStatus = await prisma.user.update({
             where: {
@@ -35,7 +39,7 @@ async function execute(io , socketUserMap ,  userSocketMap){
             },
           })
           socketUserMap.delete(socket.id)
-          console.log(socketUserMap)
+          
         }catch(err){
           console.log("probs new user disc lol")
         }
@@ -46,9 +50,7 @@ async function execute(io , socketUserMap ,  userSocketMap){
           let receiver = receivedData.receiver ;
           let receivedSocketId = userSocketMap.get(receiver)
           let sender = receivedData.sender
-      
-          // console.log(sender)
-          console.log(socketUserMap)
+                
           chatData = await prisma.Chat.create({
             data:{
               sender: sender,
@@ -63,5 +65,12 @@ async function execute(io , socketUserMap ,  userSocketMap){
         });
       });       
 }
-
-module.exports = { execute }
+async function sendNotification(io , userSocketMap,notification,sender_id,receiver_id){
+  // console.log("func called")
+  // console.log(sender_id)
+  // console.log(receiver_id)
+  let receiver = userSocketMap.get(receiver_id)
+  io.to(receiver).emit('notification' , {sender:sender_id,notification:notification});
+  
+}
+module.exports = { execute,sendNotification }

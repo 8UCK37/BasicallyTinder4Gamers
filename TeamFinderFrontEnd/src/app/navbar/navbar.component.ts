@@ -16,9 +16,13 @@ export class NavbarComponent implements OnInit {
 
   @ViewChild('toggleButton') toggleButton!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
+  @ViewChild('togglenoti') togglenoti!: ElementRef;
+  @ViewChild('notiMenu') notiMenu!: ElementRef;
   public show:boolean=false;
-  private incomingDataSubscription: Subscription | undefined;
-
+  public notiShow:boolean=false;
+  public notificationArray:any=[];
+  private incomingMsgSubscription: Subscription | undefined;
+  private incomingNotiSubscription: Subscription | undefined;
 
   constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private socketService : ChatServicesService,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
@@ -34,6 +38,11 @@ export class NavbarComponent implements OnInit {
          this.show=false;
       }
     }
+    if(this.togglenoti.nativeElement!=null && this.notiMenu?.nativeElement!=null){
+      if(e.target !== this.togglenoti.nativeElement && e.target!==this.notiMenu.nativeElement){
+          this.notiShow=false;
+       }
+     }
     });
   }
 
@@ -65,24 +74,49 @@ export class NavbarComponent implements OnInit {
       }
     })
     this.incMsg();
+    this.incNotification();
+    this.getPendingReq();
     setInterval(() => {
       //console.log(this.router.url);
       if(this.router.url=="/chat"){
         this.noti=false;
       }
     }, 5000);
+
   }
 
   toggleMenu() {
     this.show=!this.show;
   }
+  toggleNotiDropDown() {
+    if(this.notificationArray?.length!=0){
+    this.notiShow=!this.notiShow;
+    }
+  }
   incMsg(){
-    this.incomingDataSubscription = this.socketService.getIncomingData().subscribe((data) => {
+    this.incomingMsgSubscription = this.socketService.getIncomingMsg().subscribe((data) => {
       this.recData = typeof data === 'string' ? JSON.parse(data) : data;
-      //console.log(recData.sender);
+      //console.log(this.recData);
       ChatPageComponent.incSenderIds.push(this.recData.sender)
       this.noti=true;
     });
+  }
+  incNotification(){
+    this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
+      this.recData = typeof data === 'string' ? JSON.parse(data) : data;
+      console.log(this.recData);
+      this.notificationArray.push({sender:this.recData.sender,notiType:this.recData.notification})
+      this.notificationArray.forEach((noti: any) => {
+        //TODO:handle each notification by their  notification type
+        axios.post('getUserInfo',{frnd_id:noti.sender}).then(res=>{
+          noti.profileurl=res.data.profilePicture;
+          noti.userName=res.data.name;
+         //console.log(res.data);
+       }).catch(err=>console.log(err))
+      });
+      console.log(this.notificationArray)
+    });
+
   }
   onchatClicked(){
     this.noti=false;
@@ -90,5 +124,13 @@ export class NavbarComponent implements OnInit {
   }
   onProfilePicError() {
     this.profileurl = this.userparsed.photoURL;
+  }
+  getPendingReq() {
+    axios.get('getPendingRequest').then(res => {
+      res.data.forEach((element: any) => {
+        this.notificationArray.push({sender:element.id,notiType:"frnd req",profileurl:element.profilePicture})
+      });
+      //console.log(res.data)
+    }).catch(err => console.log(err))
   }
 }

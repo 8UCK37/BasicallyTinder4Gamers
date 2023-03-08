@@ -55,7 +55,6 @@ export class FriendsComponent implements OnInit {
       });
     }, 500);
   }
-
   getPendingReq() {
     this.pendingResults = []
     axios.get('getPendingRequest').then(res => {
