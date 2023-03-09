@@ -30,11 +30,11 @@
                         <div *ngFor="let user of notificationArray">
                           <ng-container *ngIf="user.notiType=='frnd req'">
                             <div style="height: auto;margin-top: 20px;">
-                              <div class="profile-username" style="color: black;">You have a new friend request from</div>
-                              <div class="profile-image" style="margin-top: 5px;">
+                              <div style="color: black;">You have a new friend request from</div>
+                              <div style="margin-top: 5px;">
                                 <img [src]="user.profileurl" referrerpolicy="no-referrer"/>
                               </div>
-                              <div class="profile-username" style="color: black;">{{user.userName}}</div>
+                              <div >{{user.userName}}</div>
                               <button type="button" class="btn btn-success">Accept</button>
                               <button type="button" class="btn btn-danger">Reject</button>
                               <button type="button" class="btn btn-warning">Dismiss</button>
@@ -85,34 +85,6 @@
         </a>
     </div>
    </div>
-<!-- refactored notimenu left here for ease of integration make 2/3 new comp and fill the noti box -->
-   <div class="sub-menu-wrap" style="overflow-y: scroll;" id="subMenu" #notiMenu [ngClass]="notiShow?'open-menu':''">
-    <div class="sub-menu" id="openmenu" style="display: flex; flex-direction: column;">
-      <div *ngFor="let user of notificationArray">
-      <ng-container *ngIf="user.notiType=='frnd req'">
-        <div style="height: auto;margin-top: 20px;">
-          <div class="profile-username" style="color: black;">You have a friend request from</div>
-          <div class="profile-image" style="margin-top: 5px;">
-            <img [src]="user.profileurl" referrerpolicy="no-referrer"/>
-          </div>
-          <div class="profile-username" style="color: black;">{{user.userName}}</div>
-          <button type="button" class="btn btn-success">Accept</button>
-          <button type="button" class="btn btn-danger">Reject</button>
-          <button type="button" class="btn btn-warning">Dismiss</button>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="user.notiType=='poke'">
-        <div style="height: auto;margin-top: 20px;">
-          <div class="profile-username" style="color: black;">You've been poked by</div>
-          <div class="profile-image" style="margin-top: 5px;">
-            <img [src]="user.profileurl" referrerpolicy="no-referrer"/>
-          </div>
-          <div class="profile-username" style="color: black;">{{user.userName}}</div>
-        </div>
-      </ng-container>
-      </div>
-    </div>
-  </div>
 </nav>
 </div>
 </main>
