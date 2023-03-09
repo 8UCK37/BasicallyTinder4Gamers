@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
          this.show=false;
       }
     }
-    if(this.togglenoti.nativeElement!=null && this.notiMenu?.nativeElement!=null){
+    if(this.togglenoti?.nativeElement!=null && this.notiMenu?.nativeElement!=null){
       if(e.target !== this.togglenoti.nativeElement && e.target!==this.notiMenu.nativeElement){
           this.notiShow=false;
        }

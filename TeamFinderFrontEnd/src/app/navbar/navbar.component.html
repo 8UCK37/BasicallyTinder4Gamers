@@ -23,21 +23,23 @@
                   <div class = "display">
                     <div class = "nothing">
                       <i class="fas fa-child stick"></i>
-                      <div class = "cent">Looks Like your all caught up!</div>
                     </div>
                     <div class = "cont"><!-- Fold this div and try deleting evrything inbetween -->
                        <div class = "sec new" *ngIf="notificationArray?.length!=0;else elseblock">
                         <div *ngFor="let user of notificationArray">
                           <ng-container *ngIf="user.notiType=='frnd req'">
                             <div style="height: auto;margin-top: 20px;">
-                              <div style="color: black;">You have a new friend request from</div>
-                              <div style="margin-top: 5px;">
+                              <div style="color: rgb(227, 213, 213);">You have a new friend request from</div>
+                              <div style="margin-top: 5px;display: inline-flex;align-items: baseline;gap: 38px;">
                                 <img [src]="user.profileurl" referrerpolicy="no-referrer"/>
+                                <div >
+                                  <button type="button" class="btn btn-success">Accept</button>
+                                  <button type="button" class="btn btn-danger">Reject</button>
+                                  <button type="button" class="btn btn-warning">Dismiss</button>
+                                  </div>
                               </div>
                               <div >{{user.userName}}</div>
-                              <button type="button" class="btn btn-success">Accept</button>
-                              <button type="button" class="btn btn-danger">Reject</button>
-                              <button type="button" class="btn btn-warning">Dismiss</button>
+                             
                             </div>
                           </ng-container>
                           <ng-container *ngIf="user.notiType=='poke'">
