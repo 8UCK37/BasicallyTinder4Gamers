@@ -26,7 +26,7 @@
                       <div class = "cent">Looks Like your all caught up!</div>
                     </div>
                     <div class = "cont"><!-- Fold this div and try deleting evrything inbetween -->
-                       <div class = "sec new">
+                       <div class = "sec new" *ngIf="notificationArray?.length!=0;else elseblock">
                         <div *ngFor="let user of notificationArray">
                           <ng-container *ngIf="user.notiType=='frnd req'">
                             <div style="height: auto;margin-top: 20px;">
@@ -51,6 +51,11 @@
                           </ng-container>
                           </div>
                       </div>
+                      <ng-template #elseblock>
+                        <div class="new sec">
+                          <span>You have no new notifications</span>
+                        </div>
+                      </ng-template>
                    </div>
                   </div>
                </div>
