@@ -415,6 +415,8 @@ app.get("/test",ensureAuthenticated, (req, res) => {
 })
 
 app.get("/steamUserInfo", ensureAuthenticated,async (req, res) => {
+  console.log("here")
+  
   let steamIdfromDb = await prisma.User.findUnique({
     where: {
       id: req.user.user_id
@@ -423,12 +425,14 @@ app.get("/steamUserInfo", ensureAuthenticated,async (req, res) => {
       steamId: true
     }
   })
+  console.log(steamIdfromDb)
   if(steamIdfromDb.steamId!=null){
     const c = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamIdfromDb.steamId}`);
     let players= c.data.response.players;
     if (players == undefined || players == null) {
     players = []
     }
+    
     res.send(JSON.stringify({ info: players }))
   }else{console.log("null caught")}
 });
