@@ -22,6 +22,10 @@ nav{
     border-radius: 50%;
     margin-left: 30px;
     height: 7vmin;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: sk-loading 1s linear infinite alternate;
 }
 nav ul{
     width: 100%;
@@ -119,6 +123,7 @@ nav ul li a{
 }
 .page
 {
+  height: 100vh;
   background-color:  #171717;
   padding-top: 100px;
   min-height: 100%;
@@ -200,3 +205,20 @@ body {
   height: 4vmin;
 }
 
+ carousel img {
+    /* content: './../../asset/bg/bg.jpg'; */
+    height: 320px;
+    width: 200px;
+    display: none;
+    /* background: grey; */
+    animation: sk-loading 1s linear infinite alternate;
+} 
+
+@keyframes sk-loading {
+  0%{
+    background-color: hsl(200,20%,70%);
+  }
+  100%{
+    background-color: hsl(200, 20%, 95%);
+  }
+}
