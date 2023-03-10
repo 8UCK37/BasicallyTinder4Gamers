@@ -314,9 +314,9 @@ a:visited{
   color: #d63031;
 }
 
-.notBtn:hover > .box{
+.box{
   height: 60vh
-}
+} 
 
 .content{
   padding: 20px;

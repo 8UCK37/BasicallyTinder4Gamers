@@ -23,6 +23,7 @@ export class NavbarComponent implements OnInit {
   public notificationArray:any=[];
   private incomingMsgSubscription: Subscription | undefined;
   private incomingNotiSubscription: Subscription | undefined;
+  isMenuOpened: boolean = false;
 
   constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private socketService : ChatServicesService,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
@@ -40,7 +41,7 @@ export class NavbarComponent implements OnInit {
     }
     if(this.togglenoti?.nativeElement!=null && this.notiMenu?.nativeElement!=null){
       if(e.target !== this.togglenoti.nativeElement && e.target!==this.notiMenu.nativeElement){
-          this.notiShow=false;
+          this.isMenuOpened=false;
        }
      }
     });
@@ -133,5 +134,8 @@ export class NavbarComponent implements OnInit {
       });
       //console.log(res.data)
     }).catch(err => console.log(err))
+  }
+  togglenav(): void {
+    this.isMenuOpened = !this.isMenuOpened;
   }
 }
