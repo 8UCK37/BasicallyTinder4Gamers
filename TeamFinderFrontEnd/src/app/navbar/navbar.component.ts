@@ -108,11 +108,10 @@ export class NavbarComponent implements OnInit {
       if(this.recData.notification!='disc' && this.recData.notification!='online'){
       this.notificationArray.push({sender:this.recData.sender,notiType:this.recData.notification})
       this.notificationArray.forEach((noti: any) => {
-        //TODO:handle each notification by their  notification type
         axios.post('getUserInfo',{frnd_id:noti.sender}).then(res=>{
           noti.profileurl=res.data.profilePicture;
           noti.userName=res.data.name;
-         //console.log(res.data);
+          //console.log("res.data");
        }).catch(err=>console.log(err))
       });
       }
@@ -128,10 +127,12 @@ export class NavbarComponent implements OnInit {
   }
   getPendingReq() {
     axios.get('getPendingRequest').then(res => {
+      //console.log(res.data)
       res.data.forEach((element: any) => {
-        this.notificationArray.push({sender:element.id,notiType:"frnd req",profileurl:element.profilePicture})
+        this.notificationArray.push({sender:element.id,notiType:"frnd req",profileurl:element.profilePicture,userName:element.name})
       });
       //console.log(res.data)
+      console.log(this.notificationArray)
     }).catch(err => console.log(err))
   }
   togglenav(): void {
