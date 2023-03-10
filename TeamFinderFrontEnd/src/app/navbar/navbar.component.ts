@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
        * And the menu itself is checked here, and it's where we check just outside of
        * the menu and button the condition abbove must close the menu
        */
-    if(this.toggleButton.nativeElement!=null && this.menu.nativeElement!=null){
+    if(this.toggleButton?.nativeElement!=null && this.menu?.nativeElement!=null){
      if(e.target !== this.toggleButton.nativeElement && e.target!==this.menu.nativeElement){
          this.show=false;
       }
@@ -72,18 +72,17 @@ export class NavbarComponent implements OnInit {
             //console.log(res.data);
           }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
+        this.incMsg();
+        this.incNotification();
+        this.getPendingReq();
       }
     })
-    this.incMsg();
-    this.incNotification();
-    this.getPendingReq();
     setInterval(() => {
       //console.log(this.router.url);
       if(this.router.url=="/chat"){
         this.noti=false;
       }
     }, 5000);
-
   }
 
   toggleMenu() {
