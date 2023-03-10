@@ -207,12 +207,12 @@ body {
 
  carousel img {
     /* content: './../../asset/bg/bg.jpg'; */
-    height: 320px;
-    width: 200px;
+    height: auto;
+    width: auto;
     display: none;
     /* background: grey; */
     animation: sk-loading 1s linear infinite alternate;
-} 
+}
 
 @keyframes sk-loading {
   0%{

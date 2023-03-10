@@ -37,8 +37,8 @@
                     <a class="text-justify" style="cursor: pointer; margin-left: 15px;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
                   </ng-container>
                 </div>
-                <ng-container *ngIf="post.photoUrl.length!=0" >
-                <carousel [isAnimated]="true" [interval]="myInterval" [(activeSlide)]="activeSlideIndex">
+                <ng-container *ngIf="post.photoUrlArr.length!=0">
+                <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
                   <slide *ngFor="let img of post.photoUrlArr">
                     <img [src]="img" alt="first slide" style="display: block; width: 100%;">
                   </slide>

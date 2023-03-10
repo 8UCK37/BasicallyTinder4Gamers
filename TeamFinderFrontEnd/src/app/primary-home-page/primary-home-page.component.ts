@@ -57,8 +57,6 @@ export class PrimaryHomePageComponent implements OnInit {
         post.photoUrlArr=post.photoUrl?.split(',')
       });
       this.posts=res.data
-
-      //console.log(this.posts)//remove later not needed only for testing
     })
    }
    uploadPostFile(){
@@ -88,7 +86,7 @@ export class PrimaryHomePageComponent implements OnInit {
     this.tagList = [];
     this.fetchPost();
     //console.log(this.tagList)
-    this,this.clearImages()
+    this.clearImages()
     textareaElement.value=''
     this.ngOnInit()
     this.imageBlobs=[]
@@ -148,7 +146,6 @@ export class PrimaryHomePageComponent implements OnInit {
   }
   onNextClick(event:any) {
     event.preventDefault();
-
   }
   fetchByTag(tag:any){
     axios.get(`/getpostbytagname?tags=${tag}`).then(res=>{
