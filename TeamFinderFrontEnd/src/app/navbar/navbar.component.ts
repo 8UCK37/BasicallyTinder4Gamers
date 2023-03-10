@@ -71,18 +71,17 @@ export class NavbarComponent implements OnInit {
             //console.log(res.data);
           }).catch(err=>console.log(err))
         }).catch(err =>console.log(err))
+        this.incMsg();
+        this.incNotification();
+        this.getPendingReq();
       }
     })
-    this.incMsg();
-    this.incNotification();
-    this.getPendingReq();
     setInterval(() => {
       //console.log(this.router.url);
       if(this.router.url=="/chat"){
         this.noti=false;
       }
     }, 5000);
-
   }
 
   toggleMenu() {
