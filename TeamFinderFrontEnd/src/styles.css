@@ -134,3 +134,20 @@ span {
 .type-checkbox:checked + label:before {
   left: 5px;
 }
+.img-sk {
+  /* content: './../../asset/bg/bg.jpg'; */
+  height: auto;
+  width: auto;
+  /* display: none; */
+  /* background: grey; */
+  animation: sk-loading 1s linear infinite alternate;
+}
+
+@keyframes sk-loading {
+0%{
+  background-color: hsl(200,20%,70%);
+}
+100%{
+  background-color: hsl(200, 20%, 95%);
+}
+}

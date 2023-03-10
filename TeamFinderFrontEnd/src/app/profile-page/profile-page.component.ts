@@ -172,7 +172,7 @@ export class ProfilePageComponent implements OnInit {
     const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;
     textareaElement.value=this.bio;
   }
-  
+
 
   updateBio(){
     axios.post('updateBio',{bio:this.bio}).then(res=>{
@@ -187,7 +187,7 @@ export class ProfilePageComponent implements OnInit {
     this.profileurl = this.userparsed?.photoURL;
   }
   onBannerError() {
-    this.bannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
+    // this.bannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
   }
   combineUpload(){
     this.updateBio();
