@@ -315,8 +315,9 @@ a:visited{
 }
 
 .box{
-  height: 60vh
-} 
+  height: 60vh;
+  overflow-x: hidden;
+}
 
 .content{
   padding: 20px;
@@ -368,9 +369,12 @@ a:visited{
 }
 
 .sec{
-  padding: 25px 10px;
+  display: flex;
+  /* padding: 25px 10px; */
   background-color: #262626;
   transition: 0.5s;
+  align-content: space-between;
+  flex-wrap: wrap;
 }
 
 .profCont{
@@ -397,13 +401,60 @@ a:visited{
 
 
 .sec:hover{
-  background-color: #BFBFBF;
+  /* background-color: #BFBFBF; */
 }
 
 
 .cont img{
   border-radius: 50%;
+  width: 6vmin;
+  height: 6vmin;
 }
 .cont button{
   margin-left: 10px;
+}
+.btn-light:nth-child(1){
+    background-color: #72159d;
+    border: 0px;
+    height: 37px;
+    width: 85px;
+}
+.btn-light:nth-child(1):hover{
+  background-color: #5c117f;
+}
+.btn-light:nth-child(2){
+  border: 0px;
+  height: 35px;
+  width: 87px;
+  background-color: #bcb8b8;
+}
+.btn-light:nth-child(2):hover{
+  background-color: #969595;
+}
+.frnd-noti{
+  height: 95px;
+  margin-top: 35px;
+  display: flex;
+  margin-left: 17px;
+  gap: 30px;
+  width: 377px;
+}
+.accpt-rej-btns{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  row-gap: 6px;
+  justify-content: space-between;
+}
+.noti-img{
+  margin-top: 5px;
+  margin-left: 2px;
+}
+.noti-name{
+  position: absolute;
+  left: 50px;
+}
+.frnd-noti:hover{
+ background-color: #595959;
+ border-radius: 5px;
 }
