@@ -270,6 +270,10 @@ app.get("/friendData", ensureAuthenticated, async (req, res) => {
   
   res.send(JSON.stringify(result));
 })
+app.post("/friendsoffriendData", ensureAuthenticated, async (req, res) => {
+  const result = await prisma.$queryRaw`select * from public."User" where id in (select reciever from public."Friends" where sender =${req.body.frnd_id})`
+  res.send(result);
+})
 //TODO:testing function for notification
 app.post("/sendNoti",ensureAuthenticated,async (req,res)=>{
   // console.log(req.user.user_id);
@@ -551,26 +555,23 @@ app.get('/chatData',ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(fetchedChat))
 });
 
-app.get('/getActiveList',ensureAuthenticated, async (req, res) => {
-  let fetchedChat = await prisma.Chat.findMany({
-    where:{
-          receiver: req.user.uid,    
-    },select:{
-      sender:true,
-    }
-  })
+
+app.get('/getChats', ensureAuthenticated, async (req, res) => {
+  const fetchedChat = await prisma.$queryRaw`
+    SELECT 'sent' as chat_type, c.sender, c.receiver, u.*
+    FROM public."Chat" c
+    JOIN public."User" u ON u.id = c.receiver
+    WHERE c.sender = ${req.user.uid}
+    UNION
+    SELECT 'received' as chat_type, c.sender, c.receiver, u.*
+    FROM public."Chat" c
+    JOIN public."User" u ON u.id = c.sender
+    WHERE c.receiver = ${req.user.uid}
+  `
   res.send(JSON.stringify(fetchedChat))
 });
 
 
-app.get('/sentOnly',ensureAuthenticated, async (req, res) => {
-  let fetchedChat = await prisma.Chat.findMany({
-    where:{
-          sender: req.user.uid,
-    }
-  })
-  res.send(JSON.stringify(fetchedChat))
-});
 
 
 app.post('/gameSelect',ensureAuthenticated, urlencodedParser,async(req,res)=>{

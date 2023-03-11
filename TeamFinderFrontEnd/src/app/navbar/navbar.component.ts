@@ -132,7 +132,7 @@ export class NavbarComponent implements OnInit {
         this.notificationArray.push({ sender: element.id, notiType: "frnd req", profileurl: element.profilePicture, userName: element.name })
       });
       //console.log(res.data)
-      console.log(this.notificationArray)
+      //console.log(this.notificationArray)
     }).catch(err => console.log(err))
   }
   togglenav(): void {
