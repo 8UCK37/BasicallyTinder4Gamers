@@ -414,13 +414,33 @@
     initial-value: 132deg;
     inherits: false;
 }
-
+.card{
+  justify-content: space-around;
+  height: 224px;
+  width: 187px;
+  background: #191c29;
+  width: 152px;
+  height: 226px;
+  padding: 75px;
+  position: absolute;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  margin:3rem auto;
+  font-size: 1.5em;
+  color: rgb(88 199 250 / 0%);
+  cursor: pointer;
+  font-family: cursive;
+}
 :root {
-    --card-height: 224px;
-    --card-width: 187px;
+    --card-cust-height: 224px;
+    --card-cust-width: 187px;
 }
 
-.card {
+.card-cust {
+  justify-content: space-around;
     background: #191c29;
     width: 152px;
     height: 226px;
@@ -438,7 +458,7 @@
     font-family: cursive;
 }
 
-.card::before {
+.card-cust::before {
     content: "";
     width: 104%;
     height: 102%;
