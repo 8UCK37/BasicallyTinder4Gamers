@@ -39,14 +39,14 @@
         <!-- Profile Banner -->
         <div class="profile">
           <div class="profile__header-image-container">
-            <img class="profile__header-image" [src]="frndData.profileBanner" (error)="onBannerError()">
+            <img class="profile__header-image" [src]="frndData?.profileBanner" (error)="onBannerError()">
           </div>
           <!-- Profile Avater -->
           <div class="profile__user">
-            <img class="profile__avatar" [src]="frndData.profilePicture" (error)="onDpError()">
+            <img class="profile__avatar" [src]="frndData?.profilePicture" (error)="onDpError()">
             <div class="profile__details">
               <!-- Main header -->
-              <h1 class="profile__name">{{frndData.name}}</h1>
+              <h1 class="profile__name">{{frndData?.name}}</h1>
               <!-- SubHeader -->
               <p class="profile__subtitle">A Front End Web Developer
             </div>

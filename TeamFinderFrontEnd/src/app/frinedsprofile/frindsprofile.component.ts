@@ -92,7 +92,7 @@ export class FrindsprofileComponent implements OnInit {
     }).catch(err => console.log(err))
   }
   onDpError() {
-    this.frndprofileurl = this.frndData.profilePicture;
+    this.frndprofileurl = this.frndData?.profilePicture;
     //console.log("dperror"+this.frndprofileurl)
   }
   onBannerError() {
