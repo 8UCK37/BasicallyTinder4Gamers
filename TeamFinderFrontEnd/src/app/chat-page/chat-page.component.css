@@ -107,13 +107,13 @@ body[data-theme=dark] {
 
 .app-left {
   justify-content: right;
-  flex-basis: 320px;
+  /* flex-basis: 320px; */
   flex-shrink: 0;
   height: 100%;
   display: flex;
   flex-direction: column;
   max-width: 480px;
-  margin-right: 100px;
+  margin-right: 20px;
   margin-left:24px;
   overflow-y: auto;
 }
@@ -353,7 +353,7 @@ body[data-theme=dark] {
     flex-direction: column;
     max-width: 480px;
     margin-right: 24px;
-    margin-left: auto;
+    margin-left: 10px;
     overflow-y: auto;
     overflow-x: auto;
 }
@@ -623,7 +623,7 @@ body[data-theme=dark] {
   background: var(--scrollbar-thumb);
 }
 
-@media screen and (max-width: 1025px) {
+/* @media screen and (max-width: 1025px) {
   .app-left {
     transform: translateX(-100%);
     position: absolute;
@@ -671,7 +671,7 @@ body[data-theme=dark] {
   .app-main {
     height: calc(100% - 48px);
   }
-}
+} */
 *,
 *:before,
 *:after {
@@ -772,8 +772,8 @@ body[data-theme=dark] {
 
 .conversation {
   justify-content: space-between;
-  height: calc(100% - 12px);
-  width: 1130px;
+  height:83vh;
+  /* width: 1130px; */
   position: relative;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -1081,4 +1081,14 @@ body[data-theme=dark] {
   bottom: 67px;
   left: 16px;
   border: none;
+}
+.chat{
+  height: 84%;
+  width: 68%;
+}
+
+@media screen and (max-width: 1250px) {
+  .app-right{
+    display: none;
+  }
 }

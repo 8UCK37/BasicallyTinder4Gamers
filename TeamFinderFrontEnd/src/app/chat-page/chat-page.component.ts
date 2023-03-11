@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit,ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, OnInit,ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from './chat-services.service';
 import { Subscription } from 'rxjs';
@@ -22,7 +22,6 @@ export class ChatPageComponent implements OnInit {
   to : any ='';
   incomingmsg: string='';
   allMsgs:any []=[];
-  constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth) { }
   public usr:any;
   public userparsed:any;
   private incomingDataSubscription: Subscription | undefined;
@@ -42,6 +41,27 @@ export class ChatPageComponent implements OnInit {
   public activeConvList:any[]=[];
   public static incSenderIds:any[]=[];
   public recData:any;
+  @ViewChild('toggleButton') toggleButton!: ElementRef;
+  @ViewChild('menu') menu!: ElementRef;
+  constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2) { 
+    this.renderer.listen('window', 'click',(e:Event)=>{
+      /**
+       * Only run when toggleButton is not clicked
+       * If we don't check this, all clicks (even on the toggle button) gets into this
+       * section which in the result we might never see the menu open!
+       * And the menu itself is checked here, and it's where we check just outside of
+       * the menu and button the condition abbove must close the menu
+       */
+      // console.log(this.toggleButton.nativeElement , this.menu.nativeElement)
+    if(this.toggleButton?.nativeElement!=null && this.menu?.nativeElement!=null){
+      
+        if(e.target !== this.toggleButton.nativeElement && e.target!==this.menu.nativeElement){
+          console.log("mussssssssssss")
+          this.showEmojiPicker = false
+        }
+      }
+    })
+  }
   ngOnInit() {
     //this.socketService.setupSocketConnection();
     this.usr = localStorage.getItem('user');
@@ -68,7 +88,9 @@ export class ChatPageComponent implements OnInit {
     this.getActiveChoice();
     this.getfriendlist();
     this.incMsg();
-
+    // console.log()
+    // this.getActiveConv
+   
     // setInterval(() => {
     //   this.friendList.forEach(element => {
     //     axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
@@ -89,6 +111,7 @@ export class ChatPageComponent implements OnInit {
       });
     }, 300);
     this.getActiveConvo();
+   
     this.incNotification();
   }
 
@@ -97,6 +120,7 @@ export class ChatPageComponent implements OnInit {
   }
 
   sendMessage(){
+    if(this.values == "" || this.values.length == 0 ) return;
 
     let data = {receiver: this.to , msg : this.values , sender : this.userparsed.uid}
     //console.log("sending to: "+this.to);
@@ -105,6 +129,7 @@ export class ChatPageComponent implements OnInit {
     this.allMsgs.push({sender:this.to,rec:false,msg:this.values,time:this.getLocalTime()})
     //console.log(this.getLocalTime())
     this.scrollToBottom();
+    this.values= ''
     if(this.selectedFrndId!=this.to)
     {
     setTimeout(() => {
@@ -161,6 +186,7 @@ export class ChatPageComponent implements OnInit {
     }
 
     onclick(frndid:any){
+      console.log(frndid)
       this.values='';
       this.fetchChatData(frndid);
       this.selectedFrndId=frndid;
@@ -249,16 +275,20 @@ export class ChatPageComponent implements OnInit {
             //console.log(sender)
             axios.post('getUserInfo',{frnd_id:sender}).then(res=>{
               this.activeConvList.push(res.data)
+              
             }).catch(err =>console.log(err))
               });
-            }).catch(err=>console.log(err))
+            }
+            
+            ).catch(err=>console.log(err))
 
+            
       }).catch(err=>console.log(err))
       //console.log(this.activeConvList)
     }
     toggleEmojiPicker() {
       console.log(this.showEmojiPicker);
-          this.showEmojiPicker = !this.showEmojiPicker;
+        this.showEmojiPicker = !this.showEmojiPicker;
     }
 
     addEmoji(event:any) {
@@ -274,7 +304,7 @@ export class ChatPageComponent implements OnInit {
     onProfilePicError() {
       this.profileurl = this.userparsed.photoURL;
     }
-    sendnoti(frndid:any){
+    sendnoti(frndid:any){ 
       // console.log("test clicked : "+frndid)
       // this.socketService.sendNoti({sender:this.userparsed.uid,receiver:frndid,noti:"test notification"})
       axios.post('sendNoti',{receiver_id:frndid}).then(res=>{

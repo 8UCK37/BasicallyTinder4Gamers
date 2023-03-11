@@ -19,26 +19,23 @@
               <div class = "number" *ngIf="notificationArray?.length!=0">{{notificationArray?.length}}</div>
               <i class="fas fa-bell" #togglenoti (click)="togglenav()"></i>
                 <div class = "box" *ngIf="isMenuOpened" #notiMenu>
+                  <div style="color: white;left: 20px;font-weight: 650;font-size: x-large;position: relative;top: 10px;">Notifications</div>
                   <div class = "display">
-                    <div class = "nothing">
-                      <i class="fas fa-child stick"></i>
-                    </div>
                     <div class = "cont"><!-- Fold this div and try deleting evrything inbetween -->
                        <div class = "sec new" *ngIf="notificationArray?.length!=0;else elseblock">
                         <div *ngFor="let user of notificationArray">
                           <ng-container *ngIf="user.notiType=='frnd req'">
-                            <div style="height: auto;margin-top: 20px;">
-                              <div style="color: rgb(227, 213, 213);">You have a new friend request from</div>
-                              <div style="margin-top: 5px;display: inline-flex;align-items: baseline;gap: 38px;">
-                                <img [src]="user.profileurl" referrerpolicy="no-referrer"/>
-                                <div >
-                                  <button type="button" class="btn btn-success">Accept</button>
-                                  <button type="button" class="btn btn-danger">Reject</button>
-                                  <button type="button" class="btn btn-warning">Dismiss</button>
-                                  </div>
+                            <div class="frnd-noti">
+                              <div class="noti-img">
+                              <img [src]="user.profileurl" class="img-sk" referrerpolicy="no-referrer"/>
+                            </div>
+                              <div class="accpt-rej-btns">
+                                  <div style="color: rgb(227, 213, 213);"> {{user.userName}} sent you a friend request</div>
+                                  <div style="margin-bottom: 5px;">
+                                  <button type="button" class="btn btn-light">Accept</button>
+                                  <button type="button" class="btn btn-light">Reject</button>
+                                </div>
                               </div>
-                              <div >{{user.userName}}</div>
-                             
                             </div>
                           </ng-container>
                           <ng-container *ngIf="user.notiType=='poke'">
