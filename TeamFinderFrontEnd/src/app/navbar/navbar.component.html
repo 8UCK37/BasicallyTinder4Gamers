@@ -78,7 +78,7 @@
             
             <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
                 <div class="sub-menu" id="openmenu">
-                    <div class="user-info" routerlink="/profile-page/post" style="cursor: pointer;">
+                    <div class="user-info" [routerLink]="['profile-page/post']" style="cursor: pointer;">
                         <div class="profiledp">
                             <img [src]="profileurl">
                         </div>
