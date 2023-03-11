@@ -1,94 +1,105 @@
 <main>
-  <div *ngIf="userparsed">
-  <nav class="nav-bg">
-    <img src="./../../assets/icon-resource/logo-no-background.png" class="logo">
-    <app-app-search></app-app-search>
-        <li style="margin-left: 35rem;"><a class="nav-btn" style="color: antiquewhite;" [routerLink]="['/first-component']">Home</a></li>
-        <!-- <li class="hover-effect"><a class="nav-btn"  >Features</a></li>
-        <li class="hover-effect"><a class="nav-btn"  >About</a></li> -->
-        <!-- <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li> -->
-        <li ><a class="nav-btn" style="align-items: center;" (click)="onchatClicked()">Chat</a>
-          <div class="wrapper" >
-            <i *ngIf="noti" class="fa fa-bell icon"></i>
-          </div>
-        </li>
-        <li  >
-          <div class = "notification">
-            <div class = "notBtn" href = "#">
-              <!--Number supports double digits and automaticly hides itself when there is nothing between divs -->
-              <div class = "number" *ngIf="notificationArray?.length!=0">{{notificationArray?.length}}</div>
-              <i class="fas fa-bell" #togglenoti (click)="togglenav()"></i>
-                <div class = "box" *ngIf="isMenuOpened" #notiMenu>
-                  <div style="color: white;left: 20px;font-weight: 650;font-size: x-large;position: relative;top: 10px;">Notifications</div>
-                  <div class = "display">
-                    <div class = "cont"><!-- Fold this div and try deleting evrything inbetween -->
-                       <div class = "sec new" *ngIf="notificationArray?.length!=0;else elseblock">
-                        <div *ngFor="let user of notificationArray">
-                          <ng-container *ngIf="user.notiType=='frnd req'">
-                            <div class="frnd-noti">
-                              <div class="noti-img">
-                              <img [src]="user.profileurl" class="img-sk" referrerpolicy="no-referrer"/>
-                            </div>
-                              <div class="accpt-rej-btns">
-                                  <div style="color: rgb(227, 213, 213);"> {{user.userName}} sent you a friend request</div>
-                                  <div style="margin-bottom: 5px;">
-                                  <button type="button" class="btn btn-light">Accept</button>
-                                  <button type="button" class="btn btn-light">Reject</button>
+    <div *ngIf="userparsed">
+        <nav class="nav-bg">
+            <img src="./../../assets/icon-resource/logo-no-background.png" class="logo">
+            <app-app-search></app-app-search>
+            <div class="pusher"></div>
+            <div  class="router-btn">
+                <div style="">
+                    <a class="nav-btn" style="color: antiquewhite;" [routerLink]="['/first-component']">Home</a>
+                </div>
+                
+                <!-- <li class="hover-effect"><a class="nav-btn"  >Features</a></li>
+                        <li class="hover-effect"><a class="nav-btn"  >About</a></li> -->
+                <!-- <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li> -->
+                <div>
+                    <a class="nav-btn" style="align-items: center;" (click)="onchatClicked()">Chat</a>
+                    <div class="wrapper">
+                        <i *ngIf="noti" class="fa fa-bell icon"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="notification">
+                        <div
+                            class="notBtn" href="#">
+                            <!--Number supports double digits and automaticly hides itself when there is nothing between divs -->
+                            <div class="number" *ngIf="notificationArray?.length!=0">{{notificationArray?.length}}</div>
+                            <i class="fas fa-bell" #togglenoti (click)="togglenav()"></i>
+                            <div class="box" *ngIf="isMenuOpened" #notiMenu>
+                                <div style="color: white;left: 20px;font-weight: 650;font-size: x-large;position: relative;top: 10px;">Notifications</div>
+                                <div class="display">
+                                    <div
+                                        class="cont">
+                                        <!-- Fold this div and try deleting evrything inbetween -->
+                                        <div class="sec new" *ngIf="notificationArray?.length!=0;else elseblock">
+                                            <div *ngFor="let user of notificationArray">
+                                                <ng-container *ngIf="user.notiType=='frnd req'">
+                                                    <div class="frnd-noti">
+                                                        <div class="noti-img">
+                                                            <img [src]="user.profileurl" class="img-sk" referrerpolicy="no-referrer"/>
+                                                        </div>
+                                                        <div class="accpt-rej-btns">
+                                                            <div style="color: rgb(227, 213, 213);">
+                                                                {{user.userName}}
+                                                                sent you a friend request</div>
+                                                            <div style="margin-bottom: 5px;">
+                                                                <button type="button" class="btn btn-light">Accept</button>
+                                                                <button type="button" class="btn btn-light">Reject</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="user.notiType=='poke'">
+                                                    <div style="height: auto;margin-top: 20px;">
+                                                        <div class="profile-username" style="color: black;">You've been poked by</div>
+                                                        <div class="profile-image" style="margin-top: 5px;">
+                                                            <img [src]="user.profileurl" referrerpolicy="no-referrer"/>
+                                                        </div>
+                                                        <div class="profile-username" style="color: black;">{{user.userName}}</div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <ng-template #elseblock>
+                                            <div class="new sec">
+                                                <span>You have no new notifications</span>
+                                            </div>
+                                        </ng-template>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                          </ng-container>
-                          <ng-container *ngIf="user.notiType=='poke'">
-                            <div style="height: auto;margin-top: 20px;">
-                              <div class="profile-username" style="color: black;">You've been poked by</div>
-                              <div class="profile-image" style="margin-top: 5px;">
-                                <img [src]="user.profileurl" referrerpolicy="no-referrer"/>
-                              </div>
-                              <div class="profile-username" style="color: black;">{{user.userName}}</div>
-                            </div>
-                          </ng-container>
-                          </div>
-                      </div>
-                      <ng-template #elseblock>
-                        <div class="new sec">
-                          <span>You have no new notifications</span>
                         </div>
-                      </ng-template>
-                   </div>
-                  </div>
-               </div>
+                    </div>
+                </div>
+                <div>
+                  <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" (error)="onProfilePicError()" referrerpolicy="no-referrer">
+              </div>
             </div>
-          </div>
-        </li>
-
-<div>
-    <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" (error)="onProfilePicError()" referrerpolicy="no-referrer" >
-</div>
-   <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
-    <div class="sub-menu" id="openmenu" >
-        <div class="user-info" routerLink="/profile-page/post" style="cursor: pointer;">
-          <div class="profiledp">
-            <img [src]="profileurl">
-          </div>
-            <h3>{{userName}}</h3>
-        </div>
-        <hr>
-        <a href="#" [routerLink]="['/settings']" routerLinkActive="router-link-active"  class="sub-menu-link">
-            <img src="./../../assets/icon-resource/setting.png">
-            <p>Settings & Privacy</p>
-        </a>
-        <a href="#" class="sub-menu-link">
-            <img src="./../../assets/icon-resource/help.png">
-            <p>Help & Support</p>
-        </a>
-        <a (click)="user.logout()" href="#" class="sub-menu-link">
-            <img src="./../../assets/icon-resource/logout.png">
-            <p>Logout</p>
-        </a>
+            
+            <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
+                <div class="sub-menu" id="openmenu">
+                    <div class="user-info" routerlink="/profile-page/post" style="cursor: pointer;">
+                        <div class="profiledp">
+                            <img [src]="profileurl">
+                        </div>
+                        <h3>{{userName}}</h3>
+                    </div>
+                    <hr>
+                    <a href="#" [routerLink]="['/settings']" routerlinkactive="router-link-active" class="sub-menu-link">
+                        <img src="./../../assets/icon-resource/setting.png">
+                        <p>Settings & Privacy</p>
+                    </a>
+                    <a href="#" class="sub-menu-link">
+                        <img src="./../../assets/icon-resource/help.png">
+                        <p>Help & Support</p>
+                    </a>
+                    <a (click)="user.logout()" href="#" class="sub-menu-link">
+                        <img src="./../../assets/icon-resource/logout.png">
+                        <p>Logout</p>
+                    </a>
+                </div>
+            </div>
+        </nav>
     </div>
-   </div>
-</nav>
-</div>
 </main>
-
 

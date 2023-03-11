@@ -126,9 +126,11 @@ export class ChatPageComponent implements OnInit {
     //console.log("sending to: "+this.to);
     //console.log("msg txt: "+this.values);
     this.socketService.send(data);
-    this.allMsgs.push({sender:this.to,rec:false,msg:this.values,time:this.getLocalTime()})
+    this.allMsgs.push({sender:this.to,rec:false,msg:this.values,time:this.getLocalTime(),stl:"anim"})
     //console.log(this.getLocalTime())
     this.scrollToBottom();
+    
+    // this.messageContainer.nativeElement.
     this.values= ''
     if(this.selectedFrndId!=this.to)
     {
