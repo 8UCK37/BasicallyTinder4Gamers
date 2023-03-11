@@ -35,7 +35,7 @@
                             <div style="color: rgb(227, 213, 213);"> {{user.userName}} sent you a friend request</div>
                             <div style="margin-bottom: 5px;">
                               <button type="button" class="btn btn-light"
-                                (click)="acceptReq(user.sender);accepted.click()" >Accept</button>
+                                (click)="acceptReq(user.sender);accepted.click()">Accept</button>
                               <button type="button" class="btn btn-light"
                                 (click)="rejectReq(user.sender);rejected.click()">Reject</button>
                             </div>
@@ -96,39 +96,39 @@
     </nav>
   </div>
 
-    <button type="button" class="btn btn-primary" id="liveToastBtn" style="padding-top: 100px;" #rejected (click)="toggleTost()" hidden="true">Show live toast</button>
+    <button type="button" class="btn btn-primary" id="liveToastBtnAccept" style="padding-top: 100px;" #accepted (click)="toggleTostAccept()" hidden="true">Show live toast</button>
     <div class="toast-container position-fixed bottom-0 end-0 p-3" >
-      <div id="liveToast" class="toast" role="alert" aria-atomic="true"
+      <div id="liveToastAccept" class="toast" role="alert" aria-atomic="true"
         style="border-radius: 20px; background-color: currentColor;">
         <div class="d-flex" style="height: 36px;">
           <div class="toast-body">
             <a style="color: whitesmoke;
          left: 45px;
          top: 25px;
-         position: absolute;">Friend Request Rejected, GoodCall</a>
+         position: absolute;">Friend Request Accepted, GoodCall</a>
           </div>
           <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
             aria-label="Close"></button>
         </div>
       </div>
   </div>
-<div>
-  <button type="button" class="btn btn-primary" id="liveToastBtn" style="padding-top: 100px;" #accepted (click)="toggleTost()" hidden="true">Show live toast</button>
+
+  <button type="button" class="btn btn-primary" id="liveToastBtnReject" style="padding-top: 100px;" #rejected (click)="toggleTostReject()" hidden="true">Show live toast</button>
   <div class="toast-container position-fixed bottom-0 end-0 p-3" >
-    <div id="liveToast" class="toast" role="alert" aria-atomic="true"
+    <div id="liveToastReject" class="toast" role="alert" aria-atomic="true"
       style="border-radius: 20px; background-color: currentColor;">
       <div class="d-flex" style="height: 36px;">
         <div class="toast-body">
           <a style="color: whitesmoke;
        left: 45px;
        top: 25px;
-       position: absolute;">Friend Request Accepted, GoodCall</a>
+       position: absolute;">Friend Request Rejected, GoodCall</a>
         </div>
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
           aria-label="Close"></button>
       </div>
     </div>
 </div>
-</div>
+
 </main>
 

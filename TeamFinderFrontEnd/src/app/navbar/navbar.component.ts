@@ -161,10 +161,21 @@ export class NavbarComponent implements OnInit {
     // }).catch(err => console.log(err))
   }
 
-  toggleTost() {
-    console.log("hello");
-    const toastTrigger = document.getElementById('liveToastBtn')
-    const toastLiveExample: any = document.getElementById('liveToast')
+  toggleTostAccept() {
+    //console.log("hello1");
+    const toastTrigger = document.getElementById('liveToastBtnAccept')
+    const toastLiveExample: any = document.getElementById('liveToastAccept')
+    if (toastTrigger) {
+      toastTrigger.addEventListener('click', () => {
+        const toast = new bootstrap.Toast(toastLiveExample)
+        toast.show()
+      })
+    }
+  }
+  toggleTostReject() {
+    //console.log("hello2");
+    const toastTrigger = document.getElementById('liveToastBtnReject')
+    const toastLiveExample: any = document.getElementById('liveToastReject')
     if (toastTrigger) {
       toastTrigger.addEventListener('click', () => {
         const toast = new bootstrap.Toast(toastLiveExample)
