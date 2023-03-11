@@ -89,6 +89,7 @@ export class ChatPageComponent implements OnInit {
     this.getfriendlist();
     this.incMsg();
     this.getActiveConvo();
+
     // console.log()
     // this.getActiveConv
 
@@ -102,6 +103,12 @@ export class ChatPageComponent implements OnInit {
     //   });
     // }, 1000);
     setTimeout(() => {
+      if(this.activeConvList[0]?.chat_type =='sent'){
+        this.onclick(this.activeConvList[0].receiver)
+      }
+      if(this.activeConvList[0]?.chat_type =='received'){
+        this.onclick(this.activeConvList[0].sender)
+      }
       //console.log(ChatPageComponent.incSenderIds)
       this.friendList.forEach(frnd => {
         ChatPageComponent.incSenderIds.forEach(sender => {
@@ -189,7 +196,7 @@ export class ChatPageComponent implements OnInit {
     }
 
     onclick(frndid:any){
-      console.log(frndid)
+      //console.log(frndid)
       this.values='';
       this.fetchChatData(frndid);
       this.selectedFrndId=frndid;
@@ -215,7 +222,7 @@ export class ChatPageComponent implements OnInit {
 
     scrollToBottom() {
       setTimeout(() => {
-        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement?.scrollHeight;
       }, 100);
     }
 
@@ -252,12 +259,12 @@ export class ChatPageComponent implements OnInit {
         }
       });
     };
-    
+
     getActiveConvo(){
       const uniqueConvId:any=[];
       const uniqueConv:any=[];
       axios.get('getChats').then(res=>{
-        console.log(res.data)
+        //console.log(res.data)
         res.data.forEach((data: any)=> {
          if(data.chat_type=='received'){
           if(!uniqueConvId.includes(data.sender)){
@@ -273,13 +280,14 @@ export class ChatPageComponent implements OnInit {
           }
          }
          });
-
+         this.activeConvList = uniqueConv
         });
         //console.log(uniqueConvId)
         //console.log(uniqueConv)
-        this.activeConvList = uniqueConv
-        console.log(this.activeConvList)
     }
+
+
+    
     toggleEmojiPicker() {
       console.log(this.showEmojiPicker);
         this.showEmojiPicker = !this.showEmojiPicker;
