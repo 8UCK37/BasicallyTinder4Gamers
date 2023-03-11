@@ -8,7 +8,7 @@
                 <div style="">
                     <a class="nav-btn" style="color: antiquewhite;" [routerLink]="['/first-component']">Home</a>
                 </div>
-                
+
                 <!-- <li class="hover-effect"><a class="nav-btn"  >Features</a></li>
                         <li class="hover-effect"><a class="nav-btn"  >About</a></li> -->
                 <!-- <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li> -->
@@ -75,7 +75,6 @@
                   <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" (error)="onProfilePicError()" referrerpolicy="no-referrer">
               </div>
             </div>
-            
             <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
                 <div class="sub-menu" id="openmenu">
                     <div class="user-info" [routerLink]="['profile-page/post']" style="cursor: pointer;">

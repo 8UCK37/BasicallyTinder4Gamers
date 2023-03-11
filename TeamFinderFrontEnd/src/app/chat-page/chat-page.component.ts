@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit,ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from './chat-services.service';
-import { Subscription } from 'rxjs';
+import { ConnectableObservable, Subscription } from 'rxjs';
 import axios from 'axios';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
@@ -43,7 +43,7 @@ export class ChatPageComponent implements OnInit {
   public recData:any;
   @ViewChild('toggleButton') toggleButton!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
-  constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2) { 
+  constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2) {
     this.renderer.listen('window', 'click',(e:Event)=>{
       /**
        * Only run when toggleButton is not clicked
@@ -54,7 +54,7 @@ export class ChatPageComponent implements OnInit {
        */
       // console.log(this.toggleButton.nativeElement , this.menu.nativeElement)
     if(this.toggleButton?.nativeElement!=null && this.menu?.nativeElement!=null){
-      
+
         if(e.target !== this.toggleButton.nativeElement && e.target!==this.menu.nativeElement){
           console.log("mussssssssssss")
           this.showEmojiPicker = false
@@ -88,9 +88,10 @@ export class ChatPageComponent implements OnInit {
     this.getActiveChoice();
     this.getfriendlist();
     this.incMsg();
+    this.getActiveConvo();
     // console.log()
     // this.getActiveConv
-   
+
     // setInterval(() => {
     //   this.friendList.forEach(element => {
     //     axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
@@ -110,8 +111,8 @@ export class ChatPageComponent implements OnInit {
         });
       });
     }, 300);
-    this.getActiveConvo();
-   
+    //this.getActiveConvo();
+
     this.incNotification();
   }
 
@@ -129,15 +130,15 @@ export class ChatPageComponent implements OnInit {
     this.allMsgs.push({sender:this.to,rec:false,msg:this.values,time:this.getLocalTime(),stl:"anim"})
     //console.log(this.getLocalTime())
     this.scrollToBottom();
-    
+
     // this.messageContainer.nativeElement.
     this.values= ''
-    if(this.selectedFrndId!=this.to)
-    {
+
     setTimeout(() => {
+      //this.getActiveConvo();
       this.getActiveConvo();
-    }, 400);
-    }
+    }, 300);
+
   }
 
   getfriendlist(){
@@ -228,7 +229,8 @@ export class ChatPageComponent implements OnInit {
         //this.getActiveConvo();
         }else{
           this.notification.set(recData.sender,true);
-          this.getActiveConvo();
+          //this.getActiveConvo();
+          this.getActiveConvo()
         }
       });
     }
@@ -250,43 +252,33 @@ export class ChatPageComponent implements OnInit {
         }
       });
     };
-
-
+    
     getActiveConvo(){
-      this.activeConvList=[];
+      const uniqueConvId:any=[];
       const uniqueConv:any=[];
+      axios.get('getChats').then(res=>{
+        console.log(res.data)
+        res.data.forEach((data: any)=> {
+         if(data.chat_type=='received'){
+          if(!uniqueConvId.includes(data.sender)){
+            uniqueConvId.push(data.sender)
+            uniqueConv.push(data)
+          }
+         }
+         if(data.chat_type=='sent'){
+          //console.log(data.receiver)
+          if(!uniqueConvId.includes(data.receiver)){
+            uniqueConvId.push(data.receiver)
+            uniqueConv.push(data)
+          }
+         }
+         });
 
-      axios.get('getActiveList').then(res=>{
-       //console.log(res.data)
-       res.data.forEach((element: any)=> {
-        //console.log(element.sender)
-        if(!uniqueConv.includes(element.sender)){
-          uniqueConv.push(element.sender)
-        }
-       });
-
-      axios.get('sentOnly').then(res=>{
-          res.data.forEach((element: any) => {
-            if(!uniqueConv.includes(element.receiver)){
-              uniqueConv.push(element.receiver)
-            }
-
-          });
-        //console.log(uniqueConv.length)
-          uniqueConv.forEach((sender: any) => {
-            //console.log(sender)
-            axios.post('getUserInfo',{frnd_id:sender}).then(res=>{
-              this.activeConvList.push(res.data)
-              
-            }).catch(err =>console.log(err))
-              });
-            }
-            
-            ).catch(err=>console.log(err))
-
-            
-      }).catch(err=>console.log(err))
-      //console.log(this.activeConvList)
+        });
+        //console.log(uniqueConvId)
+        //console.log(uniqueConv)
+        this.activeConvList = uniqueConv
+        console.log(this.activeConvList)
     }
     toggleEmojiPicker() {
       console.log(this.showEmojiPicker);
@@ -306,7 +298,7 @@ export class ChatPageComponent implements OnInit {
     onProfilePicError() {
       this.profileurl = this.userparsed.photoURL;
     }
-    sendnoti(frndid:any){ 
+    sendnoti(frndid:any){
       // console.log("test clicked : "+frndid)
       // this.socketService.sendNoti({sender:this.userparsed.uid,receiver:frndid,noti:"test notification"})
       axios.post('sendNoti',{receiver_id:frndid}).then(res=>{
