@@ -270,6 +270,10 @@ app.get("/friendData", ensureAuthenticated, async (req, res) => {
   
   res.send(JSON.stringify(result));
 })
+app.post("/friendsoffriendData", ensureAuthenticated, async (req, res) => {
+  const result = await prisma.$queryRaw`select * from public."User" where id in (select reciever from public."Friends" where sender =${req.body.frnd_id})`
+  res.send(result);
+})
 //TODO:testing function for notification
 app.post("/sendNoti",ensureAuthenticated,async (req,res)=>{
   // console.log(req.user.user_id);
