@@ -21,17 +21,19 @@ const routes: Routes = [
       { path: 'friends', component: FriendsComponent },
       { path: 'linked-accounts', component: LinkedAccountsComponent },
     ],
-  canActivate: [AuthGuard]
+  canActivate: [AuthGuard],
+    data: { ownProfile: true }
   },
     {
-      path: 'user', component: FrindsprofileComponent,
+      path: 'user', component: ProfilePageComponent,
       children: [
         { path: 'games', component: GamesComponent },
         { path: 'post', component: ProfilePageComponent },
         { path: 'friends', component: FriendsComponent },
         { path: 'linked-accounts', component: LinkedAccountsComponent },
       ],
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { ownProfile: false }
   },
 
   { path: 'first-component', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },

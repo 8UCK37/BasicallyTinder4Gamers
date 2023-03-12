@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
 import {filter} from 'rxjs/operators';
@@ -16,14 +16,10 @@ export class ProfilePageComponent implements OnInit {
   @ViewChild('banner') banner!:ElementRef;
   radioActivaVal:any;
   radioAtGame:any = false;
-
-  constructor(public modalService: NgbModal, user: UserService,private router : Router,private auth: AngularFireAuth) {
-  //   router.events.pipe(
-  //     filter(event => event instanceof NavigationEnd)
-  // )
-  //     .subscribe(event => {
-  //         console.log(event);
-  //     });
+  ownProfile: any;
+  userid:any;
+  constructor(public modalService: NgbModal, user: UserService,private router : Router,private auth: AngularFireAuth,private route: ActivatedRoute) {
+    this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
   public usr:any;
   public userparsed:any;
@@ -34,15 +30,17 @@ export class ProfilePageComponent implements OnInit {
   public bNsave:boolean=false;
   public formData:any;
   public userName:any;
-  backgroundColor = 'rgb(255, 0, 0)';
+  public profile_id:any;
   ngOnInit(): void {
     //console.log(this.router.url);
+    console.log(this.ownProfile);
     let lastUrl = this.router.url.split('/')[2]
     //console.log(lastUrl)
     if(lastUrl == 'post') this.radioActivaVal = 1
     if(lastUrl == 'games') this.radioActivaVal = 2;
     if(lastUrl == 'friends') this.radioActivaVal = 3;
     // this.radioAtGame = true
+    if(this.ownProfile){
     this.auth.authState.subscribe(user=>{
       if(user) {
         this.usr = localStorage.getItem('user');
@@ -60,9 +58,21 @@ export class ProfilePageComponent implements OnInit {
         }).catch(err =>console.log(err))
       }
     })
-    this.usr = localStorage.getItem('user');
-    this.usr=JSON.parse(this.usr);
-
+  }else{
+    console.log("here")
+    this.route.queryParams.subscribe(params => {
+      this.profile_id = params['id'];
+      console.log(this.profile_id)
+      axios.post('getUserInfo',{frnd_id:this.profile_id}).then(res=>{
+        //console.log(res.data)
+        this.profileurl=res.data.profilePicture;
+        this.userName=res.data.name;
+        this.bannerUrl=res.data.profileBanner;
+        this.bio=res.data.bio;
+       //console.log(res.data);
+     }).catch(err=>console.log(err))
+  });
+  }
     setInterval(() => {
       if(this.input.nativeElement.files[0]!=null){
         let reader = new FileReader();
@@ -92,16 +102,32 @@ export class ProfilePageComponent implements OnInit {
   }
 
   changeToGame(){
-    this.router.navigate(['profile-page','games']);
+    if(this.ownProfile){
+      this.router.navigate(['profile-page','games']);
+    }else{
+      this.router.navigate(['user','games'],{ queryParams: { id: this.profile_id } });
+    }
   }
   changeToPost(){
-    this.router.navigate(['profile-page','post']);
+    if(this.ownProfile){
+      this.router.navigate(['profile-page','post']);
+    }else{
+      this.router.navigate(['user','post'],{ queryParams: { id: this.profile_id } });
+    }
   }
   changeToFriends(){
-    this.router.navigate(['profile-page','friends']);
+    if(this.ownProfile){
+      this.router.navigate(['profile-page','friends']);
+    }else{
+      this.router.navigate(['user','friends'],{ queryParams: { id: this.profile_id } });
+    }
   }
   changeToLinkedAcc(){
-    this.router.navigate(['profile-page','linked-accounts']);
+    if(this.ownProfile){
+      this.router.navigate(['profile-page','linked-accounts']);
+    }else{
+      this.router.navigate(['user','linked-accounts'],{ queryParams: { id: this.profile_id } });
+    }
   }
   uploadProfilePic(){
     this.formData = new FormData();

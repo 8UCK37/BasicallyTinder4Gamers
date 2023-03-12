@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AnimateTimings } from '@angular/animations';
 import axios from 'axios';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
-import { map } from '@firebase/util';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from 'src/app/chat-page/chat-services.service';
 import { UserService } from 'src/app/login/user.service';
 
@@ -18,8 +16,6 @@ export class FriendsComponent implements OnInit {
   public show: boolean = true;
   public hide: boolean = false;
   public buttonName: any = 'Show';
-
-  constructor(private socketService : ChatServicesService ,public user: UserService, private auth: AngularFireAuth,private router: Router) { }
   public usr: any;
   public userparsed: any;
   public pendingResults: any[] = [];
@@ -30,35 +26,40 @@ export class FriendsComponent implements OnInit {
   public recData:any;
   private incomingNotiSubscription: Subscription | undefined;
   public status=new Map();
+  ownProfile: any;
+  public profile_id:any;
+  constructor(private socketService : ChatServicesService ,public user: UserService, private auth: AngularFireAuth,private router: Router,private route: ActivatedRoute) {
+    this.ownProfile = this.route.snapshot.data['ownProfile'];
+   }
 
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
-    this.getfriendlist();
-    this.getPendingReq();
-    this.getsentPending();
-    //console.log(this.userparsed);
-    //this.getPendingReq()
-    this.auth.authState.subscribe(user => {
-      if (user) {
-        this.userparsed = user
-        axios.get('saveuser').then(res => {
-          //console.log("save user" ,res)
-          this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
-        }).catch(err => console.log(err))
+    console.log(this.ownProfile);
+    if(this.ownProfile){
 
-      }
-    })
-    // setInterval(() => {
-    //   this.friendList.forEach(element => {
-    //     axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
-    //       //console.log(res.data)
-    //       //console.log(element.data.id,res.data.activeChoice&&res.data.isConnected)
-    //       this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
-    //     }).catch(err => console.log(err))
-    //   });
-    // }, 500);
-    this.incNotification();
+      this.getfriendlist();
+      this.getPendingReq();
+      this.getsentPending();
+      this.incNotification();
+      //console.log(this.userparsed);
+      //this.getPendingReq()
+      this.auth.authState.subscribe(user => {
+        if (user) {
+          this.userparsed = user
+          axios.get('saveuser').then(res => {
+            //console.log("save user" ,res)
+            this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
+          }).catch(err => console.log(err))
+        }
+      })
+      }else{
+        this.route.queryParams.subscribe(params => {
+          this.profile_id = params['id'];
+          console.log(this.profile_id)
+          this.getfriendfriendlist();
+      });
+    }
   }
   getPendingReq() {
     this.pendingResults = []
@@ -79,6 +80,15 @@ export class FriendsComponent implements OnInit {
       });
     }).catch(err => console.log(err))
     //console.log(this.friendList)
+  }
+  getfriendfriendlist() {
+    this.friendList = [];
+    axios.post('friendsoffriendData', { frnd_id: this.profile_id }).then(res => {
+      res.data.forEach((data: any) => {
+        this.friendList.push({ data })
+      });
+    }).catch(err => console.log(err))
+    console.log(this.friendList)
   }
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {
@@ -102,13 +112,7 @@ export class FriendsComponent implements OnInit {
     //console.log(userid)
     this.router.navigate(['/user'], { queryParams: { id: userid } });
   }
-  getOnlineStatus(frndid:any){
-    axios.post('getUserInfo',{ frnd_id: frndid}).then(res => {
-      //console.log(res.data)
-      //this.online=res.data[0].activeChoice && res.data[0].isConnected
-      //console.log(this.online)
-    }).catch(err => console.log(err))
-  }
+
   getsentPending() {
     this.sentPending = [];
     axios.get('sentPending').then(res => {
