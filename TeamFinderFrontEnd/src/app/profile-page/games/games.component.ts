@@ -136,7 +136,7 @@ export class GamesComponent implements OnInit {
     this.showcase=[];
     this.frndownedgames=[];
     axios.post('getFrndOwnedGames',{frnd_id:this.profile_id}).then(res=>{
-      this.frndownedgames=JSON.parse(JSON.parse(res.data[0].games))
+      this.frndownedgames=JSON.parse(JSON.parse(res.data[0]?.games))
       //console.log(this.frndownedgames)
       axios.post('getFrndSelectedGames',{frnd_id:this.profile_id}).then(res=>{
         res.data.forEach((selected: any) => {
