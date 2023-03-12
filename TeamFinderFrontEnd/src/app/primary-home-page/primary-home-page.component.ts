@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild,TemplateRef } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
-
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-primary-home-page',
@@ -11,11 +11,12 @@ import { UserService } from '../login/user.service';
 })
 
 export class PrimaryHomePageComponent implements OnInit {
+  public modalRef?: BsModalRef;
   public show:boolean=true;
   public formData: any;
   selectedImage: any;
   public profileurl:any;
-  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2 ) { }
+  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) { }
   public usr:any;
   public userparsed:any;
   public posts : any[] = [];
@@ -158,7 +159,12 @@ export class PrimaryHomePageComponent implements OnInit {
     })
     // console.log(tag)
   }
-
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template,
+      Object.assign({}, { class: 'gray modal-lg' })
+      );
+  }
 }
+
 
 

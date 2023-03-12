@@ -4,56 +4,108 @@
     <div class="con">
       <div class="row">
         <div class="profileimg">
-          <img [src]="profileurl"   class="user-pic"(error)="onProfilePicError()" referrerpolicy="no-referrer">
+          <img [src]="profileurl" class="user-pic" (error)="onProfilePicError()" referrerpolicy="no-referrer">
         </div>
         <div class="col-md-auto">
-          <button #open type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <button #open type="button" class="btn btn-outline-light" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop">
             Rant about those lootboxes here.......
           </button>
         </div>
       </div>
       <div class="row">
         <div class="col-md-auto">
-        <a type="button" class="btn image " style="left: 85px;"  (click)="imageInput.click()" (click)="open.click()"><img src="./../../assets/icon-resource/image.png"
-            style="height: 30px" ><span style="color: aliceblue; left: 6px;position: relative;">Image</span></a>
+          <a type="button" class="btn image " style="left: 85px;" (click)="imageInput.click()"
+            (click)="open.click()"><img src="./../../assets/icon-resource/image.png" style="height: 30px"><span
+              style="color: aliceblue; left: 6px;position: relative;">Image</span></a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <ng-container *ngFor="let post of posts; let i=index">
-    <div class="container mt-5 mb-5">
-      <div class="row d-flex align-items-center justify-content-center">
+    <ng-container *ngFor="let post of posts; let i=index">
+      <div class="container mt-5 mb-5">
+        <div class="row d-flex align-items-center justify-content-center">
           <div class="col-md-6">
-              <div class="card">
-                  <div class="d-flex justify-content-between p-2 px-3">
-                      <div class="d-flex flex-row align-items-center"> <img [src]="post.authorUrl" width="50" class="rounded-circle" (error)="onPostPicError(i)">
-                          <div class="d-flex flex-column ml-2"> <span class="font-weight-bold" style="margin-left: 10px;">{{post.name}}</span></div>
-                      </div>
-                      <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{this.utcToLocal(post?.createdAt)}}</small></div>
-                  </div>
-                  <div class="p-2">
-                  <p class="text-justify">{{post.description}}</p>
-                   <ng-container *ngFor="let tag of post.tagArr">
-                    <a class="text-justify" style="cursor: pointer; margin-left: 15px;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
-                  </ng-container>
+            <div class="card">
+              <div class="d-flex justify-content-between p-2 px-3">
+                <div class="d-flex flex-row align-items-center"> <img [src]="post.authorUrl" width="50"
+                    class="rounded-circle" (error)="onPostPicError(i)">
+                  <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
+                      style="margin-left: 10px;">{{post.name}}</span></div>
                 </div>
-                <ng-container *ngIf="post.photoUrlArr.length!=0">
+                <div class="d-flex flex-row mt-1 ellipsis"> <small
+                    class="mr-2">{{this.utcToLocal(post?.createdAt)}}</small></div>
+              </div>
+              <div class="p-2">
+                <p class="text-justify">{{post.description}}</p>
+                <ng-container *ngFor="let tag of post.tagArr">
+                  <a class="text-justify" style="cursor: pointer; margin-left: 15px;"
+                    (click)="fetchByTag(tag)">{{"#"+tag}}</a>
+                </ng-container>
+              </div>
+              <div>
+                <button type="button" class="btn btn-primary" #comment (click)="openModal(template)"
+                  hidden="true"></button>
+                <ng-template #template>
+                  <div class="modal-dialog-scrollable" style="overflow-y: initial !important">
+                  <div class="modal-content" style="background-color: currentColor;">
+                  <div class="modal-header">
+                    <h4 id="dialog-sizes-name1" class="modal-title pull-left modal-text-colour">Comment Section</h4>
+                    <button type="button" class="btn-close close pull-right " aria-label="Close"
+                      (click)="modalRef?.hide()">
+                      <span aria-hidden="true" class="visually-hidden">&times;</span>
+                    </button>
+                  </div>
+                   <div class="modal-body modal-css-extra-H">
+                    <ng-container *ngIf="post.photoUrlArr.length!=0">
+                      <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
+                        <slide *ngFor="let img of post.photoUrlArr">
+                          <img [src]="img" alt="first slide" style="display: block; width: 100%;">
+                        </slide>
+                      </carousel>
+                      <div class="p-2">
+                        <p class="text-justify modal-text-colour">{{post.description}}</p>
+                        <ng-container *ngFor="let tag of post.tagArr">
+                          <a class="text-justify modal-text-colour"
+                            (click)="fetchByTag(tag)">{{"#"+tag}}</a>
+                        </ng-container>
+                      </div>
+                      <br>
+                  <h2 class="modal-text-colour">Comments</h2>
+                  <br>
+                      <div class="mb-3">
+                        <label for="message-text" class="col-form-label modal-text-colour">Not the N Word</label>
+                        <textarea placeholder="Not the N Word" class="form-control" id="message-text"></textarea>
+                      </div>
+                    </ng-container>
+                  </div>
+                      <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Comment</button>
+                  </div>
+                  </div>
+                </div>
+                </ng-template>
+              </div>
+              <ng-container *ngIf="post.photoUrlArr.length!=0">
                 <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
                   <slide *ngFor="let img of post.photoUrlArr">
                     <img [src]="img" alt="first slide" style="display: block; width: 100%;">
                   </slide>
                 </carousel>
               </ng-container>
-                  <div class="p-2 carousel-btm">
-                      <hr>
-                      <div class="d-flex justify-content-between align-items-center">
-                          <button>like</button>
-                          <button>comment</button>
-                          <button>share</button>
-                          
-                      </div>
-                      <hr>
-                      <!-- <div class="comments">
+              <div class="p-2 carousel-btm">
+                <hr>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button>like</button>
+                  <button type="button" class="btn btn-primary" (click)="comment.click()">
+                    comment
+                  </button>
+                  <button>share</button>
+
+                </div>
+                <hr>
+                <!-- <div class="comments">
                           <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/9AZ2QX1.jpg" width="40" class="rounded-circle" style="margin-right: 15px;width: 50px;height:50px">
                               <div class="d-flex flex-column ml-2"> <span class="name">Daniel Frozer</span> <small class="comment-text">I like this alot! thanks alot</small>
                                   <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small style="margin-left: 15px;">Reply</small><small style="margin-left: 15px;">18 mins</small> </div>
@@ -65,67 +117,79 @@
                               </div>
                           </div>
                       </div> -->
-                      <!-- <div class="comment-input"> <input type="text" class="form-control"> -->
+                <!-- <div class="comment-input"> <input type="text" class="form-control"> -->
 
-                    <!-- </div> -->
-                  </div>
-              </div>
-          </div>
-      </div>
-    </div>
-
-    </ng-container>
-
-  <!-- Modal -->
-  <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content"  style="background-color: currentColor;" >
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: whitesmoke;">Post Generator</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label"  style="color: whitesmoke;">Add somthing Funny or maybe not</label>
-            <textarea placeholder="Rant about those lootboxes here.." class="form-control" id="message-text"></textarea>
-          </div>
-          <div style="background: white;border-radius: 5px;">
-            <tag-input [(ngModel)]="tagList" >
-              <tag-input-dropdown [dynamicUpdate]="false">
-              </tag-input-dropdown>
-            </tag-input>
-          </div>
-          <br>
-          <div>
-            <input #imageInput type="file"(change)="onFileSelected($event)" multiple [hidden]="true">
-            <button  type="button" style="margin-top: 5px;" class="btn btn-outline-info" (click)="imageInput.click()">Image | <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
-              <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-              <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z"/>
-            </svg></button>
-            <div *ngIf="imageSrcs.length" >
-              <div class="card">
-              <button class="btn btn-danger"(click)="clearImages()">Remove All</button>
-              </div>
-              <br>
-              <h4>Preview</h4>
-              <br>
-              <div *ngFor="let imageSrc of imageSrcs; let i = index;" class="card">
-                <div class="image-preview" class="card">
-                  <img [src]="imageSrc" alt="Selected Image">
-                  <button type="button" class="btn btn-secondary" (click)="removeImage(i)">Remove</button>
-                </div>
+                <!-- </div> -->
               </div>
             </div>
           </div>
-          <br>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" (click)="uploadPostFile()" data-bs-dismiss="modal">Post</button>
+      </div>
+
+    </ng-container>
+
+    <!-- Modal -->
+    <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+      tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content" style="background-color: currentColor;">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: whitesmoke;">Post Generator</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label" style="color: whitesmoke;">Add somthing Funny or maybe
+                not</label>
+              <textarea placeholder="Rant about those lootboxes here.." class="form-control"
+                id="message-text"></textarea>
+            </div>
+            <div style="background: white;border-radius: 5px;">
+              <tag-input [(ngModel)]="tagList">
+                <tag-input-dropdown [dynamicUpdate]="false">
+                </tag-input-dropdown>
+              </tag-input>
+            </div>
+            <br>
+            <div>
+              <input #imageInput type="file" (change)="onFileSelected($event)" multiple [hidden]="true">
+              <button type="button" style="margin-top: 5px;" class="btn btn-outline-info"
+                (click)="imageInput.click()">Image | <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                  fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
+                  <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                  <path
+                    d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z" />
+                </svg></button>
+              <div *ngIf="imageSrcs.length">
+                <div class="card">
+                  <button class="btn btn-danger" (click)="clearImages()">Remove All</button>
+                </div>
+                <br>
+                <h4>Preview</h4>
+                <br>
+                <div *ngFor="let imageSrc of imageSrcs; let i = index;" class="card">
+                  <div class="image-preview" class="card">
+                    <img [src]="imageSrc" alt="Selected Image">
+                    <button type="button" class="btn btn-secondary" (click)="removeImage(i)">Remove</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="uploadPostFile()"
+              data-bs-dismiss="modal">Post</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  </div>
+
+
+  <!-- Button trigger modal -->
+
+
+
 </main>

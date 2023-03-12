@@ -35,6 +35,7 @@ import { UtiliyTagComponent } from './primary-home-page/utiliyTag/utiliyTag.comp
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { SettingsComponent } from './settings/Settings.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
       PendingRequestComponent,
       FriendlinkedacountComponent,
       UtiliyTagComponent,
-      SettingsComponent
+      SettingsComponent,
+      PrimaryHomePageComponent
    ],
   imports: [
     BrowserModule,
@@ -74,11 +76,13 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     TagInputModule,
     ReactiveFormsModule,
     PickerModule,
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     ChatServicesService
+
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent,PrimaryHomePageComponent]
 })
 export class AppModule { }
