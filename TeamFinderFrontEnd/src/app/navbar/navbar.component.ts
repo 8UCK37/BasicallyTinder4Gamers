@@ -144,21 +144,21 @@ export class NavbarComponent implements OnInit {
   }
   acceptReq(frndid: any) {
 
-    // axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
-    //   //console.log("accepted", res)
-    //   this.pendingResults = [];
-    //   this.friendList = [];
-    //   this.getPendingReq();
-    // }).catch(err => console.log(err))
+    axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
+      //console.log("accepted", res)
+      this.pendingResults = [];
+      this.friendList = [];
+      this.getPendingReq();
+    }).catch(err => console.log(err))
   }
   rejectReq(frndid: any) {
 
-    // axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
-    //   //console.log("rejected", res)
-    //   this.pendingResults = [];
-    //   this.friendList = [];
-    //   this.getPendingReq();
-    // }).catch(err => console.log(err))
+    axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
+      //console.log("rejected", res)
+      this.pendingResults = [];
+      this.friendList = [];
+      this.getPendingReq();
+    }).catch(err => console.log(err))
   }
 
   toggleTostAccept() {
