@@ -1,5 +1,10 @@
 <div class="con">
+  <ng-container *ngIf="ownProfile ;else elseblock">
   <h1>Securely Link Accounts to Your Profile</h1>
+  </ng-container>
+  <ng-template #elseblock >
+    <h1>Linked Accounts</h1>
+  </ng-template>
   <ng-container *ngIf="unlinked">
     <a #link type="button" href="http://localhost:3000/auth/steam" style="display:none ;"></a>
     <i class="fa-brands fa-steam fa-3x" (click)="link.click()" style="cursor: pointer;"></i>
