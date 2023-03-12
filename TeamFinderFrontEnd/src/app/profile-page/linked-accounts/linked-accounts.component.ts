@@ -24,19 +24,14 @@ export class LinkedAccountsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    if(this.ownProfile){
+
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     this.steamId = this.route.snapshot.queryParams['steamid'];
     this.getSteamId();
     // this.setSteamId()
     this.getSteamInfo();
-    }else{
-      this.route.queryParams.subscribe(params => {
-        this.profile_id = params['id'];
-        console.log(this.profile_id)
-    });
-    }
+
   }
 
   callBackend() {
