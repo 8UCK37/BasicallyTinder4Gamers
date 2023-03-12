@@ -414,33 +414,32 @@
     initial-value: 132deg;
     inherits: false;
 }
-.card{
-  justify-content: space-around;
-  height: 224px;
-  width: 187px;
-  background: #191c29;
-  width: 152px;
-  height: 226px;
-  padding: 75px;
-  position: absolute;
-  border-radius: 6px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  display: flex;
-  margin:3rem auto;
-  font-size: 1.5em;
-  color: rgb(88 199 250 / 0%);
-  cursor: pointer;
-  font-family: cursive;
+
+.card {
+    justify-content: space-around;
+    height: 224px;
+    width: 187px;
+    background: #171717;
+    width: 152px;
+    height: 226px;
+    position: absolute;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    font-size: medium;
+    color: rgb(88 199 250 / 0%);
+    cursor: pointer;
 }
+
 :root {
     --card-cust-height: 224px;
     --card-cust-width: 187px;
 }
 
 .card-cust {
-  justify-content: space-around;
+    justify-content: space-around;
     background: #191c29;
     width: 152px;
     height: 226px;
@@ -451,11 +450,10 @@
     align-items: center;
     text-align: center;
     display: flex;
-    margin:3rem auto;
+    margin: 3rem auto;
     font-size: 1.5em;
     color: rgb(88 199 250 / 0%);
     cursor: pointer;
-    font-family: cursive;
 }
 
 .card-cust::before {
@@ -480,40 +478,66 @@
         --rotate: 360deg;
     }
 }
-.gamepic{
-  height: 224px;
-  width: 150px;
-  border-radius: 6px;
+
+.gamepic {
+    height: 224px;
+    width: 150px;
+    border-radius: 6px;
 }
-.btn-info{
-  margin-left: 175px;
+
+.btn-info {
+    margin-left: 175px;
 }
 
 .tp-box {
-  position: relative;
-  margin: 3rem auto;
-  perspective: 1000px;
+    position: relative;
+    margin: 3rem auto;
+    perspective: 1000px;
 }
+
 .tp-box__side {
     width: 100%;
-  height: 100%;
-  position: absolute;
-  backface-visibility: hidden;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
 
-  color:#171717;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.8s ease;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.8s ease;
 
 }
 
 .tp-box__back {
     transform: rotateY(180deg);
 }
+
 .tp-box:hover .tp-box__back {
     transform: rotateY(0);
 }
 
 .tp-box:hover .tp-box__front {
     transform: rotateY(-180deg);
+}
+
+.tp-box__front {
+    --angle: 0deg;
+    border: 5px solid;
+    animation: 3s rotate linear infinite;
+    border-image: linear-gradient(var(--angle), #5ddcff, #3c67e3 43%, #4e00c2) 1;
+}
+.tp-box__front::after{
+    border-radius: 50%;
+}
+
+@keyframes rotate {
+    to {
+        --angle: 360deg;
+    }
+}
+
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
 }
