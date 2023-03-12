@@ -35,6 +35,7 @@ export class FriendsComponent implements OnInit {
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
+
     console.log(this.ownProfile);
     if(this.ownProfile){
 
@@ -110,7 +111,12 @@ export class FriendsComponent implements OnInit {
   }
   onclick(userid:any){
     //console.log(userid)
-    this.router.navigate(['/user'], { queryParams: { id: userid } });
+    console.log(this.userparsed.uid)
+    if(this.userparsed.uid==userid){
+      this.router.navigate(['/profile-page']);
+    }else{
+      this.router.navigate(['/user'], { queryParams: { id: userid } });
+    }
   }
 
   getsentPending() {
