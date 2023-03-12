@@ -24,12 +24,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import { TypeaheadModule} from 'ngx-bootstrap/typeahead';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FrindsprofileComponent } from './frinedsprofile/frindsprofile.component';
-import { ShowfriendgamesComponent } from './showfriendgames/showfriendgames.component';
-import { ShowfriendpostsComponent } from './showfriendposts/showfriendposts.component';
-import { ShowfriendfriendlistComponent } from './showfriendfriendlist/showfriendfriendlist.component';
-import { PendingRequestComponent } from './pending-request/pending-request.component';
-import { FriendlinkedacountComponent } from './friendlinkedacount/friendlinkedacount.component';
 import { TagInputModule } from 'ngx-chips';
 import { UtiliyTagComponent } from './primary-home-page/utiliyTag/utiliyTag.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -50,12 +44,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       ProfilePostComponent,
       FriendsComponent,
       AppSearchComponent,
-      FrindsprofileComponent,
-      ShowfriendgamesComponent,
-      ShowfriendpostsComponent,
-      ShowfriendfriendlistComponent,
-      PendingRequestComponent,
-      FriendlinkedacountComponent,
       UtiliyTagComponent,
       SettingsComponent,
       PrimaryHomePageComponent
