@@ -204,6 +204,17 @@ body {
   width: 4vmin;
   height: 4vmin;
 }
+.modal-css-extra-H{
+  max-height: calc(100vh - 200px);  overflow-y: auto;
+}
+.modal-text-colour{
+  color: whitesmoke;
+  margin-left: 15px;
+}
+.pointer{
+  cursor: pointer;
+}
+
 
  carousel img {
     /* content: './../../asset/bg/bg.jpg'; */
