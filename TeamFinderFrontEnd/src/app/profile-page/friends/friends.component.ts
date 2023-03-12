@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../login/user.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AnimateTimings } from '@angular/animations';
 import axios from 'axios';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from '@firebase/util';
-import { ChatServicesService } from '../chat-page/chat-services.service';
+import { ChatServicesService } from 'src/app/chat-page/chat-services.service';
+import { UserService } from 'src/app/login/user.service';
+
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',

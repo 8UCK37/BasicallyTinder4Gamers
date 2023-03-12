@@ -10,13 +10,13 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { IonicModule } from '@ionic/angular';
-import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.component';
+import { LinkedAccountsComponent } from './profile-page/linked-accounts/linked-accounts.component';
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import { ChatServicesService } from './chat-page/chat-services.service';
 import { NavbarComponent } from './navbar/navbar.component';
-import { ShowgamesComponent } from './showgames/showgames.component';
-import { ProfilePostComponent } from './profile-post/profile-post.component';
-import { FriendsComponent } from './friends/friends.component';
+import { GamesComponent } from './profile-page/games/games.component';
+import { ProfilePostComponent } from './profile-page/profile-post/profile-post.component';
+import { FriendsComponent } from './profile-page/friends/friends.component';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AppSearchComponent } from './navbar/app-search/app-search.component';
@@ -45,7 +45,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
       LinkedAccountsComponent,
       ChatPageComponent,
       NavbarComponent,
-      ShowgamesComponent,
+      GamesComponent,
       ProfilePostComponent,
       FriendsComponent,
       AppSearchComponent,

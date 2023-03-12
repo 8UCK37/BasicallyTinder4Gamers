@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChatPageComponent } from './chat-page/chat-page.component';
-import { FriendsComponent } from './friends/friends.component';
+import { FriendsComponent } from './profile-page/friends/friends.component';
 import { FrindsprofileComponent } from './frinedsprofile/frindsprofile.component';
-import { LinkedAccountsComponent } from './linked-accounts/linked-accounts.component';
+import { LinkedAccountsComponent } from './profile-page/linked-accounts/linked-accounts.component';
 import { LoginComponent } from './login/login.component';
 import { AppSearchComponent } from './navbar/app-search/app-search.component';
 import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { SettingsComponent } from './settings/Settings.component';
 import { AuthGuard } from './shared/guard/auth.guard';
-import { ShowgamesComponent } from './showgames/showgames.component';
+import { GamesComponent } from './profile-page/games/games.component';
 
 const routes: Routes = [
   {
     path: 'profile-page', component: ProfilePageComponent,
     children: [
-      { path: 'games', component: ShowgamesComponent },
+      { path: 'games', component: GamesComponent },
       { path: 'post', component: ProfilePageComponent },
       { path: 'friends', component: FriendsComponent },
       { path: 'linked-accounts', component: LinkedAccountsComponent },
@@ -26,7 +26,7 @@ const routes: Routes = [
     {
       path: 'user', component: FrindsprofileComponent,
       children: [
-        { path: 'games', component: ShowgamesComponent },
+        { path: 'games', component: GamesComponent },
         { path: 'post', component: ProfilePageComponent },
         { path: 'friends', component: FriendsComponent },
         { path: 'linked-accounts', component: LinkedAccountsComponent },

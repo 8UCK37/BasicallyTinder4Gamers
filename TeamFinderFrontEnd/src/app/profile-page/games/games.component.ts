@@ -8,9 +8,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import axios from 'axios';
 
 @Component({
-  selector: 'app-showgames',
-  templateUrl: './showgames.component.html',
-  styleUrls: ['./showgames.component.css'],
+  selector: 'app-games',
+  templateUrl: './games.component.html',
+  styleUrls: ['./games.component.css'],
   animations: [
     trigger('flipState', [
       state('active', style({
@@ -24,7 +24,7 @@ import axios from 'axios';
     ])
   ]
 })
-export class ShowgamesComponent implements OnInit {
+export class GamesComponent implements OnInit {
   public gameList:any[]=[{appid:1,name:"BGMI"},{appid:2,name:"FREE FIRE"}];
   public selectedList:any[]=[];
   public result: any[]=[];

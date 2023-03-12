@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
-import { ShowgamesComponent } from '../showgames/showgames.component';
+import { GamesComponent } from '../games/games.component';
 
 @Component({
   selector: 'app-linked-accounts',
