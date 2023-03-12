@@ -1,34 +1,3 @@
-<!-- <ng-container *ngIf="unlinked">
-  <div class="container text-left">
-    <div class="row">
-      <div class="col">
-        <a type="button" href="http://localhost:3000/auth/steam"><i class="fa-solid fa-link fa-3x"></i></a>
-      </div>
-    </div>
-  </div>
-   <p style="color: aliceblue;">linked-accounts works!</p>
-  <a type="button" href="http://localhost:3000/auth/steam">Link Steam</a> -->
-
-<!--</ng-container>
-<ng-container *ngIf="linked">
-  <div class="row">
-    <div class="col">
-      <div class="col">
-        <div class="card card0 " [ngStyle]="{ background: getStyle(),backgroundSize: getSize()}"
-          (mouseover)="changeText = true" (mouseout)="changeText = false">
-          <h2>{{steamInfo.info[0].personaname }}</h2>
-          <div class="icons">
-            <a type="button" href="https://steamcommunity.com/profiles/{{steamId}}" target="_blank"><i
-                class="fa fa-steam fa-2x" aria-hidden="true"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-container> -->
-
-
-
 <div class="con">
   <h1>Securely Link Accounts to Your Profile</h1>
   <ng-container *ngIf="unlinked">
@@ -37,10 +6,11 @@
   </ng-container>
   <i *ngIf="linked" class="fa-brands fa-steam fa-3x"></i>
   <ng-container>
+    <i class="fa-brands fa-steam fa-3x" style="cursor: pointer;"></i>
     <i class="fa-brands fa-battle-net"></i>
   </ng-container>
 </div>
-<ng-container *ngIf="linked">
+<ng-container *ngIf="steamId!=null">
   <div class="row">
     <div class="col">
       <div class="col">

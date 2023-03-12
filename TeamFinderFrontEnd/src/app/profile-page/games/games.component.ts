@@ -3,7 +3,7 @@ import { forEach } from '@angular-devkit/schematics';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BoundElementProperty } from '@angular/compiler';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import axios from 'axios';
 
@@ -31,12 +31,27 @@ export class GamesComponent implements OnInit {
   public ownedGames:any;
   steamId: any;
   flip: string = 'inactive';
-  constructor(private modalService: NgbModal,private router: Router) { }
+  public showcase:any[]=[];
+  public frndownedgames:any[]=[]
+  ownProfile: any;
+  public profile_id:any;
+  constructor(private modalService: NgbModal,private router: Router,private route: ActivatedRoute) {
+    this.ownProfile = this.route.snapshot.data['ownProfile'];
+   }
 
   ngOnInit(): void {
+    if(this.ownProfile){
     //this.getOwnedGames();
     this.getOwnedGamesfrmDb();
     this.result=[];
+    }else{
+      this.route.queryParams.subscribe(params => {
+        this.profile_id = params['id'];
+        console.log(this.profile_id)
+        this.getShowCase();
+    });
+
+    }
 
   }
   openScrollableContent(longContent:any) {
@@ -116,5 +131,24 @@ export class GamesComponent implements OnInit {
   }
   indexprinter(i:any){
     console.log(i)
+  }
+  getShowCase(){
+    this.showcase=[];
+    this.frndownedgames=[];
+    axios.post('getFrndOwnedGames',{frnd_id:this.profile_id}).then(res=>{
+      this.frndownedgames=JSON.parse(JSON.parse(res.data[0]?.games))
+      //console.log(this.frndownedgames)
+      axios.post('getFrndSelectedGames',{frnd_id:this.profile_id}).then(res=>{
+        res.data.forEach((selected: any) => {
+          this.frndownedgames.forEach(owned => {
+            //console.log(selected.appid)
+            if(owned.appid==selected.appid){
+              this.showcase.push(owned)
+            }
+          });
+        });
+      }).catch(err =>console.log(err))
+      //console.log(this.showcase)
+    }).catch(err =>console.log(err))
   }
 }

@@ -11,6 +11,7 @@
     </div>
     <div class="col-md-auto">
     </div>
+    <ng-container *ngIf="ownProfile" >
     <div class="col col-lg-2">
       <input class="type-checkbox" id="toogle" type="checkbox" name="name" (click)="toggle()">
       <label class="estado" for="toogle" >
@@ -18,6 +19,7 @@
         <span class="desaprobado">Pending</span>
       </label>
     </div>
+  </ng-container>
   </div>
   <br>
   <ng-container *ngIf="show">

@@ -24,7 +24,9 @@
             </div>
             <!-- "Follow" button -->
             <div class="profile__actions">
+              <ng-container *ngIf="ownProfile" >
               <a class="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor:pointer" >Edit Profile</a>
+              </ng-container>
             </div>
           </div>
         </div>
