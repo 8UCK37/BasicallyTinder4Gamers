@@ -6,10 +6,11 @@
   </ng-container>
   <i *ngIf="linked" class="fa-brands fa-steam fa-3x"></i>
   <ng-container>
+    <i class="fa-brands fa-steam fa-3x" style="cursor: pointer;"></i>
     <i class="fa-brands fa-battle-net"></i>
   </ng-container>
 </div>
-<ng-container *ngIf="linked">
+<ng-container *ngIf="steamId!=null">
   <div class="row">
     <div class="col">
       <div class="col">

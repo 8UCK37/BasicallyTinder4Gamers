@@ -442,6 +442,7 @@ app.get("/steamUserInfo", ensureAuthenticated,async (req, res) => {
 });
 
 app.post('/steamInfo',ensureAuthenticated, urlencodedParser,async(req,res)=>{
+  //console.log(req.body.steam_id)
   if(req.body.steam_id!=null){
     const c = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${req.body.steam_id}`);
     let players= c.data.response.players;
