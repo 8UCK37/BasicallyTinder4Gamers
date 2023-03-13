@@ -59,7 +59,6 @@ export class ProfilePageComponent implements OnInit {
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           //console.log(res.data)
           this.userInfo = res.data
-
         }).catch(err => console.log(err))
         axios.post('isFriend', { id: this.profile_id }).then(res => {
           //console.log(res.data)
@@ -76,7 +75,7 @@ export class ProfilePageComponent implements OnInit {
           }
           else {
             this.status = { style: 'button', value: 'Send Req' }
-            console.log(this.status)
+            //console.log(this.status)
           }
         }).catch(err => console.log(err))
       });
@@ -176,15 +175,15 @@ export class ProfilePageComponent implements OnInit {
     //window.location.reload()
   }
   sendreq(){
-    console.log(this.status.value)
-    if(this.status.value!='pending'){
+    //console.log(this.status.value)
+    if(this.status.value!='Pending'){
+      alert('sent a req')
       axios.post('addFriend', { to:this.profile_id}).then(res => {
-        console.log("sent req", res)
         this.status={style:'button',value:'Pending'}
-        console.log(this.status)
+        //console.log(this.status)
       }).catch(err => console.log(err))
       }else{
-        console.log("a pending req exists")
+        alert("a pending req exists")
       }
   }
   modalOpen(){
