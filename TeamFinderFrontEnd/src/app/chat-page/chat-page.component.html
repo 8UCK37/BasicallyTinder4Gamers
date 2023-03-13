@@ -27,7 +27,7 @@
         <div class="chat-list active">
           <div class="app-profile-box-text-align-left">
             <ul class="chat-list active" *ngFor="let frnd of activeConvList; let i = index">
-              <div class="chat-list-item active" (click)="onclick(frnd.id)">
+              <div class="chat-list-item active" (click)="onclick(frnd)">
                 <div class="wrapper">
                   <i *ngIf="notification.get(frnd.id)" class="fa fa-bell icon"></i>
                 </div>
