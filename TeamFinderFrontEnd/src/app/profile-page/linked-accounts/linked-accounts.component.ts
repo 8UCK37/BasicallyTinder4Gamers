@@ -14,7 +14,6 @@ export class LinkedAccountsComponent implements OnInit {
   public usr: any;
   public userparsed: any;
   public linked: boolean = false;
-  public unlinked: boolean = false;
   public steamInfo: any;
   public profile_id: any;
   changeText: any = false;
@@ -22,23 +21,44 @@ export class LinkedAccountsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
-
   ngOnInit(): void {
-    if (this.ownProfile) {
       this.usr = localStorage.getItem('user');
       this.userparsed = JSON.parse(this.usr);
-      this.steamId = this.route.snapshot.queryParams['steamid'];
-      this.getSteamId();
+      //console.log(this.route.snapshot.queryParams['steamid'])
+      if(this.route.snapshot.queryParams['steamid']!=null){
+        //console.log('not null')
+        this.ownProfile=true;
+        this.steamId = this.route.snapshot.queryParams['steamid'];
+        //TODO Steamid is currently being set by fetching query params it is very vulnerable
+        this.setSteamId(this.steamId)
+        this.linked=true;
+      }
+
+    if (this.ownProfile) {
+      //this.getSteamId();
+      axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
+        //console.log(res.data)
+        if(res.data.steamId!=null){
+        this.steamId = res.data.steamId
+        this.linked=true
+        }
+        //console.log(this.linked)
+      }).catch(err => console.log(err))
       this.getSteamInfo();
     } else {
       this.route.queryParams.subscribe(async params => {
         this.profile_id = params['id'];
-        //console.log(this.profile_id)
+        console.log(this.profile_id)
         await axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           //console.log(res.data)
+          if(res.data.steamId!=null){
           this.steamId = res.data.steamId
+          this.linked=true;
+          }else{
+            console.log('here')
+            this.steamInfo=[]
+          }
         }).catch(err => console.log(err))
-
         if (this.steamId != null) {
           //console.log(this.steamId)
           await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
@@ -53,47 +73,18 @@ export class LinkedAccountsComponent implements OnInit {
 
   setSteamId(id: any) {
     axios.post('setSteamId', { acc_id: id }).then(res => {
-
       if (res.data.message == 'New SteamId Linked') {
         this.linked = true;
-        this.unlinked = false;
         console.log(res.data.message);
         this.router.navigate(['/profile-page/linked-accounts']);
       } else if ('This Steam Id is already linked with another existing account') {
         this.linked = false;
-        this.unlinked = true;
         console.log(res.data.message);
         this.router.navigate(['/profile-page/linked-accounts']);
       }
     }).catch(err => console.log(err))
   }
-  // async deleteSteamId(){
-  //   this.steamId='';
-  //   this.unlinked=true;
-  //   this.linked=false;
-  //   await axios.post('setSteamId',{acc_id:null}).then(res=>{
-  //       console.log("steam id unlinked")
 
-  //   }).catch(err =>console.log(err))
-  //   this.router.navigate(['/linked-accounts']);
-  // }
-
-  async getSteamId() {
-    if (this.steamId == null) {
-      await axios.get('getSteamId').then(res => {
-        this.steamId = res.data[0].steamId
-        if (this.steamId == null) {
-          this.unlinked = true;
-          //console.log("unlinked")
-        } else {
-          this.linked = true;
-          //console.log("linked")
-        }
-      }).catch(err => console.log(err))
-    } else {
-      this.setSteamId(this.steamId)
-    }
-  }
   getSteamInfo() {
     axios.get('steamUserInfo', { params: { id: this.steamId } }).then(res => {
       //console.log(res.data)
