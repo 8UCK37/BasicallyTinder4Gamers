@@ -17,14 +17,11 @@ nav{
     height:50px;
 }
 .user-pic{
-    margin-top:21.5px;
-    width: 7vmin;
+    position: relative;
+    width: 5.5vmin;
     border-radius: 50%;
-    margin-left: 30px;
-    height: 7vmin;
+    height: 5.5vmin;
     text-indent: 100%;
-    white-space: nowrap;
-    overflow: hidden;
     animation: sk-loading 1s linear infinite alternate;
 }
 nav ul{
@@ -155,7 +152,7 @@ body {
   background: inherit;
 } */
 .con{
-  height: 150px;
+  height: 131px;
   border-radius: 20px;
   color: rgb(249, 250, 250);
   background-color: #262626;
@@ -164,19 +161,16 @@ body {
   margin-left: 218px;
 }
 .btn-outline-light {
-    top: 24px;
-    right: 9rem;
     width: 44rem;
     max-width: 48rem;
     min-width: 40rem;
-    height: 57px;
-    margin-top: 25px;
+    height: 49px;
+    margin-top: 21px;
     border-radius: 35px;
-    position: inherit;
     font-weight: bold;
     border: 2px solid;
     text-align: left;
-    margin-left: 76px;
+    margin-left: 52px;
 }
 .image {
   height: 35px;
@@ -188,12 +182,15 @@ body {
   vertical-align: middle;
 }
 .profileimg{
+  display: inline-block;
   position: relative;
-    left: 1.5rem;
-    top: 2px;
-    width: 7vmin;
-    height: 7vmin;
-    border-radius: 50%;
+  top: 2px;
+  left: 50px;
+  top: 21px;
+  width: 7vmin;
+  overflow: hidden;
+  height: 7vmin;
+  border-radius: 50%;
 
 }
 .modal-dialog {
