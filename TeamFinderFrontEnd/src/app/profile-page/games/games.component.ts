@@ -132,23 +132,23 @@ export class GamesComponent implements OnInit {
   indexprinter(i: any) {
     console.log(i)
   }
-  //TODO birds nest
-  getShowCase() {
+  
+  async getShowCase() {
     this.showcase = [];
     this.frndownedgames = [];
-    axios.post('getFrndOwnedGames', { frnd_id: this.profile_id }).then(res => {
+    await axios.post('getFrndOwnedGames', { frnd_id: this.profile_id }).then(res => {
       this.frndownedgames = JSON.parse(JSON.parse(res.data[0]?.games))
-      axios.post('getFrndSelectedGames', { frnd_id: this.profile_id }).then(res => {
-        res.data.forEach((selected: any) => {
-          this.frndownedgames.forEach(owned => {
-            //console.log(selected.appid)
-            if (owned.appid == selected.appid) {
-              this.showcase.push(owned)
-            }
-          });
-        });
-      }).catch(err => console.log(err))
       //console.log(this.showcase)
+    }).catch(err => console.log(err))
+    await axios.post('getFrndSelectedGames', { frnd_id: this.profile_id }).then(res => {
+      res.data.forEach((selected: any) => {
+        this.frndownedgames.forEach(owned => {
+          //console.log(selected.appid)
+          if (owned.appid == selected.appid) {
+            this.showcase.push(owned)
+          }
+        });
+      });
     }).catch(err => console.log(err))
   }
 }
