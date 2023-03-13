@@ -84,7 +84,7 @@ export class LinkedAccountsComponent implements OnInit {
         this.steamId = res.data[0].steamId
         if (this.steamId == null) {
           this.unlinked = true;
-          console.log("unlinked")
+          //console.log("unlinked")
         } else {
           this.linked = true;
           //console.log("linked")

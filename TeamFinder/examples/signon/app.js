@@ -117,7 +117,7 @@ const io = require('socket.io')(http, {
 
 const socketUserMap = new Map();
 const userSocketMap = new Map();
-;
+
 
 var app = express();
 
@@ -139,6 +139,7 @@ app.use(passport.session());
 app.use(bodyParser.json());
 app.use('/static', express.static(__dirname + '/../../public'));
 
+//saves a new user #endpoint
 app.get('/saveuser', ensureAuthenticated, async function (req, res) {
   //console.log(req.user)
   const fetchUser = await prisma.user.findUnique({
@@ -168,6 +169,7 @@ app.get('/saveuser', ensureAuthenticated, async function (req, res) {
   }
 
 });
+//returns user info #endpoint
 app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
   
   let userData = await prisma.User.findUnique({
@@ -177,6 +179,7 @@ app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
   })
   res.send(JSON.stringify(userData));
 });
+//updates displayname of the user #endpoint
 app.post('/userNameUpdate', ensureAuthenticated, urlencodedParser, async (req, res) => {
   console.log(req.body.name);
   const updateUserName = await prisma.User.update({
@@ -191,30 +194,8 @@ app.post('/userNameUpdate', ensureAuthenticated, urlencodedParser, async (req, r
 });
 
 
-app.get("/accountData", ensureAuthenticated, async (req, res) => {
-  let steamIdfromDb = await prisma.User.findUnique({
-    where: {
-      id: req.user.user_id
-    },
-    select: {
-      steamId: true
-    }
-  })
-  if (steamIdfromDb.steamId != null) {
-    const c = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamIdfromDb.steamId}&include_appinfo=true&format=json`);
-    let games = c.data.response.games;
-    if (games == undefined || games == null) {
-      games = []
-    }
-    res.send(JSON.stringify({ user: req.user, ownedGames: games }))
-  } else { console.log("null caught") }
 
-});
-
-app.get("/friend", ensureAuthenticated, async (req, res) => {
-  res.sendFile(__dirname + '/client/friend.html')
-})
-
+//tocheck if a person is you friend or not #endpoint
 app.post("/isFriend", ensureAuthenticated, urlencodedParser, async (req, res) => {
   const isfrnd = await prisma.FriendRequest.findMany({
     where: {
@@ -245,25 +226,27 @@ app.post("/isFriend", ensureAuthenticated, urlencodedParser, async (req, res) =>
   } else {
     res.send('no engagement')
   }
-
 })
-
+//returns your friends #endpoint
 app.get("/friendData", ensureAuthenticated, async (req, res) => {
   const result = await prisma.$queryRaw`select * from public."User" where id in (select reciever from public."Friends" where sender =${req.user.user_id})`
 
   res.send(JSON.stringify(result));
 })
+//returns the friends of your friends #endpoint
 app.post("/friendsoffriendData", ensureAuthenticated, async (req, res) => {
   const result = await prisma.$queryRaw`select * from public."User" where id in (select reciever from public."Friends" where sender =${req.body.frnd_id})`
   res.send(result);
 })
-//TODO:testing function for notification
+//TODO:testing function for notification #endpoint
 app.post("/sendNoti", ensureAuthenticated, async (req, res) => {
   // console.log(req.user.user_id);
   // console.log(req.body.receiver_id);
   socketRunner.sendNotification(io, userSocketMap, "poke", req.user.user_id, req.body.receiver_id)
   res.sendStatus(200);
 });
+
+//sends a friend request #endpoint
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
   console.log(req.body.to)
@@ -280,7 +263,7 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
   res.sendStatus(200);
 });
 
-
+//does exactly what the freindata does but a lot better in futre may replace friendata #endpoint
 app.get('/getFriendData', ensureAuthenticated, async (req, res) => {
   const user_id = req.user.user_id;
   const result = await prisma.$queryRaw`SELECT u.*, 
@@ -297,8 +280,7 @@ app.get('/getFriendData', ensureAuthenticated, async (req, res) => {
   res.send(result);
 });
 
-
-
+//searches the user table for names #endpoint
 app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
   const searchresult = await prisma.User.findMany({
@@ -315,12 +297,13 @@ app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function 
   //res.sendStatus(200);
 });
 
-
+//selfexplanatory #endpoint
 app.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
 });
 
+//accepts a friend req #endpoint
 app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res) => {
   const jsonObject = req.body;
   let friendReq = await prisma.FriendRequest.updateMany({
@@ -346,6 +329,7 @@ app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res
   })
   res.sendStatus(200);
 })
+//rejects a friend req #endpoint
 app.post("/rejectFriend", ensureAuthenticated, urlencodedParser, async (req, res) => {
   const jsonObject = req.body;
   let friendReq = await prisma.FriendRequest.updateMany({
@@ -371,7 +355,6 @@ app.get('/auth/steam',
     res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
 
   });
-
 // GET /auth/steam/return
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
@@ -381,13 +364,10 @@ app.get('/auth/steam/return', passport.authenticate('steam', { failureRedirect: 
 
   res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
 });
-app.get("/test", ensureAuthenticated, (req, res) => {
-  res.sendStatus(200);
-})
 
+//returns steamaccount data #endpoint
 app.get("/steamUserInfo", ensureAuthenticated, async (req, res) => {
-  console.log("here")
-
+  
   let steamIdfromDb = await prisma.User.findUnique({
     where: {
       id: req.user.user_id
@@ -403,11 +383,32 @@ app.get("/steamUserInfo", ensureAuthenticated, async (req, res) => {
     if (players == undefined || players == null) {
       players = []
     }
-
     res.send(JSON.stringify({ info: players }))
   } else { console.log("null caught") }
 });
 
+//returns ownedgames of the user from Steam #endpoint
+app.get("/accountData", ensureAuthenticated, async (req, res) => {
+  let steamIdfromDb = await prisma.User.findUnique({
+    where: {
+      id: req.user.user_id
+    },
+    select: {
+      steamId: true
+    }
+  })
+  if (steamIdfromDb.steamId != null) {
+    const c = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${apiKey}&steamid=${steamIdfromDb.steamId}&include_appinfo=true&format=json`);
+    let games = c.data.response.games;
+    if (games == undefined || games == null) {
+      games = []
+    }
+    res.send(JSON.stringify({ user: req.user, ownedGames: games }))
+  } else { console.log("null caught") }
+
+});
+
+//returns steam account data for anybody #endpoint
 app.post('/steamInfo', ensureAuthenticated, urlencodedParser, async (req, res) => {
   //console.log(req.body.steam_id)
   if (req.body.steam_id != null) {
@@ -423,6 +424,8 @@ app.post('/steamInfo', ensureAuthenticated, urlencodedParser, async (req, res) =
   }
 });
 
+
+//returns the offline/pnline choice from the user table #endpoint
 app.get('/activeState', ensureAuthenticated, async (req, res) => {
   let activeStateData = await prisma.User.findMany({
     where: {
@@ -436,6 +439,7 @@ app.get('/activeState', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(activeStateData));
 });
 
+//updates the user'c choice of active state in the user table #endpoint
 app.post('/activeStateChange', ensureAuthenticated, urlencodedParser, async (req, res) => {
   const jsonObject = req.body;
   const updateUser = await prisma.User.update({
@@ -457,6 +461,7 @@ app.post('/activeStateChange', ensureAuthenticated, urlencodedParser, async (req
   });
 });
 
+//updates the steamid of a user to the user table #endpoint
 app.post('/setSteamId', ensureAuthenticated, urlencodedParser, async (req, res) => {
   const jsonObject = req.body;
   let steamIdData = await prisma.User.findMany({
@@ -484,7 +489,7 @@ app.post('/setSteamId', ensureAuthenticated, urlencodedParser, async (req, res) 
     res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
   }
 });
-
+//TODO:returns the steamId from user table for linked accounts comp #endpoint
 app.get('/getSteamId', ensureAuthenticated, async (req, res) => {
   let steamIdData = await prisma.User.findMany({
     where: {
@@ -493,7 +498,7 @@ app.get('/getSteamId', ensureAuthenticated, async (req, res) => {
   })
   res.send(JSON.stringify(steamIdData));
 });
-
+//nt used,deleted steam id from the uesr table #endpoint
 app.post('/deleteSteamId', ensureAuthenticated, urlencodedParser, async (req, res) => {
 
   const updateUser = await prisma.User.update({
@@ -506,6 +511,8 @@ app.post('/deleteSteamId', ensureAuthenticated, urlencodedParser, async (req, re
   })
 });
 
+
+//returns chats i.e texts #endpoint
 app.get('/chatData', ensureAuthenticated, async (req, res) => {
   let fetchedChat = await prisma.Chat.findMany({
     where: {
@@ -524,7 +531,7 @@ app.get('/chatData', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(fetchedChat))
 });
 
-
+//returns active conversations #endpoint
 app.get('/getChats', ensureAuthenticated, async (req, res) => {
   const fetchedChat = await prisma.$queryRaw`
     SELECT 'sent' as chat_type, c.sender, c.receiver, u.*
@@ -540,9 +547,7 @@ app.get('/getChats', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(fetchedChat))
 });
 
-
-
-
+//updates the selected games table #endpoint
 app.post('/gameSelect', ensureAuthenticated, urlencodedParser, async (req, res) => {
   const jsonObject = req.body;
   const selectedGames = await prisma.GameSelectInfo.create({
@@ -554,7 +559,7 @@ app.post('/gameSelect', ensureAuthenticated, urlencodedParser, async (req, res) 
   res.sendStatus(200);
 });
 
-
+//returns a user's showcases #endpoint
 app.get('/getSelectedGames', ensureAuthenticated, async (req, res) => {
   let selectedGamedata = await prisma.GameSelectInfo.findMany({
     where: {
@@ -567,7 +572,7 @@ app.get('/getSelectedGames', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(selectedGamedata));
 });
 
-
+//used for updating the selectedgame stable #endpoint
 app.post('/selectedDelete', ensureAuthenticated, urlencodedParser, async (req, res) => {
   const jsonObject = req.body;
   let { affectedrows } = await prisma.GameSelectInfo.deleteMany({
@@ -578,6 +583,8 @@ app.post('/selectedDelete', ensureAuthenticated, urlencodedParser, async (req, r
   console.log(affectedrows)
   res.sendStatus(200);
 });
+
+//returns your frined's game showcase #endpoint
 app.post('/getFrndSelectedGames', ensureAuthenticated, async (req, res) => {
   const jsonObject = req.body;
 
@@ -592,7 +599,7 @@ app.post('/getFrndSelectedGames', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(selectedGamedata));
 });
 
-
+//saves your own owned games into ownedgames table #endpoint
 app.post('/saveOwnedgames', ensureAuthenticated, async (req, res) => {
   const fetchUser = await prisma.OwnedGames.findUnique({
     where: {
@@ -619,7 +626,7 @@ app.post('/saveOwnedgames', ensureAuthenticated, async (req, res) => {
   }
   res.sendStatus(200);
 });
-
+//returns the owned games from ownedgames table #endpoint
 app.get('/getOwnedgames', ensureAuthenticated, async (req, res) => {
   let fetchedGames = await prisma.OwnedGames.findMany({
     where: {
@@ -631,7 +638,7 @@ app.get('/getOwnedgames', ensureAuthenticated, async (req, res) => {
   })
   res.send(JSON.stringify(fetchedGames))
 });
-
+//#endpoint
 app.post('/getFrndOwnedgames', ensureAuthenticated, async (req, res) => {
   const jsonObject = req.body;
   let fetchedGames = await prisma.OwnedGames.findMany({
@@ -645,27 +652,27 @@ app.post('/getFrndOwnedgames', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(fetchedGames))
 });
 
-
+//#endpoint
 app.get('/getPost', ensureAuthenticated, (req, res) => postHelper.getPost(req, res, prisma))
-
+//#endpoint
 app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.createPost(req, res, prisma))
-
+//#endpoint
 app.get('/likePost', ensureAuthenticated, (req, res) => postHelper.likePost(req, res, prisma))
-
+//#endpoint
 app.get('/getOwnPost', ensureAuthenticated, (req, res) => postHelper.getOwnPost(req, res, prisma))
-
+//#endpoint
 app.get('/getpostbytagname', (req, res) => postHelper.getPostByTags(req, res, prisma))
-
+//#endpoint
 app.post("/uploadProfile", ensureAuthenticated, upload.single('avatar'), (req, res) => {
   profileHelper.upProfilePic(req, res, prisma);
   res.sendStatus(200);
 });
-
+//#endpoint
 app.post("/uploadBanner", ensureAuthenticated, bnUpload.single('banner'), (req, res) => {
   profileHelper.upBanner(req, res, prisma);
   res.sendStatus(200);
 });
-
+//#endpoint
 app.post("/updateBio", ensureAuthenticated, async (req, res) => {
   const updateStatus = await prisma.user.update({
     where: {
@@ -679,28 +686,10 @@ app.post("/updateBio", ensureAuthenticated, async (req, res) => {
 });
 
 
-
 socketRunner.execute(io, socketUserMap, userSocketMap)
 
 
 
-//profilePic download
-let download = function (picurl, id, res, req) {
-  const url = picurl;
-
-  https.get(url, (response) => {
-    const path2 = path.join(__dirname, `./../../public/profilePicture/${id}.jpg`);
-    const writeStream = fs.createWriteStream(path2);
-
-    response.pipe(writeStream);
-
-    writeStream.on("finish", () => {
-      writeStream.close();
-      console.log("Download Completed!");
-      res.send(JSON.stringify({ user: req.user }))
-    })
-  })
-}
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
 //   the request is authenticated (typically via a persistent login session),
@@ -749,14 +738,4 @@ function ensureAuthenticated(req, res, next) {
 app.listen(3000);
 http.listen(5000, () => console.log(`Listening on port ${5000}`));
 
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-// function ensureAuthenticated(req, res, next) {
-//   if (req.isAuthenticated()) {
-//     return next();
-//   }
-//   res.redirect('/');
-// }
+
