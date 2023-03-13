@@ -78,8 +78,9 @@ export class FriendsComponent implements OnInit {
   getfriendfriendlist() {
     this.friendList = [];
     axios.post('friendsoffriendData', { frnd_id: this.profile_id }).then(res => {
+      //console.log(res.data)
       res.data.forEach((data: any) => {
-        this.friendList.push({ data })
+        this.friendList.push( data )
       });
     }).catch(err => console.log(err))
     //console.log(this.friendList)

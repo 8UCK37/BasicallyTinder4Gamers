@@ -125,6 +125,7 @@ export class NavbarComponent implements OnInit {
     this.profileurl = this.userparsed.photoURL;
   }
   getPendingReq() {
+    this.notificationArray=[];
     axios.get('getFriendData').then(res => {
       //console.log(res.data)
       res.data.forEach((user: any) => {

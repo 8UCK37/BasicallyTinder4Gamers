@@ -70,17 +70,17 @@ export class ProfilePageComponent implements OnInit {
        //console.log(res.data);
      }).catch(err=>console.log(err))
       axios.post('isFriend',{id:this.profile_id}).then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
       if(res.data=='accepted'){
         this.status={style:'fa-sharp fa-regular fa-handshake fa-2x',value:''}
-        console.log(this.status)
+        //console.log(this.status)
       }else if(res.data=='rejected'){
         this.status={style:'fa-sharp fa-solid fa-ban fa-2x',value:''}
-        console.log(this.status)
+        //console.log(this.status)
       }
       else if(res.data=='pending'){
         this.status={style:'button',value:'Pending'}
-        console.log(this.status)
+        //console.log(this.status)
       }
       else{
         this.status={style:'button',value:'Send Req'}
