@@ -21,6 +21,8 @@ export class ProfilePageComponent implements OnInit {
   public userparsed:any;
   public userInfo:any;
   public bio:any;
+  public bannerPreview:any;
+  public dpPreview:any;
   public dPsave:boolean=false;
   public bNsave:boolean=false;
   public formData:any;
@@ -128,19 +130,10 @@ export class ProfilePageComponent implements OnInit {
     }).catch(err =>console.log(err))
     //console.log(this.input)
     //console.log(this.formData)
+    this.userInfo.profilePicture = this.dpPreview
   }
   cancelProfileUpload(){
     this.input.nativeElement.value=null;
-    this.auth.authState.subscribe(user=>{
-      if(user) {
-        this.userparsed = user
-        //console.log(this.userparsed)
-        axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
-          this.userInfo=res.data
-         //console.log(res.data);
-       }).catch(err=>console.log(err))
-      }
-    })
   }
   uploadBanner(){
     //this.banner.nativeElement.value=null;
@@ -158,20 +151,12 @@ export class ProfilePageComponent implements OnInit {
       this.bNsave=false;
       this.banner.nativeElement.value=null;
     }).catch(err =>console.log(err))
+    this.userInfo.profilePicture = this.bannerPreview
     //console.log(this.input)
   }
   cancelBannerUpload(){
     this.banner.nativeElement.value=null;
-    this.auth.authState.subscribe(user=>{
-      if(user) {
-        this.userparsed = user
-        //console.log(this.userparsed)
-        axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
-          this.userInfo=res.data
-          //console.log(res.data);
-       }).catch(err=>console.log(err))
-      }
-    })
+    
   }
   setBio(){
     const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;
@@ -203,11 +188,13 @@ export class ProfilePageComponent implements OnInit {
       }
   }
   modalOpen(){
+    this.bannerPreview=this.userInfo.profileBanner
+    this.dpPreview=this.userInfo.profilePicture
     setInterval(() => {
       if(this.input.nativeElement.files[0]!=null){
         let reader = new FileReader();
         reader.onload = (e: any) => {
-        this.userInfo.profilePicture = e.target.result;
+        this.dpPreview = e.target.result;
         this.dPsave=true;
       }
     reader.readAsDataURL(this.input.nativeElement.files[0]);
@@ -218,7 +205,7 @@ export class ProfilePageComponent implements OnInit {
       if(this.banner.nativeElement.files[0]!=null){
         let reader = new FileReader();
         reader.onload = (e: any) => {
-        this.userInfo.profileBanner = e.target.result;
+        this.bannerPreview = e.target.result;
         this.bNsave=true;
       }
     reader.readAsDataURL(this.banner.nativeElement.files[0]);

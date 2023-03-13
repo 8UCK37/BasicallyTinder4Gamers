@@ -48,7 +48,7 @@
           <div class="modal-body" style="overflow-y:scroll; max-height:70vh">
             <div class="profile-modal">
               <div class="profile__header-image-container-modal">
-                <img class="profile__header-image-modal" [src]="userInfo?.profileBanner">
+                <img class="profile__header-image-modal" [src]="bannerPreview">
                 <div>
                   <i class="phi-edit-icon fa-solid fa fa-camera" (click)="banner.click()"></i>
                 </div>
@@ -58,7 +58,7 @@
               <!-- Profile Avater -->
 
               <div class="phi-profile-picture-wrapper" (click)="image.click()">
-                <img class="profile__avatar-modal" [src]="userInfo?.profilePicture" style="cursor:pointer">
+                <img class="profile__avatar-modal" [src]="dpPreview" style="cursor:pointer">
                 <div class="camera-icon" style><i class="phi-edit-icon fa-solid fa fa-camera"></i></div>
               </div>
             </div>
