@@ -26,7 +26,7 @@
                 <div class="cont"><!-- Fold this div and try deleting evrything inbetween -->
                   <div class="sec new" *ngIf="notificationArray?.length!=0;else elseblock">
                     <div *ngFor="let user of notificationArray">
-                      <ng-container  *ngIf="user.notiType=='frnd req'" >
+                      <ng-container *ngIf="user.notiType=='frnd req'">
                         <div class="frnd-noti">
                           <div class="noti-img" (click)="onclick(user.sender)" style="cursor: pointer;">
                             <img [src]="user.profileurl" class="img-sk" referrerpolicy="no-referrer" />
@@ -67,7 +67,8 @@
       </li>
 
       <div>
-        <img [src]="userInfo?.profilePicture" #toggleButton class="user-pic" (click)="toggleMenu()" referrerpolicy="no-referrer">
+        <img [src]="userInfo?.profilePicture" #toggleButton class="user-pic" (click)="toggleMenu()"
+          referrerpolicy="no-referrer">
       </div>
       <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
         <div class="sub-menu" id="openmenu">
@@ -95,25 +96,25 @@
     </nav>
   </div>
 
-    <button type="button" class="btn btn-primary" id="liveToastBtnAccept" style="padding-top: 100px;" #accepted (click)="toggleTostAccept()" hidden="true">Show live toast</button>
-    <div class="toast-container position-fixed bottom-0 end-0 p-3" >
-      <div id="liveToastAccept" class="toast" role="alert" aria-atomic="true"
-        style="border-radius: 20px; background-color: currentColor;">
-        <div class="d-flex" style="height: 36px;">
-          <div class="toast-body">
-            <a style="color: whitesmoke;
+  <button type="button" class="btn btn-primary" id="liveToastBtnAccept" #accepted hidden="true"></button>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToastAccept" class="toast" role="alert" aria-atomic="true"
+      style="border-radius: 20px; background-color: currentColor;">
+      <div class="d-flex" style="height: 36px;">
+        <div class="toast-body">
+          <a style="color: whitesmoke;
          left: 45px;
          top: 25px;
          position: absolute;">Friend Request Accepted, GoodCall</a>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-            aria-label="Close"></button>
         </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
       </div>
+    </div>
   </div>
 
-  <button type="button" class="btn btn-primary" id="liveToastBtnReject" style="padding-top: 100px;" #rejected (click)="toggleTostReject()" hidden="true">Show live toast</button>
-  <div class="toast-container position-fixed bottom-0 end-0 p-3" >
+  <button type="button" class="btn btn-primary" id="liveToastBtnReject" #rejected hidden="true"></button>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="liveToastReject" class="toast" role="alert" aria-atomic="true"
       style="border-radius: 20px; background-color: currentColor;">
       <div class="d-flex" style="height: 36px;">
@@ -127,7 +128,6 @@
           aria-label="Close"></button>
       </div>
     </div>
-</div>
+  </div>
 
 </main>
-
