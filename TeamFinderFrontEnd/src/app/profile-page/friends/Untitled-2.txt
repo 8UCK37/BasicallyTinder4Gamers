@@ -1,5 +1,0 @@
--- database: s:\VSCode\BasicallyTinder4Gamers\TeamFinder\prisma\dev.db
-
--- Shift+Enter or Ctrl+Shift+Q (query): Executes a statement on the cursor.
--- Ctrl+Shift+E (executescript): Executes the entire file without displaying the results
-delete from Friends where id=3

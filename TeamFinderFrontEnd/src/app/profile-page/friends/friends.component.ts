@@ -103,7 +103,7 @@ export class FriendsComponent implements OnInit {
   }
   goToFriend(userid:any){
     //console.log(userid)
-    console.log(this.userparsed.uid)
+    //console.log(this.userparsed.uid)
     if(this.userparsed.uid==userid){
       this.router.navigate(['/profile-page']);
     }else{

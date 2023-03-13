@@ -376,7 +376,7 @@ app.get("/steamUserInfo", ensureAuthenticated, async (req, res) => {
       steamId: true
     }
   })
-  console.log(steamIdfromDb)
+  //console.log(steamIdfromDb)
   if (steamIdfromDb.steamId != null) {
     const c = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamIdfromDb.steamId}`);
     let players = c.data.response.players;
@@ -580,7 +580,7 @@ app.post('/selectedDelete', ensureAuthenticated, urlencodedParser, async (req, r
       uid: req.user.user_id
     }
   })
-  console.log(affectedrows)
+  //console.log(affectedrows)
   res.sendStatus(200);
 });
 
