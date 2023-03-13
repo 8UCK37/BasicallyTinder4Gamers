@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ChatPageComponent } from '../chat-page/chat-page.component';
 import * as bootstrap from 'bootstrap';
+import { animation } from '@angular/animations';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -17,6 +18,12 @@ export class NavbarComponent implements OnInit {
   @ViewChild('menu') menu!: ElementRef;
   @ViewChild('togglenoti') togglenoti!: ElementRef;
   @ViewChild('notiMenu') notiMenu!: ElementRef;
+  @ViewChild('liveToastBtnAccept') toastBtnAccept!: ElementRef;
+  @ViewChild('liveToastAccept') toastAccept!: ElementRef;
+  @ViewChild('liveToastBtnReject') toastBtnReject!: ElementRef;
+  @ViewChild('liveToastReject') toastReject!: ElementRef;
+  public toastTrigger:any;
+  public toastLive: any;
   public show: boolean = false;
   public notiShow: boolean = false;
   public notificationArray: any = [];
@@ -53,10 +60,8 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit(): void {
-
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
-
     this.auth.authState.subscribe(user => {
       if (user) {
         this.usr = localStorage.getItem('user');
@@ -88,7 +93,7 @@ export class NavbarComponent implements OnInit {
       }
     }, 5000);
   }
-
+//OnInitEnd
   toggleMenu() {
     this.show = !this.show;
   }
@@ -149,35 +154,35 @@ export class NavbarComponent implements OnInit {
     axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
       //console.log("accepted", res)
       this.getPendingReq();
+        this.toatsAccept();
     }).catch(err => console.log(err))
   }
   rejectReq(frndid: any) {
     axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
       //console.log("rejected", res)
       this.getPendingReq();
+      this.toastsReject();
     }).catch(err => console.log(err))
   }
 
-  toggleTostAccept() {
-    //console.log("hello1");
-    const toastTrigger = document.getElementById('liveToastBtnAccept')
-    const toastLiveExample: any = document.getElementById('liveToastAccept')
-    if (toastTrigger) {
-      toastTrigger.addEventListener('click', () => {
-        const toast = new bootstrap.Toast(toastLiveExample)
-        toast.show()
-      })
-    }
+toatsAccept(){
+    this.toggleToast('liveToastBtnAccept','liveToastAccept',2000);
   }
-  toggleTostReject() {
-    //console.log("hello2");
-    const toastTrigger = document.getElementById('liveToastBtnReject')
-    const toastLiveExample: any = document.getElementById('liveToastReject')
+toastsReject(){
+  this.toggleToast('liveToastBtnReject','liveToastReject',2000);
+}
+
+   private toggleToast(toastTriggerId: string, toastLiveId: string, delay: number) {
+    const toastTrigger:any = document.getElementById(toastTriggerId);
+    const toastLive: any = document.getElementById(toastLiveId);
     if (toastTrigger) {
       toastTrigger.addEventListener('click', () => {
-        const toast = new bootstrap.Toast(toastLiveExample)
-        toast.show()
-      })
+        toastLive.setAttribute('data-bs-delay', delay.toString()); // set the delay for this toast
+        const toast = new bootstrap.Toast(toastLive, {
+          animation: true,
+        });
+        toast.show();
+      });
     }
   }
 }
