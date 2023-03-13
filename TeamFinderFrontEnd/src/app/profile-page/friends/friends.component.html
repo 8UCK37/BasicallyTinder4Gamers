@@ -42,10 +42,10 @@
   </ng-container>
   <ng-container *ngIf="hide">
     <div class="row justify-content-md-center">
-      <span style="color: antiquewhite;">Incoming Requests : {{pendingResults.length}}</span>
+      <span style="color: antiquewhite;">Incoming Requests : {{pendingRequests.length}}</span>
       <div>
         <div class="row" >
-          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user2 of pendingResults" >
+          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user2 of pendingRequests" >
             <div>
               <div class="profile-image" (click)="onclick(user2.id)">
                 <img [src]="user2.profilePicture" referrerpolicy="no-referrer"/>
@@ -61,10 +61,10 @@
         </div>
       </div>
       <br>
-      <span style="color: rgb(129, 85, 27);">Outgoing Requests : {{sentPending.length}}</span>
+      <span style="color: rgb(129, 85, 27);">Outgoing Requests : {{outgoingPendingRequests.length}}</span>
       <div>
         <div class="row" >
-          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user3 of sentPending" >
+          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user3 of outgoingPendingRequests" >
             <div>
               <div class="profile-image" (click)="onclick(user3.id)">
                 <img [src]="user3.profilePicture" referrerpolicy="no-referrer"/>

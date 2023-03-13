@@ -45,8 +45,7 @@ export class NavbarComponent implements OnInit {
       }
     });
   }
-  public pendingResults: any[] = [];
-  public friendList: any[] = [];
+
   public usr: any;
   public userparsed: any;
   public profileurl: any;
@@ -126,13 +125,13 @@ export class NavbarComponent implements OnInit {
     this.profileurl = this.userparsed.photoURL;
   }
   getPendingReq() {
-    axios.get('getPendingRequest').then(res => {
+    axios.get('getFriendData').then(res => {
       //console.log(res.data)
-      res.data.forEach((element: any) => {
-        this.notificationArray.push({ sender: element.id, notiType: "frnd req", profileurl: element.profilePicture, userName: element.name })
+      res.data.forEach((user: any) => {
+        if(user.status=='incoming'){
+          this.notificationArray.push({ sender: user.id, notiType: "frnd req", profileurl: user.profilePicture, userName: user.name })
+         }
       });
-      //console.log(res.data)
-      //console.log(this.notificationArray)
     }).catch(err => console.log(err))
   }
   togglenav(): void {
@@ -143,20 +142,14 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/user'], { queryParams: { id: userid } });
   }
   acceptReq(frndid: any) {
-
     axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
       //console.log("accepted", res)
-      this.pendingResults = [];
-      this.friendList = [];
       this.getPendingReq();
     }).catch(err => console.log(err))
   }
   rejectReq(frndid: any) {
-
     axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
       //console.log("rejected", res)
-      this.pendingResults = [];
-      this.friendList = [];
       this.getPendingReq();
     }).catch(err => console.log(err))
   }

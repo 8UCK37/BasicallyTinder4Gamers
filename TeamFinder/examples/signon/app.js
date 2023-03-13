@@ -227,7 +227,7 @@ app.post("/isFriend", ensureAuthenticated, urlencodedParser, async (req, res) =>
       status: true,
     }
   })
-  if (isfrnd.length!=0) {
+  if (isfrnd.length != 0) {
     if (isfrnd[0].status == 'accepted') {
       res.send('accepted');
     }
@@ -254,7 +254,7 @@ app.get("/sentPending", ensureAuthenticated, async (req, res) => {
 })
 app.get("/friendData", ensureAuthenticated, async (req, res) => {
   const result = await prisma.$queryRaw`select * from public."User" where id in (select reciever from public."Friends" where sender =${req.user.user_id})`
-  
+
   res.send(JSON.stringify(result));
 })
 app.post("/friendsoffriendData", ensureAuthenticated, async (req, res) => {
@@ -272,7 +272,7 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
   const jsonObject = req.body;
   console.log(req.body.to)
   socketRunner.sendNotification(io, userSocketMap, "frnd req", req.user.user_id, jsonObject.to)
-  
+
   let friendReq = await prisma.FriendRequest.create({
     data: {
       sender: req.user.user_id,
@@ -284,25 +284,20 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
   res.sendStatus(200);
 });
 
-// app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
-  
-//   const result = await prisma.$queryRaw`select * from public."User" where id in (select sender from public."FriendRequest" where reciever =${req.user.user_id} and status='pending')`
-  
-//   res.send(result)
-// })
-app.get('/getPendingRequest', ensureAuthenticated, async (req, res) => {
+
+app.get('/getFriendData', ensureAuthenticated, async (req, res) => {
   const user_id = req.user.user_id;
   const result = await prisma.$queryRaw`SELECT u.*, 
-                                         CASE
-                                           WHEN fr.status = 'pending' AND fr.sender = ${user_id} THEN 'outgoing'
-                                           WHEN fr.status = 'pending' AND fr.reciever = ${user_id} THEN 'incoming'
-                                           WHEN fr.status = 'accepted' THEN 'accepted'
-                                           ELSE 'unknown'
-                                         END AS status
-                                         FROM public."User" u
-                                         INNER JOIN public."FriendRequest" fr
-                                         ON (u.id = fr.sender AND fr.reciever = ${user_id})
-                                         OR (u.id = fr.reciever AND fr.sender = ${user_id})`;
+        CASE
+        WHEN fr.status = 'pending' AND fr.sender = ${user_id} THEN 'outgoing'
+            WHEN fr.status = 'pending' AND fr.reciever = ${user_id} THEN 'incoming'
+                WHEN fr.status = 'accepted' THEN 'accepted'
+                    ELSE 'unknown'
+                END AS status
+              FROM public."User" u
+            INNER JOIN public."FriendRequest" fr
+            ON (u.id = fr.sender AND fr.reciever = ${user_id})
+            OR (u.id = fr.reciever AND fr.sender = ${user_id})`;
   res.send(result);
 });
 

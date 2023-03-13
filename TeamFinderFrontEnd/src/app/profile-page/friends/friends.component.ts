@@ -18,9 +18,9 @@ export class FriendsComponent implements OnInit {
   public buttonName: any = 'Show';
   public usr: any;
   public userparsed: any;
-  public pendingResults: any[] = [];
+  public pendingRequests: any[] = [];
   public friendList: any[] = [];
-  public sentPending:any[]=[];
+  public outgoingPendingRequests:any[]=[];
   public profileurl: any;
   public online:boolean=false;
   public recData:any;
@@ -35,17 +35,13 @@ export class FriendsComponent implements OnInit {
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
-
     //console.log(this.ownProfile);
+    this.incNotification();
     if(this.ownProfile){
-
       this.auth.authState.subscribe(user => {
         if (user) {
           this.userparsed = user
-          //this.getfriendlist();
-          this.getPendingReq();
-          //this.getsentPending();
-          this.incNotification();
+          this.getFriendData();
         }
       })
       }else{
@@ -56,40 +52,29 @@ export class FriendsComponent implements OnInit {
       });
     }
   }
-  getPendingReq() {
-    this.pendingResults = []
+  getFriendData() {
+    this.pendingRequests = []
     this.friendList = [];
-    this.sentPending=[];
-    axios.get('getPendingRequest').then(res => {
-      console.log(res.data)
+    this.outgoingPendingRequests=[];
+    axios.get('getFriendData').then(res => {
+      //console.log(res.data)
        res.data.forEach((user: any) => {
-
          if(user.status=='accepted'){
           user.isOnline=user.activeChoice&&user.isConnected
           this.friendList.push( user )
          }
          else if(user.status=='incoming'){
-          this.pendingResults.push(user)
+          this.pendingRequests.push(user)
          }
          else if(user.status=='outgoing'){
-          this.sentPending.push(user)
+          this.outgoingPendingRequests.push(user)
          }
       });
       //console.log(this.friendList)
       //console.log(this.pendingResults)
-
     }).catch(err => console.log(err))
   }
-  // getfriendlist() {
-  //   this.friendList = [];
-  //   axios.get('friendData').then(res => {
-  //     res.data.forEach((data: any) => {
-  //       this.friendList.push({ data })
-  //       this.status.set(data.id,data.activeChoice&&data.isConnected)
-  //     });
-  //   }).catch(err => console.log(err))
-  //   //console.log(this.friendList)
-  // }
+
   getfriendfriendlist() {
     this.friendList = [];
     axios.post('friendsoffriendData', { frnd_id: this.profile_id }).then(res => {
@@ -102,19 +87,19 @@ export class FriendsComponent implements OnInit {
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {
       //console.log("accepted", res)
-      this.pendingResults=[];
+      this.pendingRequests=[];
       this.friendList=[];
       //this.getfriendlist();
-      this.getPendingReq();
+      this.getFriendData();
     }).catch(err => console.log(err))
   }
   rejectReq(frndid:any){
     axios.post('rejectFriend', { frnd_id: frndid}).then(res => {
       //console.log("rejected", res)
-      this.pendingResults=[];
+      this.pendingRequests=[];
       this.friendList=[];
       //this.getfriendlist();
-      this.getPendingReq();
+      this.getFriendData();
     }).catch(err => console.log(err))
   }
   onclick(userid:any){
@@ -127,18 +112,6 @@ export class FriendsComponent implements OnInit {
     }
   }
 
-  // getsentPending() {
-  //   this.sentPending = [];
-  //   axios.get('sentPending').then(res => {
-  //     res.data.forEach((frnd: any) => {
-  //       axios.post('getUserInfo',{ frnd_id: frnd.reciever}).then(res => {
-  //         this.sentPending.push(res.data)
-
-  //       }).catch(err => console.log(err))
-  //     });
-  //   }).catch(err => console.log(err))
-  //   //console.log(this.sentPending)
-  // }
   incNotification(){
     this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
       this.recData = typeof data === 'string' ? JSON.parse(data) : data;
@@ -157,11 +130,11 @@ export class FriendsComponent implements OnInit {
     });
   };
   toggle() {
-    this.pendingResults=[];
+    //TODO will refactor these three lines with notification trigger
+    this.pendingRequests=[];
     this.friendList=[];
-    //this.getfriendlist();
-    this.getPendingReq();
-    //this.getsentPending();
+    this.getFriendData();
+
     this.show = !this.show;
     this.hide = !this.hide;
     // Change the name of the button.
