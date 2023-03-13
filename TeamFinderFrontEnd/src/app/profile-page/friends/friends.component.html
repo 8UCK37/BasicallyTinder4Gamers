@@ -29,10 +29,10 @@
           <div class="col-4 col-md-4 friend-Box" *ngFor="let user of friendList; let i=index" (click)="onclick(user.data.id)">
             <div style="margin-block-start: 9px;">
               <div class="profile-image">
-                <img [src]="user.data.profilePicture" referrerpolicy="no-referrer" />
+                <img [src]="user.profilePicture" referrerpolicy="no-referrer" />
               </div>
-              <div class="friend-username">{{user.data.name}}
-                <i *ngIf="status.get(user.data.id)" class="fa-sharp fa-solid fa-circle"></i>
+              <div class="friend-username">{{user.name}}
+                <i *ngIf="user.isOnline" class="fa-sharp fa-solid fa-circle"></i>
               </div>
             </div>
           </div>

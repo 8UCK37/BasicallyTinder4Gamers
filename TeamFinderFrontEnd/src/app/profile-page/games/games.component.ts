@@ -47,12 +47,9 @@ export class GamesComponent implements OnInit {
     }else{
       this.route.queryParams.subscribe(params => {
         this.profile_id = params['id'];
-        console.log(this.profile_id)
+        //console.log(this.profile_id)
         this.getShowCase();
-    });
-
-    }
-
+    });}
   }
   openScrollableContent(longContent:any) {
 		this.modalService.open(longContent, { scrollable: true });
@@ -92,15 +89,15 @@ export class GamesComponent implements OnInit {
             }
           });
       });
-
     }).catch(err=>console.log(err))
     this.selectedList=this.result
-
   }
+
   deleteAppid(){
     axios.post('selectedDelete').then(res=>{
     }).catch(err =>console.log(err))
   }
+
   async saveOwnedGames(){
     this.result=[];
     this.gameList=[];
@@ -114,6 +111,7 @@ export class GamesComponent implements OnInit {
       this.getSelectedGames();
     }).catch(err =>console.log(err))
   }
+  
   getOwnedGamesfrmDb(){
     this.result=[];
     this.gameList=[];
@@ -132,12 +130,12 @@ export class GamesComponent implements OnInit {
   indexprinter(i:any){
     console.log(i)
   }
+  //TODO birds nest
   getShowCase(){
     this.showcase=[];
     this.frndownedgames=[];
     axios.post('getFrndOwnedGames',{frnd_id:this.profile_id}).then(res=>{
       this.frndownedgames=JSON.parse(JSON.parse(res.data[0]?.games))
-      //console.log(this.frndownedgames)
       axios.post('getFrndSelectedGames',{frnd_id:this.profile_id}).then(res=>{
         res.data.forEach((selected: any) => {
           this.frndownedgames.forEach(owned => {

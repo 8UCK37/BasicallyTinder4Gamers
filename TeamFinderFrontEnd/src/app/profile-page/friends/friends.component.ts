@@ -36,52 +36,60 @@ export class FriendsComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
 
-    console.log(this.ownProfile);
+    //console.log(this.ownProfile);
     if(this.ownProfile){
 
-      this.getfriendlist();
-      this.getPendingReq();
-      this.getsentPending();
-      this.incNotification();
-      //console.log(this.userparsed);
-      //this.getPendingReq()
       this.auth.authState.subscribe(user => {
         if (user) {
           this.userparsed = user
-          axios.get('saveuser').then(res => {
-            //console.log("save user" ,res)
-            this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
-          }).catch(err => console.log(err))
+          //this.getfriendlist();
+          this.getPendingReq();
+          //this.getsentPending();
+          this.incNotification();
         }
       })
       }else{
         this.route.queryParams.subscribe(params => {
           this.profile_id = params['id'];
-          console.log(this.profile_id)
+          //console.log(this.profile_id)
           this.getfriendfriendlist();
       });
     }
   }
   getPendingReq() {
     this.pendingResults = []
-    axios.get('getPendingRequest').then(res => {
-      res.data.forEach((element: any) => {
-        this.pendingResults.push(element)
-      });
-      //console.log(res.data)
-    }).catch(err => console.log(err))
-    //console.log(this.pendingResults)
-  }
-  getfriendlist() {
     this.friendList = [];
-    axios.get('friendData').then(res => {
-      res.data.forEach((data: any) => {
-        this.friendList.push({ data })
-        this.status.set(data.id,data.activeChoice&&data.isConnected)
+    this.sentPending=[];
+    axios.get('getPendingRequest').then(res => {
+      console.log(res.data)
+       res.data.forEach((user: any) => {
+
+         if(user.status=='accepted'){
+          user.isOnline=user.activeChoice&&user.isConnected
+          this.friendList.push( user )
+         }
+         else if(user.status=='incoming'){
+          this.pendingResults.push(user)
+         }
+         else if(user.status=='outgoing'){
+          this.sentPending.push(user)
+         }
       });
+      //console.log(this.friendList)
+      //console.log(this.pendingResults)
+
     }).catch(err => console.log(err))
-    //console.log(this.friendList)
   }
+  // getfriendlist() {
+  //   this.friendList = [];
+  //   axios.get('friendData').then(res => {
+  //     res.data.forEach((data: any) => {
+  //       this.friendList.push({ data })
+  //       this.status.set(data.id,data.activeChoice&&data.isConnected)
+  //     });
+  //   }).catch(err => console.log(err))
+  //   //console.log(this.friendList)
+  // }
   getfriendfriendlist() {
     this.friendList = [];
     axios.post('friendsoffriendData', { frnd_id: this.profile_id }).then(res => {
@@ -89,14 +97,14 @@ export class FriendsComponent implements OnInit {
         this.friendList.push({ data })
       });
     }).catch(err => console.log(err))
-    console.log(this.friendList)
+    //console.log(this.friendList)
   }
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {
       //console.log("accepted", res)
       this.pendingResults=[];
       this.friendList=[];
-      this.getfriendlist();
+      //this.getfriendlist();
       this.getPendingReq();
     }).catch(err => console.log(err))
   }
@@ -105,7 +113,7 @@ export class FriendsComponent implements OnInit {
       //console.log("rejected", res)
       this.pendingResults=[];
       this.friendList=[];
-      this.getfriendlist();
+      //this.getfriendlist();
       this.getPendingReq();
     }).catch(err => console.log(err))
   }
@@ -119,19 +127,18 @@ export class FriendsComponent implements OnInit {
     }
   }
 
-  getsentPending() {
-    this.sentPending = [];
-    axios.get('sentPending').then(res => {
-      res.data.forEach((frnd: any) => {
-        axios.post('getUserInfo',{ frnd_id: frnd.reciever}).then(res => {
-          this.sentPending.push(res.data)
-          //this.online=res.data[0].activeChoice && res.data[0].isConnected
-          //console.log(this.online)
-        }).catch(err => console.log(err))
-      });
-    }).catch(err => console.log(err))
-    //console.log(this.sentPending)
-  }
+  // getsentPending() {
+  //   this.sentPending = [];
+  //   axios.get('sentPending').then(res => {
+  //     res.data.forEach((frnd: any) => {
+  //       axios.post('getUserInfo',{ frnd_id: frnd.reciever}).then(res => {
+  //         this.sentPending.push(res.data)
+
+  //       }).catch(err => console.log(err))
+  //     });
+  //   }).catch(err => console.log(err))
+  //   //console.log(this.sentPending)
+  // }
   incNotification(){
     this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
       this.recData = typeof data === 'string' ? JSON.parse(data) : data;
@@ -152,9 +159,9 @@ export class FriendsComponent implements OnInit {
   toggle() {
     this.pendingResults=[];
     this.friendList=[];
-    this.getfriendlist();
+    //this.getfriendlist();
     this.getPendingReq();
-    this.getsentPending();
+    //this.getsentPending();
     this.show = !this.show;
     this.hide = !this.hide;
     // Change the name of the button.

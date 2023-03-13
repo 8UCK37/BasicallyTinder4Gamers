@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
-import {filter} from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -31,22 +30,23 @@ export class ProfilePageComponent implements OnInit {
   public formData:any;
   public userName:any;
   public profile_id:any;
+  public status:any;
   ngOnInit(): void {
     //console.log(this.router.url);
-    console.log(this.ownProfile);
+    //console.log(this.ownProfile);
     let lastUrl = this.router.url.split('/')[2]
     //console.log(lastUrl)
     if(lastUrl == 'post') this.radioActivaVal = 1
     if(lastUrl == 'games') this.radioActivaVal = 2;
     if(lastUrl == 'friends') this.radioActivaVal = 3;
     // this.radioAtGame = true
+
     if(this.ownProfile){
     this.auth.authState.subscribe(user=>{
       if(user) {
         this.usr = localStorage.getItem('user');
         this.userparsed=JSON.parse(this.usr);
         //console.log(this.userparsed.photoURL)
-        axios.get('saveuser').then(res=>{
           axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
             //console.log(res.data)
             this.profileurl=res.data.profilePicture;
@@ -55,14 +55,12 @@ export class ProfilePageComponent implements OnInit {
             this.bio=res.data.bio;
            //console.log(res.data);
          }).catch(err=>console.log(err))
-        }).catch(err =>console.log(err))
       }
     })
   }else{
-    console.log("here")
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe(async params => {
       this.profile_id = params['id'];
-      console.log(this.profile_id)
+      //console.log(this.profile_id)
       axios.post('getUserInfo',{frnd_id:this.profile_id}).then(res=>{
         //console.log(res.data)
         this.profileurl=res.data.profilePicture;
@@ -71,6 +69,24 @@ export class ProfilePageComponent implements OnInit {
         this.bio=res.data.bio;
        //console.log(res.data);
      }).catch(err=>console.log(err))
+      axios.post('isFriend',{id:this.profile_id}).then(res=>{
+      console.log(res.data)
+      if(res.data=='accepted'){
+        this.status={style:'fa-sharp fa-regular fa-handshake fa-2x',value:''}
+        console.log(this.status)
+      }else if(res.data=='rejected'){
+        this.status={style:'fa-sharp fa-solid fa-ban fa-2x',value:''}
+        console.log(this.status)
+      }
+      else if(res.data=='pending'){
+        this.status={style:'button',value:'Pending'}
+        console.log(this.status)
+      }
+      else{
+        this.status={style:'button',value:'Send Req'}
+        console.log(this.status)
+      }
+   }).catch(err=>console.log(err))
   });
   }
     setInterval(() => {
@@ -199,7 +215,6 @@ export class ProfilePageComponent implements OnInit {
     textareaElement.value=this.bio;
   }
 
-
   updateBio(){
     axios.post('updateBio',{bio:this.bio}).then(res=>{
       //console.log("updatebiohit")
@@ -220,5 +235,17 @@ export class ProfilePageComponent implements OnInit {
     this.uploadBanner();
     this.uploadProfilePic();
     //window.location.reload()
+  }
+  sendreq(){
+    console.log(this.status.value)
+    if(this.status.value!='pending'){
+      axios.post('addFriend', { to:this.profile_id}).then(res => {
+        console.log("sent req", res)
+        this.status={style:'button',value:'Pending'}
+        console.log(this.status)
+      }).catch(err => console.log(err))
+      }else{
+        console.log("a pending req exists")
+      }
   }
 }
