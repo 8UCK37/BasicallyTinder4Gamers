@@ -45,7 +45,7 @@ export class ProfilePageComponent implements OnInit {
     if (this.ownProfile) {
       this.auth.authState.subscribe(user => {
         if (user) {
-          axios.post('getUserInfo', { frnd_id: this.userparsed.uid }).then(res => {
+          axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
             //console.log(res.data)
             this.userInfo = res.data
             this.bio = this.userInfo.bio;
@@ -56,7 +56,7 @@ export class ProfilePageComponent implements OnInit {
       this.route.queryParams.subscribe(async params => {
         this.profile_id = params['id'];
         //console.log(this.profile_id)
-        axios.post('getUserInfo', { frnd_id: this.profile_id }).then(res => {
+        axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           //console.log(res.data)
           this.userInfo = res.data
 
@@ -156,7 +156,7 @@ export class ProfilePageComponent implements OnInit {
   }
   cancelBannerUpload(){
     this.banner.nativeElement.value=null;
-    
+
   }
   setBio(){
     const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;

@@ -116,12 +116,12 @@ export class FriendsComponent implements OnInit {
       this.recData = typeof data === 'string' ? JSON.parse(data) : data;
       //console.log(this.recData);
       if(this.recData.notification=='disc'){
-        axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+        axios.post('getUserInfo',{id:this.recData.sender}).then(res=>{
          //console.log(res.data);
          this.status.set(this.recData.sender,res.data.activeChoice&&false)
           }).catch(err=>console.log(err));
       }else if(this.recData.notification=='online'){
-        axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+        axios.post('getUserInfo',{id:this.recData.sender}).then(res=>{
           //console.log(res.data)
           this.status.set(this.recData.sender,res.data.activeChoice&&true)
           }).catch(err=>console.log(err));

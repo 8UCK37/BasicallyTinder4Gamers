@@ -36,7 +36,7 @@ export class PrimaryHomePageComponent implements OnInit {
     this.userparsed = JSON.parse(this.usr);
     this.auth.authState.subscribe(user=>{
       if(user) {
-        axios.post('getUserInfo', { frnd_id: this.userparsed.uid }).then(res => {
+        axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
           if(res.data!=null){
             this.userInfo=res.data
           }else{
@@ -133,7 +133,7 @@ export class PrimaryHomePageComponent implements OnInit {
   }
   async onPostPicError(i:any) {
     //console.log(this.posts[i].author)
-    await axios.post('getUserInfo',{frnd_id:this.posts[i].author}).then(res=>{
+    await axios.post('getUserInfo',{id:this.posts[i].author}).then(res=>{
       //console.log(res.data)
       this.posts[i].authorUrl=res.data.profilePicture
       //console.log(res.data.profilePicture)

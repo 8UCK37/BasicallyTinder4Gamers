@@ -34,7 +34,7 @@ export class LinkedAccountsComponent implements OnInit {
       this.route.queryParams.subscribe(async params => {
         this.profile_id = params['id'];
         //console.log(this.profile_id)
-        await axios.post('getUserInfo', { frnd_id: this.profile_id }).then(res => {
+        await axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           //console.log(res.data)
           this.steamId = res.data.steamId
         }).catch(err => console.log(err))

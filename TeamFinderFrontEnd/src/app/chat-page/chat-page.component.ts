@@ -74,7 +74,7 @@ export class ChatPageComponent implements OnInit {
     this.auth.authState.subscribe(user=>{
       if(user) {
         this.userparsed = user
-          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+          axios.post('getUserInfo',{id:this.userparsed.uid}).then(res=>{
             this.userInfo=res.data
            //console.log(res.data);
          }).catch(err=>console.log(err))
@@ -226,12 +226,12 @@ export class ChatPageComponent implements OnInit {
         this.recData = typeof data === 'string' ? JSON.parse(data) : data;
         //console.log(this.recData);
         if(this.recData.notification=='disc'){
-          axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+          axios.post('getUserInfo',{id:this.recData.sender}).then(res=>{
            //console.log(res.data);
            this.status.set(this.recData.sender,res.data.activeChoice&&false)
             }).catch(err=>console.log(err));
         }else if(this.recData.notification=='online'){
-          axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+          axios.post('getUserInfo',{id:this.recData.sender}).then(res=>{
             //console.log(res.data)
             this.status.set(this.recData.sender,res.data.activeChoice&&true)
             }).catch(err=>console.log(err));

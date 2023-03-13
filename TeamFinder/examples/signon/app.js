@@ -169,10 +169,10 @@ app.get('/saveuser', ensureAuthenticated, async function (req, res) {
 
 });
 app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
-  const jsonObject = req.body;
+  
   let userData = await prisma.User.findUnique({
     where: {
-      id: jsonObject.frnd_id
+      id: req.body.id
     }
   })
   res.send(JSON.stringify(userData));

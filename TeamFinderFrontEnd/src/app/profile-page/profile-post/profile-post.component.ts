@@ -25,7 +25,7 @@ constructor(private auth: AngularFireAuth) { }
         this.userparsed=JSON.parse(this.usr);
         //console.log(this.userparsed.photoURL)
           //console.log("save user" ,res)
-          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+          axios.post('getUserInfo',{id:this.userparsed.uid}).then(res=>{
             this.userInfo=res.data;
 
            //console.log(res.data);
@@ -44,7 +44,7 @@ constructor(private auth: AngularFireAuth) { }
       //console.log(this.ownPosts)
     }).catch(err=>console.log(err))
   }
- 
+
   utcToLocal(utcTime:any){
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });

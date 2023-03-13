@@ -67,8 +67,8 @@ export class NavbarComponent implements OnInit {
 
         axios.get('saveuser').then(res => {
         }).catch(err => console.log(err))
-        
-        axios.post('getUserInfo', { frnd_id: this.userparsed.uid }).then(res => {
+
+        axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
           if(res.data!=null){
             this.userInfo=res.data
           }else{
@@ -112,7 +112,7 @@ export class NavbarComponent implements OnInit {
       if (this.recData.notification != 'disc' && this.recData.notification != 'online') {
         this.notificationArray.push({ sender: this.recData.sender, notiType: this.recData.notification })
         this.notificationArray.forEach((noti: any) => {
-          axios.post('getUserInfo', { frnd_id: noti.sender }).then(res => {
+          axios.post('getUserInfo', { id: noti.sender }).then(res => {
             noti.profileurl = res.data.profilePicture;
             noti.userName = res.data.name;
             //console.log("res.data");
