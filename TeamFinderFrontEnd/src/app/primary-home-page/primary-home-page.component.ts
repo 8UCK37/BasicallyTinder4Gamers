@@ -15,10 +15,9 @@ export class PrimaryHomePageComponent implements OnInit {
   public show:boolean=true;
   public formData: any;
   selectedImage: any;
-  public profileurl:any;
-  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) { }
   public usr:any;
   public userparsed:any;
+  public userInfo:any;
   public posts : any[] = [];
   public utcDateTime:any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -30,21 +29,20 @@ export class PrimaryHomePageComponent implements OnInit {
   public imageBlobs:any[]=[];
   myInterval = 0;
   activeSlideIndex = 0;
-  public userName:any;
+  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) { }
 
   ngOnInit(): void {
+    this.usr = localStorage.getItem('user');
+    this.userparsed = JSON.parse(this.usr);
     this.auth.authState.subscribe(user=>{
       if(user) {
-        this.userparsed = user
-        //console.log(this.userparsed.uid)
-        axios.get('saveuser').then(res=>{
-          //console.log("save user" ,res)
-          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
-            this.profileurl=res.data.profilePicture;
-            this.userName=res.data.name;
-           //console.log(res.data);
-         }).catch(err=>console.log(err))
-        }).catch(err =>console.log(err))
+        axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
+          if(res.data!=null){
+            this.userInfo=res.data
+          }else{
+            this.userInfo={profilePicture:this.userparsed.photoURL}
+          }
+        }).catch(err => console.log(err))
         this.fetchPost()
       }
     })
@@ -131,11 +129,11 @@ export class PrimaryHomePageComponent implements OnInit {
     this.input.nativeElement.value ='';
   }
   onProfilePicError() {
-    this.profileurl = this.userparsed?.photoURL;
+    //this.profileurl = this.userparsed?.photoURL;
   }
   async onPostPicError(i:any) {
     //console.log(this.posts[i].author)
-    await axios.post('getUserInfo',{frnd_id:this.posts[i].author}).then(res=>{
+    await axios.post('getUserInfo',{id:this.posts[i].author}).then(res=>{
       //console.log(res.data)
       this.posts[i].authorUrl=res.data.profilePicture
       //console.log(res.data.profilePicture)

@@ -16,55 +16,39 @@ export class LinkedAccountsComponent implements OnInit {
   public linked: boolean = false;
   public unlinked: boolean = false;
   public steamInfo: any;
-  public profile_id:any;
-  changeText: any=false;
+  public profile_id: any;
+  changeText: any = false;
   ownProfile: any;
   constructor(private route: ActivatedRoute, private router: Router) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
-   }
-
-  ngOnInit(): void {
-    if(this.ownProfile){
-    this.usr = localStorage.getItem('user');
-    this.userparsed = JSON.parse(this.usr);
-    this.steamId = this.route.snapshot.queryParams['steamid'];
-    this.getSteamId();
-    // this.setSteamId()
-    this.getSteamInfo();
-    }else{
-      this.route.queryParams.subscribe(async params => {
-        this.profile_id = params['id'];
-        console.log(this.profile_id)
-        await axios.post('getUserInfo',{frnd_id:this.profile_id}).then(res=>{
-          //console.log(res.data)
-          this.steamId=res.data.steamId
-       }).catch(err=>console.log(err))
-
-       if(this.steamId!=null){
-        console.log(this.steamId)
-        await axios.post('steamInfo', { steam_id: this.steamId}).then(res => {
-          //console.log(res.data)
-          this.steamInfo = res.data
-          console.log(this.steamInfo)
-        }).catch(err => console.log(err))
-       }
-    });
-    }
   }
 
-  callBackend() {
-    axios.get('/test?ID=12345')
-      .then(function (response) {
-        // handle success
-        console.log(response);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .finally(function () {
-        // always executed
-      })
+  ngOnInit(): void {
+    if (this.ownProfile) {
+      this.usr = localStorage.getItem('user');
+      this.userparsed = JSON.parse(this.usr);
+      this.steamId = this.route.snapshot.queryParams['steamid'];
+      this.getSteamId();
+      this.getSteamInfo();
+    } else {
+      this.route.queryParams.subscribe(async params => {
+        this.profile_id = params['id'];
+        //console.log(this.profile_id)
+        await axios.post('getUserInfo', { id: this.profile_id }).then(res => {
+          //console.log(res.data)
+          this.steamId = res.data.steamId
+        }).catch(err => console.log(err))
+
+        if (this.steamId != null) {
+          //console.log(this.steamId)
+          await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
+            //console.log(res.data)
+            this.steamInfo = res.data
+            //console.log(this.steamInfo)
+          }).catch(err => console.log(err))
+        }
+      });
+    }
   }
 
   setSteamId(id: any) {
@@ -100,7 +84,7 @@ export class LinkedAccountsComponent implements OnInit {
         this.steamId = res.data[0].steamId
         if (this.steamId == null) {
           this.unlinked = true;
-          console.log("unlinked")
+          //console.log("unlinked")
         } else {
           this.linked = true;
           //console.log("linked")
@@ -121,13 +105,10 @@ export class LinkedAccountsComponent implements OnInit {
     if (this.changeText) return `url(${this.steamInfo.info[0].avatarfull}) left center no-repeat`;
     return `url("https://th.bing.com/th/id/OIP.nU9BElP8zdnYq1ckl5Ly2wAAAA?pid=ImgDet&rs=1") center center no-repeat`;
   }
-  getSize(){
+  getSize() {
     if (this.changeText)
-    return '480px'
+      return '480px'
     return '300px'
   }
 
-//   getUrl() {
-//     return `url('${this.steamInfo.info[0].avatarfull}')`;
-//   }
- }
+}

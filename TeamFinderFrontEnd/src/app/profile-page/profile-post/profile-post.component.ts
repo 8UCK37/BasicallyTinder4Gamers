@@ -11,11 +11,10 @@ export class ProfilePostComponent implements OnInit {
 @ViewChild('image') input!:ElementRef;
 
 constructor(private auth: AngularFireAuth) { }
-public ownPosts:any=[];
-public usr:any;
-public userName:any;
+  public ownPosts:any=[];
+  public usr:any;
   public userparsed:any;
-  public profileurl:any;
+  public userInfo:any;
   public utcDateTime:any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   ngOnInit() {
@@ -25,14 +24,12 @@ public userName:any;
         this.usr = localStorage.getItem('user');
         this.userparsed=JSON.parse(this.usr);
         //console.log(this.userparsed.photoURL)
-        axios.get('saveuser').then(res=>{
           //console.log("save user" ,res)
-          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
-            this.profileurl=res.data.profilePicture;
-            this.userName=res.data.name;
+          axios.post('getUserInfo',{id:this.userparsed.uid}).then(res=>{
+            this.userInfo=res.data;
+
            //console.log(res.data);
          }).catch(err=>console.log(err))
-        }).catch(err =>console.log(err))
       }
     })
   }
@@ -47,9 +44,7 @@ public userName:any;
       //console.log(this.ownPosts)
     }).catch(err=>console.log(err))
   }
-  onProfilePicError() {
-    this.profileurl = this.userparsed?.photoURL;
-  }
+
   utcToLocal(utcTime:any){
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });

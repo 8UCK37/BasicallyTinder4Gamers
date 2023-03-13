@@ -24,6 +24,11 @@ export class NavbarComponent implements OnInit {
   private incomingNotiSubscription: Subscription | undefined;
   isMenuOpened: boolean = false;
   private toastElement!: HTMLElement;
+  public usr: any;
+  public userparsed: any;
+  public userInfo:any
+  public noti: boolean = false;
+  public recData: any;
   constructor(public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router) {
     this.renderer.listen('window', 'click', (e: Event) => {
       /**
@@ -45,18 +50,13 @@ export class NavbarComponent implements OnInit {
       }
     });
   }
-  public pendingResults: any[] = [];
-  public friendList: any[] = [];
-  public usr: any;
-  public userparsed: any;
-  public profileurl: any;
-  public userName: any;
-  public noti: boolean = false;
-  public recData: any;
+
+
   ngOnInit(): void {
-    // this.show=false;
-    //
-    // console.log("logged in :" ,  this.user.isLoggedIn)
+
+    this.usr = localStorage.getItem('user');
+    this.userparsed = JSON.parse(this.usr);
+
     this.auth.authState.subscribe(user => {
       if (user) {
         this.usr = localStorage.getItem('user');
@@ -64,13 +64,17 @@ export class NavbarComponent implements OnInit {
         //console.log(this.userparsed)
         this.socketService.setupSocketConnection();
         this.socketService.setSocketId(this.userparsed.uid);
+
         axios.get('saveuser').then(res => {
-          //console.log("save user" ,res)
-          axios.post('getUserInfo', { frnd_id: this.userparsed.uid }).then(res => {
-            this.profileurl = res.data.profilePicture;
-            this.userName = res.data.name;
-            //console.log(res.data);
-          }).catch(err => console.log(err))
+        }).catch(err => console.log(err))
+
+        axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
+          if(res.data!=null){
+            this.userInfo=res.data
+          }else{
+            this.userInfo={profilePicture:this.userparsed.photoURL,name:this.userparsed.displayName}
+          }
+          //console.log(res.data);
         }).catch(err => console.log(err))
         this.incMsg();
         this.incNotification();
@@ -108,7 +112,7 @@ export class NavbarComponent implements OnInit {
       if (this.recData.notification != 'disc' && this.recData.notification != 'online') {
         this.notificationArray.push({ sender: this.recData.sender, notiType: this.recData.notification })
         this.notificationArray.forEach((noti: any) => {
-          axios.post('getUserInfo', { frnd_id: noti.sender }).then(res => {
+          axios.post('getUserInfo', { id: noti.sender }).then(res => {
             noti.profileurl = res.data.profilePicture;
             noti.userName = res.data.name;
             //console.log("res.data");
@@ -122,17 +126,16 @@ export class NavbarComponent implements OnInit {
     this.noti = false;
     this.router.navigate(['chat']);
   }
-  onProfilePicError() {
-    this.profileurl = this.userparsed.photoURL;
-  }
+
   getPendingReq() {
-    axios.get('getPendingRequest').then(res => {
+    this.notificationArray=[];
+    axios.get('getFriendData').then(res => {
       //console.log(res.data)
-      res.data.forEach((element: any) => {
-        this.notificationArray.push({ sender: element.id, notiType: "frnd req", profileurl: element.profilePicture, userName: element.name })
+      res.data.forEach((user: any) => {
+        if(user.status=='incoming'){
+          this.notificationArray.push({ sender: user.id, notiType: "frnd req", profileurl: user.profilePicture, userName: user.name })
+         }
       });
-      //console.log(res.data)
-      //console.log(this.notificationArray)
     }).catch(err => console.log(err))
   }
   togglenav(): void {
@@ -143,22 +146,16 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/user'], { queryParams: { id: userid } });
   }
   acceptReq(frndid: any) {
-
-    // axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
-    //   //console.log("accepted", res)
-    //   this.pendingResults = [];
-    //   this.friendList = [];
-    //   this.getPendingReq();
-    // }).catch(err => console.log(err))
+    axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
+      //console.log("accepted", res)
+      this.getPendingReq();
+    }).catch(err => console.log(err))
   }
   rejectReq(frndid: any) {
-
-    // axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
-    //   //console.log("rejected", res)
-    //   this.pendingResults = [];
-    //   this.friendList = [];
-    //   this.getPendingReq();
-    // }).catch(err => console.log(err))
+    axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
+      //console.log("rejected", res)
+      this.getPendingReq();
+    }).catch(err => console.log(err))
   }
 
   toggleTostAccept() {

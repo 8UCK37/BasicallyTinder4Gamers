@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import { FriendsComponent } from './profile-page/friends/friends.component';
-import { FrindsprofileComponent } from './frinedsprofile/frindsprofile.component';
 import { LinkedAccountsComponent } from './profile-page/linked-accounts/linked-accounts.component';
 import { LoginComponent } from './login/login.component';
 import { AppSearchComponent } from './navbar/app-search/app-search.component';
@@ -42,7 +41,6 @@ const routes: Routes = [
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
   { path: 'chat', pathMatch: 'full', component: ChatPageComponent, canActivate: [AuthGuard]},
   { path: 'search', pathMatch: 'full', component: AppSearchComponent , canActivate: [AuthGuard]},
-  { path: 'user', pathMatch: 'full', component: FrindsprofileComponent , canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: LoginComponent, canActivate: [AuthGuard] },
 
 ];

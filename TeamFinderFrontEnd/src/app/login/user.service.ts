@@ -94,11 +94,9 @@ export class UserService {
       // this.SetUserData(result.user);
       this.auth.authState.subscribe((user) => {
         if (user) {
-          console.log(user)
-
+          //console.log(user)
           this.router.navigate(['/first-component']);
           // axios.defaults.headers.post['authorization'] = 'value' // for POST requests
-
         }else{
           this.router.navigate(['/login-page']);
         }

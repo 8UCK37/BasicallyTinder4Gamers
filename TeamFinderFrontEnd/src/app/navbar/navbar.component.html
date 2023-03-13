@@ -67,16 +67,15 @@
       </li>
 
       <div>
-        <img [src]="profileurl" #toggleButton class="user-pic" (click)="toggleMenu()" (error)="onProfilePicError()"
-          referrerpolicy="no-referrer">
+        <img [src]="userInfo?.profilePicture" #toggleButton class="user-pic" (click)="toggleMenu()" referrerpolicy="no-referrer">
       </div>
       <div class="sub-menu-wrap" id="subMenu" #menu [ngClass]="show?'open-menu':''">
         <div class="sub-menu" id="openmenu">
           <div class="user-info" routerLink="/profile-page/post" style="cursor: pointer;">
             <div class="profiledp">
-              <img [src]="profileurl">
+              <img [src]="userInfo?.profilePicture">
             </div>
-            <h3>{{userName}}</h3>
+            <h3>{{userInfo?.name}}</h3>
           </div>
           <hr>
           <a href="#" [routerLink]="['/settings']" routerLinkActive="router-link-active" class="sub-menu-link">

@@ -26,13 +26,13 @@
     <div class="row justify-content-md-center">
       <div>
         <div class="row" style="justify-content: left; gap: 26px">
-          <div class="col-4 col-md-4 friend-Box" *ngFor="let user of friendList; let i=index" (click)="onclick(user.data.id)">
+          <div class="col-4 col-md-4 friend-Box" *ngFor="let user of friendList; let i=index" (click)="goToFriend(user.id)">
             <div style="margin-block-start: 9px;">
               <div class="profile-image">
-                <img [src]="user.data.profilePicture" referrerpolicy="no-referrer" />
+                <img [src]="user.profilePicture" referrerpolicy="no-referrer" />
               </div>
-              <div class="friend-username">{{user.data.name}}
-                <i *ngIf="status.get(user.data.id)" class="fa-sharp fa-solid fa-circle"></i>
+              <div class="friend-username">{{user.name}}
+                <i *ngIf="status.get(user.id)" class="fa-sharp fa-solid fa-circle"></i>
               </div>
             </div>
           </div>
@@ -42,12 +42,12 @@
   </ng-container>
   <ng-container *ngIf="hide">
     <div class="row justify-content-md-center">
-      <span style="color: antiquewhite;">Incoming Requests : {{pendingResults.length}}</span>
+      <span style="color: antiquewhite;">Incoming Requests : {{pendingRequests.length}}</span>
       <div>
         <div class="row" >
-          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user2 of pendingResults" >
+          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user2 of pendingRequests" >
             <div>
-              <div class="profile-image" (click)="onclick(user2.id)">
+              <div class="profile-image" (click)="goToFriend(user2.id)">
                 <img [src]="user2.profilePicture" referrerpolicy="no-referrer"/>
               </div>
               <div class="profile-username">{{user2.name}}
@@ -61,12 +61,12 @@
         </div>
       </div>
       <br>
-      <span style="color: rgb(129, 85, 27);">Outgoing Requests : {{sentPending.length}}</span>
+      <span style="color: rgb(129, 85, 27);">Outgoing Requests : {{outgoingPendingRequests.length}}</span>
       <div>
         <div class="row" >
-          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user3 of sentPending" >
+          <div class="col-4" style="margin-top: 20px; margin-bottom: 20px;" *ngFor="let user3 of outgoingPendingRequests" >
             <div>
-              <div class="profile-image" (click)="onclick(user3.id)">
+              <div class="profile-image" (click)="goToFriend(user3.id)">
                 <img [src]="user3.profilePicture" referrerpolicy="no-referrer"/>
               </div>
               <div class="friend-username">{{user3.name}}

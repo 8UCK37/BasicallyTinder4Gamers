@@ -18,11 +18,9 @@ export class FriendsComponent implements OnInit {
   public buttonName: any = 'Show';
   public usr: any;
   public userparsed: any;
-  public pendingResults: any[] = [];
+  public pendingRequests: any[] = [];
   public friendList: any[] = [];
-  public sentPending:any[]=[];
-  public profileurl: any;
-  public online:boolean=false;
+  public outgoingPendingRequests:any[]=[];
   public recData:any;
   private incomingNotiSubscription: Subscription | undefined;
   public status=new Map();
@@ -35,108 +33,95 @@ export class FriendsComponent implements OnInit {
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
-    console.log(this.ownProfile);
+    //console.log(this.ownProfile);
+    this.incNotification();
     if(this.ownProfile){
-
-      this.getfriendlist();
-      this.getPendingReq();
-      this.getsentPending();
-      this.incNotification();
-      //console.log(this.userparsed);
-      //this.getPendingReq()
       this.auth.authState.subscribe(user => {
         if (user) {
           this.userparsed = user
-          axios.get('saveuser').then(res => {
-            //console.log("save user" ,res)
-            this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
-          }).catch(err => console.log(err))
+          this.getFriendData();
         }
       })
       }else{
         this.route.queryParams.subscribe(params => {
           this.profile_id = params['id'];
-          console.log(this.profile_id)
+          //console.log(this.profile_id)
           this.getfriendfriendlist();
       });
     }
   }
-  getPendingReq() {
-    this.pendingResults = []
-    axios.get('getPendingRequest').then(res => {
-      res.data.forEach((element: any) => {
-        this.pendingResults.push(element)
-      });
-      //console.log(res.data)
-    }).catch(err => console.log(err))
-    //console.log(this.pendingResults)
-  }
-  getfriendlist() {
+  getFriendData() {
+    this.pendingRequests = []
     this.friendList = [];
-    axios.get('friendData').then(res => {
+    this.outgoingPendingRequests=[];
+    axios.get('getFriendData').then(res => {
+      //console.log(res.data)
+       res.data.forEach((user: any) => {
+         if(user.status=='accepted'){
+          this.friendList.push( user )
+          this.status.set(user.id,user.activeChoice&&user.isConnected)
+         }
+         else if(user.status=='incoming'){
+          this.pendingRequests.push(user)
+         }
+         else if(user.status=='outgoing'){
+          this.outgoingPendingRequests.push(user)
+         }
+      });
+      //console.log(this.friendList)
+      //console.log(this.pendingResults)
+    }).catch(err => console.log(err))
+  }
+
+  getfriendfriendlist() {
+    this.friendList = [];
+    axios.post('friendsoffriendData', { frnd_id: this.profile_id }).then(res => {
+      //console.log(res.data)
       res.data.forEach((data: any) => {
-        this.friendList.push({ data })
-        this.status.set(data.id,data.activeChoice&&data.isConnected)
+        this.friendList.push( data )
       });
     }).catch(err => console.log(err))
     //console.log(this.friendList)
   }
-  getfriendfriendlist() {
-    this.friendList = [];
-    axios.post('friendsoffriendData', { frnd_id: this.profile_id }).then(res => {
-      res.data.forEach((data: any) => {
-        this.friendList.push({ data })
-      });
-    }).catch(err => console.log(err))
-    console.log(this.friendList)
-  }
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {
       //console.log("accepted", res)
-      this.pendingResults=[];
+      this.pendingRequests=[];
       this.friendList=[];
-      this.getfriendlist();
-      this.getPendingReq();
+      //this.getfriendlist();
+      this.getFriendData();
     }).catch(err => console.log(err))
   }
   rejectReq(frndid:any){
     axios.post('rejectFriend', { frnd_id: frndid}).then(res => {
       //console.log("rejected", res)
-      this.pendingResults=[];
+      this.pendingRequests=[];
       this.friendList=[];
-      this.getfriendlist();
-      this.getPendingReq();
+      //this.getfriendlist();
+      this.getFriendData();
     }).catch(err => console.log(err))
   }
-  onclick(userid:any){
+  goToFriend(userid:any){
     //console.log(userid)
-    this.router.navigate(['/user'], { queryParams: { id: userid } });
+    //console.log(this.userparsed.uid)
+    if(this.userparsed.uid==userid){
+      this.router.navigate(['/profile-page']);
+    }else{
+      this.router.navigate(['/user/post'], { queryParams: { id: userid } });
+    }
   }
 
-  getsentPending() {
-    this.sentPending = [];
-    axios.get('sentPending').then(res => {
-      res.data.forEach((frnd: any) => {
-        axios.post('getUserInfo',{ frnd_id: frnd.reciever}).then(res => {
-          this.sentPending.push(res.data)
-          //this.online=res.data[0].activeChoice && res.data[0].isConnected
-          //console.log(this.online)
-        }).catch(err => console.log(err))
-      });
-    }).catch(err => console.log(err))
-    //console.log(this.sentPending)
-  }
   incNotification(){
     this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
       this.recData = typeof data === 'string' ? JSON.parse(data) : data;
       //console.log(this.recData);
       if(this.recData.notification=='disc'){
-        axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+        axios.post('getUserInfo',{id:this.recData.sender}).then(res=>{
          //console.log(res.data);
          this.status.set(this.recData.sender,res.data.activeChoice&&false)
           }).catch(err=>console.log(err));
       }else if(this.recData.notification=='online'){
-        axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+        axios.post('getUserInfo',{id:this.recData.sender}).then(res=>{
           //console.log(res.data)
           this.status.set(this.recData.sender,res.data.activeChoice&&true)
           }).catch(err=>console.log(err));
@@ -144,11 +129,11 @@ export class FriendsComponent implements OnInit {
     });
   };
   toggle() {
-    this.pendingResults=[];
+    //TODO will refactor these three lines with notification trigger
+    this.pendingRequests=[];
     this.friendList=[];
-    this.getfriendlist();
-    this.getPendingReq();
-    this.getsentPending();
+    this.getFriendData();
+
     this.show = !this.show;
     this.hide = !this.hide;
     // Change the name of the button.

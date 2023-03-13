@@ -37,7 +37,7 @@ export class ChatPageComponent implements OnInit {
   public utcDateTime:any;
   public timeNow:any;
   public timeArr:any;
-  public profileurl:any;
+  public userInfo:any;
   public activeConvList:any[]=[];
   public static incSenderIds:any[]=[];
   public recData:any;
@@ -74,15 +74,10 @@ export class ChatPageComponent implements OnInit {
     this.auth.authState.subscribe(user=>{
       if(user) {
         this.userparsed = user
-        //console.log(this.userparsed)
-        axios.get('saveuser').then(res=>{
-          //console.log("save user" ,res)
-          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
-            this.profileurl=res.data.profilePicture;
-
+          axios.post('getUserInfo',{id:this.userparsed.uid}).then(res=>{
+            this.userInfo=res.data
            //console.log(res.data);
          }).catch(err=>console.log(err))
-        }).catch(err =>console.log(err))
       }
     })
     this.getActiveChoice();
@@ -90,24 +85,12 @@ export class ChatPageComponent implements OnInit {
     this.incMsg();
     this.getActiveConvo();
 
-    // console.log()
-    // this.getActiveConv
-
-    // setInterval(() => {
-    //   this.friendList.forEach(element => {
-    //     axios.post('getUserInfo',{ frnd_id: element.data.id}).then(res => {
-    //       //console.log(res.data)
-    //       //console.log(element.data.id,res.data.activeChoice&&res.data.isConnected)
-    //       this.status.set(element.data.id,res.data.activeChoice&&res.data.isConnected)
-    //     }).catch(err => console.log(err))
-    //   });
-    // }, 1000);
     setTimeout(() => {
       if(this.activeConvList[0]?.chat_type =='sent'){
-        this.onclick(this.activeConvList[0].receiver)
+        this.onclick(this.activeConvList[0])
       }
       if(this.activeConvList[0]?.chat_type =='received'){
-        this.onclick(this.activeConvList[0].sender)
+        this.onclick(this.activeConvList[0])
       }
       //console.log(ChatPageComponent.incSenderIds)
       this.friendList.forEach(frnd => {
@@ -195,17 +178,13 @@ export class ChatPageComponent implements OnInit {
       this.setActiveChoice(this.activeState);
     }
 
-    onclick(frndid:any){
+    onclick(frnd:any){
       //console.log(frndid)
       this.values='';
-      this.fetchChatData(frndid);
-      this.selectedFrndId=frndid;
-      this.selectedFrnd=null;
-      this.notification.set(frndid,false);
-      axios.post('getUserInfo',{frnd_id:frndid}).then(res=>{
-        //console.log(res.data)
-        this.selectedFrnd=res.data
-      }).catch(err =>console.log(err))
+      this.fetchChatData(frnd.id);
+      this.selectedFrndId=frnd.id;
+      this.selectedFrnd=frnd;
+      this.notification.set(frnd.id,false);
       this.scrollToBottom();
     }
 
@@ -247,12 +226,12 @@ export class ChatPageComponent implements OnInit {
         this.recData = typeof data === 'string' ? JSON.parse(data) : data;
         //console.log(this.recData);
         if(this.recData.notification=='disc'){
-          axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+          axios.post('getUserInfo',{id:this.recData.sender}).then(res=>{
            //console.log(res.data);
            this.status.set(this.recData.sender,res.data.activeChoice&&false)
             }).catch(err=>console.log(err));
         }else if(this.recData.notification=='online'){
-          axios.post('getUserInfo',{frnd_id:this.recData.sender}).then(res=>{
+          axios.post('getUserInfo',{id:this.recData.sender}).then(res=>{
             //console.log(res.data)
             this.status.set(this.recData.sender,res.data.activeChoice&&true)
             }).catch(err=>console.log(err));
@@ -287,7 +266,7 @@ export class ChatPageComponent implements OnInit {
     }
 
 
-    
+
     toggleEmojiPicker() {
       console.log(this.showEmojiPicker);
         this.showEmojiPicker = !this.showEmojiPicker;
@@ -303,9 +282,7 @@ export class ChatPageComponent implements OnInit {
       this.values += text;
       // this.showEmojiPicker = false;
     }
-    onProfilePicError() {
-      this.profileurl = this.userparsed.photoURL;
-    }
+
     sendnoti(frndid:any){
       // console.log("test clicked : "+frndid)
       // this.socketService.sendNoti({sender:this.userparsed.uid,receiver:frndid,noti:"test notification"})
