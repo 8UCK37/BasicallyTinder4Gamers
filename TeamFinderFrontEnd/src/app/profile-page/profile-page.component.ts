@@ -43,7 +43,6 @@ export class ProfilePageComponent implements OnInit {
     if (this.ownProfile) {
       this.auth.authState.subscribe(user => {
         if (user) {
-
           axios.post('getUserInfo', { frnd_id: this.userparsed.uid }).then(res => {
             //console.log(res.data)
             this.userInfo = res.data

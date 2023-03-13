@@ -140,7 +140,6 @@ app.use(bodyParser.json());
 app.use('/static', express.static(__dirname + '/../../public'));
 
 app.get('/saveuser', ensureAuthenticated, async function (req, res) {
-
   //console.log(req.user)
   const fetchUser = await prisma.user.findUnique({
     where: {
@@ -162,8 +161,6 @@ app.get('/saveuser', ensureAuthenticated, async function (req, res) {
       },
     })
 
-    //download(req.user.picture , req.user.user_id  ,res , req)
-    //postHelper.downProfilePic(req,res)
     console.log("new user created db updated", newUser)
   } else {
     console.log("user exists")
@@ -171,7 +168,15 @@ app.get('/saveuser', ensureAuthenticated, async function (req, res) {
   }
 
 });
-
+app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
+  const jsonObject = req.body;
+  let userData = await prisma.User.findUnique({
+    where: {
+      id: jsonObject.frnd_id
+    }
+  })
+  res.send(JSON.stringify(userData));
+});
 app.post('/userNameUpdate', ensureAuthenticated, urlencodedParser, async (req, res) => {
   console.log(req.body.name);
   const updateUserName = await prisma.User.update({
@@ -586,16 +591,7 @@ app.post('/getFrndSelectedGames', ensureAuthenticated, async (req, res) => {
   })
   res.send(JSON.stringify(selectedGamedata));
 });
-app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
-  const jsonObject = req.body;
-  //console.log(jsonObject.frnd_id)
-  let userData = await prisma.User.findUnique({
-    where: {
-      id: jsonObject.frnd_id
-    }
-  })
-  res.send(JSON.stringify(userData));
-});
+
 
 app.post('/saveOwnedgames', ensureAuthenticated, async (req, res) => {
   const fetchUser = await prisma.OwnedGames.findUnique({

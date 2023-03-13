@@ -24,6 +24,11 @@ export class NavbarComponent implements OnInit {
   private incomingNotiSubscription: Subscription | undefined;
   isMenuOpened: boolean = false;
   private toastElement!: HTMLElement;
+  public usr: any;
+  public userparsed: any;
+  public userInfo:any
+  public noti: boolean = false;
+  public recData: any;
   constructor(public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router) {
     this.renderer.listen('window', 'click', (e: Event) => {
       /**
@@ -46,16 +51,12 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  public usr: any;
-  public userparsed: any;
-  public profileurl: any;
-  public userName: any;
-  public noti: boolean = false;
-  public recData: any;
+
   ngOnInit(): void {
-    // this.show=false;
-    //
-    // console.log("logged in :" ,  this.user.isLoggedIn)
+
+    this.usr = localStorage.getItem('user');
+    this.userparsed = JSON.parse(this.usr);
+
     this.auth.authState.subscribe(user => {
       if (user) {
         this.usr = localStorage.getItem('user');
@@ -63,13 +64,17 @@ export class NavbarComponent implements OnInit {
         //console.log(this.userparsed)
         this.socketService.setupSocketConnection();
         this.socketService.setSocketId(this.userparsed.uid);
+
         axios.get('saveuser').then(res => {
-          //console.log("save user" ,res)
-          axios.post('getUserInfo', { frnd_id: this.userparsed.uid }).then(res => {
-            this.profileurl = res.data.profilePicture;
-            this.userName = res.data.name;
-            //console.log(res.data);
-          }).catch(err => console.log(err))
+        }).catch(err => console.log(err))
+        
+        axios.post('getUserInfo', { frnd_id: this.userparsed.uid }).then(res => {
+          if(res.data!=null){
+            this.userInfo=res.data
+          }else{
+            this.userInfo={profilePicture:this.userparsed.photoURL,name:this.userparsed.displayName}
+          }
+          //console.log(res.data);
         }).catch(err => console.log(err))
         this.incMsg();
         this.incNotification();
@@ -121,9 +126,7 @@ export class NavbarComponent implements OnInit {
     this.noti = false;
     this.router.navigate(['chat']);
   }
-  onProfilePicError() {
-    this.profileurl = this.userparsed.photoURL;
-  }
+
   getPendingReq() {
     this.notificationArray=[];
     axios.get('getFriendData').then(res => {
