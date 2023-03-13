@@ -17,13 +17,9 @@ export class ProfilePageComponent implements OnInit {
   radioAtGame:any = false;
   ownProfile: any;
   userid:any;
-  constructor(public modalService: NgbModal, user: UserService,private router : Router,private auth: AngularFireAuth,private route: ActivatedRoute) {
-    this.ownProfile = this.route.snapshot.data['ownProfile'];
-  }
   public usr:any;
   public userparsed:any;
-  public profileurl:any;
-  public bannerUrl:any;
+  public userInfo:any;
   public bio:any;
   public dPsave:boolean=false;
   public bNsave:boolean=false;
@@ -31,92 +27,60 @@ export class ProfilePageComponent implements OnInit {
   public userName:any;
   public profile_id:any;
   public status:any;
+  constructor(public modalService: NgbModal, user: UserService,private router : Router,private auth: AngularFireAuth,private route: ActivatedRoute) {
+    this.ownProfile = this.route.snapshot.data['ownProfile'];
+  }
+
   ngOnInit(): void {
-    //console.log(this.router.url);
-    //console.log(this.ownProfile);
     let lastUrl = this.router.url.split('/')[2]
     //console.log(lastUrl)
-    if(lastUrl == 'post') this.radioActivaVal = 1
-    if(lastUrl == 'games') this.radioActivaVal = 2;
-    if(lastUrl == 'friends') this.radioActivaVal = 3;
+    if (lastUrl == 'post') this.radioActivaVal = 1
+    if (lastUrl == 'games') this.radioActivaVal = 2;
+    if (lastUrl == 'friends') this.radioActivaVal = 3;
     // this.radioAtGame = true
+    this.usr = localStorage.getItem('user');
+    this.userparsed = JSON.parse(this.usr);
+    if (this.ownProfile) {
+      this.auth.authState.subscribe(user => {
+        if (user) {
 
-    if(this.ownProfile){
-    this.auth.authState.subscribe(user=>{
-      if(user) {
-        this.usr = localStorage.getItem('user');
-        this.userparsed=JSON.parse(this.usr);
-        //console.log(this.userparsed.photoURL)
-          axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
+          axios.post('getUserInfo', { frnd_id: this.userparsed.uid }).then(res => {
             //console.log(res.data)
-            this.profileurl=res.data.profilePicture;
-            this.userName=res.data.name;
-            this.bannerUrl=res.data.profileBanner;
-            this.bio=res.data.bio;
-           //console.log(res.data);
-         }).catch(err=>console.log(err))
-      }
-    })
-  }else{
-    this.route.queryParams.subscribe(async params => {
-      this.profile_id = params['id'];
-      //console.log(this.profile_id)
-      axios.post('getUserInfo',{frnd_id:this.profile_id}).then(res=>{
-        //console.log(res.data)
-        this.profileurl=res.data.profilePicture;
-        this.userName=res.data.name;
-        this.bannerUrl=res.data.profileBanner;
-        this.bio=res.data.bio;
-       //console.log(res.data);
-     }).catch(err=>console.log(err))
-      axios.post('isFriend',{id:this.profile_id}).then(res=>{
-      //console.log(res.data)
-      if(res.data=='accepted'){
-        this.status={style:'fa-sharp fa-regular fa-handshake fa-2x',value:''}
-        //console.log(this.status)
-      }else if(res.data=='rejected'){
-        this.status={style:'fa-sharp fa-solid fa-ban fa-2x',value:''}
-        //console.log(this.status)
-      }
-      else if(res.data=='pending'){
-        this.status={style:'button',value:'Pending'}
-        //console.log(this.status)
-      }
-      else{
-        this.status={style:'button',value:'Send Req'}
-        console.log(this.status)
-      }
-   }).catch(err=>console.log(err))
-  });
+            this.userInfo = res.data
+            this.bio = this.userInfo.bio;
+          }).catch(err => console.log(err))
+        }
+      })
+    } else {
+      this.route.queryParams.subscribe(async params => {
+        this.profile_id = params['id'];
+        //console.log(this.profile_id)
+        axios.post('getUserInfo', { frnd_id: this.profile_id }).then(res => {
+          //console.log(res.data)
+          this.userInfo = res.data
+
+        }).catch(err => console.log(err))
+        axios.post('isFriend', { id: this.profile_id }).then(res => {
+          //console.log(res.data)
+          if (res.data == 'accepted') {
+            this.status = { style: 'fa-sharp fa-regular fa-handshake fa-2x', value: '' }
+            //console.log(this.status)
+          } else if (res.data == 'rejected') {
+            this.status = { style: 'fa-sharp fa-solid fa-ban fa-2x', value: '' }
+            //console.log(this.status)
+          }
+          else if (res.data == 'pending') {
+            this.status = { style: 'button', value: 'Pending' }
+            //console.log(this.status)
+          }
+          else {
+            this.status = { style: 'button', value: 'Send Req' }
+            console.log(this.status)
+          }
+        }).catch(err => console.log(err))
+      });
+    }
   }
-    setInterval(() => {
-      if(this.input.nativeElement.files[0]!=null){
-        let reader = new FileReader();
-        reader.onload = (e: any) => {
-        this.profileurl = e.target.result;
-        this.dPsave=true;
-      }
-    reader.readAsDataURL(this.input.nativeElement.files[0]);
-      }else{
-        //console.log("null")
-        this.dPsave=false;
-      }
-
-      if(this.banner.nativeElement.files[0]!=null){
-        let reader = new FileReader();
-        reader.onload = (e: any) => {
-        this.bannerUrl = e.target.result;
-        this.bNsave=true;
-      }
-    reader.readAsDataURL(this.banner.nativeElement.files[0]);
-      }else{
-        //console.log("null")
-        this.bNsave=false;
-      }
-    }, 300);
-
-  }
-
   changeToGame(){
     if(this.ownProfile){
       this.router.navigate(['profile-page','games']);
@@ -173,7 +137,7 @@ export class ProfilePageComponent implements OnInit {
         this.userparsed = user
         //console.log(this.userparsed)
         axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
-          this.profileurl=res.data.profilePicture;
+          this.userInfo=res.data
          //console.log(res.data);
        }).catch(err=>console.log(err))
       }
@@ -204,7 +168,7 @@ export class ProfilePageComponent implements OnInit {
         this.userparsed = user
         //console.log(this.userparsed)
         axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
-          this.bannerUrl=res.data.profileBanner;
+          this.userInfo=res.data
           //console.log(res.data);
        }).catch(err=>console.log(err))
       }
@@ -217,19 +181,10 @@ export class ProfilePageComponent implements OnInit {
 
   updateBio(){
     axios.post('updateBio',{bio:this.bio}).then(res=>{
-      //console.log("updatebiohit")
-      axios.post('getUserInfo',{frnd_id:this.userparsed.uid}).then(res=>{
-        this.bio=res.data.bio;
-        //console.log(res.data);
-     }).catch(err=>console.log(err))
+      this.userInfo.bio=this.bio;
    }).catch(err=>console.log(err))
   }
-  onProfilePicError() {
-    this.profileurl = this.userparsed?.photoURL;
-  }
-  onBannerError() {
-    // this.bannerUrl = 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg';
-  }
+
   combineUpload(){
     this.updateBio();
     this.uploadBanner();
@@ -247,5 +202,31 @@ export class ProfilePageComponent implements OnInit {
       }else{
         console.log("a pending req exists")
       }
+  }
+  modalOpen(){
+    setInterval(() => {
+      if(this.input.nativeElement.files[0]!=null){
+        let reader = new FileReader();
+        reader.onload = (e: any) => {
+        this.userInfo.profilePicture = e.target.result;
+        this.dPsave=true;
+      }
+    reader.readAsDataURL(this.input.nativeElement.files[0]);
+      }else{
+        //console.log("null")
+        this.dPsave=false;
+      }
+      if(this.banner.nativeElement.files[0]!=null){
+        let reader = new FileReader();
+        reader.onload = (e: any) => {
+        this.userInfo.profileBanner = e.target.result;
+        this.bNsave=true;
+      }
+    reader.readAsDataURL(this.banner.nativeElement.files[0]);
+      }else{
+        //console.log("null")
+        this.bNsave=false;
+      }
+    }, 300);
   }
 }

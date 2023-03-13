@@ -21,8 +21,6 @@ export class FriendsComponent implements OnInit {
   public pendingRequests: any[] = [];
   public friendList: any[] = [];
   public outgoingPendingRequests:any[]=[];
-  public profileurl: any;
-  public online:boolean=false;
   public recData:any;
   private incomingNotiSubscription: Subscription | undefined;
   public status=new Map();
@@ -60,8 +58,8 @@ export class FriendsComponent implements OnInit {
       //console.log(res.data)
        res.data.forEach((user: any) => {
          if(user.status=='accepted'){
-          user.isOnline=user.activeChoice&&user.isConnected
           this.friendList.push( user )
+          this.status.set(user.id,user.activeChoice&&user.isConnected)
          }
          else if(user.status=='incoming'){
           this.pendingRequests.push(user)
@@ -103,7 +101,7 @@ export class FriendsComponent implements OnInit {
       this.getFriendData();
     }).catch(err => console.log(err))
   }
-  onclick(userid:any){
+  goToFriend(userid:any){
     //console.log(userid)
     console.log(this.userparsed.uid)
     if(this.userparsed.uid==userid){

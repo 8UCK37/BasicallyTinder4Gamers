@@ -9,23 +9,23 @@
         <!-- Profile Banner -->
         <div class="profile">
           <div class="profile__header-image-container">
-            <img class="profile__header-image img-sk" [src]="bannerUrl" (error)="onProfilePicError()">
+            <img class="profile__header-image img-sk" [src]="userInfo?.profileBanner">
           </div>
           <!-- Profile Avater -->
           <div class="profile__user">
 
-            <img class="profile__avatar img-sk" [src]="profileurl" (error)="onBannerError()" >
+            <img class="profile__avatar img-sk" [src]="userInfo?.profilePicture">
 
             <div class="profile__details">
               <!-- Main header -->
-              <h1 class="profile__name">{{userName}}</h1>
+              <h1 class="profile__name">{{userInfo?.name}}</h1>
               <!-- SubHeader -->
-              <p class="profile__subtitle">{{bio}}
+              <p class="profile__subtitle">{{userInfo?.bio}}
             </div>
             <!-- "Follow" button -->
             <div class="profile__actions">
               <ng-container *ngIf="ownProfile;else elseblock" >
-              <a class="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor:pointer" >Edit Profile</a>
+              <a class="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor:pointer" (click)="modalOpen()">Edit Profile</a>
               </ng-container>
               <ng-template #elseblock >
                   <span [ngClass]="status?.style" style="cursor:pointer" (click)="sendreq()">{{status?.value}}</span>
@@ -48,7 +48,7 @@
           <div class="modal-body" style="overflow-y:scroll; max-height:70vh">
             <div class="profile-modal">
               <div class="profile__header-image-container-modal">
-                <img class="profile__header-image-modal" [src]="bannerUrl">
+                <img class="profile__header-image-modal" [src]="userInfo?.profileBanner">
                 <div>
                   <i class="phi-edit-icon fa-solid fa fa-camera" (click)="banner.click()"></i>
                 </div>
@@ -58,7 +58,7 @@
               <!-- Profile Avater -->
 
               <div class="phi-profile-picture-wrapper" (click)="image.click()">
-                <img class="profile__avatar-modal" [src]="profileurl" style="cursor:pointer">
+                <img class="profile__avatar-modal" [src]="userInfo?.profilePicture" style="cursor:pointer">
                 <div class="camera-icon" style><i class="phi-edit-icon fa-solid fa fa-camera"></i></div>
               </div>
             </div>
