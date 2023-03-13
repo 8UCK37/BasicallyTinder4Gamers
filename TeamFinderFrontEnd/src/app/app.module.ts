@@ -83,6 +83,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ChatServicesService
 
   ],
-  bootstrap: [AppComponent,PrimaryHomePageComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
