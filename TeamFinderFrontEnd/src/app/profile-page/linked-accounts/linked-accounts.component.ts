@@ -48,18 +48,19 @@ export class LinkedAccountsComponent implements OnInit {
     } else {
       this.route.queryParams.subscribe(async params => {
         this.profile_id = params['id'];
-        console.log(this.profile_id)
+        //console.log(this.profile_id)
         await axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           //console.log(res.data)
           if(res.data.steamId!=null){
           this.steamId = res.data.steamId
           this.linked=true;
           }else{
-            console.log('here')
-            this.steamInfo=[]
+
+            this.linked = false
           }
         }).catch(err => console.log(err))
-        if (this.steamId != null) {
+        //console.log(this.steamId)
+        if (this.linked) {
           //console.log(this.steamId)
           await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
             //console.log(res.data)

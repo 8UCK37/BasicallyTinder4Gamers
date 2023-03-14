@@ -132,12 +132,13 @@ export class GamesComponent implements OnInit {
   indexprinter(i: any) {
     console.log(i)
   }
-  
+
   async getShowCase() {
     this.showcase = [];
     this.frndownedgames = [];
     await axios.post('getFrndOwnedGames', { frnd_id: this.profile_id }).then(res => {
-      this.frndownedgames = JSON.parse(JSON.parse(res.data[0]?.games))
+      if(res.data[0]!=null){
+      this.frndownedgames = JSON.parse(JSON.parse(res.data[0]?.games))}
       //console.log(this.showcase)
     }).catch(err => console.log(err))
     await axios.post('getFrndSelectedGames', { frnd_id: this.profile_id }).then(res => {
