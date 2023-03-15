@@ -71,11 +71,11 @@ export class LinkedAccountsComponent implements OnInit {
     axios.post('setSteamId', { acc_id: id }).then(res => {
       if (res.data.message == 'New SteamId Linked') {
         this.linked = true;
-        console.log(res.data.message);
+        //console.log(res.data.message);
         this.router.navigate(['/profile-page/linked-accounts']);
       } else if ('This Steam Id is already linked with another existing account') {
         this.linked = false;
-        console.log(res.data.message);
+        //console.log(res.data.message);
         this.router.navigate(['/profile-page/linked-accounts']);
       }
     }).catch(err => console.log(err))
