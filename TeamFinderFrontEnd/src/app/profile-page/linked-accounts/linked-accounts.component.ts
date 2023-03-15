@@ -24,18 +24,14 @@ export class LinkedAccountsComponent implements OnInit {
   ngOnInit(): void {
       this.usr = localStorage.getItem('user');
       this.userparsed = JSON.parse(this.usr);
-      //console.log(this.route.snapshot.queryParams['steamid'])
-      if(this.route.snapshot.queryParams['steamid']!=null){
+
+      if(this.route.snapshot.queryParams['steamid']=='linked'){
+        alert('Your steam account has been successfully linked with TeamFinder account')
         //console.log('not null')
         this.ownProfile=true;
-        this.steamId = this.route.snapshot.queryParams['steamid'];
-        //TODO Steamid is currently being set by fetching query params it is very vulnerable
-        this.setSteamId(this.steamId)
         this.linked=true;
       }
-
     if (this.ownProfile) {
-      //this.getSteamId();
       axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
         //console.log(res.data)
         if(res.data.steamId!=null){
@@ -55,7 +51,6 @@ export class LinkedAccountsComponent implements OnInit {
           this.steamId = res.data.steamId
           this.linked=true;
           }else{
-
             this.linked = false
           }
         }).catch(err => console.log(err))
@@ -101,6 +96,11 @@ export class LinkedAccountsComponent implements OnInit {
     if (this.changeText)
       return '480px'
     return '300px'
+  }
+
+  generateUrl(): string {
+    const uid = this.userparsed.uid;
+    return `http://localhost:3000/auth/steam?uid=${uid}`;
   }
 
 }

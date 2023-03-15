@@ -89,24 +89,24 @@ passport.deserializeUser(function (obj, done) {
 
 
 
-passport.use(new SteamStrategy({
-  returnURL: 'http://localhost:3000/auth/steam/return',
-  realm: 'http://localhost:3000/',
-  apiKey: apiKey
-},
-  function (identifier, profile, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
+// passport.use(new SteamStrategy({
+//   returnURL: 'http://localhost:3000/auth/steam/return',
+//   realm: 'http://localhost:3000/',
+//   apiKey: apiKey
+// },
+//   function (identifier, profile, done) {
+//     // asynchronous verification, for effect...
+//     process.nextTick(function () {
 
-      // To keep the example simple, the user's Steam profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Steam account with a user record in your database,
-      // and return that user instead.
-      profile.identifier = identifier;
-      return done(null, profile);
-    });
-  }
-));
+//       // To keep the example simple, the user's Steam profile is returned to
+//       // represent the logged-in user.  In a typical application, you would want
+//       // to associate the Steam account with a user record in your database,
+//       // and return that user instead.
+//       profile.identifier = identifier;
+//       return done(null, profile);
+//     });
+//   }
+// ));
 
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
@@ -349,21 +349,62 @@ app.post("/rejectFriend", ensureAuthenticated, urlencodedParser, async (req, res
 //   request.  The first step in Steam authentication will involve redirecting
 //   the user to steamcommunity.com.  After authenticating, Steam will redirect the
 //   user back to this application at /auth/steam/return
-app.get('/auth/steam',
-  passport.authenticate('steam', { failureRedirect: '/' }),
-  function (req, res) {
-    res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
-
-  });
 // GET /auth/steam/return
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/steam/return', passport.authenticate('steam', { failureRedirect: '/' }), function (req, res) {
 
+
+app.get('/auth/steam', function(req, res, next) {
+  console.log('Authentication request received from user redirecting to Steam');
+  const uid = req.query.uid;
+  console.log(`uid received from user: ${uid}`);
+  passport.use(new SteamStrategy({
+    returnURL: `http://localhost:3000/auth/steam/return?uid=${uid}`,
+    realm: 'http://localhost:3000/',
+    apiKey: apiKey
+  },
+    function (identifier, profile, done) {
+      // asynchronous verification, for effect...
+      process.nextTick(function () {
+        // To keep the example simple, the user's Steam profile is returned to
+        // represent the logged-in user.  In a typical application, you would want
+        // to associate the Steam account with a user record in your database,
+        // and return that user instead.
+        profile.identifier = identifier;
+        return done(null, profile);
+      });
+    }
+  ));
+  next();
+}, passport.authenticate('steam', { failureRedirect: '/' }), function (req, res) {
+  
   res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
 });
+
+app.get('/auth/steam/return', function(req, res, next) {
+  console.log('Returning from Steam authentication...');
+  const uid = req.query.uid;
+  console.log(`uid received from bounce: ${uid}`);
+  req.uid = uid;
+  next();
+}, passport.authenticate('steam', { failureRedirect: '/' }), async function (req, res) {
+  console.log('Authenticated successfully!');
+  console.log(`uid received from up: ${req.uid}`);
+  console.log(`Steam ID received: ${req.user.id}`);
+ 
+  const updateSteamId = await prisma.User.update({
+    where: {
+      id: req.uid
+    },
+    data: {
+      steamId: req.user.id
+    }
+  })
+  res.redirect(`http://localhost:4200/profile-page/linked-accounts?steamid=linked`);
+});
+
 
 //returns steamaccount data #endpoint
 app.get("/steamUserInfo", ensureAuthenticated, async (req, res) => {
