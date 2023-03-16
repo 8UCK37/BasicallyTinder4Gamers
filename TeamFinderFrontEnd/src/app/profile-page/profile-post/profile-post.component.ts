@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 
 @Component({
@@ -8,33 +9,44 @@ import axios from 'axios';
   styleUrls: ['./profile-post.component.css']
 })
 export class ProfilePostComponent implements OnInit {
-@ViewChild('image') input!:ElementRef;
-
-constructor(private auth: AngularFireAuth) { }
+  @ViewChild('image') input!:ElementRef;
+  ownProfile: any;
+  public profile_id: any;
   public ownPosts:any=[];
   public usr:any;
   public userparsed:any;
   public userInfo:any;
   public utcDateTime:any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  ngOnInit() {
-    this.getOwnPost();
-    this.auth.authState.subscribe(user=>{
-      if(user) {
-        this.usr = localStorage.getItem('user');
-        this.userparsed=JSON.parse(this.usr);
-        //console.log(this.userparsed.photoURL)
-          //console.log("save user" ,res)
-          axios.post('getUserInfo',{id:this.userparsed.uid}).then(res=>{
-            this.userInfo=res.data;
+constructor(private auth: AngularFireAuth,private route: ActivatedRoute) {
+  this.ownProfile = this.route.snapshot.data['ownProfile'];
+ }
 
-           //console.log(res.data);
-         }).catch(err=>console.log(err))
-      }
-    })
+  ngOnInit() {
+    //console.log(this.ownProfile)
+    if (this.ownProfile) {
+      this.auth.authState.subscribe(async user=>{
+        if(user) {
+          this.usr = localStorage.getItem('user');
+          this.userparsed=JSON.parse(this.usr);
+          //console.log(this.userparsed.photoURL)
+            //console.log("save user" ,res)
+            await axios.post('getUserInfo',{id:this.userparsed.uid}).then(res=>{
+              this.userInfo=res.data;
+              //console.log(res.data);
+           }).catch(err=>console.log(err))
+           this.getPostById(this.userparsed.uid);
+        }
+      })
+    } else {
+      this.route.queryParams.subscribe(params => {
+        this.profile_id = params['id'];
+        this.getPostById(this.profile_id);
+      });
+    }
   }
-  getOwnPost(){
-    axios.get('getOwnpost').then(res=>{
+  getPostById(id:any){
+    axios.post('getPostById',{uid:id}).then(res=>{
       //console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')

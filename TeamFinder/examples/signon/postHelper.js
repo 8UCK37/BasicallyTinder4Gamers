@@ -80,20 +80,23 @@ async function getPost(req , res , prisma){
    //console.log(posts)
    res.send(JSON.stringify(posts))
 }
-async function getOwnPost(req , res , prisma){
+async function getPostById(req, res, prisma) {
   console.log("get post")
-  let posts=await prisma.$queryRaw`SELECT p.*, t.tagNames
-   FROM public."Posts" p
-   LEFT JOIN (
-     SELECT post, STRING_AGG("tagName", ',') AS tagNames
-     FROM public."Tags"
-     GROUP BY "post"
-   ) t ON p.id = t.post
-   WHERE p.author=${req.user.user_id}
-   ORDER BY  p."createdAt" DESC;`
-   //console.log(posts)
+  let posts = await prisma.$queryRaw`
+    SELECT p.*, t.tagNames,u.*
+    FROM public."Posts" p
+    LEFT JOIN (
+      SELECT post, STRING_AGG("tagName", ',') AS tagNames
+      FROM public."Tags"
+      GROUP BY "post"
+    ) t ON p.id = t.post
+    JOIN public."User" u ON p.author = u.id
+    WHERE p.author=${req.body.uid}
+    ORDER BY p."createdAt" DESC;
+  `
   res.send(JSON.stringify(posts))
 }
+
 
 async function likePost(req, res, prisma){
     // console.log("post liked")
@@ -139,4 +142,4 @@ async function getPostByTags(req, res,prisma){
       GROUP BY "post") as t on p.id = t.post;`
   res.send(JSON.stringify(postsByTag))
 }
-module.exports =  { createPost,getPost,likePost,getOwnPost,getPostByTags}
+module.exports =  { createPost,getPost,likePost,getPostById,getPostByTags}

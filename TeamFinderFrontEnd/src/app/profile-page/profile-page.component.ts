@@ -36,13 +36,14 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit(): void {
     let lastUrl = this.router.url.split('/')[2]
     //console.log(lastUrl)
-    if (lastUrl == 'post') this.radioActivaVal = 1
-    if (lastUrl == 'games') this.radioActivaVal = 2;
-    if (lastUrl == 'friends') this.radioActivaVal = 3;
+    // if (lastUrl == 'post') this.radioActivaVal = 1
+    // if (lastUrl == 'games') this.radioActivaVal = 2;
+    // if (lastUrl == 'friends') this.radioActivaVal = 3;
     // this.radioAtGame = true
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     if (this.ownProfile) {
+      this.radioActivaVal = 1
       this.auth.authState.subscribe(user => {
         if (user) {
           axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
@@ -54,6 +55,7 @@ export class ProfilePageComponent implements OnInit {
       })
     } else {
       this.route.queryParams.subscribe(async params => {
+        this.radioActivaVal = 1
         this.profile_id = params['id'];
         //console.log(this.profile_id)
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {

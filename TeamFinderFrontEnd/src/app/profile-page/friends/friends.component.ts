@@ -107,7 +107,7 @@ export class FriendsComponent implements OnInit {
     if(this.userparsed.uid==userid){
       this.router.navigate(['/profile-page']);
     }else{
-      this.router.navigate(['/user/post'], { queryParams: { id: userid } });
+      this.router.navigate(['user','post'], { queryParams: { id: userid } });
     }
   }
 

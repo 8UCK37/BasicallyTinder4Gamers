@@ -700,7 +700,7 @@ app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlen
 //#endpoint
 app.get('/likePost', ensureAuthenticated, (req, res) => postHelper.likePost(req, res, prisma))
 //#endpoint
-app.get('/getOwnPost', ensureAuthenticated, (req, res) => postHelper.getOwnPost(req, res, prisma))
+app.post('/getPostById', ensureAuthenticated, (req, res) => postHelper.getPostById(req, res, prisma))
 //#endpoint
 app.get('/getpostbytagname', (req, res) => postHelper.getPostByTags(req, res, prisma))
 //#endpoint
