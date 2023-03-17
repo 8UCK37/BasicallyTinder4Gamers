@@ -15,8 +15,8 @@
   <ng-container  *ngFor="let game of showcase;let i=index">
     <div class="card tp-box">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <img class="gamepic tp-box__side tp-box__front" src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.appid}}/library_600x900.jpg">
-      <div class="tp-box__side tp-box__back">{{(game.playtime_forever/60).toFixed(2)}} Hours</div>
+      <img class="gamepic tp-box tp-box__side tp-box__front" src="https://steamcdn-a.akamaihd.net/steam/apps/{{game.appid}}/library_600x900.jpg">
+          <div class=" card tp-box tp-box__side tp-box__back" style="background-color: #262626;">Total Play-Time {{(game.playtime_forever/60).toFixed(2)}} Hours</div>
     </div>
 </ng-container>
 </ng-container>

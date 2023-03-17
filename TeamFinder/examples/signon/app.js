@@ -355,7 +355,7 @@ app.post("/rejectFriend", ensureAuthenticated, urlencodedParser, async (req, res
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 
-
+//TODO implement sessions 
 app.get('/auth/steam', function(req, res, next) {
   console.log('Authentication request received from user redirecting to Steam');
   const uid = req.query.uid;

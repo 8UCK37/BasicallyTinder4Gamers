@@ -177,7 +177,8 @@ body[data-theme=dark] {
   font-size: 16px;
   line-height: 24px;
   font-weight: 700;
-  color: var(--text-dark);
+  /*color: var(--text-dark);*/
+  color: cornsilk;
   margin: 4px 0;
   display: flex;
   align-items: center;
@@ -921,17 +922,17 @@ body[data-theme=dark] {
   float: right;
   /* transition: 5s transform;
   transform: translateX(-60%); */
-  
+
 }
 .anim {
   background-color: red;
    animation-name: example;
-  animation-duration: 700ms; 
+  animation-duration: 700ms;
 }
 @keyframes example {
   from {transform: translateX(-200px);}
   to {transform: translateX(0px);}
-} 
+}
 .message.sent:after {
   border-width: 0px 0 10px 10px;
   border-color: transparent transparent transparent #0000002b;

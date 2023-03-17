@@ -445,7 +445,7 @@
     height: 226px;
     padding: 75px;
     position: relative;
-    border-radius: 6px;
+    border-radius: 5px;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -460,7 +460,6 @@
     content: "";
     width: 104%;
     height: 102%;
-    border-radius: 8px;
     background-image: linear-gradient(var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
     position: absolute;
     z-index: -1;
@@ -480,9 +479,8 @@
 }
 
 .gamepic {
-    height: 224px;
-    width: 150px;
-    border-radius: 6px;
+    height: 218x;
+    width: 143px;
 }
 
 .btn-info {
