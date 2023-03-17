@@ -25,23 +25,20 @@ export class LinkedAccountsComponent implements OnInit {
       this.usr = localStorage.getItem('user');
       this.userparsed = JSON.parse(this.usr);
 
-      if(this.route.snapshot.queryParams['steamid']=='linked'){
-        alert('Your steam account has been successfully linked with TeamFinder account')
+      if(this.route.snapshot.queryParams['steamid']!=null){
         //console.log('not null')
         this.ownProfile=true;
+        this.steamId = this.route.snapshot.queryParams['steamid'];
+        //TODO Steamid is currently being set by fetching query params it is very vulnerable
+        this.setSteamId(this.steamId)
         this.linked=true;
+        this.getSteamInfo()
       }
-    if (this.ownProfile) {
-      axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
-        //console.log(res.data)
-        if(res.data.steamId!=null){
-        this.steamId = res.data.steamId
-        this.linked=true
-        }
-        //console.log(this.linked)
-      }).catch(err => console.log(err))
-      this.getSteamInfo();
-    } else {
+
+      if (this.ownProfile) {
+        //this.getSteamId();
+        this.fetchUserData();
+      } else {
       this.route.queryParams.subscribe(async params => {
         this.profile_id = params['id'];
         //console.log(this.profile_id)
@@ -82,10 +79,10 @@ export class LinkedAccountsComponent implements OnInit {
   }
 
   getSteamInfo() {
-    axios.get('steamUserInfo', { params: { id: this.steamId } }).then(res => {
+    //console.log(this.steamId)
+    axios.post('steamInfo', { steam_id: this.steamId } ).then(res => {
       //console.log(res.data)
       this.steamInfo = res.data
-      //console.log(this.steamInfo)
     }).catch(err => console.log(err))
   }
   getStyle() {
@@ -100,7 +97,17 @@ export class LinkedAccountsComponent implements OnInit {
 
   generateUrl(): string {
     const uid = this.userparsed.uid;
-    return `http://localhost:3000/auth/steam?uid=${uid}`;
+    return `http://localhost:3000/auth/steam`;
   }
-
+   async fetchUserData(){
+    await axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
+      //console.log(res.data)
+      if(res.data.steamId!=null){
+      this.steamId = res.data.steamId
+      this.linked=true
+      }
+      //console.log(this.linked)
+    }).catch(err => console.log(err))
+    this.getSteamInfo();
+   }
 }
