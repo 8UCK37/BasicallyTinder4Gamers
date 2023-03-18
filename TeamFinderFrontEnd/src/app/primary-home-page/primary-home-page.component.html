@@ -4,7 +4,8 @@
     <div class="con">
       <div class="row">
         <div class="profileimg">
-          <img [src]="userInfo?.profilePicture" class="user-pic" (error)="onProfilePicError()" referrerpolicy="no-referrer">
+          <img [src]="userInfo?.profilePicture" class="user-pic" (error)="onProfilePicError()"
+            referrerpolicy="no-referrer">
         </div>
         <div class="col-md-auto">
           <button #open type="button" class="btn btn-outline-light" data-bs-toggle="modal"
@@ -24,88 +25,86 @@
 
     <ng-container *ngFor="let post of posts; let i=index">
       <div class="container mt-5 mb-5">
-        <div class="row d-flex align-items-center justify-content-center">
-          <div class="col-md-6">
-            <div class="card">
-              <div class="d-flex justify-content-between p-2 px-3">
-                <div class="d-flex flex-row align-items-center"> <img [src]="post.authorUrl" width="50"
-                    class="rounded-circle" (error)="onPostPicError(i)">
-                  <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
-                      style="margin-left: 10px;">{{post.name}}</span></div>
-                </div>
-                <div class="d-flex flex-row mt-1 ellipsis"> <small
-                    class="mr-2">{{this.utcToLocal(post?.createdAt)}}</small></div>
+        <!-- <div class="row d-flex align-items-center justify-content-center"> -->
+        <div class="col-md-6">
+          <div class="card">
+            <div class="d-flex justify-content-between p-2 px-3" style="position: relative;top: 7px;">
+              <div class="d-flex flex-row align-items-center"> <img [src]="post.authorUrl" width="50"
+                  class="rounded-circle" (error)="onPostPicError(i)">
+                <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
+                    style="margin-left: 10px;">{{post.name}}</span><span style="margin-left: 10px;">{{this.utcToLocal(post?.createdAt)}}</span></div>
               </div>
-              <div class="p-2">
-                <p class="text-justify">{{post.description}}</p>
-                <ng-container *ngFor="let tag of post.tagArr">
-                  <a class="text-justify" style="cursor: pointer; margin-left: 15px;"
-                    (click)="fetchByTag(tag)">{{"#"+tag}}</a>
-                </ng-container>
-              </div>
-              <div>
-                <button type="button" class="btn btn-primary" #comment (click)="openModal(template)"
-                  hidden="true"></button>
-                <ng-template #template>
-                  <div class="modal-dialog-scrollable" style="overflow-y: initial !important">
-                  <div class="modal-content" style="background-color: currentColor;">
-                  <div class="modal-header">
-                    <h4 id="dialog-sizes-name1" class="modal-title pull-left modal-text-colour">Comment Section</h4>
-                    <button type="button" class="btn-close close pull-right " aria-label="Close"
-                      (click)="modalRef?.hide()">
-                      <span aria-hidden="true" class="visually-hidden">&times;</span>
-                    </button>
-                  </div>
-                   <div class="modal-body modal-css-extra-H">
-                    <ng-container *ngIf="post.photoUrlArr.length!=0">
-                      <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
-                        <slide *ngFor="let img of post.photoUrlArr">
-                          <img [src]="img" alt="first slide" style="display: block; width: 100%;">
-                        </slide>
-                      </carousel>
-                      <div class="p-2">
-                        <p class="text-justify modal-text-colour">{{post.description}}</p>
-                        <ng-container *ngFor="let tag of post.tagArr">
-                          <a class="text-justify modal-text-colour"
-                            (click)="fetchByTag(tag)">{{"#"+tag}}</a>
-                        </ng-container>
-                      </div>
-                      <br>
-                  <h2 class="modal-text-colour">Comments</h2>
-                  <br>
-                      <div class="mb-3">
-                        <label for="message-text" class="col-form-label modal-text-colour">Not the N Word</label>
-                        <textarea placeholder="Not the N Word" class="form-control" id="message-text"></textarea>
-                      </div>
-                    </ng-container>
-                  </div>
-                      <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Comment</button>
-                  </div>
-                  </div>
-                </div>
-                </ng-template>
-              </div>
-              <ng-container *ngIf="post.photoUrlArr.length!=0">
-                <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
-                  <slide *ngFor="let img of post.photoUrlArr">
-                    <img [src]="img" alt="first slide" style="display: block; width: 100%;">
-                  </slide>
-                </carousel>
+            </div>
+            <div class="p-3">
+              <p class="text-justify">{{post.description}}</p>
+              <ng-container *ngFor="let tag of post.tagArr">
+                <a class="text-justify" style="cursor: pointer;"
+                  (click)="fetchByTag(tag)">{{"#"+tag}}</a>
               </ng-container>
-              <div class="p-2 carousel-btm">
-                <hr>
-                <div class="d-flex justify-content-between align-items-center">
-                  <button>like</button>
-                  <button type="button" class="btn btn-primary" (click)="comment.click()">
-                    comment
-                  </button>
-                  <button>share</button>
-
+            </div>
+            <div>
+              <button type="button" class="btn btn-primary" #comment (click)="openModal(template)"
+                hidden="true"></button>
+              <ng-template #template>
+                <div class="modal-dialog-scrollable" style="overflow-y: initial !important">
+                  <div class="modal-content" style="background-color: currentColor;">
+                    <div class="modal-header">
+                      <h4 id="dialog-sizes-name1" class="modal-title pull-left modal-text-colour">Comment Section</h4>
+                      <button type="button" class="btn-close close pull-right " aria-label="Close"
+                        (click)="modalRef?.hide()">
+                        <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body modal-css-extra-H">
+                      <ng-container *ngIf="post.photoUrlArr.length!=0">
+                        <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
+                          <slide *ngFor="let img of post.photoUrlArr">
+                            <img [src]="img" alt="first slide" style="display: block; width: 100%;">
+                          </slide>
+                        </carousel>
+                        <div class="p-2">
+                          <p class="text-justify modal-text-colour">{{post.description}}</p>
+                          <ng-container *ngFor="let tag of post.tagArr">
+                            <a class="text-justify modal-text-colour" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
+                          </ng-container>
+                        </div>
+                        <br>
+                        <h2 class="modal-text-colour">Comments</h2>
+                        <br>
+                        <div class="mb-3">
+                          <label for="message-text" class="col-form-label modal-text-colour">Not the N Word</label>
+                          <textarea placeholder="Not the N Word" class="form-control" id="message-text"></textarea>
+                        </div>
+                      </ng-container>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Close</button>
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Comment</button>
+                    </div>
+                  </div>
                 </div>
-                <hr>
-                <!-- <div class="comments">
+              </ng-template>
+            </div>
+            <ng-container *ngIf="post.photoUrlArr.length!=0">
+              <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
+                <slide *ngFor="let img of post.photoUrlArr">
+                  <img [src]="img" alt="first slide" style="display: block; height: 40rem; width: 100%;">
+                </slide>
+              </carousel>
+            </ng-container>
+            <div class="p-2 carousel-btm">
+              <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
+                <div class="like">
+                <input type="checkbox" id="r1">
+                  <label for="r1" class="react">
+                    <i data-icon="https://em-content.zobj.net/thumbs/320/apple/129/fire_1f525.png"></i>
+                  </label>Like
+                </div>
+                <div class="comment-btn" (click)="comment.click()">Comment</div>
+                <div class="share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
+
+              </div>
+              <!-- <div class="comments">
                           <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/9AZ2QX1.jpg" width="40" class="rounded-circle" style="margin-right: 15px;width: 50px;height:50px">
                               <div class="d-flex flex-column ml-2"> <span class="name">Daniel Frozer</span> <small class="comment-text">I like this alot! thanks alot</small>
                                   <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small style="margin-left: 15px;">Reply</small><small style="margin-left: 15px;">18 mins</small> </div>
@@ -117,13 +116,13 @@
                               </div>
                           </div>
                       </div> -->
-                <!-- <div class="comment-input"> <input type="text" class="form-control"> -->
+              <!-- <div class="comment-input"> <input type="text" class="form-control"> -->
 
-                <!-- </div> -->
-              </div>
+              <!-- </div> -->
             </div>
           </div>
         </div>
+        <!-- </div> -->
       </div>
 
     </ng-container>
