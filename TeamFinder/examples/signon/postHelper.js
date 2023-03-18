@@ -97,6 +97,24 @@ async function getPostById(req, res, prisma) {
   res.send(JSON.stringify(posts))
 }
 
+async function getLatestPost(req, res, prisma) {
+  console.log("get latest post")
+  let posts = await prisma.$queryRaw`
+    SELECT p.*, t.tagNames,u.*
+    FROM public."Posts" p
+    LEFT JOIN (
+      SELECT post, STRING_AGG("tagName", ',') AS tagNames
+      FROM public."Tags"
+      GROUP BY "post"
+    ) t ON p.id = t.post
+    JOIN public."User" u ON p.author = u.id
+    WHERE p.author=${req.user.user_id}
+    ORDER BY p."createdAt" DESC
+    LIMIT 1;
+  `
+  res.send(JSON.stringify(posts))
+}
+
 
 async function likePost(req, res, prisma){
     // console.log("post liked")
@@ -142,4 +160,4 @@ async function getPostByTags(req, res,prisma){
       GROUP BY "post") as t on p.id = t.post;`
   res.send(JSON.stringify(postsByTag))
 }
-module.exports =  { createPost,getPost,likePost,getPostById,getPostByTags}
+module.exports =  { createPost,getPost,likePost,getPostById,getPostByTags,getLatestPost}

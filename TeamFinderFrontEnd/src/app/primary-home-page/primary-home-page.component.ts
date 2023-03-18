@@ -44,6 +44,9 @@ export class PrimaryHomePageComponent implements OnInit {
           }
         }).catch(err => console.log(err))
         this.fetchPost()
+
+
+
       }
     })
    }
@@ -56,13 +59,30 @@ export class PrimaryHomePageComponent implements OnInit {
         post.photoUrlArr=post.photoUrl?.split(',')
       });
       this.posts=res.data
+
+    })
+   }
+   fetchLatestPost(){
+    axios.post("/getLatestPost").then(res=>{
+      //console.log(res.data)
+      res.data.forEach((post: any) => {
+        post.tagArr=post.tagnames?.split(',')
+        post.photoUrlArr=post.photoUrl?.split(',')
+      });
+    const newpost: any[]=[];
+    //console.log(this.posts)
+    for(var i=this.posts.length-1;i>=0;i--){
+      newpost[i+1]=this.posts[i]
+    }
+    newpost[0]=res.data[0]
+    this.posts=newpost
     })
    }
    uploadPostFile(){
     console.error("click"  ,this.input)
     this.formData = new FormData();
     if(this.input.nativeElement.files[0]!=null){
-      console.log("not null")
+      //console.log("not null")
       let type = this.input.nativeElement.files[0].type
     if(type != "image/jpeg" && type != "image/jpg"){
       alert("wrong image type please upload jpg or Jpeg")
@@ -76,19 +96,21 @@ export class PrimaryHomePageComponent implements OnInit {
       this.formData.append("post", this.imageBlobs[i]);
 
     }
-    console.log(this.imageBlobs)
+    //console.log(this.imageBlobs)
     this.formData.append("data" , JSON.stringify({data : this.tagList,desc:text}))
     axios.post('/createPost', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
     }).catch(err =>console.log(err))
     //console.log(this.input)
     //console.log(this.formData.data)
     this.tagList = [];
-    this.fetchPost();
     //console.log(this.tagList)
     this.clearImages()
     textareaElement.value=''
     this.ngOnInit()
     this.imageBlobs=[]
+    setTimeout(() => {
+      this.fetchLatestPost();
+    }, 1000);
   }
   toggleMenu() {
     this.show=!this.show;

@@ -693,6 +693,8 @@ app.get('/likePost', ensureAuthenticated, (req, res) => postHelper.likePost(req,
 //#endpoint
 app.post('/getPostById', ensureAuthenticated, (req, res) => postHelper.getPostById(req, res, prisma))
 //#endpoint
+app.post('/getLatestPost', ensureAuthenticated, (req, res) => postHelper.getLatestPost(req, res, prisma))
+//#endpoint
 app.get('/getpostbytagname', (req, res) => postHelper.getPostByTags(req, res, prisma))
 //#endpoint
 app.post("/uploadProfile", ensureAuthenticated, upload.single('avatar'), (req, res) => {

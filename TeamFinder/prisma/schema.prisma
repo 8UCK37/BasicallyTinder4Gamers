@@ -58,7 +58,6 @@ model OwnedGames{
   games String
 }
 
-
 model Posts{
   id          Int   @id @default(autoincrement())
   author      String 
