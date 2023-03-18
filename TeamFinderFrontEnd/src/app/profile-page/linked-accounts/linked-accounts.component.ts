@@ -97,7 +97,7 @@ export class LinkedAccountsComponent implements OnInit {
 
   generateUrl(): string {
     const uid = this.userparsed.uid;
-    return `http://localhost:3000/auth/steam`;
+    return `http://localhost:3000/auth/steam?uid=${uid}`;
   }
    async fetchUserData(){
     await axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {

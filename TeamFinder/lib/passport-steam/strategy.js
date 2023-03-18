@@ -89,6 +89,7 @@ function Strategy(options, validate) {
   options.passReqToCallback = true; //Request needs to be verified
 
   function verify(req, identifier, profile, done) {
+    
     var validOpEndpoint = 'https://steamcommunity.com/openid/login';
     var identifierRegex = /^https?:\/\/steamcommunity\.com\/openid\/id\/(\d+)$/;
 
