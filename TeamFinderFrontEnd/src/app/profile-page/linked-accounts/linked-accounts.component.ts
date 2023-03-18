@@ -29,8 +29,6 @@ export class LinkedAccountsComponent implements OnInit {
         //console.log('not null')
         this.ownProfile=true;
         this.steamId = this.route.snapshot.queryParams['steamid'];
-        //TODO Steamid is currently being set by fetching query params it is very vulnerable
-        this.setSteamId(this.steamId)
         this.linked=true;
         this.getSteamInfo()
       }
@@ -62,20 +60,6 @@ export class LinkedAccountsComponent implements OnInit {
         }
       });
     }
-  }
-
-  setSteamId(id: any) {
-    axios.post('setSteamId', { acc_id: id }).then(res => {
-      if (res.data.message == 'New SteamId Linked') {
-        this.linked = true;
-        //console.log(res.data.message);
-        this.router.navigate(['/profile-page/linked-accounts']);
-      } else if ('This Steam Id is already linked with another existing account') {
-        this.linked = false;
-        //console.log(res.data.message);
-        this.router.navigate(['/profile-page/linked-accounts']);
-      }
-    }).catch(err => console.log(err))
   }
 
   getSteamInfo() {
