@@ -489,7 +489,7 @@ app.post('/activeStateChange', ensureAuthenticated, urlencodedParser, async (req
   });
 });
 
-//updates the steamid of a user to the user table #endpoint
+//updates the steamid of a user to the user table 
 async function setSteamId(req, res) {
   const jsonObject = req.body;
   console.log(sessionMap , req.user.steamid  )
@@ -519,7 +519,7 @@ async function setSteamId(req, res) {
     console.log("already linked")
     // res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
   }
-  res.redirect("http://localhost:4200/profile-page/linked-accounts");
+  res.redirect("http://localhost:4200/profile-page/linked-accounts?status=linked");
 }
 //TODO:returns the steamId from user table for linked accounts comp #endpoint
 app.get('/getSteamId', ensureAuthenticated, async (req, res) => {

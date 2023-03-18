@@ -25,15 +25,11 @@ export class LinkedAccountsComponent implements OnInit {
       this.usr = localStorage.getItem('user');
       this.userparsed = JSON.parse(this.usr);
 
-      if(this.route.snapshot.queryParams['steamid']!=null){
-        //console.log('not null')
-        this.ownProfile=true;
-        this.steamId = this.route.snapshot.queryParams['steamid'];
-        this.linked=true;
-        this.getSteamInfo()
-      }
-
       if (this.ownProfile) {
+        if(this.route.snapshot.queryParams['status']!=null){
+          //console.log('not null')
+          //alert('Your steam id has been successfully linked')
+        }
         //this.getSteamId();
         this.fetchUserData();
       } else {
