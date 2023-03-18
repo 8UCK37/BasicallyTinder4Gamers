@@ -24,7 +24,7 @@ export class PrimaryHomePageComponent implements OnInit {
   @ViewChild('imageInput') input!:ElementRef;
   @ViewChild('tagInput') tagInput!:ElementRef;
   imageFile!: File;
-  imageSrcs: string[] = [];
+  public imageSrcs: string[] = [];
   public tagList = [];
   public imageBlobs:any[]=[];
   myInterval = 0;
@@ -110,7 +110,7 @@ export class PrimaryHomePageComponent implements OnInit {
     this.imageBlobs=[]
     setTimeout(() => {
       this.fetchLatestPost();
-    }, 1000);
+    }, 1500);
   }
   toggleMenu() {
     this.show=!this.show;
@@ -131,7 +131,7 @@ export class PrimaryHomePageComponent implements OnInit {
 
     const files: File[] = this.input.nativeElement.files;
     //console.log(this.input.nativeElement.files)
-
+    
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
@@ -143,11 +143,13 @@ export class PrimaryHomePageComponent implements OnInit {
   }
   removeImage(index: number): void {
     this.imageSrcs.splice(index, 1);
+    this.imageBlobs.splice(index, 1);
     this.input.nativeElement.value ='';
   }
 
   clearImages(): void {
     this.imageSrcs = [];
+    this.imageBlobs = [];
     this.input.nativeElement.value ='';
   }
   onProfilePicError() {
