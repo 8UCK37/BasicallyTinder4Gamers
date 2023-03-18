@@ -117,6 +117,7 @@ const io = require('socket.io')(http, {
 
 const socketUserMap = new Map();
 const userSocketMap = new Map();
+const sessionMap = new Map()
 
 
 var app = express();
@@ -359,7 +360,7 @@ passport.use(new SteamStrategy({
   realm: 'http://localhost:3000/',
   apiKey: apiKey
 },
-  function (identifier, profile, done) {
+  function ( identifier, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
       // To keep the example simple, the user's Steam profile is returned to
@@ -374,15 +375,21 @@ passport.use(new SteamStrategy({
 
 
 
+
+
 //TODO implement sessions 
-app.get('/auth/steam', passport.authenticate('steam', { failureRedirect: '/' }), function (req, res) {
-  
-  res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
+app.get('/auth/steam', (req, res ,next) =>{
+  console.log(req.sessionID)
+  sessionMap.set(req.sessionID , req.query.uid);
+  // req.user_uid = req.query.uid
+  // req.headers['someHeader'] = 'someValue'
+  passport.authenticate('steam' ,  { failureRedirect: '/' } )(req,res,next);
+  // res.redirect(`http://localhost:4200/linked-accounts?steamid=${req.user.id}`);
 });
 
 app.get('/auth/steam/return', passport.authenticate('steam', { failureRedirect: '/' }), async function (req, res) {
-  
-  res.redirect(`http://localhost:4200/profile-page/linked-accounts?steamid=${req.user.id}`);
+  setSteamId(req,res)
+  // res.redirect(`http://localhost:4200/profile-page/linked-accounts?steamid=${req.user.id}`);
 });
 
 
@@ -482,12 +489,15 @@ app.post('/activeStateChange', ensureAuthenticated, urlencodedParser, async (req
   });
 });
 
-//updates the steamid of a user to the user table #endpoint
-app.post('/setSteamId', ensureAuthenticated, urlencodedParser, async (req, res) => {
+//updates the steamid of a user to the user table 
+async function setSteamId(req, res) {
   const jsonObject = req.body;
+  console.log(sessionMap , req.user.steamid  )
+  let steam_id = req.user._json.steamid
+  console.log("steamId :",req.user._json.steamid)
   let steamIdData = await prisma.User.findMany({
     where: {
-      steamId: jsonObject.acc_id
+      steamId: steam_id
     },
     select: {
       id: true
@@ -498,18 +508,19 @@ app.post('/setSteamId', ensureAuthenticated, urlencodedParser, async (req, res) 
   if (steamIdData[0] == null) {
     const updateUser = await prisma.User.update({
       where: {
-        id: req.user.user_id,
+        id: sessionMap.get(req.sessionID),
       },
       data: {
-        steamId: jsonObject.acc_id,
+        steamId: steam_id,
       },
     })
-    res.status(200).send({ message: 'New SteamId Linked' });
+    // res.status(200).send({ message: 'New SteamId Linked' });
   } else {
     console.log("already linked")
-    res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
+    // res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
   }
-});
+  res.redirect("http://localhost:4200/profile-page/linked-accounts?status=linked");
+}
 //TODO:returns the steamId from user table for linked accounts comp #endpoint
 app.get('/getSteamId', ensureAuthenticated, async (req, res) => {
   let steamIdData = await prisma.User.findMany({
