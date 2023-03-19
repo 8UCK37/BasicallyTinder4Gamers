@@ -178,8 +178,7 @@ export class ProfilePageComponent implements OnInit {
   }
   sendreq(){
     //console.log(this.status.value)
-    if(this.status.value!='Pending'){
-      alert('sent a req')
+    if(this.status.value!='Pending'){      
       axios.post('addFriend', { to:this.profile_id}).then(res => {
         this.status={style:'button',value:'Pending'}
         //console.log(this.status)
