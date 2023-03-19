@@ -539,3 +539,8 @@
     initial-value: 0deg;
     inherits: false;
 }
+.modal-content {
+  max-height: 100%;
+  overflow: hidden;
+  background-color: currentColor;
+}

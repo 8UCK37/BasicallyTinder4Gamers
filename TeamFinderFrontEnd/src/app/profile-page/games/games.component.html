@@ -26,24 +26,24 @@
       <i class="fa fa-plus-circle" style="font-size:130px;color:rgb(245, 245, 245)"></i>
     </div>
 
-    <ng-template #longContent let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title">Select Games</h4>
+    <ng-template #longContent let-modal style="background-color: currentColor;">
+      <div class="modal-header" style="background-color: currentColor;">
+        <h4 class="modal-title" style="color: white;">Select Games</h4>
         <!-- <button type="button" class="btn btn-info" (click)="saveOwnedGames()">Load games</button> -->
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
       </div>
-      <div class="modal-body" style="overflow-y:scroll; max-height:70vh">
+      <div class="modal-body" style="overflow-y:scroll; max-height:70vh; background-color: currentColor;">
         <div *ngFor="let game of result;let i=index">
           <div class="input-group mb-3">
-            <div class="input-group-text">
+            <div class="input-group-text" style="background-color: currentColor;">
               <input class="form-check-input mt-0" type="checkbox" value=""
-                aria-label="Checkbox for following text input" (change)="change(i)" [checked]="game[1]">
+                aria-label="Checkbox for following text input" (change)="change(i)" [checked]="game[1]" style="background-color: currentColor;">
             </div>
-            <span type="text" class="form-control" aria-label="Text input with checkbox">{{game[0].name}}</span>
+            <span type="text" class="form-control" aria-label="Text input with checkbox" style="background-color: currentColor;"><span style="color: white;">{{game[0].name}}</span></span>
           </div>
         </div>
       </div>
-      <div class="modal-footer d-flex justify-content-between">
+      <div class="modal-footer d-flex justify-content-between" style="background-color: currentColor;">
         <button type="button" class="btn btn-light" (click)="close()">Close</button>
         <button type="button" class="btn btn-light" (click)="submit()">Save</button>
       </div>
