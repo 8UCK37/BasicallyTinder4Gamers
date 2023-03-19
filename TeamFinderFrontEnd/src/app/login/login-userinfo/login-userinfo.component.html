@@ -1,0 +1,19 @@
+<div class="main">
+<button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button>
+ 
+<ng-template #template  >
+  <div class="card neumorphic">
+    <div class="circle">
+      <img src="./../../../assets/bg/profile_pic.svg" alt="">
+    </div>
+    <input formControlName="state"
+         [typeahead]="states"
+         [typeaheadOptionsLimit]="7"
+         [typeaheadMinLength]="0"
+         placeholder="Typeahead inside a form"
+         class="form-control"  (focus)="focus$.next($event.target.value); focused()"/>
+
+  </div>
+</ng-template>
+
+</div>

@@ -30,6 +30,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { SettingsComponent } from './settings/Settings.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { LoginUserinfoComponent } from './login/login-userinfo/login-userinfo.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       AppSearchComponent,
       UtiliyTagComponent,
       SettingsComponent,
-      PrimaryHomePageComponent
+      PrimaryHomePageComponent,
+      LoginUserinfoComponent
    ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ReactiveFormsModule,
     PickerModule,
     CarouselModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [
     ChatServicesService
