@@ -1,32 +1,33 @@
 <main>
-<link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-    <div id='stars'></div>
-    <div id='stars2'></div>
-    <div id='stars3'></div>
-    <div id='horizon'>
-      <div class='glow'></div>
-    </div>
-    <div id='earth'></div>
-    <div id='title' style="font-weight: 450; width: auto;">
-      Team Finder
-    </div>
-    <div id='subtitle' style="font-weight: 200;">
-      <span>
-        your journey towards
-      </span>
-      <span>
-        a unified gaming community
-        <br>
-      </span>
-      <span>
-        begins here...
-        </span>
-        <span>
-        <div class="card-body">
-            <div *ngIf="user.uid | async as uid; else login">
-          </div>
-          <ng-template #login> <button style="margin-top: 35px; width: auto; font-size: x-large;" class="glowButton"(click)="user.login()">Register/Login</button> </ng-template>
-          </div>
-      </span>
-    </div>
-  </main>
+  <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+  <div id='stars'></div>
+  <div id='stars2'></div>
+  <div id='stars3'></div>
+  <div id='horizon'>
+    <div class='glow'></div>
+  </div>
+  <div id='earth'></div>
+  <div id='title' style="font-weight: 450; width: auto;">
+    Team Finder
+  </div>
+  <div id='subtitle' style="font-weight: 200;">
+    <span>
+      your journey towards
+    </span>
+    <span>
+      a unified gaming community
+      <br>
+    </span>
+    <span>
+      begins here...
+    </span>
+    <span>
+      <div class="card-body">
+        <div *ngIf="user.uid | async as uid; else login">
+        </div>
+        <ng-template #login> <button style="margin-top: 35px; width: auto; font-size: x-large;" class="glowButton"
+            (click)="user.login()">Register/Login</button> </ng-template>
+      </div>
+    </span>
+  </div>
+</main>

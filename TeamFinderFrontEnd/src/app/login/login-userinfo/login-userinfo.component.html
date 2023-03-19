@@ -1,19 +1,57 @@
 <div class="main">
-<button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button>
- 
-<ng-template #template  >
-  <div class="card neumorphic">
-    <div class="circle">
-      <img src="./../../../assets/bg/profile_pic.svg" alt="">
-    </div>
-    <input formControlName="state"
-         [typeahead]="states"
-         [typeaheadOptionsLimit]="7"
-         [typeaheadMinLength]="0"
-         placeholder="Typeahead inside a form"
-         class="form-control"  (focus)="focus$.next($event.target.value); focused()"/>
+  <!-- <button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button> -->
 
-  </div>
-</ng-template>
+  <ng-template #template>
+    <div class="card neumorphic" id="card">
+      <div class="circle" (click)="closeAll($event)">
+        <img src="./../../../assets/bg/undraw_pic_profile_re_7g2h.svg" alt="">
+      </div>
+      <div style="color:whitesmoke">
+        <div class="radio-grp" style="color:whitesmoke;margin-top: 40px;" (click)="closeAll($event)">
+          <div>
+            <p>Please select your ling:</p>
+          </div>
+          <div style="display: flex;justify-content: space-around;">
+            <div>
+              <label for="ling">Male</label>
+              <input type="radio" id="ling" name="ling" value="30">
+            </div>
+            <div>
+              <label for="ling">Female</label>
+              <input type="radio" id="ling" name="ling" value="30">
+            </div>
+            <div>
+              <label for="ling">Others</label>
+              <input type="radio" id="ling" name="ling" value="30">
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 30px;">
+          <label>Please select your Country</label>
+          <input [(ngModel)]="selected1" class="form-control" (click)="focus(true , 1)">
+          <div class="drop-dwn" [ngClass]="cardStyle">
+            <ul>
+              <li *ngFor="let state of states; let i = index" (click)="countrySelect(i)"> {{state}}</li>
+
+
+            </ul>
+          </div>
+        </div>
+        <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
+        <div style=" margin-top: 30px;margin-bottom: 50px;">
+          <label>Please select your Native language</label>
+          <input [(ngModel)]="selected2" class="form-control" (click)="focus(true , 2)">
+          <div class="drop-dwn2" [ngClass]="cardStyle2">
+            <ul>
+              <li *ngFor="let state of states; let i = index" (click)="userLanguageSelect(i)"> {{state}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex" style="justify-content: flex-end;"> <button class="btn" style="color:white"
+          (click)="submit()">done</button>
+      </div>
+    </div>
+  </ng-template>
 
 </div>

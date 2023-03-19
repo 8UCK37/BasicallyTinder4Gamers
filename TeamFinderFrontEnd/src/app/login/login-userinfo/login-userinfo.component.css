@@ -20,16 +20,15 @@
   
   .card {
     position: absolute;
-    width: 700px;
-    height: 500px;
+    min-width: 700px;
+    min-height: 500px;
     max-width: 80vw;
-    max-height: 80vh;
+    max-height: 90vh;
     /* transform: translate(-50%,-50%); */
     box-sizing: border-box;
     padding: .5rem;
     background-color: #fff6f61a;
-    display: flex;
-    justify-content: flex-end;  
+    display: flex; 
   }
   
   img {
@@ -60,9 +59,9 @@
   }
 
   .main{
-    height: 100vh;
-    width: 100vw;
-    background: url(https://images.wallpaperscraft.com/image/single/northern_lights_aurora_trees_128212_1920x1080.jpg) no-repeat;
+    /* height: 100vh;
+    width: 100vw; */
+    /* background: url(https://images.wallpaperscraft.com/image/single/northern_lights_aurora_trees_128212_1920x1080.jpg) no-repeat; */
   }
 
   button{
@@ -75,7 +74,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1;
+    flex-basis: 300px;
+    /* flex: 1; */
   }
   .circle img{
     width: 200px;
@@ -105,3 +105,70 @@ a{
     color:white;
 }
 
+
+
+.drop-dwn{
+    height: 0px;
+    /* transform: scaleY(0); */
+    /* transform: scaleX(0); */
+    
+    /* animation: anim 1s normal backwards; */
+}
+.drop-dwn ul{
+    display: none;
+}
+.drop-dwn2 ul{
+    display: none;
+}
+
+.drop-dwn2{
+    height: 0px;
+}
+input{
+    color: white;
+    background-color:  #ffffff12;
+}
+input:focus{
+  color: white;
+    background-color: #ffffff14;
+}
+.inc ul{
+    display: block;
+}
+.inc{
+    transform-origin:left top;
+    overflow: hidden;
+    overflow-y: scroll; 
+    height: 150px;
+    transition:  height 1s ease;
+
+}
+/* 
+@keyframes anim{
+    0%{
+        height: 0px;
+    }
+    100%{
+        height: 100px;
+        display: block;
+    }
+} */
+
+
+
+.radio-grp{
+    display: flex;
+    flex-direction: column;
+}
+
+li{
+    height: 30px;
+    display: flex;
+  text-align:center; /* Horizontally centers text within line-wrapped elements */
+  align-items: center; /* vertical */
+  /* margin-left: 10px; */
+  padding-left: 10px;
+}
+li:hover{
+    background-color: #ffffff26;
+}
