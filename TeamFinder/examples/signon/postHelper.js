@@ -35,7 +35,12 @@ async function createPost(req, res, prisma){
             data :{
                 author : req.user.user_id,
                 photoUrl:urlArr.toString(),
-                description:body.desc
+                description:body.desc,
+                fire_count:0,
+                haha_count:0,
+                love_count:0,
+                sad_count:0,
+                poop_count:0
             }
         })
      // TODO : fix this code , make one like insert to the db , 
@@ -60,26 +65,34 @@ async function createPost(req, res, prisma){
     }
 }
 
-async function getPost(req , res , prisma){
-   console.log("get post")
-   let posts=await prisma.$queryRaw`SELECT p.*, t.tagNames, u."name", u."profilePicture"
-   FROM public."Posts" p
-   LEFT JOIN (
-     SELECT post, STRING_AGG("tagName", ',') AS tagNames
-     FROM public."Tags"
-     GROUP BY "post"
-   ) t ON p.id = t.post
-   LEFT JOIN public."Activity" a ON p.id = a.post
-   LEFT JOIN public."User" u ON a.author = u.id
-   WHERE a.author IN (
-     SELECT f.reciever
-     FROM public."Friends" f
-     WHERE f.sender = ${req.user.user_id}
-   )
-   ORDER BY p."createdAt" DESC;`
-   //console.log(posts)
-   res.send(JSON.stringify(posts))
+async function getPost(req, res, prisma) {
+  console.log("get post");
+  const posts = await prisma.$queryRaw`
+    SELECT p.*, t.tagNames, u."name", u."profilePicture",
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
+      ) THEN true ELSE false END AS likedByCurrentUser
+    FROM public."Posts" p
+    LEFT JOIN (
+      SELECT post, STRING_AGG("tagName", ',') AS tagNames
+      FROM public."Tags"
+      GROUP BY "post"
+    ) t ON p.id = t.post
+    LEFT JOIN public."Activity" a ON p.id = a.post
+    LEFT JOIN public."User" u ON a.author = u.id
+    WHERE a.author IN (
+      SELECT f.reciever
+      FROM public."Friends" f
+      WHERE f.sender = ${req.user.user_id}
+    )
+    AND p.author <> ${req.user.user_id} -- exclude posts where author is req.user.user_id
+    ORDER BY p."createdAt" DESC;
+  `;
+  res.send(JSON.stringify(posts));
 }
+
 async function getPostById(req, res, prisma) {
   console.log("get post")
   let posts = await prisma.$queryRaw`
@@ -118,19 +131,47 @@ async function getLatestPost(req, res, prisma) {
 
 async function likePost(req, res, prisma){
     // console.log("post liked")
-    // console.log()
+    console.log(parseInt(req.body.id))
     let activity = await prisma.Activity.create({
         data :{
-            post :  parseInt(req.query.id),
-            weight : 1,
+            post :  parseInt(req.body.id),
+            weight : 2,
             author : req.user.user_id,
             type : 'like'
         }
     })
-    res.send(JSON.stringify({status: 'ok'}))
+    let updateCount = await prisma.Posts.update({
+      where: { 
+        id: req.body.id
+      },
+      data: { 
+        fire_count: { increment: 1 } 
+      },
+  })
+  res.send(JSON.stringify({status: 'ok'}))
 }
 
-
+async function dislikePost(req, res, prisma){
+  // console.log("post liked")
+  console.log(parseInt(req.body.id))
+  let activity = await prisma.Activity.updateMany({
+      where :{
+          post :  parseInt(req.body.id),
+          author : req.user.user_id,
+      },data:{
+        type:'dislike'
+      }
+  })
+  let updateCount = await prisma.Posts.update({
+    where: { 
+      id: req.body.id
+    },
+    data: { 
+      fire_count: { decrement: 1 } 
+    },
+})
+res.send(JSON.stringify({status: 'ok'}))
+}
 
 
 // async function downProfilePic(req, res, prisma){
@@ -160,4 +201,5 @@ async function getPostByTags(req, res,prisma){
       GROUP BY "post") as t on p.id = t.post;`
   res.send(JSON.stringify(postsByTag))
 }
-module.exports =  { createPost,getPost,likePost,getPostById,getPostByTags,getLatestPost}
+
+module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost}

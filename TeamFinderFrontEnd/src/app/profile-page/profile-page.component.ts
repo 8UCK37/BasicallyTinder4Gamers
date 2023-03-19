@@ -153,12 +153,11 @@ export class ProfilePageComponent implements OnInit {
       this.bNsave=false;
       this.banner.nativeElement.value=null;
     }).catch(err =>console.log(err))
-    this.userInfo.profilePicture = this.bannerPreview
+    this.userInfo.profileBanner = this.bannerPreview
     //console.log(this.input)
   }
   cancelBannerUpload(){
     this.banner.nativeElement.value=null;
-
   }
   setBio(){
     const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;

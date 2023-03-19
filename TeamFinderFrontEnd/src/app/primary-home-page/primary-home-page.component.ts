@@ -44,9 +44,6 @@ export class PrimaryHomePageComponent implements OnInit {
           }
         }).catch(err => console.log(err))
         this.fetchPost()
-
-
-
       }
     })
    }
@@ -54,13 +51,12 @@ export class PrimaryHomePageComponent implements OnInit {
    fetchPost(){
     this.posts = []
     axios.get("/getPost").then(res=>{
-      //console.log(res.data)
+      console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
       });
       this.posts=res.data
-
     })
    }
    fetchLatestPost(){
@@ -121,18 +117,27 @@ export class PrimaryHomePageComponent implements OnInit {
   //   this.tagsList.push(this.tagInput.nativeElement.value)
   //   this.tagInput.nativeElement.value = ""
   // }
-  likeButtonClick(post:any){
-    axios.get(`/likePost?id=${post.id}` ).then(res =>{
-      console.log(res)
-    })
-    console.log(post)
+  likeButtonClick(post_id:any,index:any){
+    console.log(this.posts[index])
+    console.log(this.posts[index].likedbycurrentuser)
+    if(this.posts[index].likedbycurrentuser){
+      //console.log("removed like")
+       axios.post('/dislikePost',{id:post_id} ).then(res =>{
+         console.log(res)
+      })
+    }else{
+      //console.log("new like")
+       axios.post('/likePost',{id:post_id} ).then(res =>{
+         console.log(res)
+      })
+    }
+    //console.log(post_id)
+    //console.log(index)
   }
 
   onFileSelected(event: any): void {
-
     const files: File[] = this.input.nativeElement.files;
     //console.log(this.input.nativeElement.files)
-
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
@@ -187,9 +192,7 @@ export class PrimaryHomePageComponent implements OnInit {
       Object.assign({}, { class: 'gray modal-xl' })
       );
   }
-  postlike(like:any){
-    console.log(like)
-  }
+
 }
 
 

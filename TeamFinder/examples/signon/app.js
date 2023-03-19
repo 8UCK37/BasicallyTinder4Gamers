@@ -690,7 +690,9 @@ app.get('/getPost', ensureAuthenticated, (req, res) => postHelper.getPost(req, r
 //#endpoint
 app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.createPost(req, res, prisma))
 //#endpoint
-app.get('/likePost', ensureAuthenticated, (req, res) => postHelper.likePost(req, res, prisma))
+app.post('/likePost', ensureAuthenticated, (req, res) => postHelper.likePost(req, res, prisma))
+//#endpoint
+app.post('/dislikePost', ensureAuthenticated, (req, res) => postHelper.dislikePost(req, res, prisma))
 //#endpoint
 app.post('/getPostById', ensureAuthenticated, (req, res) => postHelper.getPostById(req, res, prisma))
 //#endpoint
