@@ -50,6 +50,7 @@ export class PrimaryHomePageComponent implements OnInit {
       }
     })
    }
+//NgOnInit End
    fetchPost(){
     this.posts = []
     axios.get("/getPost").then(res=>{
@@ -131,7 +132,7 @@ export class PrimaryHomePageComponent implements OnInit {
 
     const files: File[] = this.input.nativeElement.files;
     //console.log(this.input.nativeElement.files)
-    
+
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
@@ -183,7 +184,7 @@ export class PrimaryHomePageComponent implements OnInit {
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template,
-      Object.assign({}, { class: 'gray modal-lg' })
+      Object.assign({}, { class: 'gray modal-xl' })
       );
   }
   postlike(like:any){

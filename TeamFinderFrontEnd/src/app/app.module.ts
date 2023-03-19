@@ -30,6 +30,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { SettingsComponent } from './settings/Settings.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CommentModalComponent } from './primary-home-page/comment-modal/comment-modal.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       AppSearchComponent,
       UtiliyTagComponent,
       SettingsComponent,
-      PrimaryHomePageComponent
+      PrimaryHomePageComponent,
+      CommentModalComponent
    ],
   imports: [
     BrowserModule,
