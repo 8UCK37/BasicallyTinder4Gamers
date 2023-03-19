@@ -229,7 +229,7 @@ body {
     background-color: hsl(200, 20%, 95%);
   }
 }
-.card{
+.card_cust{
   width: 55rem;
   margin-left: 206px;
   background-color: #262626;
@@ -283,8 +283,8 @@ body {
   --c2:radial-gradient(orange 50%,#0000 60%);
   background:
     var(--c1),var(--c1),var(--c1),var(--c1),
-    var(--c2),var(--c2),var(--c2),var(--c2); 
-  background-size:calc(var(--r)/6) calc(var(--r)/6); 
+    var(--c2),var(--c2),var(--c2),var(--c2);
+  background-size:calc(var(--r)/6) calc(var(--r)/6);
   background-position:
     calc(50% - var(--r)/2) calc(50% - var(--r)/2),
     calc(50% + var(--r)/2) calc(50% - var(--r)/2),

@@ -10,6 +10,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { SettingsComponent } from './settings/Settings.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { GamesComponent } from './profile-page/games/games.component';
+import { CommentModalComponent } from './primary-home-page/comment-modal/comment-modal.component';
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { ownProfile: false }
   },
-
+  { path: 'test', pathMatch: 'full', component:CommentModalComponent },
   { path: 'first-component', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
   { path: 'settings', pathMatch: 'full', component: SettingsComponent },
