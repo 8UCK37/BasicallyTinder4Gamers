@@ -95,8 +95,8 @@
             <div class="p-2 carousel-btm">
               <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
                 <div class="like">
-                <input type="checkbox" id="r1">
-                  <label for="r1" class="react">
+                <input type="checkbox" id="${{post.id}}" (click)="postlike(post.id)">
+                  <label for="${{post.id}}" class="react">
                     <i data-icon="https://em-content.zobj.net/thumbs/320/apple/129/fire_1f525.png"></i>
                   </label>Like
                 </div>
