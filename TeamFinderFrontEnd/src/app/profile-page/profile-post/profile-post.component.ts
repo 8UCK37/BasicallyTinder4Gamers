@@ -1,7 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-profile-post',
@@ -18,7 +19,8 @@ export class ProfilePostComponent implements OnInit {
   public userInfo:any;
   public utcDateTime:any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-constructor(private auth: AngularFireAuth,private route: ActivatedRoute) {
+  public modalRef?: BsModalRef;
+constructor(private auth: AngularFireAuth,private route: ActivatedRoute,private modalService: BsModalService) {
   this.ownProfile = this.route.snapshot.data['ownProfile'];
  }
 
@@ -50,15 +52,20 @@ constructor(private auth: AngularFireAuth,private route: ActivatedRoute) {
       //console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
-        post.urlArr=post.photoUrl?.split(',')
+        post.photoUrlArr=post.photoUrl?.split(',')
       });
       this.ownPosts=res.data
-      //console.log(this.ownPosts)
+      console.log(this.ownPosts)
     }).catch(err=>console.log(err))
   }
 
   utcToLocal(utcTime:any){
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
+}
+openModal(template: TemplateRef<any>) {
+  this.modalRef = this.modalService.show(template,
+    Object.assign({}, { class: 'gray modal-xl' })
+    );
 }
 }
