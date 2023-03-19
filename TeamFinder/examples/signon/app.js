@@ -328,6 +328,7 @@ app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res
       sender: jsonObject.frnd_id
     }
   })
+  socketRunner.sendNotification(io, userSocketMap, "frndReqAcc", req.user.user_id, jsonObject.frnd_id)
   res.sendStatus(200);
 })
 //rejects a friend req #endpoint

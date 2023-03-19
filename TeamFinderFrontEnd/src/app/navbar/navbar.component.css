@@ -374,6 +374,7 @@ a:visited{
   background-color: #262626;
   transition: 0.5s;
   align-content: space-between;
+  flex-wrap: wrap;
 }
 
 .profCont{

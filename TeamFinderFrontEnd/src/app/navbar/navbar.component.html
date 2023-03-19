@@ -41,7 +41,6 @@
                             </div>
                           </div>
                         </div>
-
                       </ng-container>
                       <ng-container *ngIf="user.notiType=='poke'">
                         <div style="height: auto;margin-top: 20px;">
@@ -50,6 +49,16 @@
                             <img [src]="user.profileurl" referrerpolicy="no-referrer" />
                           </div>
                           <div class="profile-username" style="color: black;">{{user.userName}}</div>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="user.notiType=='frndReqAcc'">
+                        <div class="frnd-noti">
+                          <div class="noti-img" (click)="onclick(user.sender)" style="cursor: pointer;">
+                            <img [src]="user.profileurl" class="img-sk" referrerpolicy="no-referrer" />
+                          </div>
+                          <div class="accpt-rej-btns">
+                            <div style="color: rgb(227, 213, 213);"> {{user.userName}} accepted your friend request</div>
+                          </div>
                         </div>
                       </ng-container>
                     </div>

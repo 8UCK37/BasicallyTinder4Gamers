@@ -68,7 +68,8 @@ export class ProfilePageComponent implements OnInit {
             this.status = { style: 'fa-sharp fa-regular fa-handshake fa-2x', value: '' }
             //console.log(this.status)
           } else if (res.data == 'rejected') {
-            this.status = { style: 'fa-sharp fa-solid fa-ban fa-2x', value: '' }
+            //this.status = { style: 'fa-sharp fa-solid fa-ban fa-2x', value: '' }
+            this.status = { style: 'button', value: 'Send Req' }
             //console.log(this.status)
           }
           else if (res.data == 'pending') {
@@ -178,7 +179,7 @@ export class ProfilePageComponent implements OnInit {
   }
   sendreq(){
     //console.log(this.status.value)
-    if(this.status.value!='Pending'){      
+    if(this.status.value!='Pending'){
       axios.post('addFriend', { to:this.profile_id}).then(res => {
         this.status={style:'button',value:'Pending'}
         //console.log(this.status)
