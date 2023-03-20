@@ -29,17 +29,44 @@
     <ng-template #longContent let-modal style="background-color: currentColor;">
       <div class="modal-header" style="background-color: currentColor;">
         <h4 class="modal-title" style="color: white;">Select Games</h4>
-        <!-- <button type="button" class="btn btn-info" (click)="saveOwnedGames()">Load games</button> -->
+        <input [(ngModel)]="gameSearch" class="form-control" placeholder="Search" style="margin-left: 15px;margin-right: 15px;">
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
       </div>
       <div class="modal-body" style="overflow-y:scroll; max-height:70vh; background-color: currentColor;">
-        <div *ngFor="let game of result;let i=index">
-          <div class="input-group mb-3">
-            <div class="input-group-text" style="background-color: currentColor;">
-              <input class="form-check-input mt-0" type="checkbox" value=""
-                aria-label="Checkbox for following text input" (change)="change(i)" [checked]="game[1]" style="background-color: currentColor;">
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Mobile Games
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <span>PUBG Moblel</span><br>
+                <span>Free Fire</span><br>
+                <span>COD Moblel</span>
+              </div>
             </div>
-            <span type="text" class="form-control" aria-label="Text input with checkbox" style="background-color: currentColor;"><span style="color: white;">{{game[0].name}}</span></span>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                Your Steam Games
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div *ngFor="let game of result;let i=index">
+                  <div class="input-group mb-3">
+                    <div class="input-group-text" style="background-color: currentColor;">
+                      <input class="form-check-input mt-0" type="checkbox" value=""
+                        aria-label="Checkbox for following text input" (change)="change(i)" [checked]="game[1]" style="background-color: currentColor;">
+                    </div>
+                    <span type="text" class="form-control" aria-label="Text input with checkbox" style="background-color: currentColor;"><span style="color: white;">{{game[0].name}}</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

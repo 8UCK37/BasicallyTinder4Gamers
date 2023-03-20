@@ -30,6 +30,7 @@ export class GamesComponent implements OnInit {
   public result: any[] = [];
   public ownedGames: any;
   steamId: any;
+  public gameSearch:any
   flip: string = 'inactive';
   public showcase: any[] = [];
   public frndownedgames: any[] = []
@@ -141,7 +142,6 @@ export class GamesComponent implements OnInit {
     }).catch(err => console.log(err))
     this.getSelectedGames();
   }
-
   async getShowCase() {
     this.showcase = [];
     this.frndownedgames = [];

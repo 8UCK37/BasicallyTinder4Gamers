@@ -65,7 +65,7 @@ export class ProfilePageComponent implements OnInit {
         axios.post('isFriend', { id: this.profile_id }).then(res => {
           //console.log(res.data)
           if (res.data == 'accepted') {
-            this.status = { style: 'fa-sharp fa-regular fa-handshake fa-2x', value: '' }
+            this.status = { style: 'button', value: 'Friend' }
             //console.log(this.status)
           } else if (res.data == 'rejected') {
             //this.status = { style: 'fa-sharp fa-solid fa-ban fa-2x', value: '' }
