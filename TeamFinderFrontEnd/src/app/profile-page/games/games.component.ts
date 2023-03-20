@@ -27,6 +27,7 @@ import axios from 'axios';
 export class GamesComponent implements OnInit {
   public gameList: any[] = [];
   public MobileGameList: any[] = [{ appid: 1, name: "Battle Grounds Mobile India(BGMI)",selected:false,photo:'https://w0.peakpx.com/wallpaper/626/833/HD-wallpaper-bgmi-trending-pubg-bgmi-logo-bgmi-iammsa-pubg.jpg' }, { appid: 2, name: "Free Fire",selected:false,photo:'https://upload.wikimedia.org/wikipedia/en/7/75/FreeFireBannerLogo.jpg' },{appid:3,name:"COD Mobile",selected:false,photo:'https://w0.peakpx.com/wallpaper/953/729/HD-wallpaper-nikto-codm-cod-mobile-gaming.jpg'}];
+  public MobileGameDummy:any[]=this.MobileGameList;
   public selectedList: any[] = [];
   public result: any[] = [];
   public ownedGames: any;
@@ -177,7 +178,8 @@ export class GamesComponent implements OnInit {
     }).catch(err => console.log(err))
     await axios.post('getFrndSelectedGames', { frnd_id: this.profile_id }).then(res => {
       //console.log(res.data[0].appid.split(","))
-      res.data[0].appid.split(",").forEach((selected: any) => {
+
+      res.data[0]?.appid.split(",").forEach((selected: any) => {
         this.frndownedgames.forEach(owned => {
           //console.log(selected.appid)
           if (owned.appid == selected) {
@@ -190,6 +192,21 @@ export class GamesComponent implements OnInit {
           }
         });
       });
-    }).catch(err => console.log(err))
+    }
+    ).catch(err => console.log(err))
+  }
+  searchGames(){
+    //console.log(this.gameSearch)
+    if(this.gameSearch.length!=0){
+    this.result=this.selectedList.filter((game) =>
+      game[0].name.toLowerCase().includes(this.gameSearch.toLowerCase())
+    );
+    this.MobileGameList=this.MobileGameDummy.filter((game) =>
+    game.name.toLowerCase().includes(this.gameSearch.toLowerCase())
+  );
+    }else{
+      this.result=this.selectedList
+      this.MobileGameList=this.MobileGameDummy
+    }
   }
 }

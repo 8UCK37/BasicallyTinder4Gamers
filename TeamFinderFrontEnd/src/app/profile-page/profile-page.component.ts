@@ -43,7 +43,6 @@ export class ProfilePageComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     if (this.ownProfile) {
-      this.radioActivaVal = 1
       this.auth.authState.subscribe(user => {
         if (user) {
           axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
