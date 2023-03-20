@@ -25,7 +25,8 @@ import axios from 'axios';
   ]
 })
 export class GamesComponent implements OnInit {
-  public gameList: any[] = [{ appid: 1, name: "BGMI" }, { appid: 2, name: "FREE FIRE" }];
+  public gameList: any[] = [];
+  public MobileGameList: any[] = [{ appid: 1, name: "Battle Grounds Mobile India(BGMI)",selected:false }, { appid: 2, name: "Free Fire",selected:false },{appid:3,name:"COD Mobile",selected:false}];
   public selectedList: any[] = [];
   public result: any[] = [];
   public ownedGames: any;
@@ -141,6 +142,8 @@ export class GamesComponent implements OnInit {
       }
     }).catch(err => console.log(err))
     this.getSelectedGames();
+    console.log(this.result)
+    console.log(this.MobileGameList)
   }
   async getShowCase() {
     this.showcase = [];

@@ -42,9 +42,15 @@
             </h2>
             <div id="collapseOne" class="accordion-collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                <span>PUBG Moblel</span><br>
-                <span>Free Fire</span><br>
-                <span>COD Moblel</span>
+                <div *ngFor="let game of MobileGameList;let i=index">
+                  <div class="input-group mb-3">
+                    <div class="input-group-text" style="background-color: currentColor;">
+                      <input class="form-check-input mt-0" type="checkbox" value=""
+                        aria-label="Checkbox for following text input" (change)="change(i)" [checked]="game.selected" style="background-color: currentColor;">
+                    </div>
+                    <span type="text" class="form-control" aria-label="Text input with checkbox" style="background-color: currentColor;"><span style="color: white;">{{game.name}}</span></span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
