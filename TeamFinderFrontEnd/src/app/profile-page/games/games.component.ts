@@ -26,7 +26,7 @@ import axios from 'axios';
 })
 export class GamesComponent implements OnInit {
   public gameList: any[] = [];
-  public MobileGameList: any[] = [{ appid: 1, name: "Battle Grounds Mobile India(BGMI)",selected:false }, { appid: 2, name: "Free Fire",selected:false },{appid:3,name:"COD Mobile",selected:false}];
+  public MobileGameList: any[] = [{ appid: 1, name: "Battle Grounds Mobile India(BGMI)",selected:false,photo:'https://w0.peakpx.com/wallpaper/626/833/HD-wallpaper-bgmi-trending-pubg-bgmi-logo-bgmi-iammsa-pubg.jpg' }, { appid: 2, name: "Free Fire",selected:false,photo:'https://upload.wikimedia.org/wikipedia/en/7/75/FreeFireBannerLogo.jpg' },{appid:3,name:"COD Mobile",selected:false,photo:'https://w0.peakpx.com/wallpaper/953/729/HD-wallpaper-nikto-codm-cod-mobile-gaming.jpg'}];
   public selectedList: any[] = [];
   public result: any[] = [];
   public ownedGames: any;
@@ -56,8 +56,11 @@ export class GamesComponent implements OnInit {
   openScrollableContent(longContent: any) {
     this.modalService.open(longContent, { scrollable: true });
   }
-  change(index: any) {
+  changeSteam(index: any) {
     this.result[index][1] = !this.result[index][1]
+  }
+  changeMobile(index: any) {
+    this.MobileGameList[index].selected = !this.MobileGameList[index].selected
   }
   submit() {
     this.setSelectedGames();
@@ -74,18 +77,31 @@ export class GamesComponent implements OnInit {
 
   setSelectedGames() {
     this.deleteAppid();
-    const selected: any[]=[]
-    this.result.forEach((element: any) => {
+    var selected:String='';
+    this.result.forEach((element: any, index: number) => {
       if (element[1]) {
-        selected.push(element)
+        if (selected=='') {
+          selected += element[0].appid;
+        } else {
+          selected += ',' + element[0].appid;
+        }
       }
     });
-    selected.forEach(element => {
-       axios.post('gameSelect', { appid: element[0].appid }).then(res => {
-        }).catch(err => console.log(err))
+    this.MobileGameList.forEach((element: any, index: number) => {
+      if (element.selected) {
+        if (selected=='') {
+          selected += element.appid;
+        } else {
+          selected += ',' + element.appid;
+        }
+      }
     });
-  }
+    console.log(selected.split(','))
 
+    axios.post('gameSelect', { appid: selected }).then(res => {
+      }).catch(err => console.log(err))
+
+  }
 
   deleteAppid() {
     axios.post('selectedDelete').then(res => {
@@ -114,16 +130,22 @@ export class GamesComponent implements OnInit {
   async getSelectedGames() {
     //console.log(this.result)
     await axios.get('getSelectedGames').then(res => {
-      res.data.forEach((element: any) => {
+      res.data[0].appid.split(",").forEach((element: any) => {
+        //console.log(element)
         this.result.forEach((gameEle: any) => {
-          if (element.appid == gameEle[0].appid) {
-            //gameEle[0].playtime_forever=(gameEle[0].playtime_forever/60).toFixed(2)
+          if (element == gameEle[0].appid) {
             gameEle[1] = true
+          }
+        });
+        this.MobileGameList.forEach(game => {
+          if(game.appid==element){
+            game.selected=true
           }
         });
       });
     }).catch(err => console.log(err))
     this.selectedList = this.result
+    //console.log(this.selectedList)
   }
 
   async getOwnedGamesfrmDb() {
@@ -142,8 +164,8 @@ export class GamesComponent implements OnInit {
       }
     }).catch(err => console.log(err))
     this.getSelectedGames();
-    console.log(this.result)
-    console.log(this.MobileGameList)
+    //console.log(this.result)
+    //console.log(this.MobileGameList)
   }
   async getShowCase() {
     this.showcase = [];
@@ -151,14 +173,20 @@ export class GamesComponent implements OnInit {
     await axios.post('getFrndOwnedGames', { frnd_id: this.profile_id }).then(res => {
       if(res.data[0]!=null){
       this.frndownedgames = JSON.parse(res.data[0]?.games)}
-      //console.log(this.showcase)
+      //console.log(this.frndownedgames)
     }).catch(err => console.log(err))
     await axios.post('getFrndSelectedGames', { frnd_id: this.profile_id }).then(res => {
-      res.data.forEach((selected: any) => {
+      //console.log(res.data[0].appid.split(","))
+      res.data[0].appid.split(",").forEach((selected: any) => {
         this.frndownedgames.forEach(owned => {
           //console.log(selected.appid)
-          if (owned.appid == selected.appid) {
+          if (owned.appid == selected) {
             this.showcase.push(owned)
+          }
+        });
+        this.MobileGameList.forEach(game => {
+          if(game.appid==selected){
+            game.selected=true
           }
         });
       });
