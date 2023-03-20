@@ -112,27 +112,20 @@ export class PrimaryHomePageComponent implements OnInit {
   toggleMenu() {
     this.show=!this.show;
   }
-  //eta lagbei na direct item die korbo
-  // addTagToList(){
-  //   this.tagsList.push(this.tagInput.nativeElement.value)
-  //   this.tagInput.nativeElement.value = ""
-  // }
-  likeButtonClick(post_id:any,index:any){
-    console.log(this.posts[index])
-    console.log(this.posts[index].likedbycurrentuser)
-    if(this.posts[index].likedbycurrentuser){
+ 
+
+  likeButtonClick(post:any){
+    if(post.likedbycurrentuser){
       //console.log("removed like")
-       axios.post('/dislikePost',{id:post_id} ).then(res =>{
-         console.log(res)
+       axios.post('/dislikePost',{id:post.id} ).then(res =>{
+         //console.log(res)
       })
     }else{
       //console.log("new like")
-       axios.post('/likePost',{id:post_id} ).then(res =>{
-         console.log(res)
+       axios.post('/likePost',{id:post.id} ).then(res =>{
+         //console.log(res)
       })
     }
-    //console.log(post_id)
-    //console.log(index)
   }
 
   onFileSelected(event: any): void {

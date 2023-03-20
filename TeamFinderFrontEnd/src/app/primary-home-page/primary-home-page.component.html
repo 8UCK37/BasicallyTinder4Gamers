@@ -60,7 +60,7 @@
             <div class="p-2 carousel-btm">
               <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
                 <div class="like">
-                <input type="checkbox" id="${{post.id}}" [ngModel]="post.likedbycurrentuser" (click)="likeButtonClick(post.id,i)">
+                <input type="checkbox" id="${{post.id}}" [ngModel]="post.likedbycurrentuser" (click)="likeButtonClick(post)">
                   <label for="${{post.id}}" class="react">
                     <i data-icon="https://em-content.zobj.net/thumbs/320/apple/129/fire_1f525.png"></i>
                   </label>Like
