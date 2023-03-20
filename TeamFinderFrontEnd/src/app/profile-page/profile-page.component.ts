@@ -177,13 +177,11 @@ export class ProfilePageComponent implements OnInit {
   }
   sendreq(){
     //console.log(this.status.value)
-    if(this.status.value!='Pending'){
+    if(this.status.value!='Pending' && this.status.value!='Friend'){
       axios.post('addFriend', { to:this.profile_id}).then(res => {
         this.status={style:'button',value:'Pending'}
         //console.log(this.status)
       }).catch(err => console.log(err))
-      }else{
-        alert("a pending req exists")
       }
   }
   modalOpen(){
