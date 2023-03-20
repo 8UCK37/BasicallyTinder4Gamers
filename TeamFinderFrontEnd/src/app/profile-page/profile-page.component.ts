@@ -36,9 +36,9 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit(): void {
     let lastUrl = this.router.url.split('/')[2]
     //console.log(lastUrl)
-    // if (lastUrl == 'post') this.radioActivaVal = 1
-    // if (lastUrl == 'games') this.radioActivaVal = 2;
-    // if (lastUrl == 'friends') this.radioActivaVal = 3;
+    if (lastUrl == 'post') this.radioActivaVal = 1
+    if (lastUrl == 'games') this.radioActivaVal = 2;
+    if (lastUrl == 'friends') this.radioActivaVal = 3;
     // this.radioAtGame = true
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);

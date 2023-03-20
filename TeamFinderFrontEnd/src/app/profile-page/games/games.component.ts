@@ -41,9 +41,8 @@ export class GamesComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.ownProfile) {
-      //this.getOwnedGames();
       this.getOwnedGamesfrmDb();
-      this.result = [];
+      this.result=[]
     } else {
       this.route.queryParams.subscribe(params => {
         this.profile_id = params['id'];
@@ -58,7 +57,7 @@ export class GamesComponent implements OnInit {
   change(index: any) {
     this.result[index][1] = !this.result[index][1]
   }
-  async submit() {
+  submit() {
     this.setSelectedGames();
     this.modalService.dismissAll()
   }
@@ -73,26 +72,18 @@ export class GamesComponent implements OnInit {
 
   setSelectedGames() {
     this.deleteAppid();
+    const selected: any[]=[]
     this.result.forEach((element: any) => {
       if (element[1]) {
-        axios.post('gameSelect', { appid: element[0].appid }).then(res => {
-        }).catch(err => console.log(err))
+        selected.push(element)
       }
     });
+    selected.forEach(element => {
+       axios.post('gameSelect', { appid: element[0].appid }).then(res => {
+        }).catch(err => console.log(err))
+    });
   }
-  getSelectedGames() {
-    axios.get('getSelectedGames').then(res => {
-      res.data.forEach((element: any) => {
-        this.result.forEach((gameEle: any) => {
-          if (element.appid == gameEle[0].appid) {
-            //gameEle[0].playtime_forever=(gameEle[0].playtime_forever/60).toFixed(2)
-            gameEle[1] = true
-          }
-        });
-      });
-    }).catch(err => console.log(err))
-    this.selectedList = this.result
-  }
+
 
   deleteAppid() {
     axios.post('selectedDelete').then(res => {
@@ -109,28 +100,46 @@ export class GamesComponent implements OnInit {
       for (let i = 0; i < this.gameList.length; i++) {
         this.result.push([this.gameList[i], false])
       }
+
       this.getSelectedGames();
+    }).catch(err => console.log(err))
+    //console.log(this.gameList)
+    await axios.post('saveOwnedgames',{data:this.gameList}).then(res => {
+
     }).catch(err => console.log(err))
   }
 
-  getOwnedGamesfrmDb() {
+  async getSelectedGames() {
+    //console.log(this.result)
+    await axios.get('getSelectedGames').then(res => {
+      res.data.forEach((element: any) => {
+        this.result.forEach((gameEle: any) => {
+          if (element.appid == gameEle[0].appid) {
+            //gameEle[0].playtime_forever=(gameEle[0].playtime_forever/60).toFixed(2)
+            gameEle[1] = true
+          }
+        });
+      });
+    }).catch(err => console.log(err))
+    this.selectedList = this.result
+  }
+
+  async getOwnedGamesfrmDb() {
     this.result = [];
     this.gameList = [];
-    axios.get('getOwnedgames').then(res => {
+    await axios.get('getOwnedgames').then(res => {
+      //console.log(res.data[0].games)
       if (res.data.length != 0) {
-        const ownedGames = JSON.parse(JSON.parse(res.data[0].games))
+        const ownedGames = JSON.parse(res.data[0].games)
         ownedGames.forEach((element: any) => {
           this.gameList.push(element)
         });
         for (let i = 0; i < this.gameList.length; i++) {
           this.result.push([this.gameList[i], false])
         }
-        this.getSelectedGames();
       }
     }).catch(err => console.log(err))
-  }
-  indexprinter(i: any) {
-    console.log(i)
+    this.getSelectedGames();
   }
 
   async getShowCase() {
@@ -138,7 +147,7 @@ export class GamesComponent implements OnInit {
     this.frndownedgames = [];
     await axios.post('getFrndOwnedGames', { frnd_id: this.profile_id }).then(res => {
       if(res.data[0]!=null){
-      this.frndownedgames = JSON.parse(JSON.parse(res.data[0]?.games))}
+      this.frndownedgames = JSON.parse(res.data[0]?.games)}
       //console.log(this.showcase)
     }).catch(err => console.log(err))
     await axios.post('getFrndSelectedGames', { frnd_id: this.profile_id }).then(res => {
