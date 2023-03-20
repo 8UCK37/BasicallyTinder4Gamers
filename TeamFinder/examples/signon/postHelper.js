@@ -68,28 +68,29 @@ async function createPost(req, res, prisma){
 async function getPost(req, res, prisma) {
   console.log("get post");
   const posts = await prisma.$queryRaw`
-    SELECT p.*, t.tagNames, u."name", u."profilePicture",
-      CASE WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
-      ) THEN true ELSE false END AS likedByCurrentUser
-    FROM public."Posts" p
-    LEFT JOIN (
-      SELECT post, STRING_AGG("tagName", ',') AS tagNames
-      FROM public."Tags"
-      GROUP BY "post"
-    ) t ON p.id = t.post
-    LEFT JOIN public."Activity" a ON p.id = a.post
-    LEFT JOIN public."User" u ON a.author = u.id
-    WHERE a.author IN (
-      SELECT f.reciever
-      FROM public."Friends" f
-      WHERE f.sender = ${req.user.user_id}
-    )
-    AND p.author <> ${req.user.user_id} -- exclude posts where author is req.user.user_id
-    ORDER BY p."createdAt" DESC;
-  `;
+  SELECT DISTINCT p.*, t.tagNames, u."name", u."profilePicture",
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
+    ) THEN true ELSE false END AS likedByCurrentUser
+  FROM public."Posts" p
+  LEFT JOIN (
+    SELECT post, STRING_AGG("tagName", ',') AS tagNames
+    FROM public."Tags"
+	 GROUP BY "post"
+  ) t ON p.id = t.post
+  LEFT JOIN public."Activity" a ON p.id = a.post
+  LEFT JOIN public."User" u ON a.author = u.id
+  WHERE a.author IN (
+    SELECT f.reciever
+    FROM public."Friends" f
+    WHERE f.sender = ${req.user.user_id}
+  )
+  AND p.author <> ${req.user.user_id} -- exclude posts where author is req.user.user_id
+  AND a.type = 'post' -- filter rows where type is equal to 'post'
+  ORDER BY p."createdAt" DESC;
+`;
   res.send(JSON.stringify(posts));
 }
 
