@@ -77,7 +77,7 @@ export class GamesComponent implements OnInit {
   }
 
   setSelectedGames() {
-    this.deleteAppid();
+
     var selected:String='';
     this.result.forEach((element: any, index: number) => {
       if (element[1]) {
@@ -102,11 +102,6 @@ export class GamesComponent implements OnInit {
     axios.post('gameSelect', { appid: selected }).then(res => {
       }).catch(err => console.log(err))
 
-  }
-
-  deleteAppid() {
-    axios.post('selectedDelete').then(res => {
-    }).catch(err => console.log(err))
   }
 
   async saveOwnedGames() {

@@ -582,13 +582,32 @@ app.get('/getChats', ensureAuthenticated, async (req, res) => {
 
 //updates the selected games table #endpoint
 app.post('/gameSelect', ensureAuthenticated, urlencodedParser, async (req, res) => {
-  const jsonObject = req.body;
-  const selectedGames = await prisma.GameSelectInfo.create({
-    data: {
-      uid: req.user.user_id,
-      appid: jsonObject.appid,
+  let dataPresent = await prisma.GameSelectInfo.findMany({
+    where: {
+      uid: req.user.user_id
+    },
+    select: {
+      appid: true
     }
   })
+  if(dataPresent.length!=0){
+    const updateselectedGames = await prisma.GameSelectInfo.updateMany({
+      where:{
+        uid: req.user.user_id,
+      },
+      data: {
+        appid: req.body.appid,
+      }
+    })
+
+  }else{
+  const createselectedGames = await prisma.GameSelectInfo.create({
+    data: {
+      uid: req.user.user_id,
+      appid: req.body.appid,
+    }
+  })
+  }
   res.sendStatus(200);
 });
 
@@ -605,17 +624,6 @@ app.get('/getSelectedGames', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(selectedGamedata));
 });
 
-//used for updating the selectedgame stable #endpoint
-app.post('/selectedDelete', ensureAuthenticated, urlencodedParser, async (req, res) => {
-  const jsonObject = req.body;
-  let { affectedrows } = await prisma.GameSelectInfo.deleteMany({
-    where: {
-      uid: req.user.user_id
-    }
-  })
-  //console.log(affectedrows)
-  res.sendStatus(200);
-});
 
 //returns your frined's game showcase #endpoint
 app.post('/getFrndSelectedGames', ensureAuthenticated, async (req, res) => {
