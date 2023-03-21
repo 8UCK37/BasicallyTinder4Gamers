@@ -77,7 +77,6 @@ export class GamesComponent implements OnInit {
   }
 
   setSelectedGames() {
-
     var selected:String='';
     this.result.forEach((element: any, index: number) => {
       if (element[1]) {
@@ -101,7 +100,7 @@ export class GamesComponent implements OnInit {
 
     axios.post('gameSelect', { appid: selected }).then(res => {
       }).catch(err => console.log(err))
-
+    this.selectedList.sort((a, b) => b[0].playtime_forever - a[0].playtime_forever);
   }
 
   async saveOwnedGames() {
@@ -141,6 +140,7 @@ export class GamesComponent implements OnInit {
       });
     }).catch(err => console.log(err))
     this.selectedList = this.result
+    this.selectedList.sort((a, b) => b[0].playtime_forever - a[0].playtime_forever);
     //console.log(this.selectedList)
   }
 
@@ -189,6 +189,8 @@ export class GamesComponent implements OnInit {
       });
     }
     ).catch(err => console.log(err))
+    //console.log(this.showcase)
+    this.showcase.sort((a, b) => b.playtime_forever - a.playtime_forever);
   }
   searchGames(){
     //console.log(this.gameSearch)
