@@ -73,7 +73,27 @@ async function getPost(req, res, prisma) {
       SELECT *
       FROM public."Activity" a
       WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
-    ) THEN true ELSE false END AS likedByCurrentUser
+    ) THEN true ELSE false END AS likedByCurrentUser,
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
+    ) THEN true ELSE false END AS hahaedbycurrentUser,
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
+    ) THEN true ELSE false END AS loveedbycurrentUser,
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
+    ) THEN true ELSE false END AS sadedbycurrentUser,
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
+    ) THEN true ELSE false END AS poopedbycurrentUser
   FROM public."Posts" p
   LEFT JOIN (
     SELECT post, STRING_AGG("tagName", ',') AS tagNames
@@ -133,22 +153,32 @@ async function getLatestPost(req, res, prisma) {
 async function likePost(req, res, prisma){
     // console.log("post liked")
     console.log(parseInt(req.body.id))
-    let activity = await prisma.Activity.create({
-        data :{
-            post :  parseInt(req.body.id),
-            weight : 2,
-            author : req.user.user_id,
-            type : 'like'
-        }
-    })
-    let updateCount = await prisma.Posts.update({
-      where: { 
-        id: req.body.id
-      },
-      data: { 
-        fire_count: { increment: 1 } 
-      },
-  })
+    console.log(req.body.type)
+    let check = await prisma.Activity.findMany({
+      where:{
+        post :  parseInt(req.body.id),
+        author : req.user.user_id,
+      }
+      })
+      if(check.length!=0){
+        console.log("found")
+      }else{console.log('not found')}
+    // let activity = await prisma.Activity.create({
+    //     data :{
+    //         post :  parseInt(req.body.id),
+    //         weight : 2,
+    //         author : req.user.user_id,
+    //         type : req.body.type
+    //     }
+    // })
+    // let updateCount = await prisma.Posts.update({
+    //   where: { 
+    //     id: req.body.id
+    //   },
+    //   data: { 
+    //     fire_count: { increment: 1 } 
+    //   },
+    // })
   res.send(JSON.stringify({status: 'ok'}))
 }
 

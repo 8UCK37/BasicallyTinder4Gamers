@@ -112,19 +112,49 @@ export class PrimaryHomePageComponent implements OnInit {
   toggleMenu() {
     this.show=!this.show;
   }
- 
 
-  likeButtonClick(post:any){
-    if(post.likedbycurrentuser){
-      //console.log("removed like")
-       axios.post('/dislikePost',{id:post.id} ).then(res =>{
-         //console.log(res)
-      })
+
+  likeButtonClick(post:any,type:String){
+    // if(post.likedbycurrentuser){
+    //   //console.log("removed like")
+    //    axios.post('/dislikePost',{id:post.id} ).then(res =>{
+    //      //console.log(res)
+    //   })
+    // }else{
+    //   //console.log("new like")
+    //    axios.post('/likePost',{id:post.id} ).then(res =>{
+    //      //console.log(res)
+    //   })
+    // }
+    if(post.likedbycurrentuser && type=='like'){
+      console.log("dislike call")
     }else{
-      //console.log("new like")
-       axios.post('/likePost',{id:post.id} ).then(res =>{
-         //console.log(res)
-      })
+      if(type=='like'){
+        console.log("liked")
+        axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
+              console.log(res)
+           });
+      }else if(type=='haha'){
+        console.log("hahaed")
+        axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
+          console.log(res)
+       });
+      }else if(type=='love'){
+        console.log("loved")
+        axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
+          console.log(res)
+       });
+      }else if(type=='sad'){
+        console.log("saded")
+        axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
+          console.log(res)
+       });
+      }else if(type=='poop'){
+        console.log("pooped")
+        axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
+          console.log(res)
+       });
+      }
     }
   }
 
