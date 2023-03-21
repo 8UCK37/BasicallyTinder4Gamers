@@ -125,6 +125,7 @@ export class GamesComponent implements OnInit {
   async getSelectedGames() {
     //console.log(this.result)
     await axios.get('getSelectedGames').then(res => {
+      if(res.data.length!=0){
       res.data[0].appid.split(",").forEach((element: any) => {
         //console.log(element)
         this.result.forEach((gameEle: any) => {
@@ -138,6 +139,7 @@ export class GamesComponent implements OnInit {
           }
         });
       });
+    }
     }).catch(err => console.log(err))
     this.selectedList = this.result
     this.selectedList.sort((a, b) => b[0].playtime_forever - a[0].playtime_forever);
