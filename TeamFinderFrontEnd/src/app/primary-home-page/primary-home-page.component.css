@@ -523,8 +523,7 @@ body {
   justify-content: space-between;
   align-content: center;
   border-radius: 40px;
-  top: -30px;
-  left: 0;
+  top: -42px;
   position: absolute;
   visibility: hidden;
   opacity: 0;
@@ -553,35 +552,35 @@ body {
   transform: translateX(-50%);
 }
 
-.box:hover [class*=reaction-] {
+.like:hover [class*=reaction-] {
   transform: scale(0.8) translateY(-40px);
 }
-.box:hover [class*=reaction-]:hover, .box:hover [class*=reaction-]:focus {
+.like:hover [class*=reaction-]:hover, .like:hover [class*=reaction-]:focus {
   transition: all 0.2s ease-in;
   transform: scale(1) translateY(-35px);
 }
-.box:hover [class*=reaction-]:hover .legend-reaction, .box:hover [class*=reaction-]:focus .legend-reaction {
+.like:hover [class*=reaction-]:hover .legend-reaction, .like:hover [class*=reaction-]:focus .legend-reaction {
   opacity: 1;
 }
-.box:hover .toolbox {
+.like:hover .toolbox {
   opacity: 1;
 }
-.box:hover .toolbox {
+.like:hover .toolbox {
   visibility: visible;
 }
-.box:hover .reaction-love {
+.like:hover .reaction-love {
   transition-delay: 0.06s;
 }
-.box:hover .reaction-haha {
+.like:hover .reaction-haha {
   transition-delay: 0.09s;
 }
-.box:hover .reaction-wow {
+.like:hover .reaction-wow {
   transition-delay: 0.12s;
 }
-.box:hover .reaction-sad {
+.like:hover .reaction-sad {
   transition-delay: 0.15s;
 }
-.box:hover .reaction-angry {
+.like:hover .reaction-angry {
   transition-delay: 0.18s;
 }
 

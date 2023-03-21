@@ -60,11 +60,36 @@
             <div class="p-2 carousel-btm">
               <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
                  <div class="like">
-                  <div class="box">
+                  <ng-container *ngIf="post.noreaction || post.likedbycurrentuser" >
                     <input type="checkbox" id="${{post.id}}" [ngModel]="post.likedbycurrentuser" (click)="likeButtonClick(post,'like')">
-                      <label for="${{post.id}}" class="react fire">
+                    <label for="${{post.id}}" class="react fire">
                       <i data-icon=""></i>
+                    </label>
+                  </ng-container>
+                    <ng-container *ngIf="post.hahaedbycurrentuser">
+                      <input type="checkbox" id="${{post.id}}" [ngModel]="true" (click)="likeButtonClick(post,'like')">
+                      <label for="${{post.id}}" class="react haha">
+                        <i data-icon=""></i>
                       </label>
+                    </ng-container>
+                    <ng-container *ngIf="post.lovedbycurrentuser">
+                      <input type="checkbox" id="${{post.id}}" [ngModel]="true" (click)="likeButtonClick(post,'like')">
+                      <label for="${{post.id}}" class="react love">
+                        <i data-icon=""></i>
+                      </label>
+                    </ng-container>
+                    <ng-container *ngIf="post.sadedbycurrentuser">
+                      <input type="checkbox" id="${{post.id}}" [ngModel]="true" (click)="likeButtonClick(post,'like')">
+                      <label for="${{post.id}}" class="react sad">
+                        <i data-icon=""></i>
+                      </label>
+                    </ng-container>
+                    <ng-container *ngIf="post.poopedbycurrentuser">
+                      <input type="checkbox" id="${{post.id}}" [ngModel]="true" (click)="likeButtonClick(post,'like')">
+                      <label for="${{post.id}}" class="react poop">
+                        <i data-icon=""></i>
+                      </label>
+                    </ng-container>
                     <div class="toolbox">
                       <div class="container">
                         <div class="row" style="color: black;">
@@ -75,14 +100,14 @@
                               </label>
                           </div>
                           <div class="col-sm">
-                            <input type="checkbox" id="${{post.id}}l"  (click)="likeButtonClick(post,'love')">
-                            <label for="${{post.id}}l" class="react love">
+                            <input type="checkbox" id="${{post.id}}s"  (click)="likeButtonClick(post,'sad')">
+                            <label for="${{post.id}}s" class="react sad">
                           <i data-icon=""></i>
                             </label>
                           </div>
                           <div class="col-sm">
-                            <input type="checkbox" id="${{post.id}}s"  (click)="likeButtonClick(post,'sad')">
-                            <label for="${{post.id}}s" class="react sad">
+                            <input type="checkbox" id="${{post.id}}l"  (click)="likeButtonClick(post,'love')">
+                            <label for="${{post.id}}l" class="react love">
                           <i data-icon=""></i>
                             </label>
                           </div>
@@ -101,7 +126,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+
                 </div>
                 <div class="comment-btn" (click)="comment.click()">Comment</div>
                 <div class="share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>

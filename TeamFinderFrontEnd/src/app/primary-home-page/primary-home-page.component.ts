@@ -113,49 +113,79 @@ export class PrimaryHomePageComponent implements OnInit {
     this.show=!this.show;
   }
 
-
+  //eta puro nesha code  keu pore bhujteo chas na shera cholche byaparta karon ektai backend callhochhe 5 ta reaction er jonno puro draupadi case
   likeButtonClick(post:any,type:String){
-    // if(post.likedbycurrentuser){
-    //   //console.log("removed like")
-    //    axios.post('/dislikePost',{id:post.id} ).then(res =>{
-    //      //console.log(res)
-    //   })
-    // }else{
-    //   //console.log("new like")
-    //    axios.post('/likePost',{id:post.id} ).then(res =>{
-    //      //console.log(res)
-    //   })
-    // }
-    if(post.likedbycurrentuser && type=='like'){
-      console.log("dislike call")
+    if((post.likedbycurrentuser && type=='like')||(post.hahaedbycurrentuser && type=='haha')||(post.lovedbycurrentuser && type=='love')||(post.sadedbycurrentuser && type=='sad')||(post.poopedbycurrentuser && type=='poop')){
+      //console.log("dislike call")
+      console.log(type)
+      post.likedbycurrentuser=false
+      post.hahaedbycurrentuser=false
+      post.lovedbycurrentuser=false
+      post.sadedbycurrentuser=false
+      post.poopedbycurrentuser=false
+      post.noreaction=true
+      axios.post('/dislikePost',{id:post.id,type:type} ).then(res =>{
+        console.log(res)
+     });
     }else{
       if(type=='like'){
         console.log("liked")
+        post.likedbycurrentuser=!post.likedbycurrentuser
+        post.hahaedbycurrentuser=false
+        post.lovedbycurrentuser=false
+        post.sadedbycurrentuser=false
+        post.poopedbycurrentuser=false
         axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
-              console.log(res)
+              //console.log(res)
+              post.noreaction=false
            });
       }else if(type=='haha'){
-        console.log("hahaed")
+        //console.log("hahaed")
+        post.hahaedbycurrentuser=!post.hahaedbycurrentuser
+        post.likedbycurrentuser=false
+        post.lovedbycurrentuser=false
+        post.sadedbycurrentuser=false
+        post.poopedbycurrentuser=false
+        post.noreaction=false
         axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
           console.log(res)
        });
       }else if(type=='love'){
-        console.log("loved")
+        //console.log("loved")
+        post.likedbycurrentuser=false
+        post.hahaedbycurrentuser=false
+        post.sadedbycurrentuser=false
+        post.poopedbycurrentuser=false
+        post.noreaction=false
+        post.lovedbycurrentuser=!post.lovedbycurrentuser
         axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
           console.log(res)
        });
       }else if(type=='sad'){
-        console.log("saded")
+        //console.log("saded")
+        post.likedbycurrentuser=false
+        post.hahaedbycurrentuser=false
+        post.lovedbycurrentuser=false
+        post.poopedbycurrentuser=false
+        post.noreaction=false
+        post.sadedbycurrentuser=!post.sadedbycurrentuser
         axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
           console.log(res)
        });
       }else if(type=='poop'){
-        console.log("pooped")
+        //console.log("pooped")
+        post.likedbycurrentuser=false
+        post.hahaedbycurrentuser=false
+        post.lovedbycurrentuser=false
+        post.sadedbycurrentuser=false
+        post.noreaction=false
+        post.poopedbycurrentuser=!post.poopedbycurrentuser
         axios.post('/likePost',{id:post.id,type:type} ).then(res =>{
           console.log(res)
        });
       }
     }
+    console.log(this.posts)
   }
 
   onFileSelected(event: any): void {

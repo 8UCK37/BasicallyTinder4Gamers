@@ -83,7 +83,7 @@ async function getPost(req, res, prisma) {
       SELECT *
       FROM public."Activity" a
       WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
-    ) THEN true ELSE false END AS loveedbycurrentUser,
+    ) THEN true ELSE false END AS lovedbycurrentUser,
     CASE WHEN EXISTS (
       SELECT *
       FROM public."Activity" a
@@ -93,7 +93,12 @@ async function getPost(req, res, prisma) {
       SELECT *
       FROM public."Activity" a
       WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
-    ) THEN true ELSE false END AS poopedbycurrentUser
+    ) THEN true ELSE false END AS poopedbycurrentUser,
+    CASE WHEN NOT EXISTS (
+    SELECT *
+    FROM public."Activity" a
+    WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
+  ) THEN true ELSE false END AS noReaction
   FROM public."Posts" p
   LEFT JOIN (
     SELECT post, STRING_AGG("tagName", ',') AS tagNames
@@ -160,31 +165,139 @@ async function likePost(req, res, prisma){
         author : req.user.user_id,
       }
       })
+      if(req.body.type=='like'){
+        console.log('in-like')
+        let updateCount = await prisma.Posts.update({
+            where: { 
+                id: req.body.id
+                },
+            data: { 
+                fire_count: { increment: 1 } 
+                },
+        })
+      }else if(req.body.type=='haha'){
+        console.log('in-haha')
+        let updateCount = await prisma.Posts.update({
+          where: { 
+              id: req.body.id
+              },
+          data: { 
+              haha_count: { increment: 1 } 
+              },
+        })
+      }else if(req.body.type=='love'){
+        console.log('in-love')
+        let updateCount = await prisma.Posts.update({
+          where: { 
+              id: req.body.id
+              },
+          data: { 
+              love_count: { increment: 1 } 
+              },
+        })
+      }else if(req.body.type=='sad'){
+        console.log('in-sad')
+        let updateCount = await prisma.Posts.update({
+          where: { 
+              id: req.body.id
+              },
+          data: { 
+              sad_count: { increment: 1 } 
+              },
+        })
+
+      }else if(req.body.type=='poop'){
+        console.log('in-poop')
+        let updateCount = await prisma.Posts.update({
+          where: { 
+              id: req.body.id
+              },
+          data: { 
+              poop_count: { increment: 1 } 
+              },
+        })
+      }
       if(check.length!=0){
-        console.log("found")
-      }else{console.log('not found')}
-    // let activity = await prisma.Activity.create({
-    //     data :{
-    //         post :  parseInt(req.body.id),
-    //         weight : 2,
-    //         author : req.user.user_id,
-    //         type : req.body.type
-    //     }
-    // })
-    // let updateCount = await prisma.Posts.update({
-    //   where: { 
-    //     id: req.body.id
-    //   },
-    //   data: { 
-    //     fire_count: { increment: 1 } 
-    //   },
-    // })
+        console.log("found",check[0].type)
+        let activityUpdate = await prisma.Activity.updateMany({
+          where:{
+            post :  parseInt(req.body.id),
+            author : req.user.user_id,
+          },
+          data:{
+            type:req.body.type
+          }
+          })
+        if(check[0].type=='like'){
+          console.log('de-like')
+          let updateCount = await prisma.Posts.update({
+              where: { 
+                  id: req.body.id
+                  },
+              data: { 
+                  fire_count: { decrement: 1 } 
+                  },
+          })
+        }else if(check[0].type=='haha'){
+          console.log('de-haha')
+          let updateCount = await prisma.Posts.update({
+            where: { 
+                id: req.body.id
+                },
+            data: { 
+                haha_count: { decrement: 1 } 
+                },
+          })
+        }else if(check[0].type=='love'){
+          console.log('de-love')
+          let updateCount = await prisma.Posts.update({
+            where: { 
+                id: req.body.id
+                },
+            data: { 
+                love_count: { decrement: 1 } 
+                },
+          })
+        }else if(check[0].type=='sad'){
+          console.log('de-sad')
+          let updateCount = await prisma.Posts.update({
+            where: { 
+                id: req.body.id
+                },
+            data: { 
+                sad_count: { decrement: 1 } 
+                },
+          })
+
+        }else if(check[0].type=='poop'){
+          console.log('de-poop')
+          let updateCount = await prisma.Posts.update({
+            where: { 
+                id: req.body.id
+                },
+            data: { 
+                poop_count: { decrement: 1 } 
+                },
+          })
+        }
+      }else{console.log('not found')
+      let activity = await prisma.Activity.create({
+        data :{
+            post :  parseInt(req.body.id),
+            weight : 2,
+            author : req.user.user_id,
+            type : req.body.type
+      }
+        })
+      }
+        
   res.send(JSON.stringify({status: 'ok'}))
 }
 
 async function dislikePost(req, res, prisma){
   // console.log("post liked")
   console.log(parseInt(req.body.id))
+  console.log(req.body.type)
   let activity = await prisma.Activity.updateMany({
       where :{
           post :  parseInt(req.body.id),
@@ -193,14 +306,58 @@ async function dislikePost(req, res, prisma){
         type:'dislike'
       }
   })
-  let updateCount = await prisma.Posts.update({
-    where: { 
-      id: req.body.id
-    },
-    data: { 
-      fire_count: { decrement: 1 } 
-    },
-})
+  if(req.body.type=='like'){
+    console.log('de-like')
+    let updateCount = await prisma.Posts.update({
+        where: { 
+            id: req.body.id
+            },
+        data: { 
+            fire_count: { decrement: 1 } 
+            },
+    })
+  }else if(req.body.type=='haha'){
+    console.log('de-haha')
+    let updateCount = await prisma.Posts.update({
+      where: { 
+          id: req.body.id
+          },
+      data: { 
+          haha_count: { decrement: 1 } 
+          },
+    })
+  }else if(req.body.type=='love'){
+    console.log('de-love')
+    let updateCount = await prisma.Posts.update({
+      where: { 
+          id: req.body.id
+          },
+      data: { 
+          love_count: { decrement: 1 } 
+          },
+    })
+  }else if(req.body.type=='sad'){
+    console.log('de-sad')
+    let updateCount = await prisma.Posts.update({
+      where: { 
+          id: req.body.id
+          },
+      data: { 
+          sad_count: { decrement: 1 } 
+          },
+    })
+
+  }else if(req.body.type=='poop'){
+    console.log('de-poop')
+    let updateCount = await prisma.Posts.update({
+      where: { 
+          id: req.body.id
+          },
+      data: { 
+          poop_count: { decrement: 1 } 
+          },
+    })
+  }
 res.send(JSON.stringify({status: 'ok'}))
 }
 
