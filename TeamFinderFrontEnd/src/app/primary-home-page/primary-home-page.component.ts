@@ -34,20 +34,11 @@ export class PrimaryHomePageComponent implements OnInit {
   activeSlideIndex = 0;
   constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) {
     this.renderer.listen('window', 'click', (e: Event) => {
-      /**
-       * Only run when toggleButton is not clicked
-       * If we don't check this, all clicks (even on the toggle button) gets into this
-       * section which in the result we might never see the menu open!
-       * And the menu itself is checked here, and it's where we check just outside of
-       * the menu and button the condition abbove must close the menu
-       */
-      //#fuck bootstrap knokichu directly chole na pichone dour korie chalate hoe sobkinchute ei render window listner maro  bondho korar jonno
-      if (this.comment?.nativeElement != null) {
-        if (e.target !== this.comment.nativeElement && e.target !== this.commentbtn.nativeElement) {
-          this.closeComments.nativeElement.click();
-        }
+      if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && e.target !== this.commentbtn.nativeElement) {
+        this.closeComments.nativeElement.click();
       }
     });
+
   }
 
   ngOnInit(): void {
