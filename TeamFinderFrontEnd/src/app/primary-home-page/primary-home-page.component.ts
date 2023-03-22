@@ -11,25 +11,44 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 
 export class PrimaryHomePageComponent implements OnInit {
+  @ViewChild('comment') comment!: ElementRef;
+  @ViewChild('closeComments') closeComments!: ElementRef;
+  @ViewChild('commentbtn') commentbtn!: ElementRef;
+  @ViewChild('imageInput') input!:ElementRef;
+  @ViewChild('tagInput') tagInput!:ElementRef;
   public modalRef?: BsModalRef;
   public show:boolean=true;
   public formData: any;
-  selectedImage: any;
+  public selectedImage: any;
   public usr:any;
   public userparsed:any;
   public userInfo:any;
   public posts : any[] = [];
   public utcDateTime:any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  @ViewChild('imageInput') input!:ElementRef;
-  @ViewChild('tagInput') tagInput!:ElementRef;
-  imageFile!: File;
+  public imageFile!: File;
   public imageSrcs: string[] = [];
   public tagList = [];
   public imageBlobs:any[]=[];
   myInterval = 0;
   activeSlideIndex = 0;
-  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) { }
+  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) {
+    this.renderer.listen('window', 'click', (e: Event) => {
+      /**
+       * Only run when toggleButton is not clicked
+       * If we don't check this, all clicks (even on the toggle button) gets into this
+       * section which in the result we might never see the menu open!
+       * And the menu itself is checked here, and it's where we check just outside of
+       * the menu and button the condition abbove must close the menu
+       */
+      //#fuck bootstrap knokichu directly chole na pichone dour korie chalate hoe sobkinchute ei render window listner maro  bondho korar jonno
+      if (this.comment?.nativeElement != null) {
+        if (e.target !== this.comment.nativeElement && e.target !== this.commentbtn.nativeElement) {
+          this.closeComments.nativeElement.click();
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
