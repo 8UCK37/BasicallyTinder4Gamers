@@ -68,25 +68,25 @@
                     </label>
                   </ng-container>
                     <ng-container *ngIf="post.hahaedbycurrentuser">
-                      <input type="checkbox" id="${{post.id}}" [ngModel]="post.hahaedbycurrentuser" (click)="likeButtonClick(post,'like')">
+                      <input type="checkbox" id="${{post.id}}" [ngModel]="post.hahaedbycurrentuser" (click)="likeButtonClick(post,'haha')">
                       <label for="${{post.id}}" class="react haha">
                         <i data-icon=""></i>
                       </label>
                     </ng-container>
                     <ng-container *ngIf="post.lovedbycurrentuser">
-                      <input type="checkbox" id="${{post.id}}" [ngModel]="post.lovedbycurrentuser" (click)="likeButtonClick(post,'like')">
+                      <input type="checkbox" id="${{post.id}}" [ngModel]="post.lovedbycurrentuser" (click)="likeButtonClick(post,'love')">
                       <label for="${{post.id}}" class="react love">
                         <i data-icon=""></i>
                       </label>
                     </ng-container>
                     <ng-container *ngIf="post.sadedbycurrentuser">
-                      <input type="checkbox" id="${{post.id}}" [ngModel]="post.sadedbycurrentuser" (click)="likeButtonClick(post,'like')">
+                      <input type="checkbox" id="${{post.id}}" [ngModel]="post.sadedbycurrentuser" (click)="likeButtonClick(post,'sad')">
                       <label for="${{post.id}}" class="react sad">
                         <i data-icon=""></i>
                       </label>
                     </ng-container>
                     <ng-container *ngIf="post.poopedbycurrentuser">
-                      <input type="checkbox" id="${{post.id}}" [ngModel]="post.poopedbycurrentuser" (click)="likeButtonClick(post,'like')">
+                      <input type="checkbox" id="${{post.id}}" [ngModel]="post.poopedbycurrentuser" (click)="likeButtonClick(post,'poop')">
                       <label for="${{post.id}}" class="react poop">
                         <i data-icon=""></i>
                       </label>
