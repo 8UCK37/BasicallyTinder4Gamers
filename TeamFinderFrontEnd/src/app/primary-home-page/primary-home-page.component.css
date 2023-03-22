@@ -364,6 +364,7 @@ input {
 .react.haha i:before {
   background-image: url("https://cdn-icons-png.flaticon.com/512/1791/1791407.png");
 }
+
 .react.love i:before {
   background-image: url("https://cdn-icons-png.flaticon.com/512/9656/9656139.png");
 }
@@ -392,8 +393,6 @@ input {
   75% { transform: rotate(-10deg); }
   100% { transform: rotate(0deg); }
 }
-
-
 
 .like{
   width: 18.3rem;
