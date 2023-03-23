@@ -11,6 +11,7 @@ export class PostComponent implements OnInit {
   @ViewChild('comment') comment!: ElementRef;
   @ViewChild('closeComments') closeComments!: ElementRef;
   @ViewChild('commentbtn') commentbtn!: ElementRef;
+  public commentOpen:boolean=false;
   myInterval = 0;
   activeSlideIndex = 0;
   public utcDateTime:any;
@@ -18,7 +19,8 @@ export class PostComponent implements OnInit {
   constructor(private renderer: Renderer2) {
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && !this.commentbtn?.nativeElement.contains(e.target as HTMLElement)) {
-        this.closeComments.nativeElement.click();
+        if(this.commentOpen){
+        this.closeComments.nativeElement.click();}
         //console.log("caught")
       }
     });
@@ -121,5 +123,9 @@ export class PostComponent implements OnInit {
   utcToLocal(utcTime:any){
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
+  }
+  openComment(){
+    this.commentOpen=true
+    console.log(this.commentOpen)
   }
 }

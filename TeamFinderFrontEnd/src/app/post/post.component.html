@@ -18,13 +18,6 @@
           </ng-container>
         </div>
         <div>
-          <!-- <button type="button" class="btn btn-primary" #comment (click)="openModal(template)"
-            hidden="true"></button> -->
-
-          <!-- <ng-template #template>
-            <app-comment-modal [post]="post">
-            </app-comment-modal>
-          </ng-template> -->
         </div>
         <ng-container *ngIf="childPost.photoUrlArr.length!=0">
           <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
@@ -104,9 +97,9 @@
                 </div>
 
             </div>
-            <!-- <div class="comment-btn" (click)="comment.click()">Comment</div> -->
+
             <div class="comment-btn" #commentbtn data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight" style="cursor: pointer;">Comments</div>
+              aria-controls="offcanvasRight" style="cursor: pointer;" (click)="openComment()">Comments</div>
 
             <div class="offcanvas offcanvas-end" #comment tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
               <div class="offcanvas-header">
@@ -187,26 +180,9 @@
             </div>
             <div class="share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
           </div>
-          <!-- <div class="comments">
-                      <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/9AZ2QX1.jpg" width="40" class="rounded-circle" style="margin-right: 15px;width: 50px;height:50px">
-                          <div class="d-flex flex-column ml-2"> <span class="name">Daniel Frozer</span> <small class="comment-text">I like this alot! thanks alot</small>
-                              <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small style="margin-left: 15px;">Reply</small><small style="margin-left: 15px;">18 mins</small> </div>
-                          </div>
-                      </div>
-                      <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/1YrCKa1.jpg" width="40" class="rounded-circle" style="margin-right: 15px;width: 50px;height:50px">
-                          <div class="d-flex flex-column ml-2"> <span class="name">Elizabeth goodmen</span> <small class="comment-text">Thanks for sharing!</small>
-                              <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small style="margin-left: 15px;">Reply</small><small style="margin-left: 15px;">8 mins</small> </div>
-                          </div>
-                      </div>
-                  </div> -->
-          <!-- <div class="comment-input"> <input type="text" class="form-control"> -->
-
-          <!-- </div> -->
         </div>
       </div>
     </div>
-    <!-- </div> -->
   </div>
-
 </ng-container>
 
