@@ -17,13 +17,14 @@ export class PostComponent implements OnInit {
   public utcDateTime:any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   constructor(private renderer: Renderer2) {
-    this.renderer.listen('window', 'click', (e: Event) => {
-      if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && !this.commentbtn?.nativeElement.contains(e.target as HTMLElement)) {
-        if(this.commentOpen){
-        this.closeComments.nativeElement.click();}
-        //console.log("caught")
-      }
-    });
+    // this.renderer.listen('window', 'click', (e: Event) => {
+    //   if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && !this.commentbtn?.nativeElement.contains(e.target as HTMLElement)) {
+    //     if(this.commentOpen){
+    //     this.closeComments.nativeElement.click();
+    //     this.commentOpen=false}
+    //     console.log("caught")
+    //   }
+    // });
    }
 
   ngOnInit(): void {
@@ -125,6 +126,7 @@ export class PostComponent implements OnInit {
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
   }
   openComment(){
+    console.log(this.commentOpen)
     this.commentOpen=true
     console.log(this.commentOpen)
   }
