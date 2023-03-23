@@ -32,14 +32,7 @@ export class PrimaryHomePageComponent implements OnInit {
   public imageBlobs:any[]=[];
   myInterval = 0;
   activeSlideIndex = 0;
-  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) {
-    this.renderer.listen('window', 'click', (e: Event) => {
-      if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && e.target !== this.commentbtn.nativeElement) {
-        this.closeComments.nativeElement.click();
-      }
-    });
-
-  }
+  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) {}
 
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');

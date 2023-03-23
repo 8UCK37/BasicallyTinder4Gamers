@@ -1,0 +1,212 @@
+<ng-container *ngFor="let childPost of posts; let i=index">
+  <div class="container mt-5 mb-5">
+    <!-- <div class="row d-flex align-items-center justify-content-center"> -->
+    <div class="col-md-6">
+      <div class="card_cust">
+        <div class="d-flex justify-content-between p-2 px-3" style="position: relative;top: 7px;">
+          <div class="d-flex flex-row align-items-center"> <img [src]="childPost.authorUrl" width="50"
+              class="rounded-circle" (error)="onPostPicError(i)">
+            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
+                style="margin-left: 10px;">{{childPost.name}}</span><span style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span></div>
+          </div>
+        </div>
+        <div class="p-3">
+          <p class="text-justify">{{childPost.description}}</p>
+          <ng-container *ngFor="let tag of childPost.tagArr">
+            <a class="text-justify" style="cursor: pointer;"
+              (click)="fetchByTag(tag)">{{"#"+tag}}</a>
+          </ng-container>
+        </div>
+        <div>
+          <!-- <button type="button" class="btn btn-primary" #comment (click)="openModal(template)"
+            hidden="true"></button> -->
+
+          <!-- <ng-template #template>
+            <app-comment-modal [post]="post">
+            </app-comment-modal>
+          </ng-template> -->
+        </div>
+        <ng-container *ngIf="childPost.photoUrlArr.length!=0">
+          <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
+            <slide *ngFor="let img of childPost.photoUrlArr">
+              <img [src]="img" alt="first slide" style="display: block; height: 40rem; width: 100%;">
+            </slide>
+          </carousel>
+        </ng-container>
+        <div class="p-2 carousel-btm">
+          <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
+             <div class="like">
+              <ng-container *ngIf="childPost.noreaction || childPost.likedbycurrentuser" >
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.likedbycurrentuser" (click)="likeButtonClick(childPost,'like')">
+                <label for="${{childPost.id}}" class="react fire">
+                  <i data-icon=""></i>
+                </label>
+              </ng-container>
+                <ng-container *ngIf="childPost.hahaedbycurrentuser">
+                  <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.hahaedbycurrentuser" (click)="likeButtonClick(childPost,'haha')">
+                  <label for="${{childPost.id}}" class="react haha">
+                    <i data-icon=""></i>
+                  </label>
+                </ng-container>
+                <ng-container *ngIf="childPost.lovedbycurrentuser">
+                  <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.lovedbycurrentuser" (click)="likeButtonClick(childPost,'love')">
+                  <label for="${{childPost.id}}" class="react love">
+                    <i data-icon=""></i>
+                  </label>
+                </ng-container>
+                <ng-container *ngIf="childPost.sadedbycurrentuser">
+                  <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.sadedbycurrentuser" (click)="likeButtonClick(childPost,'sad')">
+                  <label for="${{childPost.id}}" class="react sad">
+                    <i data-icon=""></i>
+                  </label>
+                </ng-container>
+                <ng-container *ngIf="childPost.poopedbycurrentuser">
+                  <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.poopedbycurrentuser" (click)="likeButtonClick(childPost,'poop')">
+                  <label for="${{childPost.id}}" class="react poop">
+                    <i data-icon=""></i>
+                  </label>
+                </ng-container>
+                <div class="toolbox">
+                  <div class="container">
+                    <div class="row" style="color: black;">
+                      <div class="col-sm ">
+                        <input type="checkbox" id="${{childPost.id}}h"  (click)="likeButtonClick(childPost,'haha')">
+                          <label for="${{childPost.id}}h" class="react haha">
+                        <i data-icon=""></i>
+                          </label>
+                      </div>
+                      <div class="col-sm ">
+                        <input type="checkbox" id="${{childPost.id}}s"  (click)="likeButtonClick(childPost,'sad')">
+                        <label for="${{childPost.id}}s" class="react sad">
+                      <i data-icon=""></i>
+                        </label>
+                      </div>
+                      <div class="col-sm ">
+                        <input type="checkbox" id="${{childPost.id}}l"  (click)="likeButtonClick(childPost,'love')">
+                        <label for="${{childPost.id}}l" class="react love">
+                      <i data-icon=""></i>
+                        </label>
+                      </div>
+                      <div class="col-sm ">
+                        <input type="checkbox" id="${{childPost.id}}p"  (click)="likeButtonClick(childPost,'poop')">
+                        <label for="${{childPost.id}}p" class="react poop">
+                      <i data-icon="https://cdn-icons-png.flaticon.com/512/4951/4951989.png"></i>
+                        </label>
+                      </div>
+                      <div class="col-sm ">
+                        <input type="checkbox" id="${{childPost.id}}f"  (click)="likeButtonClick(childPost,'like')">
+                          <label for="${{childPost.id}}f" class="react fire2">
+                        <i data-icon=""></i>
+                          </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+            <!-- <div class="comment-btn" (click)="comment.click()">Comment</div> -->
+            <div class="comment-btn" #commentbtn data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight" style="cursor: pointer;">Comments</div>
+
+            <div class="offcanvas offcanvas-end" #comment tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasRightLabel">Post attributes count</h5>
+                <button #closeComments type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                <div class="container mt-5 mb-5" style="width: 100%;">
+                  <div class="row height d-flex justify-content-center align-items-center">
+                    <div class="col-md">
+                      <div class="card">
+                        <div class="p-3">
+                          <h6>Comments</h6>
+                        </div>
+                        <div class="mt-3 d-flex flex-row align-items-center p-3 form-color">
+                          <img src="https://i.imgur.com/zQZSWrt.jpg" width="50" class="rounded-circle mr-2">
+                          <input type="text" class="form-control" placeholder="Enter your comment...">
+                        </div>
+                        <div class="mt-2">
+                          <div class="d-flex flex-row p-3">
+                            <img src="https://i.imgur.com/zQZSWrt.jpg" width="40" height="40" class="rounded-circle mr-3">
+                            <div class="w-100">
+                              <div class="d-flex justify-content-between align-items-center">
+                                  <div class="d-flex flex-row align-items-center">
+                                    <span class="mr-2">Brian selter</span>
+                                    <small class="c-badge">Top Comment</small>
+                                  </div>
+                                  <small>12h ago</small>
+                            </div>
+                            <p class="text-justify comment-text mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                            <div class="d-flex flex-row user-feed">
+                              <span class="wish"><i class="fa fa-heartbeat mr-2"></i>24</span>
+                              <span class="ml-3"><i class="fa fa-comments-o mr-2"></i>Reply</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row p-3">
+                            <img src="https://i.imgur.com/3J8lTLm.jpg" width="40" height="40" class="rounded-circle mr-3">
+                            <div class="w-100">
+                              <div class="d-flex justify-content-between align-items-center">
+                                  <div class="d-flex flex-row align-items-center">
+                                    <span class="mr-2">Seltos Majito</span>
+                                    <small class="c-badge">Top Comment</small>
+                                  </div>
+                                  <small>2h ago</small>
+                            </div>
+                            <p class="text-justify comment-text mb-0">Tellus in hac habitasse platea dictumst vestibulum. Lectus nulla at volutpat diam ut venenatis tellus. Aliquam etiam erat velit scelerisque in dictum non consectetur. Sagittis nisl rhoncus mattis rhoncus urna neque viverra justo nec. Tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra. Aliquam faucibus purus in massa.</p>
+                            <div class="d-flex flex-row user-feed">
+                              <span class="wish"><i class="fa fa-heartbeat mr-2"></i>14</span>
+                              <span class="ml-3"><i class="fa fa-comments-o mr-2"></i>Reply</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row p-3">
+                            <img src="https://i.imgur.com/agRGhBc.jpg" width="40" height="40" class="rounded-circle mr-3">
+
+                            <div class="w-100">
+                              <div class="d-flex justify-content-between align-items-center">
+                                  <div class="d-flex flex-row align-items-center">
+                                    <span class="mr-2">Maria Santola</span>
+                                    <small class="c-badge">Top Comment</small>
+                                  </div>
+                                  <small>12h ago</small>
+                            </div>
+                            <p class="text-justify comment-text mb-0"> Id eu nisl nunc mi ipsum faucibus. Massa massa ultricies mi quis hendrerit dolor. Arcu bibendum at varius vel pharetra vel turpis nunc eget. Habitasse platea dictumst quisque sagittis purus sit amet volutpat. Urna condimentum mattis pellentesque id.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                            <div class="d-flex flex-row user-feed">
+                              <span class="wish"><i class="fa fa-heartbeat mr-2"></i>54</span>
+                              <span class="ml-3"><i class="fa fa-comments-o mr-2"></i>Reply</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
+          </div>
+          <!-- <div class="comments">
+                      <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/9AZ2QX1.jpg" width="40" class="rounded-circle" style="margin-right: 15px;width: 50px;height:50px">
+                          <div class="d-flex flex-column ml-2"> <span class="name">Daniel Frozer</span> <small class="comment-text">I like this alot! thanks alot</small>
+                              <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small style="margin-left: 15px;">Reply</small><small style="margin-left: 15px;">18 mins</small> </div>
+                          </div>
+                      </div>
+                      <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/1YrCKa1.jpg" width="40" class="rounded-circle" style="margin-right: 15px;width: 50px;height:50px">
+                          <div class="d-flex flex-column ml-2"> <span class="name">Elizabeth goodmen</span> <small class="comment-text">Thanks for sharing!</small>
+                              <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small style="margin-left: 15px;">Reply</small><small style="margin-left: 15px;">8 mins</small> </div>
+                          </div>
+                      </div>
+                  </div> -->
+          <!-- <div class="comment-input"> <input type="text" class="form-control"> -->
+
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+
+</ng-container>
+

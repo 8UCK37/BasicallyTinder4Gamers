@@ -31,6 +31,7 @@ import { SettingsComponent } from './settings/Settings.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CommentModalComponent } from './primary-home-page/comment-modal/comment-modal.component';
+import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { CommentModalComponent } from './primary-home-page/comment-modal/comment
       UtiliyTagComponent,
       SettingsComponent,
       PrimaryHomePageComponent,
-      CommentModalComponent
+      CommentModalComponent,
+      PostComponent
    ],
   imports: [
     BrowserModule,
