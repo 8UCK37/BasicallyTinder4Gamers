@@ -229,7 +229,7 @@ body {
     background-color: hsl(200, 20%, 95%);
   }
 }
-.card{
+.card_cust{
   width: 55rem;
   margin-left: 206px;
   background-color: #262626;
@@ -256,8 +256,20 @@ body {
   font-size:calc(0.6*var(--r));
 }
 
-.react i{
+.react.fire i{
   filter:grayscale(100%);
+  transform:scale(1);
+  grid-area:1/1;
+  display:inherit;
+  transition: transform .6s cubic-bezier(0.5,-12,1,-12);
+}
+.react.fire2 i{
+  transform:scale(1);
+  grid-area:1/1;
+  display:inherit;
+  transition: transform .6s cubic-bezier(0.5,-12,1,-12);
+}
+.react i{
   transform:scale(1);
   grid-area:1/1;
   display:inherit;
@@ -283,8 +295,8 @@ body {
   --c2:radial-gradient(orange 50%,#0000 60%);
   background:
     var(--c1),var(--c1),var(--c1),var(--c1),
-    var(--c2),var(--c2),var(--c2),var(--c2); 
-  background-size:calc(var(--r)/6) calc(var(--r)/6); 
+    var(--c2),var(--c2),var(--c2),var(--c2);
+  background-size:calc(var(--r)/6) calc(var(--r)/6);
   background-position:
     calc(50% - var(--r)/2) calc(50% - var(--r)/2),
     calc(50% + var(--r)/2) calc(50% - var(--r)/2),
@@ -341,9 +353,47 @@ input {
   display: block;
   width: var(--r);
   height: var(--r);
-  background-image: url("https://em-content.zobj.net/thumbs/320/apple/129/fire_1f525.png");
   background-size: cover;
 }
+.react.fire i:before {
+  background-image: url("https://em-content.zobj.net/thumbs/320/apple/129/fire_1f525.png");
+}
+.react.fire2 i:before {
+  background-image: url("https://em-content.zobj.net/thumbs/320/apple/129/fire_1f525.png");
+}
+.react.haha i:before {
+  background-image: url("https://cdn-icons-png.flaticon.com/512/1791/1791407.png");
+}
+
+.react.love i:before {
+  background-image: url("https://cdn-icons-png.flaticon.com/512/9656/9656139.png");
+}
+.react.sad i:before {
+
+  background-image: url("https://cdn-icons-png.flaticon.com/512/599/599618.png");
+
+}
+.react.poop i:before {
+  background-image: url("https://cdn-icons-png.flaticon.com/512/4951/4951989.png");
+}
+.col-sm{
+  padding: 0;
+  margin: 0;
+}
+.col-sm:hover {
+  transform: scale(1.2) rotate(7deg);
+  transition: all 0.3s ease;
+  animation: wiggle 0.5s ease;
+}
+
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
 .like{
   width: 18.3rem;
   height: 45px;
@@ -380,3 +430,142 @@ input {
   background-color: #525252;
   border-radius: 10px;
 }
+
+/*reaction hover*/
+
+
+body {
+  background: #e9eaed;
+  font-family: arial, sans-serif;
+}
+
+.field-reactions:checked:focus ~ .text-desc, .field-reactions, [class*=reaction-], .text-desc {
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.field-reactions:checked ~ [class*=reaction-], .box:hover [class*=reaction-], .field-reactions:focus ~ .text-desc {
+  clip: auto;
+  overflow: visible;
+  opacity: 1;
+}
+
+.main-title {
+  background: #3a5795;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.text-desc {
+  font-weight: normal;
+  text-align: center;
+  transform: translateY(-50px);
+  white-space: nowrap;
+  font-size: 13px;
+  width: 100%;
+}
+
+[class*=reaction-] {
+  border: none;
+  background-color: transparent;
+  display: block;
+  cursor: pointer;
+  height: 48px;
+  position: absolute;
+  width: 48px;
+  z-index: 11;
+  top: -28;
+  transform-origin: 50% 100%;
+  transform: scale(0.1);
+  transition: all 0.3s;
+  outline: none;
+  will-change: transform;
+  opacity: 0;
+}
+
+/* .box {
+  position: absolute;
+  left: calc(50% - 150px);
+  top: calc(50% - 50px);
+  width: 300px;
+} */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
+  visibility: hidden;
+}
+
+.field-reactions:focus ~ .react {
+  border-color: rgba(88, 144, 255, 0.3);
+}
+.field-reactions:checked:focus ~ .react {
+  border-color: transparent;
+}
+
+.toolbox {
+  background: #fff;
+  height: 52px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  border-radius: 40px;
+  top: -42px;
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.legend-reaction {
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #fff;
+  display: inline-block;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  line-height: 20px;
+  max-width: 100%;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0 6px;
+  transition: opacity 50ms ease;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  top: -28px;
+  transform: translateX(-50%);
+}
+
+.like:hover [class*=reaction-] {
+  transform: scale(0.8) translateY(-40px);
+}
+.like:hover [class*=reaction-]:hover, .like:hover [class*=reaction-]:focus {
+  transition: all 0.2s ease-in;
+  transform: scale(1) translateY(-35px);
+}
+.like:hover [class*=reaction-]:hover .legend-reaction, .like:hover [class*=reaction-]:focus .legend-reaction {
+  opacity: 1;
+}
+.like:hover .toolbox {
+  opacity: 1;
+}
+.like:hover .toolbox {
+  visibility: visible;
+}
+
+

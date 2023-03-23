@@ -42,7 +42,6 @@
                             </div>
                           </div>
                         </div>
-
                       </ng-container>
                       <ng-container *ngIf="user.notiType=='poke'">
                         <div style="height: auto;margin-top: 20px;">
@@ -53,10 +52,20 @@
                           <div class="profile-username" style="color: black;">{{user.userName}}</div>
                         </div>
                       </ng-container>
+                      <ng-container *ngIf="user.notiType=='frndReqAcc'">
+                        <div class="frnd-noti">
+                          <div class="noti-img" (click)="onclick(user.sender)" style="cursor: pointer;">
+                            <img [src]="user.profileurl" class="img-sk" referrerpolicy="no-referrer" />
+                          </div>
+                          <div class="accpt-rej-btns">
+                            <div style="color: rgb(227, 213, 213);"> {{user.userName}} accepted your friend request</div>
+                          </div>
+                        </div>
+                      </ng-container>
                     </div>
                   </div>
                   <ng-template #elseblock>
-                    <div class="new sec">
+                    <div class="new sec" style="justify-content: center;align-items: center;position: relative;height: 35rem;">
                       <span style="color: aliceblue;">You have no new notifications</span>
                     </div>
                   </ng-template>

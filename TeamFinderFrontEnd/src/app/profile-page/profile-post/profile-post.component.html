@@ -1,52 +1,48 @@
 <ng-container *ngFor="let post of ownPosts">
 <div class="container mt-5 mb-5">
-  <div class="row d-flex align-items-center justify-content-center">
+  <!-- <div class="row d-flex align-items-center justify-content-center"> -->
       <div class="col-md-6">
           <div class="card">
               <div class="d-flex justify-content-between p-2 px-3">
                   <div class="d-flex flex-row align-items-center"> <img [src]="post?.profilePicture" width="50" class="rounded-circle" >
-                      <div class="d-flex flex-column ml-2"> <span class="font-weight-bold" style="margin-left: 10px;">{{post?.name}}</span></div>
+                      <div class="d-flex flex-column ml-2"> <span class="font-weight-bold" style="margin-left: 10px;">{{post?.name}}</span><span style="margin-left: 10px;">{{this.utcToLocal(post?.createdAt)}}</span></div>
                   </div>
-                  <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{this.utcToLocal(post?.createdAt)}}</small></div>
               </div>
-              <div class="p-2">
+              <div class="p-3">
               <p class="text-justify">{{post.description}}</p>
               <ng-container *ngFor="let tag of post.tagArr">
                 <a class="text-justify" style="cursor: pointer; margin-left: 15px;">{{"#"+tag}}</a>
               </ng-container>
             </div>
-            <ng-container *ngIf="post.photoUrl.length!=0" >
+            <div>
+              <button type="button" class="btn btn-primary" #comment (click)="openModal(template)"
+                hidden="true"></button>
+              <ng-template #template>
+                <app-comment-modal [post]="post">
+                </app-comment-modal>
+              </ng-template>
+            </div>
+            <ng-container *ngIf="post.photoUrlArr.length!=0" >
             <carousel >
-              <slide *ngFor="let img of post.urlArr">
-                <img [src]="img" alt="first slide" style="display: block; width: 100%;">
+              <slide *ngFor="let img of post.photoUrlArr">
+                <img [src]="img" alt="first slide" style="display: block; height: 40rem; width: 100%;">
               </slide>
             </carousel>
           </ng-container>
               <div class="p-2">
-                  <hr>
-                  <div class="d-flex justify-content-between align-items-center">
-                      <div class="d-flex flex-row icons d-flex align-items-center"> <i class="fa fa-heart" style="color: crimson;"></i> <i class="fa fa-smile-o ml-2" style="margin-left: 15px;"></i> </div>
-                      <div class="d-flex flex-row muted-color"> <span>2 comments</span> <i class="fa-sharp fa-solid fa-share-nodes" style="color:blue;margin-left: 15px;"></i> </div>
+                <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
+                  <div class="like">
+                  <input type="checkbox" id="r1">
+                    <label for="r1" class="react">
+                      <i data-icon="https://em-content.zobj.net/thumbs/320/apple/129/fire_1f525.png"></i>
+                    </label>Like : {{post.fire_count}}
                   </div>
-                  <hr>
-                  <!-- <div class="comments">
-                      <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/9AZ2QX1.jpg" width="40" class="rounded-circle" style="margin-right: 15px;width: 50px;height:50px">
-                          <div class="d-flex flex-column ml-2"> <span class="name">Daniel Frozer</span> <small class="comment-text">I like this alot! thanks alot</small>
-                              <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small style="margin-left: 15px;">Reply</small><small style="margin-left: 15px;">18 mins</small> </div>
-                          </div>
-                      </div>
-                      <div class="d-flex flex-row mb-2"> <img src="https://i.imgur.com/1YrCKa1.jpg" width="40" class="rounded-circle" style="margin-right: 15px;width: 50px;height:50px">
-                          <div class="d-flex flex-column ml-2"> <span class="name">Elizabeth goodmen</span> <small class="comment-text">Thanks for sharing!</small>
-                              <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small style="margin-left: 15px;">Reply</small><small style="margin-left: 15px;">8 mins</small> </div>
-                          </div>
-                      </div>
-                  </div> -->
-                  <div class="comment-input"> <input type="text" class="form-control">
-
+                  <div class="comment-btn" (click)="comment.click()">Comment</div>
+                  <div class="share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
                 </div>
               </div>
           </div>
       </div>
-  </div>
+  <!-- </div> -->
 </div>
 </ng-container>

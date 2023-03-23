@@ -151,18 +151,18 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/user'], { queryParams: { id: userid } });
   }
   acceptReq(frndid: any) {
-    axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
-      //console.log("accepted", res)
-      this.getPendingReq();
-        this.toatsAccept();
-    }).catch(err => console.log(err))
+    this.toatsAccept();
+     axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
+       //console.log("accepted", res)
+       this.getPendingReq();
+     }).catch(err => console.log(err))
   }
   rejectReq(frndid: any) {
-    axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
-      //console.log("rejected", res)
-      this.getPendingReq();
-      this.toastsReject();
-    }).catch(err => console.log(err))
+    this.toastsReject();
+     axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
+       //console.log("rejected", res)
+       this.getPendingReq();
+     }).catch(err => console.log(err))
   }
 
 toatsAccept(){

@@ -25,11 +25,14 @@ import axios from 'axios';
   ]
 })
 export class GamesComponent implements OnInit {
-  public gameList: any[] = [{ appid: 1, name: "BGMI" }, { appid: 2, name: "FREE FIRE" }];
+  public gameList: any[] = [];
+  public MobileGameList: any[] = [{ appid: 1, name: "Battle Grounds Mobile India(BGMI)",selected:false,photo:'https://w0.peakpx.com/wallpaper/626/833/HD-wallpaper-bgmi-trending-pubg-bgmi-logo-bgmi-iammsa-pubg.jpg' }, { appid: 2, name: "Free Fire",selected:false,photo:'https://upload.wikimedia.org/wikipedia/en/7/75/FreeFireBannerLogo.jpg' },{appid:3,name:"COD Mobile",selected:false,photo:'https://w0.peakpx.com/wallpaper/953/729/HD-wallpaper-nikto-codm-cod-mobile-gaming.jpg'}];
+  public MobileGameDummy:any[]=this.MobileGameList;
   public selectedList: any[] = [];
   public result: any[] = [];
   public ownedGames: any;
   steamId: any;
+  public gameSearch:any
   flip: string = 'inactive';
   public showcase: any[] = [];
   public frndownedgames: any[] = []
@@ -41,9 +44,8 @@ export class GamesComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.ownProfile) {
-      //this.getOwnedGames();
       this.getOwnedGamesfrmDb();
-      this.result = [];
+      this.result=[]
     } else {
       this.route.queryParams.subscribe(params => {
         this.profile_id = params['id'];
@@ -55,10 +57,13 @@ export class GamesComponent implements OnInit {
   openScrollableContent(longContent: any) {
     this.modalService.open(longContent, { scrollable: true });
   }
-  change(index: any) {
+  changeSteam(index: any) {
     this.result[index][1] = !this.result[index][1]
   }
-  async submit() {
+  changeMobile(index: any) {
+    this.MobileGameList[index].selected = !this.MobileGameList[index].selected
+  }
+  submit() {
     this.setSelectedGames();
     this.modalService.dismissAll()
   }
@@ -72,31 +77,30 @@ export class GamesComponent implements OnInit {
   }
 
   setSelectedGames() {
-    this.deleteAppid();
-    this.result.forEach((element: any) => {
+    var selected:String='';
+    this.result.forEach((element: any, index: number) => {
       if (element[1]) {
-        axios.post('gameSelect', { appid: element[0].appid }).then(res => {
-        }).catch(err => console.log(err))
+        if (selected=='') {
+          selected += element[0].appid;
+        } else {
+          selected += ',' + element[0].appid;
+        }
       }
     });
-  }
-  getSelectedGames() {
-    axios.get('getSelectedGames').then(res => {
-      res.data.forEach((element: any) => {
-        this.result.forEach((gameEle: any) => {
-          if (element.appid == gameEle[0].appid) {
-            //gameEle[0].playtime_forever=(gameEle[0].playtime_forever/60).toFixed(2)
-            gameEle[1] = true
-          }
-        });
-      });
-    }).catch(err => console.log(err))
-    this.selectedList = this.result
-  }
+    this.MobileGameList.forEach((element: any, index: number) => {
+      if (element.selected) {
+        if (selected=='') {
+          selected += element.appid;
+        } else {
+          selected += ',' + element.appid;
+        }
+      }
+    });
+    console.log(selected.split(','))
 
-  deleteAppid() {
-    axios.post('selectedDelete').then(res => {
-    }).catch(err => console.log(err))
+    axios.post('gameSelect', { appid: selected }).then(res => {
+      }).catch(err => console.log(err))
+    this.selectedList.sort((a, b) => b[0].playtime_forever - a[0].playtime_forever);
   }
 
   async saveOwnedGames() {
@@ -109,47 +113,99 @@ export class GamesComponent implements OnInit {
       for (let i = 0; i < this.gameList.length; i++) {
         this.result.push([this.gameList[i], false])
       }
+
       this.getSelectedGames();
+    }).catch(err => console.log(err))
+    //console.log(this.gameList)
+    await axios.post('saveOwnedgames',{data:this.gameList}).then(res => {
+
     }).catch(err => console.log(err))
   }
 
-  getOwnedGamesfrmDb() {
+  async getSelectedGames() {
+    //console.log(this.result)
+    await axios.get('getSelectedGames').then(res => {
+      if(res.data.length!=0){
+      res.data[0].appid.split(",").forEach((element: any) => {
+        //console.log(element)
+        this.result.forEach((gameEle: any) => {
+          if (element == gameEle[0].appid) {
+            gameEle[1] = true
+          }
+        });
+        this.MobileGameList.forEach(game => {
+          if(game.appid==element){
+            game.selected=true
+          }
+        });
+      });
+    }
+    }).catch(err => console.log(err))
+    this.selectedList = this.result
+    this.selectedList.sort((a, b) => b[0].playtime_forever - a[0].playtime_forever);
+    //console.log(this.selectedList)
+  }
+
+  async getOwnedGamesfrmDb() {
     this.result = [];
     this.gameList = [];
-    axios.get('getOwnedgames').then(res => {
+    await axios.get('getOwnedgames').then(res => {
+      //console.log(res.data[0].games)
       if (res.data.length != 0) {
-        const ownedGames = JSON.parse(JSON.parse(res.data[0].games))
+        const ownedGames = JSON.parse(res.data[0].games)
         ownedGames.forEach((element: any) => {
           this.gameList.push(element)
         });
         for (let i = 0; i < this.gameList.length; i++) {
           this.result.push([this.gameList[i], false])
         }
-        this.getSelectedGames();
       }
     }).catch(err => console.log(err))
+    this.getSelectedGames();
+    //console.log(this.result)
+    //console.log(this.MobileGameList)
   }
-  indexprinter(i: any) {
-    console.log(i)
-  }
-
   async getShowCase() {
     this.showcase = [];
     this.frndownedgames = [];
     await axios.post('getFrndOwnedGames', { frnd_id: this.profile_id }).then(res => {
       if(res.data[0]!=null){
-      this.frndownedgames = JSON.parse(JSON.parse(res.data[0]?.games))}
-      //console.log(this.showcase)
+      this.frndownedgames = JSON.parse(res.data[0]?.games)}
+      //console.log(this.frndownedgames)
     }).catch(err => console.log(err))
     await axios.post('getFrndSelectedGames', { frnd_id: this.profile_id }).then(res => {
-      res.data.forEach((selected: any) => {
+      //console.log(res.data[0].appid.split(","))
+
+      res.data[0]?.appid.split(",").forEach((selected: any) => {
         this.frndownedgames.forEach(owned => {
           //console.log(selected.appid)
-          if (owned.appid == selected.appid) {
+          if (owned.appid == selected) {
             this.showcase.push(owned)
           }
         });
+        this.MobileGameList.forEach(game => {
+          if(game.appid==selected){
+            game.selected=true
+          }
+        });
       });
-    }).catch(err => console.log(err))
+    }
+    ).catch(err => console.log(err))
+    //console.log(this.showcase)
+    this.showcase.sort((a, b) => b.playtime_forever - a.playtime_forever);
+  }
+  searchGames(){
+    //console.log(this.gameSearch)
+    if(this.gameSearch.length!=0){
+    this.result=this.selectedList.filter((game) =>
+      game[0].name.toLowerCase().includes(this.gameSearch.toLowerCase())
+    );
+    this.MobileGameList=this.MobileGameDummy.filter((game) =>
+    game.name.toLowerCase().includes(this.gameSearch.toLowerCase())
+  );
+    }else{
+      this.result=this.selectedList
+      this.MobileGameList=this.MobileGameDummy
+    }
   }
 }

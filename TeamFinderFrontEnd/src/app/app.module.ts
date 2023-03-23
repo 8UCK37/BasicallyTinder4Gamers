@@ -32,6 +32,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { LoginUserinfoComponent } from './login/login-userinfo/login-userinfo.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CommentModalComponent } from './primary-home-page/comment-modal/comment-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
       UtiliyTagComponent,
       SettingsComponent,
       PrimaryHomePageComponent,
-      LoginUserinfoComponent
+      LoginUserinfoComponent,
+      CommentModalComponent
    ],
   imports: [
     BrowserModule,

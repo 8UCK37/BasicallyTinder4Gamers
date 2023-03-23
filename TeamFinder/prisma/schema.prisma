@@ -49,7 +49,7 @@ model GameSelectInfo{
   id        Int   @id @default(autoincrement())
   createdAt DateTime @default(now())
   uid String
-  appid Int
+  appid String
 }
 
 model OwnedGames{
@@ -58,13 +58,17 @@ model OwnedGames{
   games String
 }
 
-
 model Posts{
   id          Int   @id @default(autoincrement())
   author      String 
   createdAt   DateTime @default(now())
-  photoUrl         String
+  photoUrl    String
   description String
+  fire_count Int
+  haha_count Int
+  love_count Int
+  sad_count  Int
+  poop_count Int
 }
 model Tags{
   id Int   @id @default(autoincrement())

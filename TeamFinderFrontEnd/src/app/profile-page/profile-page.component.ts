@@ -36,14 +36,13 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit(): void {
     let lastUrl = this.router.url.split('/')[2]
     //console.log(lastUrl)
-    // if (lastUrl == 'post') this.radioActivaVal = 1
-    // if (lastUrl == 'games') this.radioActivaVal = 2;
-    // if (lastUrl == 'friends') this.radioActivaVal = 3;
+    if (lastUrl == 'post') this.radioActivaVal = 1
+    if (lastUrl == 'games') this.radioActivaVal = 2;
+    if (lastUrl == 'friends') this.radioActivaVal = 3;
     // this.radioAtGame = true
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     if (this.ownProfile) {
-      this.radioActivaVal = 1
       this.auth.authState.subscribe(user => {
         if (user) {
           axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
@@ -65,10 +64,11 @@ export class ProfilePageComponent implements OnInit {
         axios.post('isFriend', { id: this.profile_id }).then(res => {
           //console.log(res.data)
           if (res.data == 'accepted') {
-            this.status = { style: 'fa-sharp fa-regular fa-handshake fa-2x', value: '' }
+            this.status = { style: 'button', value: 'Friend' }
             //console.log(this.status)
           } else if (res.data == 'rejected') {
-            this.status = { style: 'fa-sharp fa-solid fa-ban fa-2x', value: '' }
+            //this.status = { style: 'fa-sharp fa-solid fa-ban fa-2x', value: '' }
+            this.status = { style: 'button', value: 'Send Req' }
             //console.log(this.status)
           }
           else if (res.data == 'pending') {
@@ -152,12 +152,11 @@ export class ProfilePageComponent implements OnInit {
       this.bNsave=false;
       this.banner.nativeElement.value=null;
     }).catch(err =>console.log(err))
-    this.userInfo.profilePicture = this.bannerPreview
+    this.userInfo.profileBanner = this.bannerPreview
     //console.log(this.input)
   }
   cancelBannerUpload(){
     this.banner.nativeElement.value=null;
-
   }
   setBio(){
     const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;
@@ -178,14 +177,11 @@ export class ProfilePageComponent implements OnInit {
   }
   sendreq(){
     //console.log(this.status.value)
-    if(this.status.value!='Pending'){
-      alert('sent a req')
+    if(this.status.value!='Pending' && this.status.value!='Friend'){
       axios.post('addFriend', { to:this.profile_id}).then(res => {
         this.status={style:'button',value:'Pending'}
         //console.log(this.status)
       }).catch(err => console.log(err))
-      }else{
-        alert("a pending req exists")
       }
   }
   modalOpen(){
