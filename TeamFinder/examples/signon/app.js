@@ -735,7 +735,7 @@ app.post('/getPostById', ensureAuthenticated, (req, res) => postHelper.getPostBy
 //#endpoint
 app.post('/getLatestPost', ensureAuthenticated, (req, res) => postHelper.getLatestPost(req, res, prisma))
 //#endpoint
-app.get('/getpostbytagname', (req, res) => postHelper.getPostByTags(req, res, prisma))
+app.post('/getpostbytagname',ensureAuthenticated, (req, res) => postHelper.getPostByTags(req, res, prisma))
 //#endpoint
 app.post("/uploadProfile", ensureAuthenticated, upload.single('avatar'), (req, res) => {
   profileHelper.upProfilePic(req, res, prisma);

@@ -33,6 +33,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { LoginUserinfoComponent } from './primary-home-page/login-userinfo/login-userinfo.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommentModalComponent } from './primary-home-page/comment-modal/comment-modal.component';
+import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { CommentModalComponent } from './primary-home-page/comment-modal/comment
       SettingsComponent,
       PrimaryHomePageComponent,
       LoginUserinfoComponent,
-      CommentModalComponent
+      CommentModalComponent,
+      PostComponent
    ],
   imports: [
     BrowserModule,

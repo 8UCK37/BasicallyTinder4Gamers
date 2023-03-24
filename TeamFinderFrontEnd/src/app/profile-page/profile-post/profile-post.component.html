@@ -1,6 +1,5 @@
-<ng-container *ngFor="let post of ownPosts">
+<!-- <ng-container *ngFor="let post of ownPosts">
 <div class="container mt-5 mb-5">
-  <!-- <div class="row d-flex align-items-center justify-content-center"> -->
       <div class="col-md-6">
           <div class="card">
               <div class="d-flex justify-content-between p-2 px-3">
@@ -43,6 +42,6 @@
               </div>
           </div>
       </div>
-  <!-- </div> -->
 </div>
-</ng-container>
+</ng-container> -->
+<app-post [posts]="ownPosts"></app-post>

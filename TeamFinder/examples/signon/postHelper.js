@@ -66,7 +66,7 @@ async function createPost(req, res, prisma){
 }
 
 async function getPost(req, res, prisma) {
-  console.log("get post");
+  console.log("get post for",req.user.user_id);
   const posts = await prisma.$queryRaw`
   SELECT DISTINCT p.*, t.tagNames, u."name", u."profilePicture",
     CASE WHEN EXISTS (
@@ -112,8 +112,7 @@ async function getPost(req, res, prisma) {
     FROM public."Friends" f
     WHERE f.sender = ${req.user.user_id}
   )
-  AND p.author <> ${req.user.user_id} -- exclude posts where author is req.user.user_id
-  AND a.type = 'post' -- filter rows where type is equal to 'post'
+  
   ORDER BY p."createdAt" DESC;
 `;
   res.send(JSON.stringify(posts));
@@ -122,7 +121,37 @@ async function getPost(req, res, prisma) {
 async function getPostById(req, res, prisma) {
   console.log("get post")
   let posts = await prisma.$queryRaw`
-    SELECT p.*, t.tagNames,u.*
+    SELECT p.*, t.tagNames, u.name, 
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
+    ) THEN true ELSE false END AS likedByCurrentUser,
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
+    ) THEN true ELSE false END AS hahaedbycurrentUser,
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
+    ) THEN true ELSE false END AS lovedbycurrentUser,
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
+    ) THEN true ELSE false END AS sadedbycurrentUser,
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
+    ) THEN true ELSE false END AS poopedbycurrentUser,
+    CASE WHEN NOT EXISTS (
+    SELECT *
+    FROM public."Activity" a
+    WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
+  ) THEN true ELSE false END AS noReaction
     FROM public."Posts" p
     LEFT JOIN (
       SELECT post, STRING_AGG("tagName", ',') AS tagNames
@@ -135,6 +164,7 @@ async function getPostById(req, res, prisma) {
   `
   res.send(JSON.stringify(posts))
 }
+
 
 async function getLatestPost(req, res, prisma) {
   console.log("get latest post")
@@ -152,6 +182,62 @@ async function getLatestPost(req, res, prisma) {
     LIMIT 1;
   `
   res.send(JSON.stringify(posts))
+}
+
+async function getPostByTags(req, res, prisma) {
+  let param = req.body.tags;
+  let postsByTag = await prisma.$queryRaw`
+    SELECT
+      t.*,
+      p.*,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
+      ) THEN true ELSE false END AS likedByCurrentUser,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
+      ) THEN true ELSE false END AS hahaedByCurrentUser,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
+      ) THEN true ELSE false END AS lovedByCurrentUser,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
+      ) THEN true ELSE false END AS sadedByCurrentUser,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
+      ) THEN true ELSE false END AS poopedByCurrentUser,
+      CASE WHEN NOT EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
+      ) THEN true ELSE false END AS noReaction
+    FROM
+      (
+        SELECT *
+        FROM public."Posts"
+        WHERE id IN (
+          SELECT post
+          FROM public."Tags"
+          WHERE "tagName" = ${param}
+        )
+      ) AS p
+      LEFT JOIN (
+        SELECT post, STRING_AGG("tagName", ',') AS tagNames
+        FROM public."Tags"
+        GROUP BY "post"
+      ) AS t
+      ON p.id = t.post;
+  `;
+  res.send(JSON.stringify(postsByTag));
 }
 
 
@@ -380,14 +466,6 @@ res.send(JSON.stringify({status: 'ok'}))
 // }
 
 
-async function getPostByTags(req, res,prisma){
-  console.log(req.query)
-  let param = req.query.tags;
-  let postsByTag = await prisma.$queryRaw`select t.* , p.* from (select * from public."Posts" where id in  
-  (SELECT post FROM public."Tags" where "tagName" = ${param} )) as p left join (SELECT post, STRING_AGG("tagName", ',') AS tagNames
-      FROM public."Tags"
-      GROUP BY "post") as t on p.id = t.post;`
-  res.send(JSON.stringify(postsByTag))
-}
+
 
 module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost}
