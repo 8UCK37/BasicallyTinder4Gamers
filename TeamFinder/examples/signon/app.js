@@ -141,8 +141,8 @@ app.use(bodyParser.json());
 app.use('/static', express.static(__dirname + '/../../public'));
 
 //saves a new user #endpoint
-app.get('/saveuser', ensureAuthenticated, async function (req, res) {
-  //console.log(req.user)
+app.post('/saveuser', ensureAuthenticated, async function (req, res) {
+  console.log("/saveuser called")
   const fetchUser = await prisma.user.findUnique({
     where: {
       id: req.user.user_id
@@ -164,22 +164,51 @@ app.get('/saveuser', ensureAuthenticated, async function (req, res) {
     })
 
     console.log("new user created db updated", newUser)
+    // res.statusCode = 201
+    res.send(JSON.stringify(newUser))
   } else {
     console.log("user exists")
-    res.send(JSON.stringify({ status: "ok" }))
+    // res.statusCode(200)
+    res.send(JSON.stringify(fetchUser))
   }
 
 });
 //returns user info #endpoint
 app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
-  
-  let userData = await prisma.User.findUnique({
-    where: {
-      id: req.body.id
-    }
-  })
-  res.send(JSON.stringify(userData));
+  console.log("/getUserInfo called")
+  try{
+    let userData = await prisma.User.findUnique({
+      where: {
+        id: req.body.id
+      }
+    })
+    console.log(userData)
+    res.send(JSON.stringify(userData));
+  }
+  catch(e){
+    console.log(e)
+    res.sendStatus(400)
+  }
 });
+
+app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{
+
+ let userData = await prisma.User.update({
+  where:{
+    id: req.user.user_id
+  },
+  data:{
+    userInfo:{
+      create:req.body  
+      
+      
+    }
+    
+  },
+  include: { userInfo: true }
+ })
+  res.sendStatus(200)
+})
 //updates displayname of the user #endpoint
 app.post('/userNameUpdate', ensureAuthenticated, urlencodedParser, async (req, res) => {
   console.log(req.body.name);

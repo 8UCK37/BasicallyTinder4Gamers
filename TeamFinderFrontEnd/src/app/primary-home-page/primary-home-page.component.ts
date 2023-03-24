@@ -32,20 +32,29 @@ export class PrimaryHomePageComponent implements OnInit {
   public imageBlobs:any[]=[];
   myInterval = 0;
   activeSlideIndex = 0;
-  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) {}
+  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService , private userService : UserService ) {
+    this.renderer.listen('window', 'click', (e: Event) => {
+      if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && e.target !== this.commentbtn.nativeElement) {
+        this.closeComments.nativeElement.click();
+      }
+    });
+
+  }
+  // constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService ) {}
 
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
-    this.auth.authState.subscribe(user=>{
+    this.userService.userCast.subscribe(user=>{
       if(user) {
-        axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
-          if(res.data!=null){
-            this.userInfo=res.data
-          }else{
-            this.userInfo={profilePicture:this.userparsed.photoURL}
-          }
-        }).catch(err => console.log(err))
+        this.userInfo = user
+        // axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
+        //   if(res.data!=null){
+        //     this.userInfo=res.data
+        //   }else{
+        //     this.userInfo={profilePicture:this.userparsed.photoURL}
+        //   }
+        // }).catch(err => console.log(err))
         this.fetchPost()
       }
     })
@@ -144,11 +153,11 @@ export class PrimaryHomePageComponent implements OnInit {
   }
   async onPostPicError(i:any) {
     //console.log(this.posts[i].author)
-    await axios.post('getUserInfo',{id:this.posts[i].author}).then(res=>{
-      //console.log(res.data)
-      this.posts[i].authorUrl=res.data.profilePicture
-      //console.log(res.data.profilePicture)
-    }).catch(err =>console.log(err))
+    // await axios.post('getUserInfo',{id:this.posts[i].author}).then(res=>{
+    //   //console.log(res.data)
+    //   this.posts[i].authorUrl=res.data.profilePicture
+    //   //console.log(res.data.profilePicture)
+    // }).catch(err =>console.log(err))
   }
   utcToLocal(utcTime:any){
     this.utcDateTime = new Date(utcTime);

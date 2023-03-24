@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
@@ -13,7 +13,7 @@ import { animation } from '@angular/animations';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements  OnInit {
   @ViewChild('toggleButton') toggleButton!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
   @ViewChild('togglenoti') togglenoti!: ElementRef;
@@ -36,7 +36,7 @@ export class NavbarComponent implements OnInit {
   public userInfo:any
   public noti: boolean = false;
   public recData: any;
-  constructor(public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router) {
+  constructor(public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router , public userService : UserService) {
     this.renderer.listen('window', 'click', (e: Event) => {
       /**
        * Only run when toggleButton is not clicked
@@ -59,28 +59,38 @@ export class NavbarComponent implements OnInit {
   }
 
 
+  // ngAfterViewInit(): void {
+  //   throw new Error('Method not implemented.');
+  // }
+
+
   ngOnInit(): void {
-    this.usr = localStorage.getItem('user');
-    this.userparsed = JSON.parse(this.usr);
+    // this.usr = localStorage.getItem('user');
+    this.userService.userCast.subscribe(usr=>{
+      console.log("user data" , usr)
+      this.userparsed = usr
+      this.userInfo = usr
+    })
+    console.log(this.userparsed)
     this.auth.authState.subscribe(user => {
       if (user) {
-        this.usr = localStorage.getItem('user');
-        this.userparsed = JSON.parse(this.usr);
-        //console.log(this.userparsed)
+        // this.usr = localStorage.getItem('user');
+        // this.userparsed = JSON.parse(this.usr);
+        // //console.log(this.userparsed)
         this.socketService.setupSocketConnection();
         this.socketService.setSocketId(this.userparsed.uid);
 
-        axios.get('saveuser').then(res => {
-        }).catch(err => console.log(err))
+        // axios.get('saveuser').then(res => {
+        // }).catch(err => console.log(err))
 
-        axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
-          if(res.data!=null){
-            this.userInfo=res.data
-          }else{
-            this.userInfo={profilePicture:this.userparsed.photoURL,name:this.userparsed.displayName}
-          }
-          //console.log(res.data);
-        }).catch(err => console.log(err))
+        // axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
+        //   if(res.data!=null){
+        //     this.userInfo=res.data
+        //   }else{
+        //     this.userInfo={profilePicture:this.userparsed.photoURL,name:this.userparsed.displayName}
+        //   }
+        //   //console.log(res.data);
+        // }).catch(err => console.log(err))
         this.incMsg();
         this.incNotification();
         this.getPendingReq();

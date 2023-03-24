@@ -30,6 +30,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { SettingsComponent } from './settings/Settings.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { LoginUserinfoComponent } from './primary-home-page/login-userinfo/login-userinfo.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommentModalComponent } from './primary-home-page/comment-modal/comment-modal.component';
 import { PostComponent } from './post/post.component';
 
@@ -49,6 +51,7 @@ import { PostComponent } from './post/post.component';
       UtiliyTagComponent,
       SettingsComponent,
       PrimaryHomePageComponent,
+      LoginUserinfoComponent,
       CommentModalComponent,
       PostComponent
    ],
@@ -69,7 +72,8 @@ import { PostComponent } from './post/post.component';
     ReactiveFormsModule,
     PickerModule,
     CarouselModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [
     ChatServicesService
