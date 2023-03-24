@@ -7,79 +7,90 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
 model User {
-  id        String      @id
-  createdAt DateTime @default(now())
-  name      String
-  profilePicture      String? 
-  profileBanner       String?
-  bio                 String?
-  steamId String?
-  gmailId String?
-  activeChoice Boolean?
-  isConnected Boolean?
+  id             String   @id
+  createdAt      DateTime @default(now())
+  name           String
+  profilePicture String?
+  profileBanner  String?
+  bio            String?
+  steamId        String?
+  gmailId        String?
+  activeChoice   Boolean?
+  isConnected    Boolean?
+  userInfoId     Int? @unique
+  userInfo       UserInfo? @relation(fields: [userInfoId], references: [id])
 }
 
+model UserInfo {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  Gender    String?
+  Country   String?
+  Language  String?
+  User      User?
+}
 
 model Friends {
-  id        Int   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  sender     String
-  reciever   String
+  sender    String
+  reciever  String
 }
 
 model FriendRequest {
-  id        Int   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  sender      String
-  reciever    String
+  sender    String
+  reciever  String
   status    String
 }
 
-model Chat{
-  id        Int   @id @default(autoincrement())
+model Chat {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  sender String
-  receiver String
-  msg String
+  sender    String
+  receiver  String
+  msg       String
 }
 
-model GameSelectInfo{
-  id        Int   @id @default(autoincrement())
+model GameSelectInfo {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  uid String
-  appid String
+  uid       String
+  appid     String
 }
 
-model OwnedGames{
-  uid        String   @id
+model OwnedGames {
+  uid       String   @id
   createdAt DateTime @default(now())
-  games String
+  games     String
 }
 
-model Posts{
-  id          Int   @id @default(autoincrement())
-  author      String 
+model Posts {
+  id          Int      @id @default(autoincrement())
+  author      String
   createdAt   DateTime @default(now())
   photoUrl    String
   description String
-  fire_count Int
-  haha_count Int
-  love_count Int
-  sad_count  Int
-  poop_count Int
+  fire_count  Int
+  haha_count  Int
+  love_count  Int
+  sad_count   Int
+  poop_count  Int
 }
-model Tags{
-  id Int   @id @default(autoincrement())
+
+model Tags {
+  id      Int    @id @default(autoincrement())
   tagName String
-  post Int
+  post    Int
 }
-model Activity{
-  id Int   @id @default(autoincrement())
-  post Int 
-  weight Int
-  author String
+
+model Activity {
+  id        Int      @id @default(autoincrement())
+  post      Int
+  weight    Int
+  author    String
   createdAt DateTime @default(now())
-  type String
+  type      String
 }

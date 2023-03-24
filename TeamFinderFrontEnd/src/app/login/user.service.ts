@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of as observableOf } from 'rxjs';
+import { BehaviorSubject, Observable, of as observableOf } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { map, switchMap, tap } from 'rxjs/operators';
 import firebase from 'firebase/compat/app';
@@ -26,7 +26,9 @@ interface User {
 })
 
 export class UserService {
-  userData: any;
+  public userData = new BehaviorSubject<any>(null);
+  public userCast = this.userData.asObservable();
+  // userData: any;
   uid = this.auth.authState.pipe(
     map((authState) => {
       if (!authState) {
@@ -56,19 +58,25 @@ export class UserService {
     private auth: AngularFireAuth,
     private db: AngularFireDatabase,
     public router: Router,
-    ) {
-    this.auth.authState.subscribe((user) => {
+  ) {
+
+    this.auth.onAuthStateChanged((user) => {
+      console.log("auth change hits", user)
       if (user) {
-        let token = user.getIdToken().then(id=>{
+        user.getIdToken().then(id => {
           axios.defaults.headers.common['authorization'] = `Bearer ${id}`
           axios.defaults.baseURL = 'http://localhost:3000/'
-          localStorage.setItem('token', id);
+          // localStorage.setItem('token', id);
+          axios.post('/saveuser').then(res => {
+            this.userData.next(res.data)
+            // console.log(this.userData)
+            this.router.navigate(['first-component']);
+            // this.userData.uid = id
+          })
         })
-
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
-      } else {
+      }
+      else {
+        this.router.navigate(['login-page']);
         localStorage.setItem('user', 'null');
         JSON.parse(localStorage.getItem('user')!);
       }
@@ -89,25 +97,18 @@ export class UserService {
   //     merge: true,
   //   });
   // }
+
   login() {
     this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((result) => {
       // this.SetUserData(result.user);
-      this.auth.authState.subscribe((user) => {
-        if (user) {
-          //console.log(user)
-          this.router.navigate(['/first-component']);
-          // axios.defaults.headers.post['authorization'] = 'value' // for POST requests
-        }else{
-          this.router.navigate(['/login-page']);
-        }
-      });
+
     })
-    .catch((error) => {
-      window.alert(error.message);
-    });
+      .catch((error) => {
+        window.alert(error.message);
+      });
   }
   logout() {
-    this.auth.signOut().then(()=>{
+    this.auth.signOut().then(() => {
       localStorage.setItem('user', 'null');
       this.router.navigate(['/login-page']);
     })

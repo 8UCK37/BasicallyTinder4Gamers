@@ -23,10 +23,10 @@
     </span>
     <span>
       <div class="card-body">
-        <div *ngIf="user.uid | async as uid; else login">
-        </div>
-        <ng-template #login> <button style="margin-top: 35px; width: auto; font-size: x-large;" class="glowButton"
-            (click)="user.login()">Register/Login</button> </ng-template>
+        <!-- <div *ngIf="user.uid | async as uid; else login">
+        </div> -->
+        <div #login> <button style="margin-top: 35px; width: auto; font-size: x-large;" class="glowButton"
+            (click)="user.login()">Register/Login</button> </div>
       </div>
     </span>
   </div>

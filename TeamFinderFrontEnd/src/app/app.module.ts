@@ -30,7 +30,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { SettingsComponent } from './settings/Settings.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { LoginUserinfoComponent } from './login/login-userinfo/login-userinfo.component';
+import { LoginUserinfoComponent } from './primary-home-page/login-userinfo/login-userinfo.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommentModalComponent } from './primary-home-page/comment-modal/comment-modal.component';
 
