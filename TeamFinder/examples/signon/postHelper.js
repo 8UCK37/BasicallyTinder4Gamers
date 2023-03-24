@@ -184,6 +184,62 @@ async function getLatestPost(req, res, prisma) {
   res.send(JSON.stringify(posts))
 }
 
+async function getPostByTags(req, res, prisma) {
+  let param = req.body.tags;
+  let postsByTag = await prisma.$queryRaw`
+    SELECT
+      t.*,
+      p.*,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
+      ) THEN true ELSE false END AS likedByCurrentUser,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
+      ) THEN true ELSE false END AS hahaedByCurrentUser,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
+      ) THEN true ELSE false END AS lovedByCurrentUser,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
+      ) THEN true ELSE false END AS sadedByCurrentUser,
+      CASE WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
+      ) THEN true ELSE false END AS poopedByCurrentUser,
+      CASE WHEN NOT EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
+      ) THEN true ELSE false END AS noReaction
+    FROM
+      (
+        SELECT *
+        FROM public."Posts"
+        WHERE id IN (
+          SELECT post
+          FROM public."Tags"
+          WHERE "tagName" = ${param}
+        )
+      ) AS p
+      LEFT JOIN (
+        SELECT post, STRING_AGG("tagName", ',') AS tagNames
+        FROM public."Tags"
+        GROUP BY "post"
+      ) AS t
+      ON p.id = t.post;
+  `;
+  res.send(JSON.stringify(postsByTag));
+}
+
 
 async function likePost(req, res, prisma){
     // console.log("post liked")
@@ -410,14 +466,6 @@ res.send(JSON.stringify({status: 'ok'}))
 // }
 
 
-async function getPostByTags(req, res,prisma){
-  console.log(req.query)
-  let param = req.query.tags;
-  let postsByTag = await prisma.$queryRaw`select t.* , p.* from (select * from public."Posts" where id in  
-  (SELECT post FROM public."Tags" where "tagName" = ${param} )) as p left join (SELECT post, STRING_AGG("tagName", ',') AS tagNames
-      FROM public."Tags"
-      GROUP BY "post") as t on p.id = t.post;`
-  res.send(JSON.stringify(postsByTag))
-}
+
 
 module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost}

@@ -114,7 +114,7 @@ export class PostComponent implements OnInit {
     }).catch(err =>console.log(err))
   }
   fetchByTag(tag:any){
-    axios.get(`/getpostbytagname?tags=${tag}`).then(res=>{
+    axios.post('/getpostbytagname',{tags:tag}).then(res=>{
       this.posts = []
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
@@ -129,8 +129,6 @@ export class PostComponent implements OnInit {
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
   }
   openComment(){
-    console.log(this.commentOpen)
     this.commentOpen=true
-    console.log(this.commentOpen)
   }
 }
