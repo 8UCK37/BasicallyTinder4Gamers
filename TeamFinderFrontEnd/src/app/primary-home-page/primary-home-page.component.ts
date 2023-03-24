@@ -50,16 +50,17 @@ export class PrimaryHomePageComponent implements OnInit {
       }
     })
    }
-//NgOnInit End
+
    fetchPost(){
     this.posts = []
     axios.get("/getPost").then(res=>{
-      console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
+        if(post.author!=this.userparsed.uid){
+        this.posts.push(post)
+        }
       });
-      this.posts=res.data
     })
    }
    fetchLatestPost(){
