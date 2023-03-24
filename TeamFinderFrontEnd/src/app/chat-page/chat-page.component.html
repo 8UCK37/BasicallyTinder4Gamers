@@ -4,7 +4,7 @@
       <div class="app-profile-box">
         <img [src]="userInfo?.profilePicture" alt="profile" referrerpolicy="no-referrer"  />
         <div class="app-profile-box-name">
-          {{ userparsed.displayName }}
+          {{ userparsed?.name }}
         </div>
         <input class="type-checkbox" id="toogle" type="checkbox" name="name" [checked]="!activeState"
           (click)="toggleState()">

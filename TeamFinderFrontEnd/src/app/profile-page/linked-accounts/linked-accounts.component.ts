@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
+import { UserService } from 'src/app/login/user.service';
 import { GamesComponent } from '../games/games.component';
 
 @Component({
@@ -18,12 +19,15 @@ export class LinkedAccountsComponent implements OnInit {
   public profile_id: any;
   changeText: any = false;
   ownProfile: any;
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router,public userService: UserService) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
   ngOnInit(): void {
-      this.usr = localStorage.getItem('user');
-      this.userparsed = JSON.parse(this.usr);
+    this.userService.userCast.subscribe(usr=>{
+      //console.log("user data" , usr)
+      this.userparsed = usr;
+
+    })
 
       if (this.ownProfile) {
         if(this.route.snapshot.queryParams['status']!=null){
@@ -76,11 +80,11 @@ export class LinkedAccountsComponent implements OnInit {
   }
 
   generateUrl(): string {
-    const uid = this.userparsed.uid;
-    return `http://localhost:3000/auth/steam?uid=${uid}`;
+    const id = this.userparsed.id;
+    return `http://localhost:3000/auth/steam?uid=${id}`;
   }
    async fetchUserData(){
-    await axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
+    await axios.post('getUserInfo', { id: this.userparsed.id }).then(res => {
       //console.log(res.data)
       if(res.data.steamId!=null){
       this.steamId = res.data.steamId

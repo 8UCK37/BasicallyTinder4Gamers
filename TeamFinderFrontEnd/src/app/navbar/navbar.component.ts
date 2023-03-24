@@ -59,45 +59,25 @@ export class NavbarComponent implements  OnInit {
   }
 
 
-  // ngAfterViewInit(): void {
-  //   throw new Error('Method not implemented.');
-  // }
+
 
 
   ngOnInit(): void {
-    // this.usr = localStorage.getItem('user');
     this.userService.userCast.subscribe(usr=>{
       console.log("user data" , usr)
       this.userparsed = usr
       this.userInfo = usr
+      if (usr) {
+      this.socketService.setupSocketConnection();
+      this.socketService.setSocketId(this.userparsed.id);
+      this.incMsg();
+      this.incNotification();
+      this.getPendingReq();
+    }
     })
     console.log(this.userparsed)
-    this.auth.authState.subscribe(user => {
-      if (user) {
-        // this.usr = localStorage.getItem('user');
-        // this.userparsed = JSON.parse(this.usr);
-        // //console.log(this.userparsed)
-        this.socketService.setupSocketConnection();
-        this.socketService.setSocketId(this.userparsed.uid);
 
-        // axios.get('saveuser').then(res => {
-        // }).catch(err => console.log(err))
-
-        // axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
-        //   if(res.data!=null){
-        //     this.userInfo=res.data
-        //   }else{
-        //     this.userInfo={profilePicture:this.userparsed.photoURL,name:this.userparsed.displayName}
-        //   }
-        //   //console.log(res.data);
-        // }).catch(err => console.log(err))
-        this.incMsg();
-        this.incNotification();
-        this.getPendingReq();
-      }
-    })
     setInterval(() => {
-      //console.log(this.router.url);
       if (this.router.url == "/chat") {
         this.noti = false;
       }

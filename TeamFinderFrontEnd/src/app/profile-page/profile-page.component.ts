@@ -29,7 +29,7 @@ export class ProfilePageComponent implements OnInit {
   public userName:any;
   public profile_id:any;
   public status:any;
-  constructor(public modalService: NgbModal, user: UserService,private router : Router,private auth: AngularFireAuth,private route: ActivatedRoute) {
+  constructor(public userService:UserService,public modalService: NgbModal, user: UserService,private router : Router,private auth: AngularFireAuth,private route: ActivatedRoute) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
 
@@ -43,14 +43,11 @@ export class ProfilePageComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     if (this.ownProfile) {
-      this.auth.authState.subscribe(user => {
-        if (user) {
-          axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
-            //console.log(res.data)
-            this.userInfo = res.data
-            this.bio = this.userInfo.bio;
-          }).catch(err => console.log(err))
-        }
+      this.userService.userCast.subscribe(usr=>{
+        //console.log("user data" , usr)
+        this.userparsed = usr;
+        this.userInfo = usr;
+        this.bio = this.userInfo.bio;
       })
     } else {
       this.route.queryParams.subscribe(async params => {

@@ -34,8 +34,8 @@ export class PrimaryHomePageComponent implements OnInit {
   activeSlideIndex = 0;
   constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService , private userService : UserService ) {
     this.renderer.listen('window', 'click', (e: Event) => {
-      if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && e.target !== this.commentbtn.nativeElement) {
-        this.closeComments.nativeElement.click();
+      if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && e.target !== this.commentbtn?.nativeElement) {
+        this.closeComments?.nativeElement.click();
       }
     });
 
@@ -45,28 +45,25 @@ export class PrimaryHomePageComponent implements OnInit {
   ngOnInit(): void {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
-    this.userService.userCast.subscribe(user=>{
-      if(user) {
-        this.userInfo = user
-        // axios.post('getUserInfo', { id: this.userparsed.uid }).then(res => {
-        //   if(res.data!=null){
-        //     this.userInfo=res.data
-        //   }else{
-        //     this.userInfo={profilePicture:this.userparsed.photoURL}
-        //   }
-        // }).catch(err => console.log(err))
-        this.fetchPost()
+    this.userService.userCast.subscribe(usr=>{
+      //console.log("user data" , usr)
+      this.userparsed = usr;
+      this.userInfo = usr;
+      if(this.userparsed!=null){
+        this.fetchPost();
       }
+
     })
    }
 
-   fetchPost(){
+  fetchPost(){
     this.posts = []
     axios.get("/getPost").then(res=>{
+      //console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
-        if(post.author!=this.userparsed.uid){
+        if(post.author!=this.userparsed.id){
         this.posts.push(post)
         }
       });

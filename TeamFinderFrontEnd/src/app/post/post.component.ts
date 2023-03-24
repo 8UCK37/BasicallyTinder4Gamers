@@ -105,17 +105,11 @@ export class PostComponent implements OnInit {
     }
     console.log(this.posts)
   }
-  async onPostPicError(i:any) {
-    //console.log(this.posts[i].author)
-    await axios.post('getUserInfo',{id:this.posts[i].author}).then(res=>{
-      //console.log(res.data)
-      this.posts[i].authorUrl=res.data.profilePicture
-      //console.log(res.data.profilePicture)
-    }).catch(err =>console.log(err))
-  }
+
   fetchByTag(tag:any){
+    this.posts = []
     axios.post('/getpostbytagname',{tags:tag}).then(res=>{
-      this.posts = []
+      console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')

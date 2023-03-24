@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { UserService } from 'src/app/login/user.service';
 
 @Component({
   selector: 'app-profile-post',
@@ -20,25 +21,18 @@ export class ProfilePostComponent implements OnInit {
   public utcDateTime:any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   public modalRef?: BsModalRef;
-constructor(private auth: AngularFireAuth,private route: ActivatedRoute,private modalService: BsModalService) {
+constructor(public userService:UserService,private auth: AngularFireAuth,private route: ActivatedRoute,private modalService: BsModalService) {
   this.ownProfile = this.route.snapshot.data['ownProfile'];
  }
 
   ngOnInit() {
     //console.log(this.ownProfile)
     if (this.ownProfile) {
-      this.auth.authState.subscribe(async user=>{
-        if(user) {
-          this.usr = localStorage.getItem('user');
-          this.userparsed=JSON.parse(this.usr);
-          //console.log(this.userparsed.photoURL)
-            //console.log("save user" ,res)
-            await axios.post('getUserInfo',{id:this.userparsed.uid}).then(res=>{
-              this.userInfo=res.data;
-              //console.log(res.data);
-           }).catch(err=>console.log(err))
-           this.getPostById(this.userparsed.uid);
-        }
+      this.userService.userCast.subscribe(usr=>{
+        //console.log("user data" , usr)
+        this.userparsed = usr;
+        this.userInfo = usr;
+        this.getPostById(this.userparsed.id);
       })
     } else {
       this.route.queryParams.subscribe(params => {
@@ -49,7 +43,7 @@ constructor(private auth: AngularFireAuth,private route: ActivatedRoute,private 
   }
   getPostById(id:any){
     axios.post('getPostById',{uid:id}).then(res=>{
-      //console.log(res.data)
+      console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')

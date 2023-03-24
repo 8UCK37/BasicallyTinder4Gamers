@@ -4,6 +4,7 @@ import { ChatServicesService } from './chat-services.service';
 import { ConnectableObservable, Subscription } from 'rxjs';
 import axios from 'axios';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { UserService } from '../login/user.service';
 
 @Component({
   selector: 'app-chat-page',
@@ -43,7 +44,7 @@ export class ChatPageComponent implements OnInit {
   public recData:any;
   @ViewChild('toggleButton') toggleButton!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
-  constructor(private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2) {
+  constructor(public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2) {
     this.renderer.listen('window', 'click',(e:Event)=>{
       /**
        * Only run when toggleButton is not clicked
@@ -63,27 +64,17 @@ export class ChatPageComponent implements OnInit {
     })
   }
   ngOnInit() {
-    //this.socketService.setupSocketConnection();
-    this.usr = localStorage.getItem('user');
-    this.userparsed=JSON.parse(this.usr);
-    //this.socketService.setSocketId(this.userparsed.uid);
-    //console.log("socket id: "+this.userparsed.uid);
-    // this.fetchChatDate()
-    //console.log(ChatPageComponent.incSenderIds)
-
-    this.auth.authState.subscribe(user=>{
-      if(user) {
-        this.userparsed = user
-          axios.post('getUserInfo',{id:this.userparsed.uid}).then(res=>{
-            this.userInfo=res.data
-           //console.log(res.data);
-         }).catch(err=>console.log(err))
-      }
+    this.userService.userCast.subscribe(usr=>{
+      //console.log("user data" , usr)
+      this.userparsed = usr;
+      this.userInfo = usr;
+      console.log(this.userparsed)
+      this.getActiveChoice();
+      this.getfriendlist();
+      this.incMsg();
+      this.getActiveConvo();
     })
-    this.getActiveChoice();
-    this.getfriendlist();
-    this.incMsg();
-    this.getActiveConvo();
+
 
     setTimeout(() => {
       if(this.activeConvList[0]?.chat_type =='sent'){
@@ -113,7 +104,7 @@ export class ChatPageComponent implements OnInit {
   sendMessage(){
     if(this.values == "" || this.values.length == 0 ) return;
 
-    let data = {receiver: this.to , msg : this.values , sender : this.userparsed.uid}
+    let data = {receiver: this.to , msg : this.values , sender : this.userparsed.id}
     //console.log("sending to: "+this.to);
     //console.log("msg txt: "+this.values);
     this.socketService.send(data);

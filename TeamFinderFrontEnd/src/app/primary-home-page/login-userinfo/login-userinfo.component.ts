@@ -55,14 +55,7 @@ export class LoginUserinfoComponent implements OnInit {
         this.openModal(this.templateref)
       }
     })
-    // this.auth.authState.subscribe(user =>{
-    //   if(user){
-    //   axios.post('/getUserInfo' , {id: user?.uid}).then(res=>{
-    //     if( res.data.userInfoId == null) this.openModal(this.templateref);
-    //   })
-    // }
-    // })
-    // this.openModal(this.templateref)
+    
   }
   openModal(template: TemplateRef<any>) {
     if(this.modalState) return

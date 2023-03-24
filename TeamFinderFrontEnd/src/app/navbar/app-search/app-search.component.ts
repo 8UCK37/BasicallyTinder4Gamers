@@ -14,7 +14,7 @@ export class AppSearchComponent implements OnInit {
   selected?: string;
   searchResults: any[] = [];
   public show:boolean =true;
-  constructor(public user: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private router: Router) {
+  constructor(public userService: UserService ,private renderer: Renderer2 ,private auth: AngularFireAuth,private router: Router) {
     this.dropdown = new ElementRef(null)
   }
 
@@ -29,14 +29,9 @@ export class AppSearchComponent implements OnInit {
     // this.usr = localStorage.getItem('user');
     // this.userparsed=JSON.parse(this.usr);
     // console.log("logged in :" ,  this.user.isLoggedIn)
-    this.auth.authState.subscribe(user=>{
-      if(user) {
-        this.userparsed = user
-        // axios.get('saveuser').then(res=>{
-        //   //console.log("save user" ,res)
-        //   this.profileurl = `http://localhost:3000/static/profilePicture/${user.uid}.jpg`
-        // }).catch(err =>console.log(err))
-      }
+    this.userService.userCast.subscribe(usr=>{
+      //console.log("user data" , usr)
+      this.userparsed = usr;
     })
   }
   ngOnDestroy() {
@@ -54,7 +49,7 @@ export class AppSearchComponent implements OnInit {
   }
   }
   sendReq(data:string){
-    axios.post('addFriend',{from:this.userparsed.uid,to:data}).then(res=>{
+    axios.post('addFriend',{from:this.userparsed.id,to:data}).then(res=>{
       console.log("sent req" ,res)
     }).catch(err =>console.log(err))
     //console.log(this.userparsed)

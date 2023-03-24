@@ -8,10 +8,10 @@ async function execute(io , socketUserMap ,  userSocketMap){
           console.log('setSocket id' , msg.name, "====>"  , socket.id );
           socketUserMap.set(socket.id,msg.name)
           userSocketMap.set(msg.name,socket.id)
-          // console.log("socketTousermap")
-          // console.log(socketUserMap)
-          // console.log("userTosocketmap")
-          // console.log(userSocketMap)
+          console.log("socketTousermap")
+          console.log(socketUserMap)
+          console.log("userTosocketmap")
+          console.log(userSocketMap)
           try{
           const updateStatus = await prisma.user.update({
             where: {

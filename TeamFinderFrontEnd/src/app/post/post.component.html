@@ -4,8 +4,8 @@
     <div class="col-md-6">
       <div class="card_cust">
         <div class="d-flex justify-content-between p-2 px-3" style="position: relative;top: 7px;">
-          <div class="d-flex flex-row align-items-center"> <img [src]="childPost.authorUrl" width="50"
-              class="rounded-circle" (error)="onPostPicError(i)">
+          <div class="d-flex flex-row align-items-center"> <img [src]="childPost.profilePicture" width="50"
+              class="rounded-circle">
             <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
                 style="margin-left: 10px;">{{childPost.name}}</span><span style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span></div>
           </div>

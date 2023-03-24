@@ -121,7 +121,7 @@ async function getPost(req, res, prisma) {
 async function getPostById(req, res, prisma) {
   console.log("get post")
   let posts = await prisma.$queryRaw`
-    SELECT p.*, t.tagNames, u.name, 
+    SELECT p.*, t.tagNames, u.name,u."profilePicture", 
     CASE WHEN EXISTS (
       SELECT *
       FROM public."Activity" a
@@ -188,6 +188,8 @@ async function getPostByTags(req, res, prisma) {
   let param = req.body.tags;
   let postsByTag = await prisma.$queryRaw`
     SELECT
+      u.name,
+      u."profilePicture",
       t.*,
       p.*,
       CASE WHEN EXISTS (
@@ -230,6 +232,7 @@ async function getPostByTags(req, res, prisma) {
           WHERE "tagName" = ${param}
         )
       ) AS p
+      LEFT JOIN public."User" AS u ON p.author = u.id
       LEFT JOIN (
         SELECT post, STRING_AGG("tagName", ',') AS tagNames
         FROM public."Tags"
@@ -239,6 +242,7 @@ async function getPostByTags(req, res, prisma) {
   `;
   res.send(JSON.stringify(postsByTag));
 }
+
 
 
 async function likePost(req, res, prisma){
