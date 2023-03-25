@@ -31,15 +31,18 @@ export class FriendsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.usr = localStorage.getItem('user');
-    this.userparsed = JSON.parse(this.usr);
+    this.userService.userCast.subscribe(usr=>{
+      //console.log("user data" , usr)
+      this.userparsed = usr
+      this.incNotification();
+    })
     //console.log(this.ownProfile);
-    this.incNotification();
+
     if(this.ownProfile){
       this.userService.userCast.subscribe(usr=>{
         //console.log("user data" , usr)
-        if (usr) {
-          this.userparsed = usr
+        this.userparsed = usr
+        if (this.userparsed) {
           this.getFriendData();
         }
       })
@@ -106,7 +109,7 @@ export class FriendsComponent implements OnInit {
     //console.log(userid)
     //console.log(this.userparsed.uid)
     if(this.userparsed.id==userid){
-      this.router.navigate(['/profile-page']);
+      this.router.navigate(['/profile-page/post']);
     }else{
       this.router.navigate(['user','post'], { queryParams: { id: userid } });
     }

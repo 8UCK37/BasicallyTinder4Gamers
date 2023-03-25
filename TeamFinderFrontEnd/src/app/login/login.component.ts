@@ -17,7 +17,7 @@ export class LoginComponent  {
 
   constructor(public userService: UserService,private auth: AngularFireAuth , router :Router ,private AppComponent:AppComponent) {
     this.AppComponent.hidenavbar=true;
-    console.log(this.userService.isLoggedIn)
+    //console.log(this.userService.isLoggedIn)
     this.userService.userCast.subscribe(usr=>{
       console.log("user data" , usr)
       this.userObject=usr

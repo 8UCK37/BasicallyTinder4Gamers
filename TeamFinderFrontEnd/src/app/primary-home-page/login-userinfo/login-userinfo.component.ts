@@ -47,14 +47,15 @@ export class LoginUserinfoComponent implements OnInit {
 
   }
   ngOnInit() {
-  }
-  ngAfterViewInit(){
     this.userService.userCast.subscribe(usr =>{
       //console.log(usr)
-      if(usr.userInfoId == null){
+
+      if(usr && usr.userInfoId == null){
         this.openModal(this.templateref)
       }
     })
+  }
+  ngAfterViewInit(){
 
   }
   openModal(template: TemplateRef<any>) {

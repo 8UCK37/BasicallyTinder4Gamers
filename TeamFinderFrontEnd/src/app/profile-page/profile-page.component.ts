@@ -41,8 +41,6 @@ export class ProfilePageComponent implements OnInit {
     if (lastUrl == 'friends') this.radioActivaVal = 3;
     if (lastUrl == 'linked-accounts') this.radioActivaVal = 4;
     // this.radioAtGame = true
-    this.usr = localStorage.getItem('user');
-    this.userparsed = JSON.parse(this.usr);
     if (this.ownProfile) {
       this.userService.userCast.subscribe(usr=>{
         //console.log("user data" , usr)

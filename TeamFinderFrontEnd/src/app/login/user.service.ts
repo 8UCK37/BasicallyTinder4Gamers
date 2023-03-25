@@ -66,7 +66,7 @@ export class UserService {
         user.getIdToken().then(id => {
           axios.defaults.headers.common['authorization'] = `Bearer ${id}`
           axios.defaults.baseURL = 'http://localhost:3000/'
-          // localStorage.setItem('token', id);
+          localStorage.setItem('token', id);
           axios.post('/saveuser').then(res => {
             this.userData.next(res.data)
             console.log(this.userData)
