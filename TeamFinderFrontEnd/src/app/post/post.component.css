@@ -34,7 +34,8 @@ carousel img {
 }
 .card_cust{
 width: 55rem;
-margin-left: 206px;
+margin-left: 216px;
+margin-right: 216px;
 background-color: #262626;
 color: aliceblue;
 border-radius: 20px;

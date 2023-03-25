@@ -47,8 +47,10 @@ export class GamesComponent implements OnInit {
     if (this.ownProfile) {
       this.userService.userCast.subscribe(usr=>{
         //console.log("user data" , usr)
+        if(usr){
         this.getOwnedGamesfrmDb();
         this.result=[]
+      }
       })
     } else {
       this.route.queryParams.subscribe(params => {
