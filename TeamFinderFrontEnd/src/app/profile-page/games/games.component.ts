@@ -6,6 +6,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import axios from 'axios';
+import { UserService } from 'src/app/login/user.service';
 
 @Component({
   selector: 'app-games',
@@ -38,14 +39,17 @@ export class GamesComponent implements OnInit {
   public frndownedgames: any[] = []
   ownProfile: any;
   public profile_id: any;
-  constructor(private modalService: NgbModal, private router: Router, private route: ActivatedRoute) {
+  constructor(public userService:UserService, private modalService: NgbModal, private router: Router, private route: ActivatedRoute) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
 
   ngOnInit(): void {
     if (this.ownProfile) {
-      this.getOwnedGamesfrmDb();
-      this.result=[]
+      this.userService.userCast.subscribe(usr=>{
+        //console.log("user data" , usr)
+        this.getOwnedGamesfrmDb();
+        this.result=[]
+      })
     } else {
       this.route.queryParams.subscribe(params => {
         this.profile_id = params['id'];

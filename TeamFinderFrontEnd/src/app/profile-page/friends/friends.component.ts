@@ -26,7 +26,7 @@ export class FriendsComponent implements OnInit {
   public status=new Map();
   ownProfile: any;
   public profile_id:any;
-  constructor(private socketService : ChatServicesService ,public user: UserService, private auth: AngularFireAuth,private router: Router,private route: ActivatedRoute) {
+  constructor(public userService:UserService,private socketService : ChatServicesService ,public user: UserService, private auth: AngularFireAuth,private router: Router,private route: ActivatedRoute) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
    }
 
@@ -36,9 +36,10 @@ export class FriendsComponent implements OnInit {
     //console.log(this.ownProfile);
     this.incNotification();
     if(this.ownProfile){
-      this.auth.authState.subscribe(user => {
-        if (user) {
-          this.userparsed = user
+      this.userService.userCast.subscribe(usr=>{
+        //console.log("user data" , usr)
+        if (usr) {
+          this.userparsed = usr
           this.getFriendData();
         }
       })

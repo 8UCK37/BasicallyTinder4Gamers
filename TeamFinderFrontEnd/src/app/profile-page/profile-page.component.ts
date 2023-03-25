@@ -39,6 +39,7 @@ export class ProfilePageComponent implements OnInit {
     if (lastUrl == 'post') this.radioActivaVal = 1
     if (lastUrl == 'games') this.radioActivaVal = 2;
     if (lastUrl == 'friends') this.radioActivaVal = 3;
+    if (lastUrl == 'linked-accounts') this.radioActivaVal = 4;
     // this.radioAtGame = true
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);

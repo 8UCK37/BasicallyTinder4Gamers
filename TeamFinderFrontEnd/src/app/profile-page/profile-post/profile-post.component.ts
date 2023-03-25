@@ -32,7 +32,9 @@ constructor(public userService:UserService,private auth: AngularFireAuth,private
         //console.log("user data" , usr)
         this.userparsed = usr;
         this.userInfo = usr;
+        if(usr!=null){
         this.getPostById(this.userparsed?.id);
+      }
       })
     } else {
       this.route.queryParams.subscribe(params => {

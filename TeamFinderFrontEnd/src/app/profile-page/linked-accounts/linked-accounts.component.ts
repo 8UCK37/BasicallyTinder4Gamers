@@ -24,19 +24,13 @@ export class LinkedAccountsComponent implements OnInit {
   }
   ngOnInit(): void {
       if (this.ownProfile) {
-        if(this.route.snapshot.queryParams['status']!=null){
-          //console.log('not null')
-          //alert('Your steam id has been successfully linked')
-        }
-        //this.getSteamId();
         this.userService.userCast.subscribe(usr=>{
           //console.log("user data" , usr)
           this.userparsed = usr;
-          if (usr) {
+          if (usr!=null) {
             this.fetchUserData();
           }
         })
-
       } else {
       this.route.queryParams.subscribe(async params => {
         this.profile_id = params['id'];
