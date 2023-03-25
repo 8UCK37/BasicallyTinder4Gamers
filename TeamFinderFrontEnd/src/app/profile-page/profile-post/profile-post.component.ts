@@ -32,7 +32,7 @@ constructor(public userService:UserService,private auth: AngularFireAuth,private
         //console.log("user data" , usr)
         this.userparsed = usr;
         this.userInfo = usr;
-        this.getPostById(this.userparsed.id);
+        this.getPostById(this.userparsed?.id);
       })
     } else {
       this.route.queryParams.subscribe(params => {
@@ -43,7 +43,7 @@ constructor(public userService:UserService,private auth: AngularFireAuth,private
   }
   getPostById(id:any){
     axios.post('getPostById',{uid:id}).then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')

@@ -23,19 +23,20 @@ export class LinkedAccountsComponent implements OnInit {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
   ngOnInit(): void {
-    this.userService.userCast.subscribe(usr=>{
-      //console.log("user data" , usr)
-      this.userparsed = usr;
-
-    })
-
       if (this.ownProfile) {
         if(this.route.snapshot.queryParams['status']!=null){
           //console.log('not null')
           //alert('Your steam id has been successfully linked')
         }
         //this.getSteamId();
-        this.fetchUserData();
+        this.userService.userCast.subscribe(usr=>{
+          //console.log("user data" , usr)
+          this.userparsed = usr;
+          if (usr) {
+            this.fetchUserData();
+          }
+        })
+
       } else {
       this.route.queryParams.subscribe(async params => {
         this.profile_id = params['id'];
@@ -79,10 +80,6 @@ export class LinkedAccountsComponent implements OnInit {
     return '300px'
   }
 
-  generateUrl(): string {
-    const id = this.userparsed.id;
-    return `http://localhost:3000/auth/steam?uid=${id}`;
-  }
    async fetchUserData(){
     await axios.post('getUserInfo', { id: this.userparsed.id }).then(res => {
       //console.log(res.data)

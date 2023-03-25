@@ -47,7 +47,7 @@ export class ProfilePageComponent implements OnInit {
         //console.log("user data" , usr)
         this.userparsed = usr;
         this.userInfo = usr;
-        this.bio = this.userInfo.bio;
+        this.bio = this.userInfo?.bio;
       })
     } else {
       this.route.queryParams.subscribe(async params => {

@@ -1,7 +1,7 @@
 <div class="con">
   <h1>Securely Link Accounts to Your Profile</h1>
   <ng-container *ngIf="ownProfile; else elseblock">
-    <a #link type="button" [href]="generateUrl()" style="display:none;"></a>
+    <a #link type="button" href="http://localhost:3000/auth/steam?uid={{userparsed?.id}}" style="display:none;"></a>
     <i class="fa-brands fa-steam fa-3x"
       (click)="linked ? null : link.click()"
       [ngClass]="{'disabled': linked}"

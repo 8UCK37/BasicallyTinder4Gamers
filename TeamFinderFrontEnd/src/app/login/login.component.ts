@@ -15,13 +15,15 @@ export class LoginComponent  {
   title = 'angular-firebase-auth-service';
   public userObject?: any;
 
-  constructor(public user: UserService,private auth: AngularFireAuth , router :Router ,private AppComponent:AppComponent) {
+  constructor(public userService: UserService,private auth: AngularFireAuth , router :Router ,private AppComponent:AppComponent) {
     this.AppComponent.hidenavbar=true;
-    // this.userObject = localStorage.getItem('user');
-    // userObject
-    // if(this.userObject != null){
-    //   router.navigate(['/first-component']);
-    // }
+    console.log(this.userService.isLoggedIn)
+    this.userService.userCast.subscribe(usr=>{
+      console.log("user data" , usr)
+      this.userObject=usr
+      if(this.userObject != null){
+      router.navigate(['/home']);
+    }
+    })
   }
-
 }

@@ -59,14 +59,12 @@ export class NavbarComponent implements  OnInit {
   }
 
 
-
-
-
   ngOnInit(): void {
     this.userService.userCast.subscribe(usr=>{
-      console.log("user data" , usr)
+      //console.log("user data" , usr)
       this.userparsed = usr
       this.userInfo = usr
+      //console.log(usr)
       if (usr) {
       this.socketService.setupSocketConnection();
       this.socketService.setSocketId(this.userparsed.id);
@@ -75,8 +73,6 @@ export class NavbarComponent implements  OnInit {
       this.getPendingReq();
     }
     })
-    console.log(this.userparsed)
-
     setInterval(() => {
       if (this.router.url == "/chat") {
         this.noti = false;

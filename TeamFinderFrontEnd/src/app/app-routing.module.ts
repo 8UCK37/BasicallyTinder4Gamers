@@ -36,13 +36,13 @@ const routes: Routes = [
     data: { ownProfile: false }
   },
   { path: 'test', pathMatch: 'full', component:CommentModalComponent },
-  { path: 'first-component', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
   { path: 'settings', pathMatch: 'full', component: SettingsComponent },
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
   { path: 'chat', pathMatch: 'full', component: ChatPageComponent, canActivate: [AuthGuard]},
   { path: 'search', pathMatch: 'full', component: AppSearchComponent , canActivate: [AuthGuard]},
-  { path: '**', pathMatch: 'full', component: LoginComponent, canActivate: [AuthGuard] },
+  { path: '**', pathMatch: 'full', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
 
 ];
 

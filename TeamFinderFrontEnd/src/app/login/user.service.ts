@@ -69,9 +69,7 @@ export class UserService {
           // localStorage.setItem('token', id);
           axios.post('/saveuser').then(res => {
             this.userData.next(res.data)
-            // console.log(this.userData)
-            this.router.navigate(['first-component']);
-            // this.userData.uid = id
+            console.log(this.userData)
           })
         })
       }
@@ -101,7 +99,7 @@ export class UserService {
   login() {
     this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((result) => {
       // this.SetUserData(result.user);
-
+      this.router.navigate(['home']);
     })
       .catch((error) => {
         window.alert(error.message);
