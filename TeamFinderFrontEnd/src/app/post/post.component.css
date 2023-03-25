@@ -155,8 +155,9 @@ clip-path:inset(50%)
 .react i:before {
 content: "";
 display: block;
-width: var(--r);
-height: var(--r);
+width: 45px;
+height: 45px;
+margin: -7px;
 background-size: cover;
 }
 .react.fire i:before {
@@ -321,7 +322,7 @@ border-color: transparent;
 background: #fff;
 height: 52px;
 box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.15);
-width: 300px;
+width: 340px;
 display: flex;
 justify-content: space-between;
 align-content: center;
