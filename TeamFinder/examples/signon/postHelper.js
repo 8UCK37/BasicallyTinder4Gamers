@@ -106,7 +106,7 @@ async function getPost(req, res, prisma) {
 	 GROUP BY "post"
   ) t ON p.id = t.post
   LEFT JOIN public."Activity" a ON p.id = a.post
-  LEFT JOIN public."User" u ON a.author = u.id
+  LEFT JOIN public."User" u ON p.author = u.id
   WHERE a.author IN (
     SELECT f.reciever
     FROM public."Friends" f

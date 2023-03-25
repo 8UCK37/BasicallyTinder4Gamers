@@ -171,5 +171,10 @@ toastsReject(){
       });
     }
   }
+  notiDismiss(index:any){
+    console.log(index)
+    this.notificationArray.splice(index,1)
+    console.log(this.notificationArray)
+  }
 }
 

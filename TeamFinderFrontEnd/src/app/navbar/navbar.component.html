@@ -26,39 +26,40 @@
               <div class="display">
                 <div class="cont"><!-- Fold this div and try deleting evrything inbetween -->
                   <div class="sec new" *ngIf="notificationArray?.length!=0;else elseblock">
-                    <div *ngFor="let user of notificationArray">
-                      <ng-container *ngIf="user.notiType=='frnd req'">
+                    <div *ngFor="let noti of notificationArray;let i= index">
+                      <ng-container *ngIf="noti.notiType=='frnd req'">
                         <div class="frnd-noti">
-                          <div class="noti-img" (click)="onclick(user.sender)" style="cursor: pointer;">
-                            <img [src]="user.profileurl" class="img-sk" referrerpolicy="no-referrer" />
+                          <div class="noti-img" (click)="onclick(noti.sender)" style="cursor: pointer;">
+                            <img [src]="noti.profileurl" class="img-sk" referrerpolicy="no-referrer" />
                           </div>
                           <div class="accpt-rej-btns">
-                            <div style="color: rgb(227, 213, 213);"> {{user.userName}} sent you a friend request</div>
+                            <div style="color: rgb(227, 213, 213);"> {{noti.userName}} sent you a friend request</div>
                             <div style="margin-bottom: 5px;">
                               <button type="button" class="btn btn-light"
-                                (click)="acceptReq(user.sender);accepted.click()">Accept</button>
+                                (click)="acceptReq(noti.sender);accepted.click()">Accept</button>
                               <button type="button" class="btn btn-light"
-                                (click)="rejectReq(user.sender);rejected.click()">Reject</button>
+                                (click)="rejectReq(noti.sender);rejected.click()">Reject</button>
                             </div>
                           </div>
                         </div>
                       </ng-container>
-                      <ng-container *ngIf="user.notiType=='poke'">
-                        <div style="height: auto;margin-top: 20px;">
-                          <div class="profile-username" style="color: black;">You've been poked by</div>
-                          <div class="profile-image" style="margin-top: 5px;">
-                            <img [src]="user.profileurl" referrerpolicy="no-referrer" />
-                          </div>
-                          <div class="profile-username" style="color: black;">{{user.userName}}</div>
-                        </div>
-                      </ng-container>
-                      <ng-container *ngIf="user.notiType=='frndReqAcc'">
-                        <div class="frnd-noti">
-                          <div class="noti-img" (click)="onclick(user.sender)" style="cursor: pointer;">
-                            <img [src]="user.profileurl" class="img-sk" referrerpolicy="no-referrer" />
+                      <ng-container *ngIf="noti.notiType=='poke'">
+                        <div class="frnd-noti" (click)="notiDismiss(i)">
+                          <div class="noti-img" (click)="onclick(noti.sender)" style="cursor: pointer;">
+                            <img [src]="noti.profileurl" class="img-sk" referrerpolicy="no-referrer" />
                           </div>
                           <div class="accpt-rej-btns">
-                            <div style="color: rgb(227, 213, 213);"> {{user.userName}} accepted your friend request</div>
+                            <div style="color: rgb(227, 213, 213);">You've been poked by {{noti.userName}}{{i}} </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="noti.notiType=='frndReqAcc'">
+                        <div class="frnd-noti">
+                          <div class="noti-img" (click)="onclick(noti.sender)" style="cursor: pointer;">
+                            <img [src]="noti.profileurl" class="img-sk" referrerpolicy="no-referrer" />
+                          </div>
+                          <div class="accpt-rej-btns">
+                            <div style="color: rgb(227, 213, 213);"> {{noti.userName}} accepted your friend request</div>
                           </div>
                         </div>
                       </ng-container>

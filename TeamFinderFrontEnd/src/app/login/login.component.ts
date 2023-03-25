@@ -19,7 +19,7 @@ export class LoginComponent  {
     this.AppComponent.hidenavbar=true;
     //console.log(this.userService.isLoggedIn)
     this.userService.userCast.subscribe(usr=>{
-      console.log("user data" , usr)
+      //console.log("user data" , usr)
       this.userObject=usr
       if(this.userObject != null){
       router.navigate(['/home']);
