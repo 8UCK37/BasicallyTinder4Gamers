@@ -34,7 +34,8 @@ import { LoginUserinfoComponent } from './primary-home-page/login-userinfo/login
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommentModalComponent } from './primary-home-page/comment-modal/comment-modal.component';
 import { PostComponent } from './post/post.component';
-
+import { ButtonModule } from 'primeng/button';
+import { SidebarModule } from 'primeng/sidebar';
 @NgModule({
   declarations: [
       AppComponent,
@@ -56,6 +57,8 @@ import { PostComponent } from './post/post.component';
       PostComponent
    ],
   imports: [
+    SidebarModule,
+    ButtonModule,
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

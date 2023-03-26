@@ -17,17 +17,17 @@ export class PostComponent implements OnInit {
   public utcDateTime:any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   constructor(private renderer: Renderer2) {
-    this.renderer.listen('window', 'click', (e: Event) => {
-      const clickedElement = e.target as HTMLElement;
-      const clickedElementClassList = clickedElement.classList;
-      if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && !this.commentbtn?.nativeElement.contains(e.target as HTMLElement)) {
-        if(this.commentOpen && clickedElementClassList[0]!='comment-btn'){
-        this.closeComments.nativeElement.click();
-        this.commentOpen=false
-      }
-        //console.log("caught")
-      }
-    });
+    // this.renderer.listen('window', 'click', (e: Event) => {
+    //   const clickedElement = e.target as HTMLElement;
+    //   const clickedElementClassList = clickedElement.classList;
+    //   if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && !this.commentbtn?.nativeElement.contains(e.target as HTMLElement)) {
+    //     if(this.commentOpen && clickedElementClassList[0]!='comment-btn'){
+    //     this.closeComments.nativeElement.click();
+    //     this.commentOpen=false
+    //   }
+    //     //console.log("caught")
+    //   }
+    // });
    }
 
   ngOnInit(): void {
