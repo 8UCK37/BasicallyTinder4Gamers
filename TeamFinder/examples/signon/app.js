@@ -30,6 +30,8 @@ const prisma = new PrismaClient()
 const multer = require('multer');
 const socketRunner = require('./sockerRunner')
 const { randomUUID } = require("crypto");
+const auth  = require('./middleware/authMiddleware')
+const ensureAuthenticated = auth.ensureAuthenticated
 const storage = multer.memoryStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname + './../../public/profilePicture'))
@@ -140,6 +142,9 @@ app.use(passport.session());
 app.use(bodyParser.json());
 app.use('/static', express.static(__dirname + '/../../public'));
 
+//routers
+
+app.use("/comment", require('./routes/comment'))
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
@@ -769,45 +774,7 @@ socketRunner.execute(io, socketUserMap, userSocketMap)
 //   the request is authenticated (typically via a persistent login session),
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
-function ensureAuthenticated(req, res, next) {
-  var admin = require("firebase-admin");
 
-  var serviceAccount = require("./../../key/firebaseadminkey.json");
-  if (!admin.apps.length) {
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount)
-
-    });
-  } else {
-    admin.app()
-  }
-
-  const { getAuth } = require("firebase-admin/auth")
-  if (req.headers['authorization'] == null) {
-    res.sendStatus(400);
-    return;
-  }
-  let idToken = req.headers['authorization'].split(" ")[1]
-
-  getAuth()
-    .verifyIdToken(idToken)
-    .then((decodedToken) => {
-      req.user = decodedToken
-      next();
-      // console.log(decodedToken);
-      // console.log(uid)
-      // ...
-    })
-    .catch((error) => {
-      // Handle error
-
-      console.log(error)
-      res.sendStatus(403)
-
-    });
-
-  // res.sendStatus(200)
-}
 
 app.listen(3000);
 http.listen(5000, () => console.log(`Listening on port ${5000}`));
