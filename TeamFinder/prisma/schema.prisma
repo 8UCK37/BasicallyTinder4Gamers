@@ -8,8 +8,8 @@ generator client {
 }
 
 model User {
-  id             String   @id
-  createdAt      DateTime @default(now())
+  id             String    @id
+  createdAt      DateTime  @default(now())
   name           String
   profilePicture String?
   profileBanner  String?
@@ -18,7 +18,7 @@ model User {
   gmailId        String?
   activeChoice   Boolean?
   isConnected    Boolean?
-  userInfoId     Int? @unique
+  userInfoId     Int?      @unique
   userInfo       UserInfo? @relation(fields: [userInfoId], references: [id])
 }
 
@@ -68,9 +68,9 @@ model OwnedGames {
 }
 
 model Posts {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   author      String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   photoUrl    String
   description String
   fire_count  Int
@@ -78,6 +78,17 @@ model Posts {
   love_count  Int
   sad_count   Int
   poop_count  Int
+  comments    Comment[]
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  author     String
+  createdAt  DateTime @default(now())
+  commentStr String
+  commentOf  Int?
+  Posts      Posts?   @relation(fields: [postsId], references: [id])
+  postsId    Int?
 }
 
 model Tags {
