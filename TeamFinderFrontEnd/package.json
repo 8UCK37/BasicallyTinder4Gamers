@@ -37,6 +37,8 @@
     "mat-select-autocomplete": "^1.3.0",
     "ngx-bootstrap": "^10.2.0",
     "ngx-chips": "^3.0.0",
+    "primeicons": "^6.0.1",
+    "primeng": "^15.2.1",
     "rxjs": "~7.8.0",
     "shortid": "^2.2.16",
     "socket.io-client": "^4.5.4",
