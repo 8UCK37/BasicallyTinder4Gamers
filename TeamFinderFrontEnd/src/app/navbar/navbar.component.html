@@ -44,17 +44,19 @@
                         </div>
                       </ng-container>
                       <ng-container *ngIf="noti.notiType=='poke'">
-                        <div class="frnd-noti" (click)="notiDismiss(i)">
+                        <div class="frnd-noti">
                           <div class="noti-img" (click)="onclick(noti.sender)" style="cursor: pointer;">
                             <img [src]="noti.profileurl" class="img-sk" referrerpolicy="no-referrer" />
                           </div>
                           <div class="accpt-rej-btns">
                             <div style="color: rgb(227, 213, 213);">You've been poked by {{noti.userName}}{{i}} </div>
                           </div>
+                          <button type="button" class="btn-close" (click)="notiDismiss(i)" style="margin-right: 25px;margin-top: 10px;" ></button>
                         </div>
                       </ng-container>
                       <ng-container *ngIf="noti.notiType=='frndReqAcc'">
                         <div class="frnd-noti">
+
                           <div class="noti-img" (click)="onclick(noti.sender)" style="cursor: pointer;">
                             <img [src]="noti.profileurl" class="img-sk" referrerpolicy="no-referrer" />
                           </div>
