@@ -7,14 +7,14 @@
           <div class="d-flex flex-row align-items-center"> <img [src]="childPost.profilePicture" width="50"
               class="rounded-circle">
             <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
-                style="margin-left: 10px;">{{childPost.name}}</span><span style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span></div>
+                style="margin-left: 10px;">{{childPost.name}}</span><span
+                style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span></div>
           </div>
         </div>
         <div class="p-3">
           <p class="text-justify">{{childPost.description}}</p>
           <ng-container *ngFor="let tag of childPost.tagArr">
-            <a class="text-justify" style="cursor: pointer;"
-              (click)="fetchByTag(tag)">{{"#"+tag}}</a>
+            <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
           </ng-container>
         </div>
         <div>
@@ -28,90 +28,124 @@
         </ng-container>
         <div class="p-2 carousel-btm">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
-             <div class="like">
-              <ng-container *ngIf="childPost.noreaction || childPost.likedbycurrentuser" >
-                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.likedbycurrentuser" (click)="likeButtonClick(childPost,'like')">
+            <div class="like">
+              <ng-container *ngIf="childPost.noreaction || childPost.likedbycurrentuser">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.likedbycurrentuser"
+                  (click)="likeButtonClick(childPost,'like')">
                 <label for="${{childPost.id}}" class="react fire">
                   <i data-icon=""></i>
                 </label>
                 <div>Fire</div>
               </ng-container>
-                <ng-container *ngIf="childPost.hahaedbycurrentuser">
-                  <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.hahaedbycurrentuser" (click)="likeButtonClick(childPost,'haha')">
-                  <label for="${{childPost.id}}" class="react haha">
-                    <i data-icon=""></i>
-                  </label>
-                  <div>HaHa</div>
-                </ng-container>
-                <ng-container *ngIf="childPost.lovedbycurrentuser">
-                  <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.lovedbycurrentuser" (click)="likeButtonClick(childPost,'love')">
-                  <label for="${{childPost.id}}" class="react love">
-                    <i data-icon=""></i>
-                  </label>
-                  <div>Love</div>
-                </ng-container>
-                <ng-container *ngIf="childPost.sadedbycurrentuser">
-                  <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.sadedbycurrentuser" (click)="likeButtonClick(childPost,'sad')">
-                  <label for="${{childPost.id}}" class="react sad">
-                    <i data-icon=""></i>
-                  </label>
-                  <div>Sad</div>
-                </ng-container>
-                <ng-container *ngIf="childPost.poopedbycurrentuser">
-                  <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.poopedbycurrentuser" (click)="likeButtonClick(childPost,'poop')">
-                  <label for="${{childPost.id}}" class="react poop">
-                    <i data-icon=""></i>
-                  </label>
-                  <div>Shit</div>
-                </ng-container>
-                <div class="toolbox">
-                  <div class="container">
-                    <div class="row" style="color: black;">
-                      <div class="col-sm ">
-                        <input type="checkbox" id="${{childPost.id}}h"  (click)="likeButtonClick(childPost,'haha')">
-                          <label for="${{childPost.id}}h" class="react haha">
+              <ng-container *ngIf="childPost.hahaedbycurrentuser">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.hahaedbycurrentuser"
+                  (click)="likeButtonClick(childPost,'haha')">
+                <label for="${{childPost.id}}" class="react haha">
+                  <i data-icon=""></i>
+                </label>
+                <div>HaHa</div>
+              </ng-container>
+              <ng-container *ngIf="childPost.lovedbycurrentuser">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.lovedbycurrentuser"
+                  (click)="likeButtonClick(childPost,'love')">
+                <label for="${{childPost.id}}" class="react love">
+                  <i data-icon=""></i>
+                </label>
+                <div>Love</div>
+              </ng-container>
+              <ng-container *ngIf="childPost.sadedbycurrentuser">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.sadedbycurrentuser"
+                  (click)="likeButtonClick(childPost,'sad')">
+                <label for="${{childPost.id}}" class="react sad">
+                  <i data-icon=""></i>
+                </label>
+                <div>Sad</div>
+              </ng-container>
+              <ng-container *ngIf="childPost.poopedbycurrentuser">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.poopedbycurrentuser"
+                  (click)="likeButtonClick(childPost,'poop')">
+                <label for="${{childPost.id}}" class="react poop">
+                  <i data-icon=""></i>
+                </label>
+                <div>Shit</div>
+              </ng-container>
+              <div class="toolbox">
+                <div class="container">
+                  <div class="row" style="color: black;">
+                    <div class="col-sm ">
+                      <input type="checkbox" id="${{childPost.id}}h" (click)="likeButtonClick(childPost,'haha')">
+                      <label for="${{childPost.id}}h" class="react haha">
                         <i data-icon=""></i>
-                          </label>
-                      </div>
-                      <div class="col-sm ">
-                        <input type="checkbox" id="${{childPost.id}}s"  (click)="likeButtonClick(childPost,'sad')">
-                        <label for="${{childPost.id}}s" class="react sad">
-                      <i data-icon=""></i>
-                        </label>
-                      </div>
-                      <div class="col-sm ">
-                        <input type="checkbox" id="${{childPost.id}}l"  (click)="likeButtonClick(childPost,'love')">
-                        <label for="${{childPost.id}}l" class="react love">
-                      <i data-icon=""></i>
-                        </label>
-                      </div>
-                      <div class="col-sm ">
-                        <input type="checkbox" id="${{childPost.id}}p"  (click)="likeButtonClick(childPost,'poop')">
-                        <label for="${{childPost.id}}p" class="react poop">
-                      <i data-icon="https://cdn-icons-png.flaticon.com/512/4951/4951989.png"></i>
-                        </label>
-                      </div>
-                      <div class="col-sm ">
-                        <input type="checkbox" id="${{childPost.id}}f"  (click)="likeButtonClick(childPost,'like')">
-                          <label for="${{childPost.id}}f" class="react fire2">
+                      </label>
+                    </div>
+                    <div class="col-sm ">
+                      <input type="checkbox" id="${{childPost.id}}s" (click)="likeButtonClick(childPost,'sad')">
+                      <label for="${{childPost.id}}s" class="react sad">
                         <i data-icon=""></i>
-                          </label>
-                      </div>
+                      </label>
+                    </div>
+                    <div class="col-sm ">
+                      <input type="checkbox" id="${{childPost.id}}l" (click)="likeButtonClick(childPost,'love')">
+                      <label for="${{childPost.id}}l" class="react love">
+                        <i data-icon=""></i>
+                      </label>
+                    </div>
+                    <div class="col-sm ">
+                      <input type="checkbox" id="${{childPost.id}}p" (click)="likeButtonClick(childPost,'poop')">
+                      <label for="${{childPost.id}}p" class="react poop">
+                        <i data-icon="https://cdn-icons-png.flaticon.com/512/4951/4951989.png"></i>
+                      </label>
+                    </div>
+                    <div class="col-sm ">
+                      <input type="checkbox" id="${{childPost.id}}f" (click)="likeButtonClick(childPost,'like')">
+                      <label for="${{childPost.id}}f" class="react fire2">
+                        <i data-icon=""></i>
+                      </label>
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
 
             <div class="comment-btn" #commentbtn data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight" style="cursor: pointer;" (click)="commentOpen=true">Comments</div>
-              <p-sidebar [(visible)]="commentOpen" position="right">
-                <h3>Right Sidebar</h3>
+              aria-controls="offcanvasRight" style="cursor: pointer;" (click)="openComment(childPost)">Comments</div>
+            <p-sidebar [(visible)]="commentOpen" position="right">
+              <h3>Right Sidebar</h3>
+              <div>
+                <input type="text" class="form-control" id="usr" style="
+                visibility: inherit;
+                display: block;
+                position: relative;
+                clip-path: none;
+            " [(ngModel)]="parentComment">
+                <button (click)="parentCommentSave()"> save</button>
+              </div>
+              <div #commentbox>
+                <div *ngFor="let nodes of treeObj.nodes;">
+
+                  {{nodes.commentStr}}
+                  <div class="inrComment">
+                    <div *ngFor="let edge of nodes.edges;">
+
+                      {{edge.commentStr}}
+                    </div>
+                    <div class="form-p">
+                      <input type="text" class="form-control" id="{{nodes.id}}" style="
+                visibility: inherit;
+                display: block;
+                position: relative;
+                clip-path: none;
+            " ngModel>
+                      <button (click)="submit($event , nodes.id)"> send </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </p-sidebar>
-            <div class="share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
+            <div class=" share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </ng-container>
-
