@@ -1,4 +1,4 @@
-<ng-container *ngFor="let childPost of posts; let i=index">
+<ng-container >
   <div class="container mt-5 mb-5">
     <!-- <div class="row d-flex align-items-center justify-content-center"> -->
     <div class="col-md-6">
@@ -109,7 +109,7 @@
 
             <div class="comment-btn" #commentbtn data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight" style="cursor: pointer;" (click)="openComment(childPost)">Comments</div>
-            
+
             <div class=" share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
           </div>
         </div>

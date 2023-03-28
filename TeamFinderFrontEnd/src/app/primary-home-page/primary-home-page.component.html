@@ -84,5 +84,7 @@
     </div>
   </div>
 
-  <app-post [posts]="posts"></app-post>
+  <ng-container *ngFor="let post of posts">
+    <app-post [childPost]="post"></app-post>
+  </ng-container>
 </main>

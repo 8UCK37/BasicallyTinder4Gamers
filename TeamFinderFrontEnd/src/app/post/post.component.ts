@@ -26,7 +26,7 @@ interface Comment {
 
 export class PostComponent implements OnInit {
 
-  @Input() posts: any[] = [];
+  @Input() childPost: any;
   @ViewChild('comment') comment!: ElementRef;
   @ViewChild('closeComments') closeComments!: ElementRef;
   @ViewChild('commentbtn') commentbtn!: ElementRef;
@@ -131,18 +131,18 @@ export class PostComponent implements OnInit {
         });
       }
     }
-    console.log(this.posts)
+    console.log(this.childPost)
   }
 
   fetchByTag(tag: any) {
-    this.posts = []
+    this.childPost = []
     axios.post('/getpostbytagname', { tags: tag }).then(res => {
       console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr = post.tagnames?.split(',')
         post.photoUrlArr = post.photoUrl?.split(',')
       });
-      this.posts = res.data
+      this.childPost = res.data
     })
     // console.log(tag)
   }
@@ -217,5 +217,5 @@ export class PostComponent implements OnInit {
       console.log(res)
     })
   }
- 
+
 }
