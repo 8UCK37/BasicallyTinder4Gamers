@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ChatPageComponent } from '../chat-page/chat-page.component';
 import * as bootstrap from 'bootstrap';
 import { animation } from '@angular/animations';
+import { CommentService } from '../post/comment.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -36,6 +37,7 @@ export class NavbarComponent implements  OnInit {
   public userInfo:any
   public noti: boolean = false;
   public recData: any;
+  commentOpen: boolean=false;
   constructor(public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router , public userService : UserService) {
     this.renderer.listen('window', 'click', (e: Event) => {
       /**
@@ -53,7 +55,7 @@ export class NavbarComponent implements  OnInit {
         }
       }
       if (this.togglenoti?.nativeElement != null && !this.notiMenu?.nativeElement.contains(e.target as HTMLElement)) {
-        if (e.target !== this.togglenoti.nativeElement && e.target !== this.notiMenu.nativeElement) {
+        if (e.target !== this.togglenoti.nativeElement && e.target !== this.notiMenu?.nativeElement) {
           if(this.isMenuOpened && clickedElementClassList[0]!='btn-close'){
             console.log('cot')
             this.isMenuOpened = false;
@@ -65,6 +67,8 @@ export class NavbarComponent implements  OnInit {
 
 
   ngOnInit(): void {
+
+
     this.userService.userCast.subscribe(usr=>{
       //console.log("user data" , usr)
       this.userparsed = usr

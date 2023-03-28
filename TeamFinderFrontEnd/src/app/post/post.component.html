@@ -109,39 +109,7 @@
 
             <div class="comment-btn" #commentbtn data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight" style="cursor: pointer;" (click)="openComment(childPost)">Comments</div>
-            <p-sidebar [(visible)]="commentOpen" position="right">
-              <h3>Right Sidebar</h3>
-              <div>
-                <input type="text" class="form-control" id="usr" style="
-                visibility: inherit;
-                display: block;
-                position: relative;
-                clip-path: none;
-            " [(ngModel)]="parentComment">
-                <button (click)="parentCommentSave()"> save</button>
-              </div>
-              <div #commentbox>
-                <div *ngFor="let nodes of treeObj.nodes;">
-
-                  {{nodes.commentStr}}
-                  <div class="inrComment">
-                    <div *ngFor="let edge of nodes.edges;">
-
-                      {{edge.commentStr}}
-                    </div>
-                    <div class="form-p">
-                      <input type="text" class="form-control" id="{{nodes.id}}" style="
-                visibility: inherit;
-                display: block;
-                position: relative;
-                clip-path: none;
-            " ngModel>
-                      <button (click)="submit($event , nodes.id)"> send </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </p-sidebar>
+            
             <div class=" share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
           </div>
         </div>

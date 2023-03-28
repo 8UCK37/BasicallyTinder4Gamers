@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, Input, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, Input, OnInit, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import axios from 'axios';
+import { CommentService } from './comment.service';
 
 interface Comment {
   author: String
@@ -32,14 +33,14 @@ export class PostComponent implements OnInit {
   @ViewChild('commentbox')
   commentbox!: ElementRef;
   parentComment: any;
-  public commentOpen: boolean = false;
+  @Input() public commentOpen: boolean = false;
   myInterval = 0;
   activeSlideIndex = 0;
   public utcDateTime: any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   // commentData: Comment[] = [];
   public treeObj: any = {}
-  constructor(private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
+  constructor(private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
     //   const clickedElementClassList = clickedElement.classList;
@@ -56,6 +57,16 @@ export class PostComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.commentbox)
+    setInterval(() => {
+      console.log("post",this.commentOpen);
+    }, 2000);
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['commentOpen']) {
+      // Call your function here
+      console.log("detected")
+      this.toggleComment()
+    }
   }
   likeButtonClick(post: any, type: String) {
     if ((post.likedbycurrentuser && type == 'like') || (post.hahaedbycurrentuser && type == 'haha') || (post.lovedbycurrentuser && type == 'love') || (post.sadedbycurrentuser && type == 'sad') || (post.poopedbycurrentuser && type == 'poop')) {
@@ -150,6 +161,7 @@ export class PostComponent implements OnInit {
   openComment(e: any) {
     console.log(e)
     this.commentOpen = true
+    this.toggleComment()
     this.fetchComment()
   }
   fetchComment() {
@@ -211,5 +223,12 @@ export class PostComponent implements OnInit {
     }).then(res => {
       console.log(res)
     })
+  }
+  toggleComment() {
+    this.commentService.setCommentOpen(this.commentOpen);
+  }
+  log(){
+    this.commentOpen = false
+    this.toggleComment()
   }
 }

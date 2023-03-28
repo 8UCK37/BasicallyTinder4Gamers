@@ -1,0 +1,33 @@
+<p-sidebar [(visible)]="toggle" (visibleChange)="onToggleChange($event)" (onHide)="log()" position="right">
+  <h3>Right Sidebar</h3>
+  <!-- <div>
+    <input type="text" class="form-control" id="usr" style="
+    visibility: inherit;
+    display: block;
+    position: relative;
+    clip-path: none;
+" [(ngModel)]="parentComment">
+    <button (click)="parentCommentSave()"> save</button>
+  </div>
+  <div #commentbox>
+    <div *ngFor="let nodes of childTreeObj.nodes;">
+
+      {{nodes.commentStr}}
+      <div class="inrComment">
+        <div *ngFor="let edge of nodes.edges;">
+
+          {{edge.commentStr}}
+        </div>
+        <div class="form-p">
+          <input type="text" class="form-control" id="{{nodes.id}}" style="
+    visibility: inherit;
+    display: block;
+    position: relative;
+    clip-path: none;
+" ngModel>
+          <button (click)="submit($event , nodes.id)"> send </button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</p-sidebar>

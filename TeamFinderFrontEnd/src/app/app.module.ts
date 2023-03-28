@@ -36,6 +36,7 @@ import { CommentModalComponent } from './primary-home-page/comment-modal/comment
 import { PostComponent } from './post/post.component';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
+import { CommentComponent } from './comment/comment.component';
 @NgModule({
   declarations: [
       AppComponent,
@@ -54,7 +55,8 @@ import { SidebarModule } from 'primeng/sidebar';
       PrimaryHomePageComponent,
       LoginUserinfoComponent,
       CommentModalComponent,
-      PostComponent
+      PostComponent,
+      CommentComponent
    ],
   imports: [
     SidebarModule,

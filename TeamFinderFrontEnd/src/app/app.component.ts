@@ -4,6 +4,7 @@ import axios from 'axios';
 import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { UserService } from './login/user.service';
+import { CommentService } from './post/comment.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +14,8 @@ export class AppComponent implements OnInit {
   [x: string]: any;
   hidenavbar=false
   token:any;
-  constructor(private service : UserService){
+  commentOpen!: boolean;
+  constructor(private commentService: CommentService,private service : UserService){
     // console.log(this.service.userData )
   }
   ngOnInit(): void {
@@ -21,7 +23,12 @@ export class AppComponent implements OnInit {
     //console.log(this.token)
     axios.defaults.headers.common['authorization'] = `Bearer ${this.token}`
     axios.defaults.baseURL = 'http://localhost:3000/'
-
+    this.commentService.commentOpen$.subscribe(commentOpen => {
+      this.commentOpen = commentOpen;
+    });
+    setInterval(() => {
+      console.log("app.ts",this.commentOpen);
+    }, 2000);
   }
 
 }
