@@ -5,6 +5,7 @@ import { PrimaryHomePageComponent } from './primary-home-page/primary-home-page.
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { UserService } from './login/user.service';
 import { CommentService } from './post/comment.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,8 +16,11 @@ export class AppComponent implements OnInit {
   hidenavbar=false
   token:any;
   commentOpen!: boolean;
+  treeObj: any;
+  private treeObjSub!: Subscription;
   constructor(private commentService: CommentService,private service : UserService){
     // console.log(this.service.userData )
+
   }
   ngOnInit(): void {
     this.token= localStorage.getItem('token')
@@ -26,9 +30,10 @@ export class AppComponent implements OnInit {
     this.commentService.commentOpen$.subscribe(commentOpen => {
       this.commentOpen = commentOpen;
     });
-    setInterval(() => {
-      console.log("app.ts",this.commentOpen);
-    }, 2000);
+    this.treeObjSub = this.commentService.treeObj$.subscribe((obj) => {
+      this.treeObj = obj;
+    });
+    
   }
 
 }

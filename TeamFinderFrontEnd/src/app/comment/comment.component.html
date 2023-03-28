@@ -1,6 +1,6 @@
-<p-sidebar [(visible)]="toggle" (visibleChange)="onToggleChange($event)" (onHide)="log()" position="right">
+<p-sidebar [(visible)]="toggle" (visibleChange)="onToggleChange($event)" (onHide)="hideComment()" position="right">
   <h3>Right Sidebar</h3>
-  <!-- <div>
+  <div>
     <input type="text" class="form-control" id="usr" style="
     visibility: inherit;
     display: block;
@@ -29,5 +29,5 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 </p-sidebar>

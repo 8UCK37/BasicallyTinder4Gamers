@@ -1,7 +1,7 @@
 <header>
     <app-navbar ></app-navbar>
 </header>
-<app-comment [(toggle)]="commentOpen"></app-comment>
+<app-comment [(toggle)]="commentOpen" [childTreeObj]="treeObj"></app-comment>
 <router-outlet></router-outlet>
 <footer></footer>
 <!-- <app-login-userinfo></app-login-userinfo> -->

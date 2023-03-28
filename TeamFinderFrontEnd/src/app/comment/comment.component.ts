@@ -49,13 +49,11 @@ parentComment: any;
       console.log(res)
     })
   }
-  log(){
+  hideComment(){
     this.commentOpen = false
-    this.toggleComment()
-  }
-  toggleComment() {
     this.commentService.setCommentOpen(this.commentOpen);
   }
+  
   onToggleChange(newValue: boolean) {
     this.toggle = newValue;
     this.toggleChange.emit(newValue);

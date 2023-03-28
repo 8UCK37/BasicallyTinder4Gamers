@@ -57,17 +57,9 @@ export class PostComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.commentbox)
-    setInterval(() => {
-      console.log("post",this.commentOpen);
-    }, 2000);
+
   }
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['commentOpen']) {
-      // Call your function here
-      console.log("detected")
-      this.toggleComment()
-    }
-  }
+
   likeButtonClick(post: any, type: String) {
     if ((post.likedbycurrentuser && type == 'like') || (post.hahaedbycurrentuser && type == 'haha') || (post.lovedbycurrentuser && type == 'love') || (post.sadedbycurrentuser && type == 'sad') || (post.poopedbycurrentuser && type == 'poop')) {
       //console.log("dislike call")
@@ -161,16 +153,16 @@ export class PostComponent implements OnInit {
   openComment(e: any) {
     console.log(e)
     this.commentOpen = true
-    this.toggleComment()
+    this.commentService.setCommentOpen(this.commentOpen);
     this.fetchComment()
   }
   fetchComment() {
     axios.get('/comment').then(res => {
       let commentData = res.data[0].comments
-      this.filetercomment(commentData)
+      this.filtercomment(commentData)
     })
   }
-  filetercomment(commentData: any) {
+  filtercomment(commentData: any) {
     console.log(commentData[0].author)
     let hashMap = new Map()
     let dirComment: any[] = [];
@@ -195,6 +187,7 @@ export class PostComponent implements OnInit {
     this.treeObj["nodes"] = dirComment
     console.log(this.treeObj)
     console.log(this.commentbox)
+    this.commentService.setTreeObj(this.treeObj);
   }
   submit(data: any, id: any) {
     console.log(data, id)
@@ -224,11 +217,5 @@ export class PostComponent implements OnInit {
       console.log(res)
     })
   }
-  toggleComment() {
-    this.commentService.setCommentOpen(this.commentOpen);
-  }
-  log(){
-    this.commentOpen = false
-    this.toggleComment()
-  }
+ 
 }
