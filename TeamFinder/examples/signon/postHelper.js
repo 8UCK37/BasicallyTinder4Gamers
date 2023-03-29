@@ -139,44 +139,17 @@ async function getLatestPost(req, res, prisma) {
 async function getPostByTags(req, res, prisma) {
   let param = req.body.tags;
   let postsByTag = await prisma.$queryRaw`
-    SELECT
-      u.name,
-      u."profilePicture",
-      t.*,
-      p.*,
-      CASE 
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
-      ) THEN 'like'
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
-      ) THEN 'haha'
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
-      ) THEN 'love'
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
-      ) THEN 'sad'
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
-      ) THEN 'poop'
-      ELSE null
-    END AS reactionType,
-      CASE WHEN NOT EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
-      ) THEN true ELSE false END AS noReaction
+    SELECT u.name,u."profilePicture",t.*,p.*,
+    (
+      SELECT a.type
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.post = p.id
+    ) AS reactionType,
+    CASE WHEN NOT EXISTS (
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
+    ) THEN true ELSE false END AS noReaction
     FROM
       (
         SELECT *
