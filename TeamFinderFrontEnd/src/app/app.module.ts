@@ -25,14 +25,12 @@ import { TypeaheadModule} from 'ngx-bootstrap/typeahead';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagInputModule } from 'ngx-chips';
-import { UtiliyTagComponent } from './primary-home-page/utiliyTag/utiliyTag.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { SettingsComponent } from './settings/Settings.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { LoginUserinfoComponent } from './primary-home-page/login-userinfo/login-userinfo.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { CommentModalComponent } from './primary-home-page/comment-modal/comment-modal.component';
 import { PostComponent } from './post/post.component';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
@@ -50,11 +48,9 @@ import { CommentComponent } from './comment/comment.component';
       ProfilePostComponent,
       FriendsComponent,
       AppSearchComponent,
-      UtiliyTagComponent,
       SettingsComponent,
       PrimaryHomePageComponent,
       LoginUserinfoComponent,
-      CommentModalComponent,
       PostComponent,
       CommentComponent
    ],
