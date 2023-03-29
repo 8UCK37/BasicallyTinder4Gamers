@@ -271,58 +271,7 @@ async function dislikePost(req, res, prisma){
         type:'dislike'
       }
   })
-  if(req.body.type=='like'){
-    console.log('de-like')
-    let updateCount = await prisma.Posts.update({
-        where: { 
-            id: req.body.id
-            },
-        data: { 
-            fire_count: { decrement: 1 } 
-            },
-    })
-  }else if(req.body.type=='haha'){
-    console.log('de-haha')
-    let updateCount = await prisma.Posts.update({
-      where: { 
-          id: req.body.id
-          },
-      data: { 
-          haha_count: { decrement: 1 } 
-          },
-    })
-  }else if(req.body.type=='love'){
-    console.log('de-love')
-    let updateCount = await prisma.Posts.update({
-      where: { 
-          id: req.body.id
-          },
-      data: { 
-          love_count: { decrement: 1 } 
-          },
-    })
-  }else if(req.body.type=='sad'){
-    console.log('de-sad')
-    let updateCount = await prisma.Posts.update({
-      where: { 
-          id: req.body.id
-          },
-      data: { 
-          sad_count: { decrement: 1 } 
-          },
-    })
-
-  }else if(req.body.type=='poop'){
-    console.log('de-poop')
-    let updateCount = await prisma.Posts.update({
-      where: { 
-          id: req.body.id
-          },
-      data: { 
-          poop_count: { decrement: 1 } 
-          },
-    })
-  }
+  
 res.send(JSON.stringify({status: 'ok'}))
 }
 
