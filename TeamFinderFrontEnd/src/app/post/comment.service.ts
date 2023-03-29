@@ -11,7 +11,7 @@ export class CommentService {
   private treeObjSource = new BehaviorSubject<any>({});
   treeObj$ = this.treeObjSource.asObservable();
 
-  private postsObjSource = new BehaviorSubject<any>({});
+  private postsObjSource = new BehaviorSubject<any>([]);
   postsObj$ = this.postsObjSource.asObservable();
   constructor() { }
 
