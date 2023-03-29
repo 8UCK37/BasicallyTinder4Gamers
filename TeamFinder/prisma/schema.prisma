@@ -73,11 +73,6 @@ model Posts {
   createdAt   DateTime  @default(now())
   photoUrl    String
   description String
-  fire_count  Int
-  haha_count  Int
-  love_count  Int
-  sad_count   Int
-  poop_count  Int
   comments    Comment[]
 }
 

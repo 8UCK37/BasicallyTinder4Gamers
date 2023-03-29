@@ -65,14 +65,10 @@ export class PostComponent implements OnInit {
   }
 
   likeButtonClick(post: any, type: String) {
-    if ((post.likedbycurrentuser && type == 'like') || (post.hahaedbycurrentuser && type == 'haha') || (post.lovedbycurrentuser && type == 'love') || (post.sadedbycurrentuser && type == 'sad') || (post.poopedbycurrentuser && type == 'poop')) {
+    if ((post.reactiontype=='like' && type == 'like') || (post.reactiontype=='haha' && type == 'haha') || (post.reactiontype=='love' && type == 'love') || (post.reactiontype=='sad' && type == 'sad') || (post.reactiontype=='poop' && type == 'poop')) {
       //console.log("dislike call")
       console.log(type)
-      post.likedbycurrentuser = false
-      post.hahaedbycurrentuser = false
-      post.lovedbycurrentuser = false
-      post.sadedbycurrentuser = false
-      post.poopedbycurrentuser = false
+      post.reactiontype='dislike'
       post.noreaction = true
       axios.post('/dislikePost', { id: post.id, type: type }).then(res => {
         console.log(res)
@@ -80,60 +76,32 @@ export class PostComponent implements OnInit {
     } else {
       if (type == 'like') {
         console.log("liked")
-        post.likedbycurrentuser = !post.likedbycurrentuser
-        post.hahaedbycurrentuser = false
-        post.lovedbycurrentuser = false
-        post.sadedbycurrentuser = false
-        post.poopedbycurrentuser = false
-        axios.post('/likePost', { id: post.id, type: type }).then(res => {
-          //console.log(res)
-          post.noreaction = false
-        });
+        post.reactiontype='like'
+
       } else if (type == 'haha') {
         //console.log("hahaed")
-        post.hahaedbycurrentuser = !post.hahaedbycurrentuser
-        post.likedbycurrentuser = false
-        post.lovedbycurrentuser = false
-        post.sadedbycurrentuser = false
-        post.poopedbycurrentuser = false
+        post.reactiontype='haha'
         post.noreaction = false
-        axios.post('/likePost', { id: post.id, type: type }).then(res => {
-          console.log(res)
-        });
+
       } else if (type == 'love') {
         //console.log("loved")
-        post.likedbycurrentuser = false
-        post.hahaedbycurrentuser = false
-        post.sadedbycurrentuser = false
-        post.poopedbycurrentuser = false
+        post.reactiontype='love'
         post.noreaction = false
-        post.lovedbycurrentuser = !post.lovedbycurrentuser
-        axios.post('/likePost', { id: post.id, type: type }).then(res => {
-          console.log(res)
-        });
+
       } else if (type == 'sad') {
         //console.log("saded")
-        post.likedbycurrentuser = false
-        post.hahaedbycurrentuser = false
-        post.lovedbycurrentuser = false
-        post.poopedbycurrentuser = false
+        post.reactiontype='sad'
         post.noreaction = false
-        post.sadedbycurrentuser = !post.sadedbycurrentuser
-        axios.post('/likePost', { id: post.id, type: type }).then(res => {
-          console.log(res)
-        });
+
       } else if (type == 'poop') {
         //console.log("pooped")
-        post.likedbycurrentuser = false
-        post.hahaedbycurrentuser = false
-        post.lovedbycurrentuser = false
-        post.sadedbycurrentuser = false
+        post.reactiontype='poop'
         post.noreaction = false
-        post.poopedbycurrentuser = !post.poopedbycurrentuser
-        axios.post('/likePost', { id: post.id, type: type }).then(res => {
-          console.log(res)
-        });
       }
+      axios.post('/likePost', { id: post.id, type: type }).then(res => {
+        //console.log(res)
+        post.noreaction = false
+      });
     }
     console.log(this.childPost)
   }

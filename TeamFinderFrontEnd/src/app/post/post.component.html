@@ -29,40 +29,40 @@
         <div class="p-2 carousel-btm">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
             <div class="like">
-              <ng-container *ngIf="childPost.noreaction || childPost.likedbycurrentuser">
-                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.likedbycurrentuser"
+              <ng-container *ngIf="childPost.noreaction || childPost.reactiontype=='like'||childPost.reactiontype=='dislike'">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.reactiontype=='like'"
                   (click)="likeButtonClick(childPost,'like')">
                 <label for="${{childPost.id}}" class="react fire">
                   <i data-icon=""></i>
                 </label>
                 <div>Fire</div>
               </ng-container>
-              <ng-container *ngIf="childPost.hahaedbycurrentuser">
-                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.hahaedbycurrentuser"
+              <ng-container *ngIf="childPost.reactiontype=='haha'">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.reactiontype=='haha'"
                   (click)="likeButtonClick(childPost,'haha')">
                 <label for="${{childPost.id}}" class="react haha">
                   <i data-icon=""></i>
                 </label>
                 <div>HaHa</div>
               </ng-container>
-              <ng-container *ngIf="childPost.lovedbycurrentuser">
-                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.lovedbycurrentuser"
+              <ng-container *ngIf="childPost.reactiontype=='love'">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.reactiontype=='love'"
                   (click)="likeButtonClick(childPost,'love')">
                 <label for="${{childPost.id}}" class="react love">
                   <i data-icon=""></i>
                 </label>
                 <div>Love</div>
               </ng-container>
-              <ng-container *ngIf="childPost.sadedbycurrentuser">
-                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.sadedbycurrentuser"
+              <ng-container *ngIf="childPost.reactiontype=='sad'">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.reactiontype=='sad'"
                   (click)="likeButtonClick(childPost,'sad')">
                 <label for="${{childPost.id}}" class="react sad">
                   <i data-icon=""></i>
                 </label>
                 <div>Sad</div>
               </ng-container>
-              <ng-container *ngIf="childPost.poopedbycurrentuser">
-                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.poopedbycurrentuser"
+              <ng-container *ngIf="childPost.reactiontype=='poop'">
+                <input type="checkbox" id="${{childPost.id}}" [ngModel]="childPost.reactiontype=='poop'"
                   (click)="likeButtonClick(childPost,'poop')">
                 <label for="${{childPost.id}}" class="react poop">
                   <i data-icon=""></i>

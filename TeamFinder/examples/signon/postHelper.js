@@ -69,51 +69,23 @@ async function getPost(req, res, prisma) {
   console.log("get post for",req.user.user_id);
   const posts = await prisma.$queryRaw`
   SELECT DISTINCT p.*, t.tagNames, u."name", u."profilePicture",
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
-    ) THEN true ELSE false END AS likedByCurrentUser,
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
-    ) THEN true ELSE false END AS hahaedbycurrentUser,
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
-    ) THEN true ELSE false END AS lovedbycurrentUser,
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
-    ) THEN true ELSE false END AS sadedbycurrentUser,
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
-    ) THEN true ELSE false END AS poopedbycurrentUser,
-    CASE WHEN NOT EXISTS (
-    SELECT *
-    FROM public."Activity" a
-    WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
-  ) THEN true ELSE false END AS noReaction
-  FROM public."Posts" p
-  LEFT JOIN (
-    SELECT post, STRING_AGG("tagName", ',') AS tagNames
-    FROM public."Tags"
-	 GROUP BY "post"
-  ) t ON p.id = t.post
-  LEFT JOIN public."Activity" a ON p.id = a.post
-  LEFT JOIN public."User" u ON p.author = u.id
-  WHERE a.author IN (
-    SELECT f.reciever
-    FROM public."Friends" f
-    WHERE f.sender = ${req.user.user_id}
-  )
-  
-  ORDER BY p."createdAt" DESC;
+  a.type AS reactionType,
+  CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction
+FROM public."Posts" p
+LEFT JOIN (
+  SELECT post, STRING_AGG("tagName", ',') AS tagNames
+  FROM public."Tags"
+  GROUP BY "post"
+) t ON p.id = t.post
+LEFT JOIN public."Activity" a ON p.id = a.post AND a.author = ${req.user.user_id}
+LEFT JOIN public."User" u ON p.author = u.id
+WHERE EXISTS (
+  SELECT 1
+  FROM public."Friends" f
+  WHERE f.sender = ${req.user.user_id} AND f.reciever = p.author
+)
+ORDER BY p."createdAt" DESC;
+
 `;
   res.send(JSON.stringify(posts));
 }
@@ -122,36 +94,39 @@ async function getPostById(req, res, prisma) {
   console.log("get post")
   let posts = await prisma.$queryRaw`
     SELECT p.*, t.tagNames, u.name,u."profilePicture", 
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
-    ) THEN true ELSE false END AS likedByCurrentUser,
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
-    ) THEN true ELSE false END AS hahaedbycurrentUser,
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
-    ) THEN true ELSE false END AS lovedbycurrentUser,
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
-    ) THEN true ELSE false END AS sadedbycurrentUser,
-    CASE WHEN EXISTS (
-      SELECT *
-      FROM public."Activity" a
-      WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
-    ) THEN true ELSE false END AS poopedbycurrentUser,
+    CASE 
+      WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
+      ) THEN 'like'
+      WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
+      ) THEN 'haha'
+      WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
+      ) THEN 'love'
+      WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
+      ) THEN 'sad'
+      WHEN EXISTS (
+        SELECT *
+        FROM public."Activity" a
+        WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
+      ) THEN 'poop'
+      ELSE null
+    END AS reactionType,
     CASE WHEN NOT EXISTS (
-    SELECT *
-    FROM public."Activity" a
-    WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
-  ) THEN true ELSE false END AS noReaction
+      SELECT *
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
+    ) THEN true ELSE false END AS noReaction
     FROM public."Posts" p
     LEFT JOIN (
       SELECT post, STRING_AGG("tagName", ',') AS tagNames
@@ -192,31 +167,34 @@ async function getPostByTags(req, res, prisma) {
       u."profilePicture",
       t.*,
       p.*,
-      CASE WHEN EXISTS (
+      CASE 
+      WHEN EXISTS (
         SELECT *
         FROM public."Activity" a
         WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
-      ) THEN true ELSE false END AS likedByCurrentUser,
-      CASE WHEN EXISTS (
+      ) THEN 'like'
+      WHEN EXISTS (
         SELECT *
         FROM public."Activity" a
         WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
-      ) THEN true ELSE false END AS hahaedByCurrentUser,
-      CASE WHEN EXISTS (
+      ) THEN 'haha'
+      WHEN EXISTS (
         SELECT *
         FROM public."Activity" a
         WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
-      ) THEN true ELSE false END AS lovedByCurrentUser,
-      CASE WHEN EXISTS (
+      ) THEN 'love'
+      WHEN EXISTS (
         SELECT *
         FROM public."Activity" a
         WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
-      ) THEN true ELSE false END AS sadedByCurrentUser,
-      CASE WHEN EXISTS (
+      ) THEN 'sad'
+      WHEN EXISTS (
         SELECT *
         FROM public."Activity" a
         WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
-      ) THEN true ELSE false END AS poopedByCurrentUser,
+      ) THEN 'poop'
+      ELSE null
+    END AS reactionType,
       CASE WHEN NOT EXISTS (
         SELECT *
         FROM public."Activity" a
@@ -255,58 +233,7 @@ async function likePost(req, res, prisma){
         author : req.user.user_id,
       }
       })
-      if(req.body.type=='like'){
-        console.log('in-like')
-        let updateCount = await prisma.Posts.update({
-            where: { 
-                id: req.body.id
-                },
-            data: { 
-                fire_count: { increment: 1 } 
-                },
-        })
-      }else if(req.body.type=='haha'){
-        console.log('in-haha')
-        let updateCount = await prisma.Posts.update({
-          where: { 
-              id: req.body.id
-              },
-          data: { 
-              haha_count: { increment: 1 } 
-              },
-        })
-      }else if(req.body.type=='love'){
-        console.log('in-love')
-        let updateCount = await prisma.Posts.update({
-          where: { 
-              id: req.body.id
-              },
-          data: { 
-              love_count: { increment: 1 } 
-              },
-        })
-      }else if(req.body.type=='sad'){
-        console.log('in-sad')
-        let updateCount = await prisma.Posts.update({
-          where: { 
-              id: req.body.id
-              },
-          data: { 
-              sad_count: { increment: 1 } 
-              },
-        })
-
-      }else if(req.body.type=='poop'){
-        console.log('in-poop')
-        let updateCount = await prisma.Posts.update({
-          where: { 
-              id: req.body.id
-              },
-          data: { 
-              poop_count: { increment: 1 } 
-              },
-        })
-      }
+      
       if(check.length!=0){
         console.log("found",check[0].type)
         let activityUpdate = await prisma.Activity.updateMany({
@@ -318,58 +245,6 @@ async function likePost(req, res, prisma){
             type:req.body.type
           }
           })
-        if(check[0].type=='like'){
-          console.log('de-like')
-          let updateCount = await prisma.Posts.update({
-              where: { 
-                  id: req.body.id
-                  },
-              data: { 
-                  fire_count: { decrement: 1 } 
-                  },
-          })
-        }else if(check[0].type=='haha'){
-          console.log('de-haha')
-          let updateCount = await prisma.Posts.update({
-            where: { 
-                id: req.body.id
-                },
-            data: { 
-                haha_count: { decrement: 1 } 
-                },
-          })
-        }else if(check[0].type=='love'){
-          console.log('de-love')
-          let updateCount = await prisma.Posts.update({
-            where: { 
-                id: req.body.id
-                },
-            data: { 
-                love_count: { decrement: 1 } 
-                },
-          })
-        }else if(check[0].type=='sad'){
-          console.log('de-sad')
-          let updateCount = await prisma.Posts.update({
-            where: { 
-                id: req.body.id
-                },
-            data: { 
-                sad_count: { decrement: 1 } 
-                },
-          })
-
-        }else if(check[0].type=='poop'){
-          console.log('de-poop')
-          let updateCount = await prisma.Posts.update({
-            where: { 
-                id: req.body.id
-                },
-            data: { 
-                poop_count: { decrement: 1 } 
-                },
-          })
-        }
       }else{console.log('not found')
       let activity = await prisma.Activity.create({
         data :{
