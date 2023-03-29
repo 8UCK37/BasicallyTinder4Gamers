@@ -35,6 +35,7 @@ export class PostComponent implements OnInit {
   parentComment: any;
   @Input() public commentOpen: boolean = false;
   myInterval = 0;
+  public postsByTag=[];
   activeSlideIndex = 0;
   public utcDateTime: any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -56,7 +57,10 @@ export class PostComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.commentbox)
+    //console.log(this.commentbox)
+    this.commentService.postsObj$.subscribe(posts => {
+      this.postsByTag= posts;
+    });
 
   }
 
@@ -135,14 +139,15 @@ export class PostComponent implements OnInit {
   }
 
   fetchByTag(tag: any) {
-    this.childPost = []
+    this.postsByTag = []
     axios.post('/getpostbytagname', { tags: tag }).then(res => {
       console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr = post.tagnames?.split(',')
         post.photoUrlArr = post.photoUrl?.split(',')
       });
-      this.childPost = res.data
+      this.postsByTag = res.data
+      this.commentService.setPostsObj(this.postsByTag);
     })
     // console.log(tag)
   }
@@ -150,8 +155,9 @@ export class PostComponent implements OnInit {
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone: this.timeZone });
   }
-  openComment(e: any) {
-    console.log(e)
+  openComment(post: any) {
+    console.log(post)
+    console.log(post.id)
     this.commentOpen = true
     this.commentService.setCommentOpen(this.commentOpen);
     this.fetchComment()

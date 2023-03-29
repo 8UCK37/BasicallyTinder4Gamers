@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { CommentService } from '../post/comment.service';
 
 @Component({
   selector: 'app-primary-home-page',
@@ -32,7 +33,7 @@ export class PrimaryHomePageComponent implements OnInit {
   public imageBlobs:any[]=[];
   myInterval = 0;
   activeSlideIndex = 0;
-  constructor(public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService , private userService : UserService ) {
+  constructor(private commentService: CommentService,public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService , private userService : UserService ) {
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && e.target !== this.commentbtn?.nativeElement) {
         this.closeComments?.nativeElement.click();
@@ -54,6 +55,9 @@ export class PrimaryHomePageComponent implements OnInit {
       }
 
     })
+    this.commentService.postsObj$.subscribe(posts => {
+      this.posts= posts;
+    });
    }
 
   fetchPost(){
@@ -67,6 +71,7 @@ export class PrimaryHomePageComponent implements OnInit {
         this.posts.push(post)
         }
       });
+      this.commentService.setPostsObj(this.posts);
     })
    }
    fetchLatestPost(){
