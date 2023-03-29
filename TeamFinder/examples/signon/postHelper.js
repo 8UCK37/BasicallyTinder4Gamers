@@ -94,34 +94,11 @@ async function getPostById(req, res, prisma) {
   console.log("get post")
   let posts = await prisma.$queryRaw`
     SELECT p.*, t.tagNames, u.name,u."profilePicture", 
-    CASE 
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'like' AND a.post = p.id
-      ) THEN 'like'
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'haha' AND a.post = p.id
-      ) THEN 'haha'
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'love' AND a.post = p.id
-      ) THEN 'love'
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'sad' AND a.post = p.id
-      ) THEN 'sad'
-      WHEN EXISTS (
-        SELECT *
-        FROM public."Activity" a
-        WHERE a.author = ${req.user.user_id} AND a.type = 'poop' AND a.post = p.id
-      ) THEN 'poop'
-      ELSE null
-    END AS reactionType,
+    (
+      SELECT a.type
+      FROM public."Activity" a
+      WHERE a.author = ${req.user.user_id} AND a.post = p.id
+    ) AS reactionType,
     CASE WHEN NOT EXISTS (
       SELECT *
       FROM public."Activity" a
