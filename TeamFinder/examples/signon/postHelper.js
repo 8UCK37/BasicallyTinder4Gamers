@@ -2,6 +2,10 @@ const {Storage} = require('@google-cloud/storage')
 const bucketName = 'gs://teamfinder-e7048.appspot.com/';
 const { v4: uuidv4 } = require('uuid');
 
+
+BigInt.prototype.toJSON = function() {
+  return this.toString();
+}
 // Imports the Google Cloud Node.js client library
 async function createPost(req, res, prisma){
     let body = JSON.parse(req.body.data)
@@ -70,7 +74,12 @@ async function getPost(req, res, prisma) {
   const posts = await prisma.$queryRaw`
   SELECT DISTINCT p.*, t.tagNames, u."name", u."profilePicture",
   a.type AS reactionType,
-  CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction
+  CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'like') AS likeCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'haha') AS hahaCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'sad') AS sadCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'love') AS loveCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'poop') AS poopCount
 FROM public."Posts" p
 LEFT JOIN (
   SELECT post, STRING_AGG("tagName", ',') AS tagNames
@@ -91,6 +100,7 @@ ORDER BY p."createdAt" DESC;
 }
 
 async function getPostById(req, res, prisma) {
+ 
   console.log("get post")
   let posts = await prisma.$queryRaw`
     SELECT p.*, t.tagNames, u.name,u."profilePicture", 
@@ -103,7 +113,12 @@ async function getPostById(req, res, prisma) {
       SELECT *
       FROM public."Activity" a
       WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
-    ) THEN true ELSE false END AS noReaction
+    ) THEN true ELSE false END AS noReaction,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'like') AS likeCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'haha') AS hahaCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'sad') AS sadCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'love') AS loveCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'poop') AS poopCount
     FROM public."Posts" p
     LEFT JOIN (
       SELECT post, STRING_AGG("tagName", ',') AS tagNames
@@ -149,7 +164,12 @@ async function getPostByTags(req, res, prisma) {
       SELECT *
       FROM public."Activity" a
       WHERE a.author = ${req.user.user_id} AND a.type IN ('like', 'haha', 'love', 'sad', 'poop') AND a.post = p.id
-    ) THEN true ELSE false END AS noReaction
+    ) THEN true ELSE false END AS noReaction,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'like') AS likeCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'haha') AS hahaCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'sad') AS sadCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'love') AS loveCount,
+  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'poop') AS poopCount
     FROM
       (
         SELECT *
@@ -224,26 +244,6 @@ async function dislikePost(req, res, prisma){
   
 res.send(JSON.stringify({status: 'ok'}))
 }
-
-
-// async function downProfilePic(req, res, prisma){
-//   console.log(req.user);
-//   console.log("called")
-//   const destFileName = 'ProfilePicture/'+req.user.user_id+'.jpg';
-//   //console.log(myUUID);
-//       const storage = new Storage();
-//       async function uploadFromMemory() {
-//           await storage.bucket(bucketName).file(destFileName).download("https://lh3.googleusercontent.com/a/AGNmyxYrMz3_UNXetTtvTilKGbU7dasRf0rhfFTnWoyDsA=s96-c");
-        
-//           console.log(
-//             `${destFileName}  uploaded to ${bucketName}.`
-//           );
-//         }
-//         uploadFromMemory().catch(console.error);      
-  
-// }
-
-
 
 
 module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost}
