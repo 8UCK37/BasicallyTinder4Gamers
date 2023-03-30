@@ -80,6 +80,7 @@ export class PrimaryHomePageComponent implements OnInit {
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
+        post.noreaction=true;
       });
     const newpost: any[]=[];
     //console.log(this.posts)
