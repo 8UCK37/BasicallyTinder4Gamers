@@ -6,7 +6,6 @@
       (click)="linked ? null : link.click()"
       [ngClass]="{'disabled': linked}"
       [style.cursor]="linked ? 'default' : 'pointer'"></i>
-
       <i class="fa-brands fa-battle-net"></i>
   </ng-container>
   <ng-template #elseblock>
@@ -22,9 +21,8 @@
         <div class="card card0 " [ngStyle]="{ background: getStyle(),backgroundSize: getSize()}"
           (mouseover)="changeText = true" (mouseout)="changeText = false">
           <h2>{{steamInfo?.info[0]?.personaname }}</h2>
-          <div class="icons">
-            <a type="button" href="https://steamcommunity.com/profiles/{{steamId}}" target="_blank">
-              <i class="fa fa-steam fa-2x" aria-hidden="true" style="top: 30px;right: 15px;"></i></a>
+          <div class="icons" style="cursor: pointer;" (click)="redirectToSteamProfile()">
+              <i class="fa-brands fa-steam-symbol fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6"  ></i>
           </div>
         </div>
       </div>

@@ -23,6 +23,7 @@ export class LinkedAccountsComponent implements OnInit {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
   ngOnInit(): void {
+
       if (this.ownProfile) {
         this.userService.userCast.subscribe(usr=>{
           //console.log("user data" , usr)
@@ -70,7 +71,7 @@ export class LinkedAccountsComponent implements OnInit {
   }
   getSize() {
     if (this.changeText)
-      return '480px'
+      return '400px'
     return '300px'
   }
 
@@ -85,4 +86,7 @@ export class LinkedAccountsComponent implements OnInit {
     }).catch(err => console.log(err))
     this.getSteamInfo();
    }
+   redirectToSteamProfile(): void {
+    window.open(`https://steamcommunity.com/profiles/${this.steamId}`, '_blank');
+  }
 }

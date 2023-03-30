@@ -41,7 +41,13 @@
 .card0:hover .fa {
   opacity: 1;
 }
+.card0 i.fa-steam-symbol {
+  display: none; /* Hide the i element by default */
+}
 
+.card0:hover i.fa-steam-symbol{
+  display: block; /* Show the i element when the card is being hovered over */
+}
 h2 {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #a23333;
@@ -63,8 +69,8 @@ h2 {
   fill: #fff;
   color: #fff;
   height: 130px;
-  top: 150px;
-  left: 6px;
+  top: 135px;
+  left: 5px;
   width: 50px;
   display: flex;
   flex-direction: column;
@@ -90,7 +96,7 @@ h1{
 
 .fa-steam{
   color:#4e7aaf;
-  position: absolute;
+  position: relative;
   margin-top: 4.5rem;
   margin-left: 1rem;
 }
