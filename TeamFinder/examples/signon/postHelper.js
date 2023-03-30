@@ -72,28 +72,34 @@ async function createPost(req, res, prisma){
 async function getPost(req, res, prisma) {
   console.log("get post for",req.user.user_id);
   const posts = await prisma.$queryRaw`
-  SELECT DISTINCT p.*, t.tagNames, u."name", u."profilePicture",
-  a.type AS reactionType,
-  CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
-  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'like') AS likeCount,
-  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'haha') AS hahaCount,
-  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'sad') AS sadCount,
-  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'love') AS loveCount,
-  (SELECT COUNT(*) FROM public."Activity" WHERE post = p.id AND type = 'poop') AS poopCount
+  SELECT p.*, t.tagNames, u."name", u."profilePicture", a.type AS reactionType,
+       CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
+       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount
 FROM public."Posts" p
 LEFT JOIN (
-  SELECT post, STRING_AGG("tagName", ',') AS tagNames
-  FROM public."Tags"
-  GROUP BY "post"
+    SELECT post,
+           COUNT(*) FILTER (WHERE type = 'like') AS likeCount,
+           COUNT(*) FILTER (WHERE type = 'haha') AS hahaCount,
+           COUNT(*) FILTER (WHERE type = 'sad') AS sadCount,
+           COUNT(*) FILTER (WHERE type = 'love') AS loveCount,
+           COUNT(*) FILTER (WHERE type = 'poop') AS poopCount
+    FROM public."Activity"
+    GROUP BY post
+) r ON r.post = p.id
+LEFT JOIN (
+    SELECT post, STRING_AGG("tagName", ',') AS tagNames
+    FROM public."Tags"
+    GROUP BY "post"
 ) t ON p.id = t.post
 LEFT JOIN public."Activity" a ON p.id = a.post AND a.author = ${req.user.user_id}
 LEFT JOIN public."User" u ON p.author = u.id
 WHERE EXISTS (
-  SELECT 1
-  FROM public."Friends" f
-  WHERE f.sender = ${req.user.user_id} AND f.reciever = p.author
+    SELECT 1
+    FROM public."Friends" f
+    WHERE f.sender = ${req.user.user_id} AND f.reciever = p.author
 )
 ORDER BY p."createdAt" DESC;
+
 
 `;
   res.send(JSON.stringify(posts));
