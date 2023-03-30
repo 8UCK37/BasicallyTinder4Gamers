@@ -101,7 +101,7 @@ body[data-theme=dark] {
   background: #171717;
   display: flex;
   min-height: 100vh;
-  height: 640px;
+  height: auto;
   width: 100%;
 }
 
@@ -776,7 +776,7 @@ body[data-theme=dark] {
   background-image: url("https://r4.wallpaperflare.com/wallpaper/919/572/1021/anime-naruto-naruto-uzumaki-sasuke-uchiha-wallpaper-d80728f5c6ea44aea36390588e93ad62.jpg");
 
   justify-content: space-between;
-  height:83vh;
+  height:80vh;
   /* width: 1130px; */
   position: relative;
   border-bottom-right-radius: 10px;
