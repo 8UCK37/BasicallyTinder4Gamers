@@ -61,9 +61,9 @@ export class PrimaryHomePageComponent implements OnInit {
    }
 
   fetchPost(){
-    this.posts = []
     axios.get("/getPost").then(res=>{
       console.log(res.data)
+      this.posts = []
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
@@ -170,6 +170,7 @@ export class PrimaryHomePageComponent implements OnInit {
   }
   fetchByTag(tag:any){
     axios.get(`/getpostbytagname?tags=${tag}`).then(res=>{
+
       this.posts = []
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
