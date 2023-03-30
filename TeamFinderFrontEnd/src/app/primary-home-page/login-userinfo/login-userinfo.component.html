@@ -2,14 +2,14 @@
   <!-- <button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button> -->
 
   <ng-template #template>
-    <div class="card neumorphic" id="card">
+    <div class="card neumorphic" id="card" style="margin-left: -94px; margin-top: 55px;">
       <div class="circle" (click)="closeAll($event)">
         <img src="./../../../assets/bg/undraw_pic_profile_re_7g2h.svg" alt="">
       </div>
       <div style="color:whitesmoke">
         <div class="radio-grp" style="color:whitesmoke;margin-top: 40px;" (click)="closeAll($event)">
           <div>
-            <p>Please select your ling:</p>
+            <p>Please select your Gender:</p>
           </div>
           <div style="display: flex;justify-content: space-around;">
             <div>
@@ -31,9 +31,8 @@
           <input [(ngModel)]="selected1" class="form-control" (click)="focus(true , 1)">
           <div class="drop-dwn" [ngClass]="cardStyle">
             <ul>
-              <li *ngFor="let state of states; let i = index" (click)="countrySelect(i)"> {{state}}</li>
-
-
+              <li *ngFor="let state of indianStates; let i = index" (click)="countrySelect(i)"> {{state}}
+              </li>
             </ul>
           </div>
         </div>
@@ -43,7 +42,7 @@
           <input [(ngModel)]="selected2" class="form-control" (click)="focus(true , 2)">
           <div class="drop-dwn2" [ngClass]="cardStyle2">
             <ul>
-              <li *ngFor="let state of states; let i = index" (click)="userLanguageSelect(i)"> {{state}}</li>
+              <li *ngFor="let state of languages; let i = index" (click)="userLanguageSelect(i)"> {{state}}</li>
             </ul>
           </div>
         </div>
