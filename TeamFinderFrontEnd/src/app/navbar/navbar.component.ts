@@ -9,10 +9,12 @@ import { ChatPageComponent } from '../chat-page/chat-page.component';
 import * as bootstrap from 'bootstrap';
 import { animation } from '@angular/animations';
 import { CommentService } from '../post/comment.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  providers: [MessageService]
 })
 export class NavbarComponent implements  OnInit {
   @ViewChild('toggleButton') toggleButton!: ElementRef;
@@ -38,7 +40,7 @@ export class NavbarComponent implements  OnInit {
   public noti: boolean = false;
   public recData: any;
   commentOpen: boolean=false;
-  constructor(public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router , public userService : UserService) {
+  constructor(private messageService: MessageService,public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router , public userService : UserService) {
     this.renderer.listen('window', 'click', (e: Event) => {
       /**
        * Only run when toggleButton is not clicked
@@ -65,7 +67,9 @@ export class NavbarComponent implements  OnInit {
     });
   }
 
-
+  showBottomRight() {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
+  }
   ngOnInit(): void {
 
 
