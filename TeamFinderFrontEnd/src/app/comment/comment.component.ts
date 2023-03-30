@@ -53,7 +53,7 @@ parentComment: any;
     this.commentOpen = false
     this.commentService.setCommentOpen(this.commentOpen);
   }
-  
+
   onToggleChange(newValue: boolean) {
     this.toggle = newValue;
     this.toggleChange.emit(newValue);

@@ -1,33 +1,40 @@
-<p-sidebar [(visible)]="toggle" (visibleChange)="onToggleChange($event)" (onHide)="hideComment()" position="right">
-  <h3>Right Sidebar</h3>
-  <div>
-    <input type="text" class="form-control" id="usr" style="
-    visibility: inherit;
-    display: block;
-    position: relative;
-    clip-path: none;
-" [(ngModel)]="parentComment">
-    <button (click)="parentCommentSave()"> save</button>
-  </div>
-  <div #commentbox>
-    <div *ngFor="let nodes of childTreeObj.nodes;">
 
-      {{nodes.commentStr}}
-      <div class="inrComment">
-        <div *ngFor="let edge of nodes.edges;">
+  <p-sidebar [(visible)]="toggle" (visibleChange)="onToggleChange($event)" (onHide)="hideComment()" position="right"
+  [style]="{width:'31rem'}" >
+  <ng-template pTemplate="header">Comment Section</ng-template>
+  <ng-template pTemplate="footer"> Comment
+    <div>
+      <textarea class="form-control textarea-cust" id="usr"
+     [(ngModel)]="parentComment"></textarea>
+     <div class="d-grid gap-2">
+      <button class="btn btn-primary" type="button" (click)="parentCommentSave()">Button</button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">Body Content
+    <div #commentbox>
+      <div *ngFor="let nodes of childTreeObj.nodes;">
 
-          {{edge.commentStr}}
-        </div>
-        <div class="form-p">
-          <input type="text" class="form-control" id="{{nodes.id}}" style="
+        {{nodes.commentStr}}
+        <div class="inrComment">
+          <div *ngFor="let edge of nodes.edges;">
+
+            {{edge.commentStr}}
+          </div>
+          <div class="form-p">
+            <input type="text" class="form-control" id="{{nodes.id}}" style="
     visibility: inherit;
     display: block;
     position: relative;
     clip-path: none;
 " ngModel>
-          <button (click)="submit($event , nodes.id)"> send </button>
+<div class="d-grid gap-2">
+  <button class="btn btn-primary" type="button" (click)="submit($event , nodes.id)">Send It</button>
+</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</p-sidebar>
+  </ng-template>
+  </p-sidebar>
+
