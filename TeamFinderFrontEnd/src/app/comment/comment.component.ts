@@ -59,6 +59,7 @@ parentComment: any;
   hideComment(){
     this.commentOpen = false
     this.commentService.setCommentObj({open:this.commentOpen,id:null});
+    this.treeObj = {}
   }
 
   onToggleChange(newValue: boolean) {
