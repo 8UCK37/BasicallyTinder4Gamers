@@ -30,8 +30,7 @@ export class PostComponent implements OnInit {
   @ViewChild('comment') comment!: ElementRef;
   @ViewChild('closeComments') closeComments!: ElementRef;
   @ViewChild('commentbtn') commentbtn!: ElementRef;
-  @ViewChild('commentbox')
-  commentbox!: ElementRef;
+
   parentComment: any;
   @Input() public commentOpen: boolean = false;
   myInterval = 0;
@@ -125,44 +124,11 @@ export class PostComponent implements OnInit {
   }
   openComment(post: any) {
     console.log(post)
-    console.log(post.id)
     this.commentOpen = true
-    this.commentService.setCommentOpen(this.commentOpen);
-    this.fetchComment()
-  }
-  fetchComment() {
-    axios.get('/comment').then(res => {
-      let commentData = res.data[0].comments
-      this.filtercomment(commentData)
-    })
-  }
-  filtercomment(commentData: any) {
-    console.log(commentData[0].author)
-    let hashMap = new Map()
-    let dirComment: any[] = [];
-    commentData.forEach((ele: any) => {
-      if (ele.commentOf != null) {
-        if (!hashMap.get(ele.commentOf)) {
-          hashMap.set(ele.commentOf, [ele])
-        } else {
-          hashMap.get(ele.commentOf).push(ele)
-        }
+    this.commentService.setCommentObj({open:this.commentOpen,id:post.id});
 
-      } else {
-        dirComment.push(ele)
-      }
-    });
-
-    this.treeObj = {}
-    for (let i = 0; i < dirComment.length; i++) {
-      let key = dirComment[i].id
-      dirComment[i].edges = hashMap.get(dirComment[i].id)
-    }
-    this.treeObj["nodes"] = dirComment
-    console.log(this.treeObj)
-    console.log(this.commentbox)
-    this.commentService.setTreeObj(this.treeObj);
   }
+
   submit(data: any, id: any) {
     console.log(data, id)
     let forms = document.querySelectorAll<HTMLInputElement>('.form-p input');

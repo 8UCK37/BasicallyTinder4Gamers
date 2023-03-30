@@ -1,4 +1,4 @@
-<p-sidebar [(visible)]="toggle" (visibleChange)="onToggleChange($event)" (onHide)="hideComment()" position="right">
+<p-sidebar [(visible)]="commentOpen" (onHide)="hideComment()" position="right">
   <h3>Right Sidebar</h3>
   <div>
     <input type="text" class="form-control" id="usr" style="
@@ -10,7 +10,7 @@
     <button (click)="parentCommentSave()"> save</button>
   </div>
   <div #commentbox>
-    <div *ngFor="let nodes of childTreeObj.nodes;">
+    <div *ngFor="let nodes of treeObj.nodes;">
 
       {{nodes.commentStr}}
       <div class="inrComment">

@@ -27,13 +27,8 @@ export class AppComponent implements OnInit {
     //console.log(this.token)
     axios.defaults.headers.common['authorization'] = `Bearer ${this.token}`
     axios.defaults.baseURL = 'http://localhost:3000/'
-    this.commentService.commentOpen$.subscribe(commentOpen => {
-      this.commentOpen = commentOpen;
-    });
-    this.treeObjSub = this.commentService.treeObj$.subscribe((obj) => {
-      this.treeObj = obj;
-    });
     
+
   }
 
 }

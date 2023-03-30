@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import axios from 'axios';
 import { CommentService } from '../post/comment.service';
 
@@ -9,16 +9,23 @@ import { CommentService } from '../post/comment.service';
 })
 export class CommentComponent implements OnInit {
 
-@Input() childTreeObj:any={}
 @Input() toggle!: boolean;
 @Output() toggleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+@ViewChild('commentbox')
+  commentbox!: ElementRef;
 parentComment: any;
   commentOpen!: boolean;
+  public commentObj:any;
+  public treeObj: any = {}
   constructor(private commentService: CommentService) { }
 
   ngOnInit(): void {
-    this.commentService.commentOpen$.subscribe(commentOpen => {
-      this.commentOpen = commentOpen;
+    this.commentService.commentObj$.subscribe(commentObj => {
+      this.commentObj = commentObj;
+      this.commentOpen = commentObj.open;
+      console.log(this.commentObj.id)
+      //console.log(this.commentOpen)
+      this.fetchComment()
     });
   }
   submit(data: any, id: any) {
@@ -51,11 +58,43 @@ parentComment: any;
   }
   hideComment(){
     this.commentOpen = false
-    this.commentService.setCommentOpen(this.commentOpen);
+    this.commentService.setCommentObj({open:this.commentOpen,id:null});
   }
-  
+
   onToggleChange(newValue: boolean) {
     this.toggle = newValue;
     this.toggleChange.emit(newValue);
+  }
+  fetchComment() {
+    axios.get('/comment').then(res => {
+      let commentData = res.data[0].comments
+      this.filtercomment(commentData)
+    })
+  }
+  filtercomment(commentData: any) {
+    console.log(commentData[0].author)
+    let hashMap = new Map()
+    let dirComment: any[] = [];
+    commentData.forEach((ele: any) => {
+      if (ele.commentOf != null) {
+        if (!hashMap.get(ele.commentOf)) {
+          hashMap.set(ele.commentOf, [ele])
+        } else {
+          hashMap.get(ele.commentOf).push(ele)
+        }
+
+      } else {
+        dirComment.push(ele)
+      }
+    });
+
+    this.treeObj = {}
+    for (let i = 0; i < dirComment.length; i++) {
+      let key = dirComment[i].id
+      dirComment[i].edges = hashMap.get(dirComment[i].id)
+    }
+    this.treeObj["nodes"] = dirComment
+    //console.log(this.treeObj)
+    //console.log(this.commentbox)
   }
 }
