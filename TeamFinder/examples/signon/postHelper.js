@@ -40,11 +40,6 @@ async function createPost(req, res, prisma){
                 author : req.user.user_id,
                 photoUrl:urlArr.toString(),
                 description:body.desc,
-                fire_count:0,
-                haha_count:0,
-                love_count:0,
-                sad_count:0,
-                poop_count:0
             }
         })
      // TODO : fix this code , make one like insert to the db , 
