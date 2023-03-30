@@ -25,7 +25,7 @@ parentComment: any;
       this.commentOpen = commentObj.open;
       console.log(this.commentObj.id)
       //console.log(this.commentOpen)
-      this.fetchComment()
+      if(this.commentObj.open ) this.fetchComment()
     });
   }
   submit(data: any, id: any) {
@@ -36,7 +36,7 @@ parentComment: any;
         console.log(elm.value)
         if (elm.value == "") return
         axios.post('/comment/add', {
-          "postId": 3,
+          "postId": this.commentObj.id,
           "commentOf": id,
           "msg": elm.value
         }).then(res => {
@@ -50,7 +50,7 @@ parentComment: any;
   parentCommentSave() {
     console.log(this.parentComment)
     axios.post('/comment/add', {
-      "postId": 3,
+      "postId": this.commentObj.id,
       "msg": this.parentComment
     }).then(res => {
       console.log(res)
@@ -66,12 +66,13 @@ parentComment: any;
     this.toggleChange.emit(newValue);
   }
   fetchComment() {
-    axios.get('/comment').then(res => {
+    axios.get(`/comment?id=${this.commentObj.id}`).then(res => {
       let commentData = res.data[0].comments
       this.filtercomment(commentData)
     })
   }
   filtercomment(commentData: any) {
+    this.treeObj = {}
     console.log(commentData[0].author)
     let hashMap = new Map()
     let dirComment: any[] = [];
@@ -88,7 +89,7 @@ parentComment: any;
       }
     });
 
-    this.treeObj = {}
+
     for (let i = 0; i < dirComment.length; i++) {
       let key = dirComment[i].id
       dirComment[i].edges = hashMap.get(dirComment[i].id)

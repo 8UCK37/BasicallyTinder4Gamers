@@ -8,12 +8,13 @@ router.get("/", async (req, res) => {
     let comments = await prisma.Posts.findMany({
         where:
         {
-            id: 3
+            id: parseInt(req.query.id)
         },
         include: {
             comments: true,
         },
     })
+    console.log(comments)
     res.send(comments)
 })
 
