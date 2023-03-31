@@ -25,10 +25,10 @@
           </carousel>
         </ng-container> -->
 
-          <div style="margin-left:122px;">
+          <div style="display: block;width: 100%;">
             <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="position" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%','margin-top': '2em'}">
               <ng-template pTemplate="item" let-item>
-                  <img [src]="item.imageSrcUrl" style="width: 100%; display: block;" />
+                  <img [src]="item.imageSrcUrl" style="width: 100%;height:40rem; display: block;" />
               </ng-template>
           </p-galleria>
         </div>
@@ -75,7 +75,7 @@
                 </label>
                 <div>Shit</div>
               </ng-container>
-              <div class="toolbox">
+              <div class="toolbox" style="z-index: 99;">
                 <div class="container">
                   <div class="row" style="color: black;">
                     <div class="col-sm ">
