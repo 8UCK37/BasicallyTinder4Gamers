@@ -26,7 +26,7 @@
         </ng-container> -->
 
           <div style="margin-left:122px;">
-            <p-galleria [value]="images" [indicatorsPosition]="position" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%','margin-top': '2em'}">
+            <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="position" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%','margin-top': '2em'}">
               <ng-template pTemplate="item" let-item>
                   <img [src]="item.imageSrcUrl" style="width: 100%; display: block;" />
               </ng-template>
