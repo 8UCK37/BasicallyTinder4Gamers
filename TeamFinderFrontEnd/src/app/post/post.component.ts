@@ -1,7 +1,8 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, Input, OnInit, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import axios from 'axios';
 import { CommentService } from './comment.service';
+
 
 interface Comment {
   author: String
@@ -20,7 +21,8 @@ interface Comment {
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  styleUrls: ['./post.component.css'],
+
 })
 
 
@@ -33,6 +35,8 @@ export class PostComponent implements OnInit {
 
   parentComment: any;
   @Input() public commentOpen: boolean = false;
+  @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
+
   myInterval = 0;
   public postsByTag=[];
   activeSlideIndex = 0;
@@ -40,6 +44,10 @@ export class PostComponent implements OnInit {
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   // commentData: Comment[] = [];
   public treeObj: any = {}
+  images: any[] =[];
+  position: string = 'bottom';
+  responsiveOptions: any[] = [];
+
   constructor(private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
@@ -56,12 +64,30 @@ export class PostComponent implements OnInit {
 
 
   ngOnInit(): void {
-    //console.log(this.commentbox)
+
+    this.childPost.photoUrlArr.forEach((url: any) => {
+      this.images.push({imageSrcUrl:url})
+    });
     this.commentService.postsObj$.subscribe(posts => {
       this.postsByTag= posts;
     });
 
+    this. responsiveOptions = [
+      {
+          breakpoint: '1024px',
+          numVisible: 5
+      },
+      {
+          breakpoint: '768px',
+          numVisible: 3
+      },
+      {
+          breakpoint: '560px',
+          numVisible: 1
+      }
+  ];
   }
+
 
   likeButtonClick(post: any, type: String) {
     if ((post.reactiontype=='like' && type == 'like') || (post.reactiontype=='haha' && type == 'haha') || (post.reactiontype=='love' && type == 'love') || (post.reactiontype=='sad' && type == 'sad') || (post.reactiontype=='poop' && type == 'poop')) {

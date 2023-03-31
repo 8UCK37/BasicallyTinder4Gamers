@@ -36,6 +36,7 @@ import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
 import { CommentComponent } from './comment/comment.component';
 import { ToastModule } from 'primeng/toast';
+import { GalleriaModule } from 'primeng/galleria';
 @NgModule({
   declarations: [
       AppComponent,
@@ -58,6 +59,7 @@ import { ToastModule } from 'primeng/toast';
   imports: [
     SidebarModule,
     ToastModule,
+    GalleriaModule,
     ButtonModule,
     BrowserModule,
     AppRoutingModule,
