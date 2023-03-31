@@ -3,7 +3,7 @@
     <!-- <div class="row d-flex align-items-center justify-content-center"> -->
     <div class="col-md-6">
       <div class="card_cust">
-        <div class="d-flex justify-content-between p-2 px-3" style="position: relative;top: 7px;">
+        <div class="d-flex p-2 px-3" style="position: relative;top: 7px;">
           <div class="d-flex flex-row align-items-center"> <img [src]="childPost.profilePicture" width="50"
               class="rounded-circle">
             <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
@@ -17,8 +17,6 @@
             <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
           </ng-container>
         </div>
-        <div>
-        </div>
         <!-- <ng-container *ngIf="childPost.photoUrlArr.length!=0">
           <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
             <slide *ngFor="let img of childPost.photoUrlArr">
@@ -26,12 +24,12 @@
             </slide>
           </carousel>
         </ng-container> -->
-        <ng-container >
-          <div style="margin-left:122px ;">
+
+          <div style="margin-left:122px;">
           <p-galleria [value]="images" [showThumbnails]="images.length>1" [showItemNavigators]="images.length>1" [showThumbnailNavigators]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px' }" [numVisible]="images.length">
             <ng-template pTemplate="item" let-item >
               <div style="width: 800px; height: 500px; background-color: #262626; display: flex; justify-content: center; align-items: center;">
-                <img [src]="item.imageSrcUrl" style="max-width: 100%; max-height: 100%;">
+                <img [src]="item.imageSrcUrl" style="width:52rem; max-height: 100%;">
             </div>
             </ng-template>
             <ng-template pTemplate="thumbnail" let-item >
@@ -43,7 +41,6 @@
             </ng-template>
         </p-galleria>
         </div>
-        </ng-container>
         <div class="p-2 carousel-btm">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
             <div class="like">
