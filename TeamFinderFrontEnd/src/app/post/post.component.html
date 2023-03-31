@@ -27,13 +27,13 @@
           </carousel>
         </ng-container> -->
         <ng-container >
-          <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px' }" [numVisible]="5">
+          <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px' }" [numVisible]="images.length-1">
             <ng-template pTemplate="item" let-item>
                 <img [src]="item.itemImageSrc" style="width: 100%;" />
             </ng-template>
             <ng-template pTemplate="thumbnail" let-item>
                 <div class="grid grid-nogutter justify-content-center">
-                    <img [src]="item.itemImageSrc" />
+                    <img class="thumbnail" [src]="item.thumbnailImageSrc" />
                 </div>
             </ng-template>
         </p-galleria>

@@ -3,6 +3,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnIn
 import axios from 'axios';
 import { CommentService } from './comment.service';
 
+
 interface Comment {
   author: String
   commentOf?: String
@@ -63,30 +64,29 @@ export class PostComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log('childpost',this.childPost)
-    // this.childPost.photoUrlArr.forEach((url: any) => {
-    //   this.images.push({itemImageSrc:url})
-    // });
-    //console.log(this.commentbox)
+    this.images=[{
+      itemImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg',
+      thumbnailImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria1s.jpg',
+      alt: 'Description for Image 1',
+      title: 'Title 1'
+  },
+  {
+      itemImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria2.jpg',
+      thumbnailImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria2s.jpg',
+      alt: 'Description for Image 2',
+      title: 'Title 2'
+  },
+  {
+      itemImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria3.jpg',
+      thumbnailImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria3s.jpg',
+      alt: 'Description for Image 3',
+      title: 'Title 3'
+  }]
+
     this.commentService.postsObj$.subscribe(posts => {
       this.postsByTag= posts;
     });
-    //new carousel
-    // this.photoService.getImages().then((images) => {
-    //   this.images = images;
-    //   console.log('Images assigned:', this.images);
-    // });
-    this.images=[
-      {
-        itemImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg'
-      },
-      {
-        itemImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria2.jpg'
 
-      },
-      {
-        itemImageSrc: 'https://primefaces.org/cdn/primeng/images/galleria/galleria3.jpg'
-      }]
     this.responsiveOptions = [
         {
             breakpoint: '1024px',
