@@ -13,11 +13,15 @@ export class CommentComponent implements OnInit {
 @Output() toggleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 @ViewChild('commentbox')
   commentbox!: ElementRef;
-parentComment: any;
+  parentComment: any;
   commentOpen!: boolean;
   public commentObj:any;
-  public treeObj: any = {}
-  constructor(private commentService: CommentService) { }
+  public treeObj: any = {};
+  sections = [];
+  showSection: boolean[] = [];
+  constructor(private commentService: CommentService) {
+    this.showSection = this.sections.map(() => false);
+   }
 
   ngOnInit(): void {
     this.commentService.commentObj$.subscribe(commentObj => {
@@ -98,5 +102,8 @@ parentComment: any;
     this.treeObj["nodes"] = dirComment
     //console.log(this.treeObj)
     //console.log(this.commentbox)
+  }
+  toggleSection(index: number) {
+    this.showSection[index] = !this.showSection[index];
   }
 }

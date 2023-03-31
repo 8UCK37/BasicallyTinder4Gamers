@@ -1,5 +1,8 @@
-<p-sidebar [(visible)]="commentOpen" (onHide)="hideComment()" position="right">
+<p-sidebar [(visible)]="commentOpen" (onHide)="hideComment()" position="right" [style]="{width: '31rem', borderRadius: '10px 0 0 10px', backgroundColor: '#262626'}">
+  <ng-template pTemplate="header">
   <h3>Right Sidebar</h3>
+</ng-template>
+  <ng-template pTemplate="footer">Comment
   <div>
     <input type="text" class="form-control" id="usr" style="
     visibility: inherit;
@@ -9,13 +12,15 @@
 " [(ngModel)]="parentComment">
     <button (click)="parentCommentSave()"> save</button>
   </div>
+</ng-template>
+<ng-template pTemplate="content">Body Content
   <div #commentbox>
-    <div *ngFor="let nodes of treeObj.nodes;">
-
+    <div *ngFor="let nodes of treeObj.nodes; let i = index">
+      <button (click)="toggleSection(i)">Toggle Text Field</button>
       {{nodes.commentStr}}
+      <section [ngStyle]="{ display: showSection[i] ? 'block' : 'none' }">
       <div class="inrComment">
         <div *ngFor="let edge of nodes.edges;">
-
           {{edge.commentStr}}
         </div>
         <div class="form-p">
@@ -28,6 +33,8 @@
           <button (click)="submit($event , nodes.id)"> send </button>
         </div>
       </div>
+    </section>
     </div>
   </div>
+</ng-template>
 </p-sidebar>
