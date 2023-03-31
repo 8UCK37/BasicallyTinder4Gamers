@@ -67,11 +67,8 @@ export class NavbarComponent implements  OnInit {
     });
   }
 
-  showBottomRight() {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
-  }
-  ngOnInit(): void {
 
+  ngOnInit(): void {
 
     this.userService.userCast.subscribe(usr=>{
       //console.log("user data" , usr)
@@ -150,14 +147,16 @@ export class NavbarComponent implements  OnInit {
     this.router.navigate(['/user'], { queryParams: { id: userid } });
   }
   acceptReq(frndid: any) {
-    this.toatsAccept();
+    //this.toatsAccept();
+    this.messageService.add({ severity: 'success', summary: 'Accepted', detail: 'Friend request Accepted Good Call!!' });
      axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
        //console.log("accepted", res)
        this.getPendingReq();
      }).catch(err => console.log(err))
   }
   rejectReq(frndid: any) {
-    this.toastsReject();
+    //this.toastsReject();
+    this.messageService.add({ severity: 'success', summary: 'Rejected', detail: 'Friend request Rejected Good Call!!' });
      axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
        //console.log("rejected", res)
        this.getPendingReq();
