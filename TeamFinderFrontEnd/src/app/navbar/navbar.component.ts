@@ -116,9 +116,14 @@ export class NavbarComponent implements  OnInit {
           axios.post('getUserInfo', { id: noti.sender }).then(res => {
             noti.profileurl = res.data.profilePicture;
             noti.userName = res.data.name;
+            if(noti.notiType =="frndReqAcc"){
+              this.messageService.add({ severity: 'success', summary: 'Accepted', detail: noti.userName.toString()+' accepted your friend request' });
+            }
             //console.log("res.data");
           }).catch(err => console.log(err))
+
         });
+
       }
       //console.log(this.notificationArray)
     });
@@ -147,7 +152,6 @@ export class NavbarComponent implements  OnInit {
     this.router.navigate(['/user'], { queryParams: { id: userid } });
   }
   acceptReq(frndid: any) {
-    //this.toatsAccept();
     this.messageService.add({ severity: 'success', summary: 'Accepted', detail: 'Friend request Accepted Good Call!!' });
      axios.post('acceptFriend', { frnd_id: frndid }).then(res => {
        //console.log("accepted", res)
@@ -155,7 +159,6 @@ export class NavbarComponent implements  OnInit {
      }).catch(err => console.log(err))
   }
   rejectReq(frndid: any) {
-    //this.toastsReject();
     this.messageService.add({ severity: 'success', summary: 'Rejected', detail: 'Friend request Rejected Good Call!!' });
      axios.post('rejectFriend', { frnd_id: frndid }).then(res => {
        //console.log("rejected", res)
@@ -163,12 +166,6 @@ export class NavbarComponent implements  OnInit {
      }).catch(err => console.log(err))
   }
 
-toatsAccept(){
-    this.toggleToast('liveToastBtnAccept','liveToastAccept',2000);
-  }
-toastsReject(){
-  this.toggleToast('liveToastBtnReject','liveToastReject',2000);
-}
 
    private toggleToast(toastTriggerId: string, toastLiveId: string, delay: number) {
     const toastTrigger:any = document.getElementById(toastTriggerId);

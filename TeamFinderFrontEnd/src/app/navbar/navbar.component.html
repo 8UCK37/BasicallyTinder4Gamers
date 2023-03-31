@@ -36,9 +36,9 @@
                             <div style="color: rgb(227, 213, 213);"> {{noti.userName}} sent you a friend request</div>
                             <div style="margin-bottom: 5px;">
                               <button type="button" class="btn btn-light"
-                                (click)="acceptReq(noti.sender);accepted.click()">Accept</button>
+                                (click)="acceptReq(noti.sender)">Accept</button>
                               <button type="button" class="btn btn-light"
-                                (click)="rejectReq(noti.sender);rejected.click()">Reject</button>
+                                (click)="rejectReq(noti.sender)">Reject</button>
                             </div>
                           </div>
                         </div>
@@ -109,38 +109,5 @@
     </nav>
   </div>
 
-  <button type="button" class="btn btn-primary" id="liveToastBtnAccept" #accepted hidden="true"></button>
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="liveToastAccept" class="toast" role="alert" aria-atomic="true"
-      style="border-radius: 20px; background-color: currentColor;">
-      <div class="d-flex" style="height: 36px;">
-        <div class="toast-body">
-          <a style="color: whitesmoke;
-         left: 45px;
-         top: 25px;
-         position: absolute;">Friend Request Accepted, GoodCall</a>
-        </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-          aria-label="Close"></button>
-      </div>
-    </div>
-  </div>
-
-  <button type="button" class="btn btn-primary" id="liveToastBtnReject" #rejected hidden="true"></button>
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="liveToastReject" class="toast" role="alert" aria-atomic="true"
-      style="border-radius: 20px; background-color: currentColor;">
-      <div class="d-flex" style="height: 36px;">
-        <div class="toast-body">
-          <a style="color: whitesmoke;
-       left: 45px;
-       top: 25px;
-       position: absolute;">Friend Request Rejected, GoodCall</a>
-        </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-          aria-label="Close"></button>
-      </div>
-    </div>
-  </div>
   <p-toast position='bottom-right'></p-toast>
 </main>
