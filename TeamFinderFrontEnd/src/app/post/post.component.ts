@@ -45,7 +45,7 @@ export class PostComponent implements OnInit {
   // commentData: Comment[] = [];
   public treeObj: any = {}
   images: any[] =[];
-
+  position: string = 'bottom';
   responsiveOptions: any[] = [];
 
   constructor(private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
@@ -72,20 +72,20 @@ export class PostComponent implements OnInit {
       this.postsByTag= posts;
     });
 
-    this.responsiveOptions = [
-        {
-            breakpoint: '1024px',
-            numVisible: 5
-        },
-        {
-            breakpoint: '768px',
-            numVisible: 3
-        },
-        {
-            breakpoint: '560px',
-            numVisible: 1
-        }
-    ];
+    this. responsiveOptions = [
+      {
+          breakpoint: '1024px',
+          numVisible: 5
+      },
+      {
+          breakpoint: '768px',
+          numVisible: 3
+      },
+      {
+          breakpoint: '560px',
+          numVisible: 1
+      }
+  ];
   }
 
 

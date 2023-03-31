@@ -26,20 +26,11 @@
         </ng-container> -->
 
           <div style="margin-left:122px;">
-          <p-galleria [value]="images" [showThumbnails]="images.length>1" [showItemNavigators]="images.length>1" [showThumbnailNavigators]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px' }" [numVisible]="images.length">
-            <ng-template pTemplate="item" let-item >
-              <div style="width: 800px; height: 500px; background-color: #262626; display: flex; justify-content: center; align-items: center;">
-                <img [src]="item.imageSrcUrl" style="width:52rem; max-height: 100%;">
-            </div>
-            </ng-template>
-            <ng-template pTemplate="thumbnail" let-item >
-                <div class="grid grid-nogutter justify-content-center" style="margin-left: 50px;">
-                  <div style="width: 50px; height: 50px; background-color: #262626; display: flex; justify-content: center; align-items: center;">
-                    <img class="thumbnail" [src]="item.imageSrcUrl" />
-                  </div>
-                </div>
-            </ng-template>
-        </p-galleria>
+            <p-galleria [value]="images" [indicatorsPosition]="position" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%','margin-top': '2em'}">
+              <ng-template pTemplate="item" let-item>
+                  <img [src]="item.imageSrcUrl" style="width: 100%; display: block;" />
+              </ng-template>
+          </p-galleria>
         </div>
         <div class="p-2 carousel-btm">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
