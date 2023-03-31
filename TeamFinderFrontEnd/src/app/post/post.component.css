@@ -413,3 +413,7 @@ width: 300px;
 .inrComment {
   margin-left: 20px;
 }
+.thumbnail{
+  height: 50px;
+  width: 50px;
+}

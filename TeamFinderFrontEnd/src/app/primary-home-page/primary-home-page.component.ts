@@ -62,7 +62,7 @@ export class PrimaryHomePageComponent implements OnInit {
 
   fetchPost(){
     axios.get("/getPost").then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
       this.posts = []
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
@@ -72,6 +72,7 @@ export class PrimaryHomePageComponent implements OnInit {
         }
       });
       this.commentService.setPostsObj(this.posts);
+      console.log(this.posts)
     })
    }
    fetchLatestPost(){
