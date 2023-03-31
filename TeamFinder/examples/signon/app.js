@@ -318,6 +318,17 @@ app.get('/getFriendData', ensureAuthenticated, async (req, res) => {
 //searches the user table for names #endpoint
 app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
+
+  if(req.body.searchTerm=='noob'){
+    
+    const searchresult = await prisma.User.findMany({
+      where: {
+        id:'Cc6YM87NvihVFGpgbAclZqRLpP13'
+      }
+    })
+  res.send(JSON.stringify(searchresult));
+  }else{
+    
   const searchresult = await prisma.User.findMany({
     where: {
       name: {
@@ -328,7 +339,7 @@ app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function 
   })
   //console.log("searchresults for"+jsonObject.searchTerm)
   //console.log(searchresult)
-  res.send(JSON.stringify(searchresult));
+  res.send(JSON.stringify(searchresult));}
   //res.sendStatus(200);
 });
 
