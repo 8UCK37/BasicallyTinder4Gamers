@@ -21,10 +21,6 @@ export class NavbarComponent implements  OnInit {
   @ViewChild('menu') menu!: ElementRef;
   @ViewChild('togglenoti') togglenoti!: ElementRef;
   @ViewChild('notiMenu') notiMenu!: ElementRef;
-  @ViewChild('liveToastBtnAccept') toastBtnAccept!: ElementRef;
-  @ViewChild('liveToastAccept') toastAccept!: ElementRef;
-  @ViewChild('liveToastBtnReject') toastBtnReject!: ElementRef;
-  @ViewChild('liveToastReject') toastReject!: ElementRef;
   public toastTrigger:any;
   public toastLive: any;
   public show: boolean = false;
@@ -88,6 +84,7 @@ export class NavbarComponent implements  OnInit {
         this.noti = false;
       }
     }, 5000);
+    console.log(this.notiShow)
   }
 //OnInitEnd
   toggleMenu() {
@@ -95,8 +92,10 @@ export class NavbarComponent implements  OnInit {
   }
   toggleNotiDropDown() {
     if (this.notificationArray?.length != 0) {
-      this.notiShow = !this.notiShow;
+
     }
+    this.notiShow = !this.notiShow;
+    console.log(this.notiShow)
   }
   incMsg() {
     this.incomingMsgSubscription = this.socketService.getIncomingMsg().subscribe((data) => {
@@ -144,9 +143,7 @@ export class NavbarComponent implements  OnInit {
       });
     }).catch(err => console.log(err))
   }
-  togglenav(): void {
-    this.isMenuOpened = !this.isMenuOpened;
-  }
+
   onclick(userid: any) {
     console.log(userid)
     this.router.navigate(['/user'], { queryParams: { id: userid } });
@@ -167,7 +164,7 @@ export class NavbarComponent implements  OnInit {
   }
 
 
-   
+
   notiDismiss(index:any){
     console.log(index)
     this.notificationArray.splice(index,1)
