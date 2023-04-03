@@ -167,19 +167,7 @@ export class NavbarComponent implements  OnInit {
   }
 
 
-   private toggleToast(toastTriggerId: string, toastLiveId: string, delay: number) {
-    const toastTrigger:any = document.getElementById(toastTriggerId);
-    const toastLive: any = document.getElementById(toastLiveId);
-    if (toastTrigger) {
-      toastTrigger.addEventListener('click', () => {
-        toastLive.setAttribute('data-bs-delay', delay.toString()); // set the delay for this toast
-        const toast = new bootstrap.Toast(toastLive, {
-          animation: true,
-        });
-        toast.show();
-      });
-    }
-  }
+   
   notiDismiss(index:any){
     console.log(index)
     this.notificationArray.splice(index,1)
