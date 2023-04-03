@@ -53,9 +53,9 @@ export class NavbarComponent implements  OnInit {
       }
       if (this.togglenoti?.nativeElement != null && !this.notiMenu?.nativeElement.contains(e.target as HTMLElement)) {
         if (e.target !== this.togglenoti.nativeElement && e.target !== this.notiMenu?.nativeElement) {
-          console.log(clickedElementClassList)
+          //console.log(clickedElementClassList)
           if(this.notiShow  && clickedElementClassList[0]!='btn-close'){
-            console.log('cot')
+            //console.log('cot')
             this.notiShow = false;
           }
         }
