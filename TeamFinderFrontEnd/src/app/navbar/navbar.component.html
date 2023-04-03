@@ -21,8 +21,7 @@
             <div class="number" *ngIf="notificationArray?.length!=0">{{notificationArray?.length}}</div>
             <i class="fas fa-bell" #togglenoti (click)="toggleNotiDropDown()"></i>
           </div>
-
-          </div>
+        </div>
       </li>
       <div class="noti-menu-wrap"  #notiMenu [ngClass]="notiShow?'open-menu':''">
         <div style="color: white;left: 20px;font-weight: 650;font-size: x-large;position: relative;top: 10px;">
