@@ -58,8 +58,6 @@ export class NavbarComponent implements  OnInit {
             console.log('cot')
             this.notiShow = false;
           }
-
-
         }
       }
     });
