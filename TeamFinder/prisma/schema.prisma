@@ -20,6 +20,7 @@ model User {
   isConnected    Boolean?
   userInfoId     Int?      @unique
   userInfo       UserInfo? @relation(fields: [userInfoId], references: [id])
+  Comment        Comment[]
 }
 
 model UserInfo {
@@ -78,12 +79,13 @@ model Posts {
 
 model Comment {
   id         Int      @id @default(autoincrement())
-  author     String
+  author     User     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())
   commentStr String
   commentOf  Int?
   Posts      Posts?   @relation(fields: [postsId], references: [id])
   postsId    Int?
+  userId     String
 }
 
 model Tags {
