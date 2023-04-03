@@ -68,7 +68,7 @@ export class ChatPageComponent implements OnInit {
       //console.log("user data" , usr)
       this.userparsed = usr;
       this.userInfo = usr;
-      console.log(this.userparsed)
+      //console.log(this.userparsed)
       this.getActiveChoice();
       this.getfriendlist();
       this.incMsg();
@@ -76,7 +76,7 @@ export class ChatPageComponent implements OnInit {
 
 
     setTimeout(() => {
-      console.log('here')
+    
       if(this.activeConvList[0]?.chat_type =='sent'){
         this.onclick(this.activeConvList[0])
       }
@@ -92,7 +92,7 @@ export class ChatPageComponent implements OnInit {
         });
       });
     }, 500);
-    
+
     })
     this.incNotification();
   }
@@ -135,7 +135,6 @@ export class ChatPageComponent implements OnInit {
     //console.log(this.friendList)
   }
   fetchChatData(friendId:any){
-    console.log('here2')
     // let senderId = this.route.snapshot.queryParamMap.get('senderId');
     this.to = friendId
     axios.get('/chatData',{params:{friendId: friendId}}).then(res=>{
@@ -145,7 +144,7 @@ export class ChatPageComponent implements OnInit {
         let left = (ele.sender== this.userparsed.id) ? false : true
         this.allMsgs.push({sender:friendId,rec: left , msg: ele.msg,time:this.timeArr[0]+":"+this.timeArr[1]})
         })
-        console.log(this.allMsgs)
+        //console.log(this.allMsgs)
       });
       this.scrollToBottom();
     }
