@@ -28,7 +28,6 @@ export class NavbarComponent implements  OnInit {
   public notificationArray: any = [];
   private incomingMsgSubscription: Subscription | undefined;
   private incomingNotiSubscription: Subscription | undefined;
-  isMenuOpened: boolean = false;
   private toastElement!: HTMLElement;
   public usr: any;
   public userparsed: any;
@@ -54,10 +53,13 @@ export class NavbarComponent implements  OnInit {
       }
       if (this.togglenoti?.nativeElement != null && !this.notiMenu?.nativeElement.contains(e.target as HTMLElement)) {
         if (e.target !== this.togglenoti.nativeElement && e.target !== this.notiMenu?.nativeElement) {
-          if(this.isMenuOpened && clickedElementClassList[0]!='btn-close'){
+          console.log(clickedElementClassList)
+          if(this.notiShow  && clickedElementClassList[0]!='btn-close'){
             console.log('cot')
-            this.isMenuOpened = false;
+            this.notiShow = false;
           }
+
+
         }
       }
     });
@@ -162,8 +164,6 @@ export class NavbarComponent implements  OnInit {
        this.getPendingReq();
      }).catch(err => console.log(err))
   }
-
-
 
   notiDismiss(index:any){
     console.log(index)

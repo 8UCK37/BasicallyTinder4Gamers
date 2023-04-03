@@ -78,18 +78,20 @@ app-app-search{
   width: 400px;
   max-height: 0;
   overflow: hidden;
+  border-radius: 10px;
   transition: max-height 0.5s;
 }
 
 .noti-menu-wrap.open-menu {
   max-height: 65vh;
+  border-radius: 10px;
 }
 
 .noti-menu {
   background: #262626;
   padding: 20px;
   margin: 10px;
-  height:60vh;
+  height:64vh;
   border-radius: 10px;
   overflow-y: auto;
 }
@@ -473,9 +475,9 @@ a:visited{
   height: 95px;
   margin-top: 35px;
   display: flex;
-  margin-left: 17px;
+  margin-left: 0px;
   gap: 30px;
-  width: 377px;
+  width: 350px;
 }
 .accpt-rej-btns{
   display: flex;
@@ -485,8 +487,8 @@ a:visited{
   justify-content: space-between;
 }
 .noti-img{
-  margin-top: 5px;
-  margin-left: 2px;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 .noti-name{
   position: absolute;
