@@ -100,7 +100,7 @@ export class CommentComponent implements OnInit {
       dirComment[i].edges = hashMap.get(dirComment[i].id)
     }
     this.treeObj["nodes"] = dirComment
-    //console.log(this.treeObj)
+    console.log(this.treeObj)
     //console.log(this.commentbox)
   }
   toggleSection(index: number) {

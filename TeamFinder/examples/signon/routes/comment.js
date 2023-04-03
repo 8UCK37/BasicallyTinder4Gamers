@@ -2,25 +2,32 @@ const express = require('express')
 const router = express.Router()
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient()
-
+const auth  = require('./../middleware/authMiddleware')
+const ensureAuthenticated = auth.ensureAuthenticated
 //this is to get all the comment under one post
-router.get("/", async (req, res) => {
+router.get("/",ensureAuthenticated, async (req, res) => {
+    
     let comments = await prisma.Posts.findMany({
         where:
         {
             id: parseInt(req.query.id)
         },
         include: {
-            comments: true,
-        },
+            comments: {
+              include: { author: true }
+            }
+          }
     })
+    
     console.log(comments)
     res.send(comments)
+
 })
 
 // this is to create a new edge in comment tree 
 // In req.body commentOf can be null or int
-router.post("/add", async (req, res) => {
+router.post("/add",ensureAuthenticated, async (req, res) => {
+    console.log('comntpost',req.user.user_id)
     try {
 
         console.log(req.body)
@@ -30,8 +37,11 @@ router.post("/add", async (req, res) => {
             },
             data: {
                 comments: {
+                    
                     create: {
-                        author: 'user',
+                        author:{
+                            connect:{id:req.user.user_id}
+                        },
                         commentStr: req.body.msg,
                         commentOf: req.body.commentOf
                     }
