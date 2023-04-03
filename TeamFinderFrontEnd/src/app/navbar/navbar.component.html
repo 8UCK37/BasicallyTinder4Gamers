@@ -19,13 +19,12 @@
           <div class="notBtn" href="#">
             <!--Number supports double digits and automaticly hides itself when there is nothing between divs -->
             <div class="number" *ngIf="notificationArray?.length!=0">{{notificationArray?.length}}</div>
-            <i class="fas fa-bell" #togglenoti (click)="toggleNotiDropDown()"></i>
-          </div>
-            <!-- <div class="box" *ngIf="isMenuOpened" #notiMenu>
+            <i class="fas fa-bell" #togglenoti (click)="togglenav()"></i>
+            <div class="box" *ngIf="isMenuOpened" #notiMenu>
               <div style="color: white;left: 20px;font-weight: 650;font-size: x-large;position: relative;top: 10px;">
                 Notifications</div>
               <div class="display">
-                <div class="cont">
+                <div class="cont"><!-- Fold this div and try deleting evrything inbetween -->
                   <div class="sec new" *ngIf="notificationArray?.length!=0;else elseblock">
                     <div *ngFor="let noti of notificationArray;let i= index">
                       <ng-container *ngIf="noti.notiType=='frnd req'">
@@ -75,8 +74,9 @@
                   </ng-template>
                 </div>
               </div>
-            </div> -->
+            </div>
           </div>
+        </div>
       </li>
 
       <div>
@@ -106,17 +106,7 @@
           </a>
         </div>
       </div>
-
-      <div class="noti-menu-wrap" id="subMenu" #menu [ngClass]="notiShow?'open-menu':''">
-        <div class="noti-menu" id="openmenu">
-          new notification menu
-        </div>
-      </div>
-
-
-
     </nav>
-
   </div>
 
   <p-toast position='bottom-right'></p-toast>

@@ -70,66 +70,6 @@ app-app-search{
   margin: 10px;
 }
 
-.noti-menu-wrap {
-  z-index: 10;
-  position: absolute;
-  top: 100%;
-  right: 4%;
-  width: 400px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s;
-}
-
-.noti-menu-wrap.open-menu {
-  max-height: 65vh;
-}
-
-.noti-menu {
-  background: #262626;
-  padding: 20px;
-  margin: 10px;
-  height:60vh;
-  border-radius: 10px;
-  overflow-y: auto;
-}
-.box::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #F5F5F5;
-  border-radius: 5px
-}
-
-.box::-webkit-scrollbar
-{
-	width: 10px;
-	background-color: #F5F5F5;
-  border-radius: 5px
-}
-
-.box::-webkit-scrollbar-thumb
-{
-	background-color: black;
-	border: 2px solid black;
-  border-radius: 5px
-}
-.box{
-  width: 400px;
-  height: 0px;
-  border-radius: 10px;
-  transition: 0.5s;
-  position: absolute;
-  overflow-y: auto;
-  padding: 0px;
-  left: 120x;
-  top: 370px;
-  background-color: #262626;
-  -webkit-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.2);
-  -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
-  box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
-  cursor: context-menu;
-}
-
 .user-info {
   display: flex;
   align-items: center;
@@ -294,7 +234,26 @@ a:visited{
   color: black;
 }
 
+.box::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
 
+.box::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
+
+.box::-webkit-scrollbar-thumb
+{
+	background-color: black;
+	border: 2px solid black;
+  border-radius: 5px
+}
 
 .notification{
   padding-top: 10px;
@@ -355,7 +314,10 @@ a:visited{
   color: #d63031;
 }
 
-
+.box{
+  height: 60vh;
+  overflow-x: hidden;
+}
 
 .content{
   padding: 20px;
