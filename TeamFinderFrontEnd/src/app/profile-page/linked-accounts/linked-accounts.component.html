@@ -1,17 +1,33 @@
 <div class="con">
-  <h1>Securely Link Accounts to Your Profile</h1>
-  <ng-container *ngIf="ownProfile; else elseblock">
-    <i class="fa-brands fa-steam fa-3x"
-      (click)="linked ? null : redirectToSteamLogin()"
-      [ngClass]="{'disabled': linked}"
-      [style.cursor]="linked ? 'default' : 'pointer'"></i>
+  <div class="con-header">
+    Link Accounts to Your Profile
+  </div>
+   <div class="row" style="color: white;width:30rem">
+    <!--change the width to fit more icons -->
+    <div class="col-sm">
+      <ng-container *ngIf="ownProfile; else elseblock">
+        <i class="fa-brands fa-steam fa-3x" (click)="linked ? null : redirectToSteamLogin()"
+          [ngClass]="{'disabled': linked}" [style.cursor]="linked ? 'default' : 'pointer'"></i>
+      </ng-container>
+      <ng-template #elseblock>
+        <i class="fa-brands fa-steam fa-3x" style="cursor: pointer;"></i>
+      </ng-template>
+    </div>
+    <div class="col-sm">
+      <i class="fa-brands fa-twitch"></i>
+    </div>
+    <div class="col">
       <i class="fa-brands fa-battle-net"></i>
-  </ng-container>
-  <ng-template #elseblock>
-    <i class="fa-brands fa-steam fa-3x"  style="cursor: pointer;"></i>
-    <i class="fa-brands fa-battle-net"></i>
-  </ng-template>
+    </div>
+    <div class="col-sm ">
+      <i class="fa-brands fa-discord"></i>
+    </div>
+    <div class="col-sm ">
+      <i class="fa-brands fa-xbox"></i>
+    </div>
+  </div>
 </div>
+
 
 <ng-container *ngIf="linked">
   <div class="row">
