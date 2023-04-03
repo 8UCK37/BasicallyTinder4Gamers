@@ -29,7 +29,7 @@
           Notifications</div>
         <div class="noti-menu" >
               <div class="display">
-                <div class="cont">
+                <div class="cont"><!-- Fold this div and try deleting evrything inbetween -->
                   <div class="sec new" *ngIf="notificationArray?.length!=0;else elseblock">
                     <div *ngFor="let noti of notificationArray;let i= index">
                       <ng-container *ngIf="noti.notiType=='frnd req'">

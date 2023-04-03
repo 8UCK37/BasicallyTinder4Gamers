@@ -296,7 +296,26 @@ a:visited{
   color: black;
 }
 
+.box::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
 
+.box::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
+
+.box::-webkit-scrollbar-thumb
+{
+	background-color: black;
+	border: 2px solid black;
+  border-radius: 5px
+}
 
 .notification{
   padding-top: 10px;
@@ -357,7 +376,10 @@ a:visited{
   color: #d63031;
 }
 
-
+.box{
+  height: 60vh;
+  overflow-x: hidden;
+}
 
 .content{
   padding: 20px;
