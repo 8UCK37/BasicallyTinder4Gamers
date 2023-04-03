@@ -89,4 +89,7 @@ export class LinkedAccountsComponent implements OnInit {
    redirectToSteamProfile(): void {
     window.open(`https://steamcommunity.com/profiles/${this.steamId}`, '_blank');
   }
+  redirectToSteamLogin(): void {
+    window.location.href = `http://localhost:3000/auth/steam?uid=${this.userparsed?.id}`;
+  }
 }

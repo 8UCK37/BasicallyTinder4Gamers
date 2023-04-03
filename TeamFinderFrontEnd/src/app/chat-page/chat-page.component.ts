@@ -76,7 +76,7 @@ export class ChatPageComponent implements OnInit {
 
 
     setTimeout(() => {
-    
+
       if(this.activeConvList[0]?.chat_type =='sent'){
         this.onclick(this.activeConvList[0])
       }
@@ -170,7 +170,7 @@ export class ChatPageComponent implements OnInit {
     }
 
     onclick(frnd:any){
-      console.log(frnd.id)
+      //console.log(frnd.id)
       this.values='';
       this.fetchChatData(frnd.id);
       this.selectedFrndId=frnd.id;

@@ -27,7 +27,7 @@ export class CommentComponent implements OnInit {
     this.commentService.commentObj$.subscribe(commentObj => {
       this.commentObj = commentObj;
       this.commentOpen = commentObj.open;
-      console.log(this.commentObj.id)
+      //console.log(this.commentObj.id)
       //console.log(this.commentOpen)
       if(this.commentObj.open ) this.fetchComment()
     });
