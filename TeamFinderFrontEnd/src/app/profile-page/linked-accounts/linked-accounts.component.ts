@@ -92,4 +92,7 @@ export class LinkedAccountsComponent implements OnInit {
   redirectToSteamLogin(): void {
     window.location.href = `http://localhost:3000/auth/steam?uid=${this.userparsed?.id}`;
   }
+  redirectToTwitchLogin(): void {
+    window.location.href = 'http://localhost:3000/auth/twitch';
+  }
 }

@@ -84,31 +84,6 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
-// Use the SteamStrategy within Passport.
-//   Strategies in passport require a `validate` function, which accept
-//   credentials (in this case, an OpenID identifier and profile), and invoke a
-//   callback with a user object.
-
-
-
-// passport.use(new SteamStrategy({
-//   returnURL: 'http://localhost:3000/auth/steam/return',
-//   realm: 'http://localhost:3000/',
-//   apiKey: apiKey
-// },
-//   function (identifier, profile, done) {
-//     // asynchronous verification, for effect...
-//     process.nextTick(function () {
-
-//       // To keep the example simple, the user's Steam profile is returned to
-//       // represent the logged-in user.  In a typical application, you would want
-//       // to associate the Steam account with a user record in your database,
-//       // and return that user instead.
-//       profile.identifier = identifier;
-//       return done(null, profile);
-//     });
-//   }
-// ));
 
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
@@ -391,6 +366,42 @@ app.post("/rejectFriend", ensureAuthenticated, urlencodedParser, async (req, res
 
   res.sendStatus(200);
 })
+
+
+ const TwitchStrategy = require('passport-twitch').Strategy;
+
+
+passport.use(new TwitchStrategy({
+  clientID: "5q5a2eqsg77c8nf2xoxohxrfeniskg",
+  clientSecret: "r5qq2aaa4m9cwtc8dwoz4y59uqu8nl",
+  callbackURL: 'http://localhost:3000/auth/twitch/callback',
+  authorizationURL: 'https://id.twitch.tv/oauth2/authorize',
+  scope: "user_read"
+},
+function(accessToken, refreshToken, profile, done) {
+  console.log(profile)
+  return done(null, profile);
+}
+));
+
+//app.get("/auth/twitch", passport.authenticate("twitch"));
+
+app.get("/auth/twitch", (req, res ,next) =>{
+  console.log('here it is')
+  passport.authenticate('twitch' ,  { failureRedirect: '/' } )(req,res,next);
+});
+
+app.get('/auth/twitch/callback',
+  passport.authenticate('twitch', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    console.log('twitch login successfull')
+    res.redirect('/');
+  });
+
+
+
+
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Steam authentication will involve redirecting
@@ -401,6 +412,7 @@ app.post("/rejectFriend", ensureAuthenticated, urlencodedParser, async (req, res
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
+
 passport.use(new SteamStrategy({
   returnURL: `http://localhost:3000/auth/steam/return`,
   realm: 'http://localhost:3000/',
@@ -418,9 +430,6 @@ passport.use(new SteamStrategy({
     });
   }
 ));
-
-
-
 
 
 //TODO implement sessions 

@@ -39,6 +39,8 @@
     "dotenv": "^16.0.3",
     "firebase-admin": "^11.5.0",
     "multer": "^1.4.5-lts.1",
+    "passport-twitch": "^1.0.3",
+    "passport-twitchtv": "^0.1.4",
     "socket.io": "^4.5.4",
     "steam-web": "0.4.0",
     "uuid": "^9.0.0"
