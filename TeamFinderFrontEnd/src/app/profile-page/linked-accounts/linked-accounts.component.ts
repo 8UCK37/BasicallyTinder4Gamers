@@ -99,7 +99,7 @@ export class LinkedAccountsComponent implements OnInit {
     }).catch(err=>console.log(err))
    }
 
-   redirectToSteamProfile(): void {
+  redirectToSteamProfile(): void {
     window.open(`https://steamcommunity.com/profiles/${this.steamId}`, '_blank');
   }
   redirectToSteamLogin(): void {
@@ -107,5 +107,8 @@ export class LinkedAccountsComponent implements OnInit {
   }
   redirectToTwitchLogin(): void {
     window.location.href = `http://localhost:3000/auth/twitch?uid=${this.userparsed?.id}`;
+  }
+  redirectToTwitchProfile(): void {
+    window.open(`https://www.twitch.tv/${this.twitchdata.login}`, '_blank');
   }
 }
