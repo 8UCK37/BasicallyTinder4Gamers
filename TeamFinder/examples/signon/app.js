@@ -369,9 +369,9 @@ app.post("/rejectFriend", ensureAuthenticated, urlencodedParser, async (req, res
 
 //new twitch login we just need to implement methods to get the live status 
 app.get('/auth/twitch', (req, res) => {
-  console.log(req.sessionID)
+  //console.log(req.sessionID)
   sessionMap.set(req.sessionID , req.query.uid);
-  console.log(sessionMap)
+  //console.log(sessionMap)
   const baseUrl = 'https://id.twitch.tv/oauth2/authorize';
   const clientId = "5q5a2eqsg77c8nf2xoxohxrfeniskg";
   const redirectUri = 'http://localhost:3000/auth/twitch/callback';
@@ -401,8 +401,10 @@ app.get('/auth/twitch/callback', async (req, res) => {
     });
     const json = await response.json();
     const accessToken = json.access_token;
-    console.log(accessToken)
-    setTwitchToken(req,res,accessToken)
+    const refreshToken = json.refresh_token;
+    //console.log(accessToken)
+    //console.log(refreshToken)
+    setTwitchToken(req,res,accessToken,refreshToken)
     // use the access token to get the user's Twitch account information
     //res.send(accessToken);
   } catch (error) {
@@ -411,44 +413,13 @@ app.get('/auth/twitch/callback', async (req, res) => {
   }
 });
 
-app.get('/twitchinfo',ensureAuthenticated ,async (req, res) => {
-  let tokenFromDb = await prisma.User.findUnique({
-    where: {
-      id: req.user.user_id
-    },
-    select: {
-      twitchtoken: true
-    }
-  })
-  console.log(tokenFromDb)
-  if(tokenFromDb.twitchtoken!=null){
-  const accessToken = tokenFromDb.twitchtoken;
-  const userUrl = 'https://api.twitch.tv/helix/users';
-  try {
-    const response = await fetch(userUrl, {
-      headers: {
-        'Client-ID': "5q5a2eqsg77c8nf2xoxohxrfeniskg",
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
-    const json = await response.json();
-    const user = json.data[0];
-    res.send(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Failed to get twitch profile information');
-  }
-}else{
-  res.status(200).send('not logged in');
-}
-});
 
-
-//updates the steamid of a user to the user table 
-async function setTwitchToken(req, res,token) {
-  console.log('setTwitchToken called')
-  console.log(sessionMap)
-  console.log(token)
+//updates the twitchtoken of a user to the user table 
+async function setTwitchToken(req, res,token,refreshToken) {
+  //console.log('setTwitchToken called')
+  //console.log(sessionMap)
+  //console.log(token)
+  //console.log(refreshToken)
   let twitchTokenData = await prisma.User.findMany({
     where: {
       id: sessionMap.get(req.sessionID)
@@ -457,7 +428,7 @@ async function setTwitchToken(req, res,token) {
       twitchtoken: true
     }
   });
-  console.log(twitchTokenData)
+  //console.log(twitchTokenData)
 
   if (twitchTokenData[0] != null) {
     const updateUser = await prisma.User.update({
@@ -465,7 +436,7 @@ async function setTwitchToken(req, res,token) {
         id: sessionMap.get(req.sessionID),
       },
       data: {
-        twitchtoken: token,
+        twitchtoken: {token:token,refreshToken:refreshToken},
       },
     })
     //res.status(200).send({ message: 'Twitch Linked Successfully' });
@@ -478,10 +449,91 @@ async function setTwitchToken(req, res,token) {
         twitchtoken: token,
       },
     })
-     //res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
   }
-  res.redirect("http://localhost:4200/profile-page");
+  res.redirect("http://localhost:4200/profile-page/linked-accounts");
 }
+
+
+app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
+  let tokenFromDb = await prisma.User.findUnique({
+    where: {
+      id: req.user.user_id
+    },
+    select: {
+      twitchtoken: true
+    }
+  })
+  //console.log(tokenFromDb.twitchtoken.token)
+  if(tokenFromDb.twitchtoken!=null){
+  const accessToken = tokenFromDb.twitchtoken.token;
+  const refreshToken = tokenFromDb.twitchtoken.refreshToken
+  const userUrl = 'https://api.twitch.tv/helix/users';
+  try {
+    const response = await fetch(userUrl, {
+      headers: {
+        'Client-ID': "5q5a2eqsg77c8nf2xoxohxrfeniskg",
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+      if (response.ok) {
+        const json = await response.json();
+        const user = json.data[0];
+        res.send(user);
+        return;
+      } else if (response.status === 401) {
+        // Access token is expired, trying to refresh it
+        refreshTwitchToken(req.user.user_id,refreshToken)
+        }
+       
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to get twitch profile information');
+  }
+}else{
+  res.status(200).send('not logged in');
+}
+});
+
+async function refreshTwitchToken(userid,refreshToken) {
+  //console.log('refresh twitch')
+  //console.log(userid)
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Client-ID': '5q5a2eqsg77c8nf2xoxohxrfeniskg',
+      'Authorization': 'Bearer ' + refreshToken
+    },
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+      client_id: '5q5a2eqsg77c8nf2xoxohxrfeniskg',
+      client_secret: 'zqqlb0mcih38gw1hn208gydw31jzis'
+    })
+  };
+
+  try {
+    const response = await fetch('https://id.twitch.tv/oauth2/token', requestOptions);
+    const json = await response.json();
+    const accessToken = json.access_token;
+    const refreshToken =json.refresh_token;
+    console.log('New access token:', json);
+    // Saving the new access token to the database
+    if (json != null) {
+      const updateUser = await prisma.User.update({
+        where: {
+          id: userid,
+        },
+        data: {
+          twitchtoken: {token:accessToken,refreshToken:refreshToken},
+        },
+      })
+    } 
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
