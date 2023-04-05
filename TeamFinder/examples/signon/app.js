@@ -439,7 +439,7 @@ app.get('/twitchinfo',ensureAuthenticated ,async (req, res) => {
     res.status(500).send('Failed to get twitch profile information');
   }
 }else{
-  res.status(200).send('Failed to get user profile information');
+  res.status(200).send('not logged in');
 }
 });
 

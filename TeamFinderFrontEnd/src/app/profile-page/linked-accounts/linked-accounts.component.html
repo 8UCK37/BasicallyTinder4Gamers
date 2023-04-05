@@ -49,3 +49,21 @@
     </div>
   </div>
 </ng-container>
+<ng-container *ngIf="twitchdata">
+  <div class="row">
+    <div class="col">
+      <div class="col">
+        <div class="card">
+          <span>{{twitchdata.id}}</span>
+          <span>{{twitchdata.display_name}}</span>
+          <span>{{twitchdata.email}}</span>
+          <!-- <img [src]="twitchdata.profile_image_url" alt=""> -->
+          <h2>{{steamInfo?.info[0]?.personaname }}</h2>
+          <div class="icons" style="cursor: pointer;" (click)="redirectToSteamProfile()">
+              <i class="fa-brands fa-steam-symbol fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6"  ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

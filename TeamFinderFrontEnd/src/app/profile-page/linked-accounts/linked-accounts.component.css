@@ -34,6 +34,8 @@
 .card0:hover i.fa-steam-symbol{
   display: block; /* Show the i element when the card is being hovered over */
 }
+
+
 h2 {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #a23333;

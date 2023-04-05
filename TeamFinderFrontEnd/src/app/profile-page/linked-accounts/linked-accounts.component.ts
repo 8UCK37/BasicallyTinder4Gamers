@@ -19,6 +19,7 @@ export class LinkedAccountsComponent implements OnInit {
   public profile_id: any;
   changeText: any = false;
   ownProfile: any;
+  twitchdata:any;
   constructor(private route: ActivatedRoute, private router: Router,public userService: UserService) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
@@ -90,7 +91,11 @@ export class LinkedAccountsComponent implements OnInit {
 
    getTwitchInfo(){
     axios.get('twitchinfo').then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
+      if(res.data!='not logged in'){
+        this.twitchdata=res.data
+      }
+      console.log(this.twitchdata)
     }).catch(err=>console.log(err))
    }
 
