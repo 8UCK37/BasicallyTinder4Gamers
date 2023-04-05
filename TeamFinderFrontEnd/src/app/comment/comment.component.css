@@ -70,12 +70,28 @@
   position: relative;
   left: 330px;
   bottom: 10px;
+  border-radius: 20px;
+}
+.comment-btn-posi-child-can
+{
+  position: relative;
+  left: 248px;
+  top: 29px;
+  border-radius: 20px;
 }
 .comment-btn-posi-parent
 {
   position: relative;
   left: 352px;
   bottom: 10px;
+  border-radius: 20px;
+}
+.comment-btn-posi-parent-can
+{
+  position: relative;
+  left: 270px;
+  top: 29px;
+  border-radius: 20px;
 }
 input::placeholder {
   color: white;
