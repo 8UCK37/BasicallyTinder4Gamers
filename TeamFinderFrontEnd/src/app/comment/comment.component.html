@@ -6,7 +6,7 @@
   <ng-template pTemplate="footer" style="color: rgb(249, 250, 250);">
     <h4 style="color: rgb(249, 250, 250);">Comment</h4>
     <div>
-      <input type="text"  autocomplete="off" placeholder="Whats your problem Green" class="form-control" id="usr" style="
+      <input type="text" autocomplete="off" placeholder="Whats your problem Green" class="form-control" id="usr" style="
     visibility: inherit;
     display: block;
     position: relative;
@@ -33,7 +33,20 @@
             {{nodes.commentStr}}
           </div>
         </div>
-        <button class="button-link" (click)="toggleSection(i)">Reply</button>
+        <button class="button-link" (click)="toggleSection(nodes.id)">Reply</button>
+        <section [ngStyle]="{ display: showSection[nodes.id]? 'block' : 'none' }">
+          <div class="form-p">
+            <input type="text" placeholder="Replying {{nodes.author.name}}" autocomplete="off" class="form-control"
+              id="{{nodes.id}}" style="
+  visibility: inherit;
+  display: block;
+  position: relative;
+  clip-path: none;
+" ngModel>
+            <br><button class="btn btn-outline-light comment-btn-posi-parent" (click)="submit($event , nodes.id)">Send
+              Reply</button>
+          </div>
+        </section>
         <div class="inrComment">
           <div *ngFor="let edge of nodes.edges;">
             <div class="card card-background">
@@ -48,19 +61,21 @@
                 {{edge.commentStr}}
               </div>
             </div>
-            <button class="button-link" (click)="toggleSection(i)">Reply</button>
+            <button class="button-link" (click)="toggleSection(edge.id)">Reply</button>
+            <section [ngStyle]="{ display: showSection[edge.id]? 'block' : 'none' }">
+              <div class="form-p">
+                <input type="text" placeholder="Replying {{edge.author.name}}" autocomplete="off" class="form-control"
+                  id="{{edge.id}}" style="
+      visibility: inherit;
+      display: block;
+      position: relative;
+      clip-path: none;
+  " ngModel>
+                <br><button class="btn btn-outline-light comment-btn-posi-child" (click)="submit($event , edge.id)">Send
+                  Reply</button>
+              </div>
+            </section>
           </div>
-          <section [ngStyle]="{ display: showSection[i] ? 'block' : 'none' }">
-            <div class="form-p">
-              <input type="text" class="form-control" id="{{nodes.id}}" style="
-    visibility: inherit;
-    display: block;
-    position: relative;
-    clip-path: none;
-" ngModel>
-              <br><button class="btn btn-outline-light comment-btn-posi" (click)="submit($event , nodes.id)">Send Reply </button>
-            </div>
-          </section>
           <br>
           <a>--------------------------------------------------------------------</a>
           <br>

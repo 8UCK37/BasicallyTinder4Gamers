@@ -65,9 +65,15 @@
   background-color: #525252;
   border-radius: 10px;
 }
-.comment-btn-posi
+.comment-btn-posi-child
 {
   position: relative;
   left: 330px;
+  bottom: 10px;
+}
+.comment-btn-posi-parent
+{
+  position: relative;
+  left: 352px;
   bottom: 10px;
 }
