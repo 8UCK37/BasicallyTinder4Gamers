@@ -52,3 +52,22 @@
   border-radius: 20px;
   color: rgb(249, 250, 250);
 }
+.comment-btn {
+  height: 45px;
+  width: 18.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.comment-btn:hover {
+  background-color: #525252;
+  border-radius: 10px;
+}
+.comment-btn-posi
+{
+  position: relative;
+  left: 330px;
+  bottom: 10px;
+}
