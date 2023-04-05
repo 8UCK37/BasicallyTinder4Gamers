@@ -1,11 +1,12 @@
 <p-sidebar [(visible)]="commentOpen" (onHide)="hideComment()" position="right"
   [style]="{width: '31rem', borderRadius: '10px 0 0 10px', backgroundColor: '#262626'}">
   <ng-template pTemplate="header">
-    <h3>Comments</h3>
+    <h2 style="color: rgb(249, 250, 250);">Comment Section</h2>
   </ng-template>
-  <ng-template pTemplate="footer">Comment
+  <ng-template pTemplate="footer" style="color: rgb(249, 250, 250);">
+    <h4 style="color: rgb(249, 250, 250);">Comment</h4>
     <div>
-      <input type="text" placeholder="Whats your problem Green" class="form-control" id="usr" style="
+      <input type="text"  autocomplete="off" placeholder="Whats your problem Green" class="form-control" id="usr" style="
     visibility: inherit;
     display: block;
     position: relative;
