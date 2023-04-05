@@ -14,9 +14,9 @@
 }
 .user-pic{
   position: relative;
-  width: 5.5vmin;
+  width: 3.5vmin;
   border-radius: 50%;
-  height: 5.5vmin;
+  height: 3.5vmin;
   text-indent: 100%;
   animation: sk-loading 1s linear infinite alternate;
   top: 10px;
@@ -30,17 +30,25 @@
   text-align: center;
   display: -webkit-box;
 }
-.user-comment{
-  position: relative;
-  top: 62px;
-  right: 71px;
-}
-.user-name{
-  top: 12px;
-  left: 20px;
-  position: relative;
-}
 .user-time{
   left: 160px;
   position: relative;
+}
+.user-name{
+  left: 60px;
+    bottom: 22px;
+    position: relative;
+}
+.user-comment{
+  position: relative;
+    justify-content: left;
+    display: flex;
+    bottom: 9px;
+    left: 13px;
+}
+
+.card-background{
+  background-color: black;
+  border-radius: 20px;
+  color: rgb(249, 250, 250);
 }

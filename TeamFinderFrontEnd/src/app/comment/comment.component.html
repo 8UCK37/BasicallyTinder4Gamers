@@ -17,41 +17,36 @@
   <ng-template pTemplate="content">Body Content
     <div #commentbox>
       <div *ngFor="let nodes of treeObj.nodes; let i = index">
-        <div class="con">
+        <div class="card card-background">
           <img class="user-pic" [src]="nodes.author.profilePicture">
           <div class="user-name">
             {{nodes.author.name}}
           </div>
-            <!-- <div  class="user-time">
+          <!-- <div  class="user-time">
             {{this.utcToLocal(nodes?.createdAt)}}
           </div> -->
-
           <div class="user-comment">
             {{nodes.commentStr}}
           </div>
         </div>
-
         <button class="button-link" (click)="toggleSection(i)">Reply</button>
         <div class="inrComment">
           <div *ngFor="let edge of nodes.edges; let child = index">
-            <div class="con">
-
+            <div class="card card-background">
               <img class="user-pic" [src]="edge.author.profilePicture">
               <div class="user-name">
                 {{edge.author.name}}
               </div>
-                <!-- <div class="user-time">
+              <!-- <div class="user-time">
                 {{this.utcToLocal(edge?.createdAt)}}
               </div> -->
-
-
               <div class="user-comment">
                 {{edge.commentStr}}
               </div>
             </div>
-
-            <button class="button-link" (click)="toggleSection(child)">Reply // not working Need Backend
-              changes</button>
+            <br>
+            <!-- <button class="button-link" (click)="toggleSection(child)">Reply // not working Need Backend
+              changes</button> -->
           </div>
           <section [ngStyle]="{ display: showSection[i] ? 'block' : 'none' }">
             <div class="form-p">
