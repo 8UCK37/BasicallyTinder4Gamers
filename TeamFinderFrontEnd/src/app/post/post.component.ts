@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import axios from 'axios';
 import { CommentService } from './comment.service';
-
+import { MenuItem, MessageService } from 'primeng/api';
 
 
 interface Comment {
@@ -22,7 +22,8 @@ interface Comment {
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  styleUrls: ['./post.component.css'],
+  providers: [MessageService]
 
 })
 
@@ -48,8 +49,9 @@ export class PostComponent implements OnInit {
   images: any[] =[];
   position: string = 'bottom';
   responsiveOptions: any[] = [];
-
-  constructor(private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
+  items:any[]=[];
+  delay:number=90;
+  constructor(private messageService: MessageService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
     //   const clickedElementClassList = clickedElement.classList;
@@ -67,7 +69,9 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
 
     this.childPost.photoUrlArr.forEach((url: any) => {
+      if(url!=''){
       this.images.push({imageSrcUrl:url})
+    }
     });
     this.commentService.postsObj$.subscribe(posts => {
       this.postsByTag= posts;
@@ -87,6 +91,27 @@ export class PostComponent implements OnInit {
           numVisible: 1
       }
   ];
+  this.items = [
+    {
+        icon: 'pi pi-pencil',
+        command: () => {
+            this.messageService.add({ severity: 'info', summary: 'Add', detail: 'Data Added' });
+        }
+    },
+
+    {
+        icon: 'pi pi-trash',
+        command: () => {
+            this.messageService.add({ severity: 'error', summary: 'Delete', detail: 'Data Deleted' });
+        }
+    },
+
+    {
+        icon: 'pi pi-external-link',
+        target: '_blank',
+        url: 'http://angular.io'
+    }
+];
 
   }
 

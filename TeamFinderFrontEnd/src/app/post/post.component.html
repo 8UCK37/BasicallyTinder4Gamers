@@ -10,6 +10,9 @@
                 style="margin-left: 10px;">{{childPost.name}}</span><span
                 style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span></div>
           </div>
+          <div style="margin-left: 535px;">
+            <p-speedDial [model]="items" direction="down-left" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-outlined"></p-speedDial>
+          </div>
         </div>
         <div class="p-3">
           <p class="text-justify">{{childPost.description}}</p>
@@ -25,7 +28,7 @@
           </carousel>
         </ng-container> -->
 
-          <div style="display: block;width: 100%;">
+          <div style="display: block;width: 100%;" *ngIf="images.length!=0">
             <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="position" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
               <ng-template pTemplate="item" let-item>
                   <img [src]="item.imageSrcUrl" style="width: 100%;height:40rem; display: block;" />
