@@ -30,6 +30,7 @@ export class LinkedAccountsComponent implements OnInit {
           this.userparsed = usr;
           if (usr!=null) {
             this.fetchUserData();
+            this.getTwitchInfo();
           }
         })
       } else {
@@ -86,6 +87,13 @@ export class LinkedAccountsComponent implements OnInit {
     }).catch(err => console.log(err))
     this.getSteamInfo();
    }
+
+   getTwitchInfo(){
+    axios.get('twitchinfo').then(res=>{
+      console.log(res.data)
+    }).catch(err=>console.log(err))
+   }
+
    redirectToSteamProfile(): void {
     window.open(`https://steamcommunity.com/profiles/${this.steamId}`, '_blank');
   }
@@ -93,6 +101,6 @@ export class LinkedAccountsComponent implements OnInit {
     window.location.href = `http://localhost:3000/auth/steam?uid=${this.userparsed?.id}`;
   }
   redirectToTwitchLogin(): void {
-    window.location.href = 'http://localhost:3000/auth/twitch';
+    window.location.href = `http://localhost:3000/auth/twitch?uid=${this.userparsed?.id}`;
   }
 }

@@ -367,40 +367,121 @@ app.post("/rejectFriend", ensureAuthenticated, urlencodedParser, async (req, res
   res.sendStatus(200);
 })
 
-
- const TwitchStrategy = require('passport-twitch').Strategy;
-
-
-passport.use(new TwitchStrategy({
-  clientID: "5q5a2eqsg77c8nf2xoxohxrfeniskg",
-  clientSecret: "r5qq2aaa4m9cwtc8dwoz4y59uqu8nl",
-  callbackURL: 'http://localhost:3000/auth/twitch/callback',
-  authorizationURL: 'https://id.twitch.tv/oauth2/authorize',
-  scope: "user_read"
-},
-function(accessToken, refreshToken, profile, done) {
-  console.log(profile)
-  return done(null, profile);
-}
-));
-
-//app.get("/auth/twitch", passport.authenticate("twitch"));
-
-app.get("/auth/twitch", (req, res ,next) =>{
-  console.log('here it is')
-  passport.authenticate('twitch' ,  { failureRedirect: '/' } )(req,res,next);
+//new twitch login we just need to implement methods to get the live status 
+app.get('/auth/twitch', (req, res) => {
+  console.log(req.sessionID)
+  sessionMap.set(req.sessionID , req.query.uid);
+  console.log(sessionMap)
+  const baseUrl = 'https://id.twitch.tv/oauth2/authorize';
+  const clientId = "5q5a2eqsg77c8nf2xoxohxrfeniskg";
+  const redirectUri = 'http://localhost:3000/auth/twitch/callback';
+  const scopes = 'user_read'; // the scopes you need for your application
+  const twitchAuthUrl = `${baseUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scopes}`;
+  res.redirect(twitchAuthUrl);
 });
 
-app.get('/auth/twitch/callback',
-  passport.authenticate('twitch', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    console.log('twitch login successfull')
-    res.redirect('/');
+app.get('/auth/twitch/callback', async (req, res) => {
+  const clientId = "5q5a2eqsg77c8nf2xoxohxrfeniskg";
+  const clientSecret = "zqqlb0mcih38gw1hn208gydw31jzis";
+  const redirectUri = 'http://localhost:3000/auth/twitch/callback';
+  const code = req.query.code;
+  const tokenUrl = 'https://id.twitch.tv/oauth2/token';
+  const tokenParams = new URLSearchParams({
+    client_id: clientId,
+    client_secret: clientSecret,
+    code: code,
+    grant_type: 'authorization_code',
+    redirect_uri: redirectUri,
   });
+  try {
+    const response = await fetch(tokenUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: tokenParams,
+    });
+    const json = await response.json();
+    const accessToken = json.access_token;
+    console.log(accessToken)
+    setTwitchToken(req,res,accessToken)
+    // use the access token to get the user's Twitch account information
+    //res.send(accessToken);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to get access token');
+  }
+});
+
+app.get('/twitchinfo',ensureAuthenticated ,async (req, res) => {
+  let tokenFromDb = await prisma.User.findUnique({
+    where: {
+      id: req.user.user_id
+    },
+    select: {
+      twitchtoken: true
+    }
+  })
+  console.log(tokenFromDb)
+  if(tokenFromDb.twitchtoken!=null){
+  const accessToken = tokenFromDb.twitchtoken;
+  const userUrl = 'https://api.twitch.tv/helix/users';
+  try {
+    const response = await fetch(userUrl, {
+      headers: {
+        'Client-ID': "5q5a2eqsg77c8nf2xoxohxrfeniskg",
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    const json = await response.json();
+    const user = json.data[0];
+    res.send(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to get twitch profile information');
+  }
+}else{
+  res.status(200).send('Failed to get user profile information');
+}
+});
 
 
+//updates the steamid of a user to the user table 
+async function setTwitchToken(req, res,token) {
+  console.log('setTwitchToken called')
+  console.log(sessionMap)
+  console.log(token)
+  let twitchTokenData = await prisma.User.findMany({
+    where: {
+      id: sessionMap.get(req.sessionID)
+    },
+    select: {
+      twitchtoken: true
+    }
+  });
+  console.log(twitchTokenData)
 
+  if (twitchTokenData[0] != null) {
+    const updateUser = await prisma.User.update({
+      where: {
+        id: sessionMap.get(req.sessionID),
+      },
+      data: {
+        twitchtoken: token,
+      },
+    })
+    //res.status(200).send({ message: 'Twitch Linked Successfully' });
+  } else {
+    const updateUser = await prisma.User.create({
+      where: {
+        id: sessionMap.get(req.sessionID),
+      },
+      data: {
+        twitchtoken: token,
+      },
+    })
+     //res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
+  }
+  res.redirect("http://localhost:4200/profile-page");
+}
 
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -447,7 +528,38 @@ app.get('/auth/steam/return', passport.authenticate('steam', { failureRedirect: 
   // res.redirect(`http://localhost:4200/profile-page/linked-accounts?steamid=${req.user.id}`);
 });
 
+//updates the steamid of a user to the user table 
+async function setSteamId(req, res) {
+  const jsonObject = req.body;
+  console.log(sessionMap , req.user  )
+  let steam_id = req.user._json.steamid
+  console.log("steamId :",req.user._json.steamid)
+  let steamIdData = await prisma.User.findMany({
+    where: {
+      steamId: steam_id
+    },
+    select: {
+      id: true
+    }
+  });
 
+
+  if (steamIdData[0] == null) {
+    const updateUser = await prisma.User.update({
+      where: {
+        id: sessionMap.get(req.sessionID),
+      },
+      data: {
+        steamId: steam_id,
+      },
+    })
+    // res.status(200).send({ message: 'New SteamId Linked' });
+  } else {
+    console.log("already linked")
+    // res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
+  }
+  res.redirect("http://localhost:4200/profile-page/linked-accounts?status=linked");
+}
 //returns steamaccount data #endpoint
 app.get("/steamUserInfo", ensureAuthenticated, async (req, res) => {
   
@@ -544,38 +656,7 @@ app.post('/activeStateChange', ensureAuthenticated, urlencodedParser, async (req
   });
 });
 
-//updates the steamid of a user to the user table 
-async function setSteamId(req, res) {
-  const jsonObject = req.body;
-  console.log(sessionMap , req.user.steamid  )
-  let steam_id = req.user._json.steamid
-  console.log("steamId :",req.user._json.steamid)
-  let steamIdData = await prisma.User.findMany({
-    where: {
-      steamId: steam_id
-    },
-    select: {
-      id: true
-    }
-  });
 
-
-  if (steamIdData[0] == null) {
-    const updateUser = await prisma.User.update({
-      where: {
-        id: sessionMap.get(req.sessionID),
-      },
-      data: {
-        steamId: steam_id,
-      },
-    })
-    // res.status(200).send({ message: 'New SteamId Linked' });
-  } else {
-    console.log("already linked")
-    // res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
-  }
-  res.redirect("http://localhost:4200/profile-page/linked-accounts?status=linked");
-}
 //TODO:returns the steamId from user table for linked accounts comp #endpoint
 app.get('/getSteamId', ensureAuthenticated, async (req, res) => {
   let steamIdData = await prisma.User.findMany({

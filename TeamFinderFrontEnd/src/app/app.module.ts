@@ -37,6 +37,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { CommentComponent } from './comment/comment.component';
 import { ToastModule } from 'primeng/toast';
 import { GalleriaModule } from 'primeng/galleria';
+import { SpeedDialModule } from 'primeng/speeddial';
 @NgModule({
   declarations: [
       AppComponent,
@@ -60,6 +61,7 @@ import { GalleriaModule } from 'primeng/galleria';
     SidebarModule,
     ToastModule,
     GalleriaModule,
+    SpeedDialModule,
     ButtonModule,
     BrowserModule,
     AppRoutingModule,
