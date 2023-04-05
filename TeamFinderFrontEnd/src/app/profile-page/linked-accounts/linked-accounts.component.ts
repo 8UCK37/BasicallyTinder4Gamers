@@ -90,7 +90,7 @@ export class LinkedAccountsComponent implements OnInit {
    }
 
    getTwitchInfo(){
-    axios.get('twitchinfo').then(res=>{
+    axios.get('getowntwitchinfo').then(res=>{
       //console.log(res.data)
       if(res.data!='not logged in'){
         this.twitchdata=res.data
