@@ -19,6 +19,8 @@ export class CommentComponent implements OnInit {
   public treeObj: any = {};
   sections = [];
   showSection: boolean[] = [];
+  utcDateTime: any;
+  public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   constructor(private commentService: CommentService) {
     this.showSection = this.sections.map(() => false);
    }
@@ -100,10 +102,14 @@ export class CommentComponent implements OnInit {
       dirComment[i].edges = hashMap.get(dirComment[i].id)
     }
     this.treeObj["nodes"] = dirComment
-    console.log(this.treeObj)
+    console.log("this one",this.treeObj)
     //console.log(this.commentbox)
   }
   toggleSection(index: number) {
     this.showSection[index] = !this.showSection[index];
+  }
+  utcToLocal(utcTime: any) {
+    this.utcDateTime = new Date(utcTime);
+    return this.utcDateTime.toLocaleString('en-US', { timeZone: this.timeZone });
   }
 }
