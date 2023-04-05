@@ -49,6 +49,7 @@ constructor(public userService:UserService,private auth: AngularFireAuth,private
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
+        post.isOwnPost=true
       });
       this.ownPosts=res.data
       console.log(this.ownPosts)

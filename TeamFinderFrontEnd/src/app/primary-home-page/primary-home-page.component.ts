@@ -69,6 +69,7 @@ export class PrimaryHomePageComponent implements OnInit {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
         if(post.author!=this.userparsed.id){
+          post.isOwnPost=false
         this.posts.push(post)
         }
       });

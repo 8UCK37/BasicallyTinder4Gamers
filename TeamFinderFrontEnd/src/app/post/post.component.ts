@@ -125,7 +125,6 @@ export class PostComponent implements OnInit {
 
   }
 
-
   likeButtonClick(post: any, type: String) {
     if ((post.reactiontype=='like' && type == 'like') || (post.reactiontype=='haha' && type == 'haha') || (post.reactiontype=='love' && type == 'love') || (post.reactiontype=='sad' && type == 'sad') || (post.reactiontype=='poop' && type == 'poop')) {
       //console.log("dislike call")
@@ -190,35 +189,6 @@ export class PostComponent implements OnInit {
     this.commentOpen = true
     this.commentService.setCommentObj({open:this.commentOpen,id:post.id});
 
-  }
-
-  submit(data: any, id: any) {
-    console.log(data, id)
-    let forms = document.querySelectorAll<HTMLInputElement>('.form-p input');
-    forms.forEach(elm => {
-      if (id == elm.id) {
-        console.log(elm.value)
-        if (elm.value == "") return
-        axios.post('/comment/add', {
-          "postId": 3,
-          "commentOf": id,
-          "msg": elm.value
-        }).then(res => {
-          console.log(res)
-        })
-        return;
-      }
-
-    });
-  }
-  parentCommentSave() {
-    console.log(this.parentComment)
-    axios.post('/comment/add', {
-      "postId": 3,
-      "msg": this.parentComment
-    }).then(res => {
-      console.log(res)
-    })
   }
 
 }
