@@ -51,6 +51,7 @@ export class PostComponent implements OnInit {
   responsiveOptions: any[] = [];
   items:any[]=[];
   delay:number=90;
+  radi:number=100;
   constructor(private messageService: MessageService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
@@ -93,6 +94,9 @@ export class PostComponent implements OnInit {
   ];
   this.items = [
     {
+      tooltipOptions: {
+        tooltipLabel: 'Edit'
+      },
         icon: 'pi pi-pencil',
         command: () => {
             this.messageService.add({ severity: 'info', summary: 'Add', detail: 'Data Added' });
@@ -100,6 +104,9 @@ export class PostComponent implements OnInit {
     },
 
     {
+      tooltipOptions: {
+        tooltipLabel: 'Delete'
+      },
         icon: 'pi pi-trash',
         command: () => {
             this.messageService.add({ severity: 'error', summary: 'Delete', detail: 'Data Deleted' });
@@ -107,6 +114,9 @@ export class PostComponent implements OnInit {
     },
 
     {
+      tooltipOptions: {
+        tooltipLabel: 'Placeholder'
+      },
         icon: 'pi pi-external-link',
         target: '_blank',
         url: 'http://angular.io'
