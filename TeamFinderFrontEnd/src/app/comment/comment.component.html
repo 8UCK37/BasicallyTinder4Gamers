@@ -31,7 +31,7 @@
         </div>
         <button class="button-link" (click)="toggleSection(i)">Reply</button>
         <div class="inrComment">
-          <div *ngFor="let edge of nodes.edges; let child = index">
+          <div *ngFor="let edge of nodes.edges;">
             <div class="card card-background">
               <img class="user-pic" [src]="edge.author.profilePicture">
               <div class="user-name">
@@ -44,9 +44,8 @@
                 {{edge.commentStr}}
               </div>
             </div>
-            <br>
-            <!-- <button class="button-link" (click)="toggleSection(child)">Reply // not working Need Backend
-              changes</button> -->
+            <button class="button-link" (click)="toggleSection(i)">Reply // not working Need Backend
+              changes</button>
           </div>
           <section [ngStyle]="{ display: showSection[i] ? 'block' : 'none' }">
             <div class="form-p">
