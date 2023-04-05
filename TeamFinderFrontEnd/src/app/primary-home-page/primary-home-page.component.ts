@@ -17,6 +17,7 @@ export class PrimaryHomePageComponent implements OnInit {
   @ViewChild('commentbtn') commentbtn!: ElementRef;
   @ViewChild('imageInput') input!:ElementRef;
   @ViewChild('tagInput') tagInput!:ElementRef;
+  @ViewChild('textInput') textInput!:ElementRef;
   public modalRef?: BsModalRef;
   public show:boolean=true;
   public formData: any;
@@ -186,6 +187,10 @@ export class PrimaryHomePageComponent implements OnInit {
     this.modalRef = this.modalService.show(template,
       Object.assign({}, { class: 'gray modal-xl' })
       );
+  }
+  adjustHeight(){
+    this.textInput.nativeElement.style.height = "5px";
+    this.textInput.nativeElement.style.height = (this.textInput.nativeElement.scrollHeight)+"px";
   }
 
 }

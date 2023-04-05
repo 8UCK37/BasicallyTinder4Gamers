@@ -30,16 +30,29 @@
       tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content" style="background-color: currentColor;">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: whitesmoke;">Post Generator</h1>
+          <div class="modal-header" style="border: 0px;">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: whitesmoke;">Create a Post</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="mb-3">
-              <label for="message-text" class="col-form-label" style="color: whitesmoke;">Add somthing Funny or maybe
-                not</label>
+            <!-- <div class="mb-3">
               <textarea placeholder="Rant about those lootboxes here.." class="form-control"
-                id="message-text"></textarea>
+                id="message-text" style="background-color: currentColor; border: 0px;"></textarea>
+            </div>
+            <div style="background: white;border-radius: 5px;">
+              <tag-input [(ngModel)]="tagList">
+                <tag-input-dropdown [dynamicUpdate]="false">
+                </tag-input-dropdown>
+              </tag-input>
+            </div> -->
+            <div class="imtcontainer">
+              <div class="img">
+                <img [src]="userInfo?.profilePicture" class="user-pic" (error)="onProfilePicError()">
+              </div>
+              <div class="textarea">
+                <textarea onkeyup="InputAdjust(this)" (input)="adjustHeight()" #textInput class="form-control"
+                id="message-text" placeholder="what's on you mind?" style="box-shadow: 0px;"></textarea>
+              </div>
             </div>
             <div style="background: white;border-radius: 5px;">
               <tag-input [(ngModel)]="tagList">
@@ -51,7 +64,7 @@
             <div>
               <input #imageInput type="file" (change)="onFileSelected($event)" multiple [hidden]="true">
               <button type="button" style="margin-top: 5px;" class="btn btn-outline-info"
-                (click)="imageInput.click()">Image | <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                (click)="imageInput.click()"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                   fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
                   <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                   <path
@@ -74,7 +87,7 @@
             </div>
             <br>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" style="border: 0px;">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" (click)="uploadPostFile()"
               data-bs-dismiss="modal">Post</button>
