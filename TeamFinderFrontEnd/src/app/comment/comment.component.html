@@ -1,40 +1,71 @@
-<p-sidebar [(visible)]="commentOpen" (onHide)="hideComment()" position="right" [style]="{width: '31rem', borderRadius: '10px 0 0 10px', backgroundColor: '#262626'}">
+<p-sidebar [(visible)]="commentOpen" (onHide)="hideComment()" position="right"
+  [style]="{width: '31rem', borderRadius: '10px 0 0 10px', backgroundColor: '#262626'}">
   <ng-template pTemplate="header">
-  <h3>Right Sidebar</h3>
-</ng-template>
+    <h3>Right Sidebar</h3>
+  </ng-template>
   <ng-template pTemplate="footer">Comment
-  <div>
-    <input type="text" class="form-control" id="usr" style="
+    <div>
+      <input type="text" class="form-control" id="usr" style="
     visibility: inherit;
     display: block;
     position: relative;
     clip-path: none;
 " [(ngModel)]="parentComment">
-    <button (click)="parentCommentSave()"> save</button>
-  </div>
-</ng-template>
-<ng-template pTemplate="content">Body Content
-  <div #commentbox>
-    <div *ngFor="let nodes of treeObj.nodes; let i = index">
-      <button (click)="toggleSection(i)">Toggle Text Field</button>
-      {{nodes.commentStr}}
-      <section [ngStyle]="{ display: showSection[i] ? 'block' : 'none' }">
-      <div class="inrComment">
-        <div *ngFor="let edge of nodes.edges;">
-          {{edge.commentStr}}
+      <button (click)="parentCommentSave()"> save</button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">Body Content
+    <div #commentbox>
+      <div *ngFor="let nodes of treeObj.nodes; let i = index">
+        <div class="con">
+          <img class="user-pic" [src]="nodes.author.profilePicture">
+          <div class="user-name">
+            {{nodes.author.name}}
+          </div>
+            <!-- <div  class="user-time">
+            {{this.utcToLocal(nodes?.createdAt)}}
+          </div> -->
+
+          <div class="user-comment">
+            {{nodes.commentStr}}
+          </div>
         </div>
-        <div class="form-p">
-          <input type="text" class="form-control" id="{{nodes.id}}" style="
+
+        <button class="button-link" (click)="toggleSection(i)">Reply</button>
+        <div class="inrComment">
+          <div *ngFor="let edge of nodes.edges; let child = index">
+            <div class="con">
+
+              <img class="user-pic" [src]="edge.author.profilePicture">
+              <div class="user-name">
+                {{edge.author.name}}
+              </div>
+                <!-- <div class="user-time">
+                {{this.utcToLocal(edge?.createdAt)}}
+              </div> -->
+
+
+              <div class="user-comment">
+                {{edge.commentStr}}
+              </div>
+            </div>
+
+            <button class="button-link" (click)="toggleSection(child)">Reply // not working Need Backend
+              changes</button>
+          </div>
+          <section [ngStyle]="{ display: showSection[i] ? 'block' : 'none' }">
+            <div class="form-p">
+              <input type="text" class="form-control" id="{{nodes.id}}" style="
     visibility: inherit;
     display: block;
     position: relative;
     clip-path: none;
 " ngModel>
-          <button (click)="submit($event , nodes.id)"> send </button>
+              <button (click)="submit($event , nodes.id)"> send </button>
+            </div>
+          </section>
         </div>
       </div>
-    </section>
     </div>
-  </div>
-</ng-template>
+  </ng-template>
 </p-sidebar>
