@@ -77,3 +77,19 @@
   left: 352px;
   bottom: 10px;
 }
+input::placeholder {
+  color: white;
+}
+.input-field-specs
+{
+  visibility: inherit;
+      display: block;
+      position: relative;
+      clip-path: none;
+      background-color: #212529;
+      color: rgb(249, 250, 250);
+      border-radius: 2px;
+}
+.form-control:focus{
+  box-shadow: none;
+}

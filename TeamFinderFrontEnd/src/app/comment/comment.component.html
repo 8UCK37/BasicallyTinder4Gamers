@@ -6,12 +6,7 @@
   <ng-template pTemplate="footer" style="color: rgb(249, 250, 250);">
     <h4 style="color: rgb(249, 250, 250);">Comment</h4>
     <div>
-      <input type="text" autocomplete="off" placeholder="Whats your problem Green" class="form-control" id="usr" style="
-    visibility: inherit;
-    display: block;
-    position: relative;
-    clip-path: none;
-" [(ngModel)]="parentComment">
+      <input type="text" autocomplete="off" placeholder="Whats your problem Green" class="form-control input-field-specs" id="usr" [(ngModel)]="parentComment">
       <br>
       <div class="d-grid gap-2">
         <button class="btn btn-outline-light" (click)="parentCommentSave()"> Comment</button>
@@ -36,13 +31,8 @@
         <button class="button-link" (click)="toggleSection(nodes.id)">Reply</button>
         <section [ngStyle]="{ display: showSection[nodes.id]? 'block' : 'none' }">
           <div class="form-p">
-            <input type="text" placeholder="Replying {{nodes.author.name}}" autocomplete="off" class="form-control"
-              id="{{nodes.id}}" style="
-  visibility: inherit;
-  display: block;
-  position: relative;
-  clip-path: none;
-" ngModel>
+            <input type="text" placeholder="Replying to {{nodes.author.name}}" autocomplete="off" class="form-control input-field-specs"
+              id="{{nodes.id}}" ngModel>
             <br><button class="btn btn-outline-light comment-btn-posi-parent" (click)="submit($event , nodes.id)">Send
               Reply</button>
           </div>
@@ -64,13 +54,8 @@
             <button class="button-link" (click)="toggleSection(edge.id)">Reply</button>
             <section [ngStyle]="{ display: showSection[edge.id]? 'block' : 'none' }">
               <div class="form-p">
-                <input type="text" placeholder="Replying {{edge.author.name}}" autocomplete="off" class="form-control"
-                  id="{{edge.id}}" style="
-      visibility: inherit;
-      display: block;
-      position: relative;
-      clip-path: none;
-  " ngModel>
+                <input type="text" placeholder="Replying to {{edge.author.name}}" autocomplete="off" class="form-control input-field-specs"
+                  id="{{edge.id}}" ngModel>
                 <br><button class="btn btn-outline-light comment-btn-posi-child" (click)="submit($event , edge.id)">Send
                   Reply</button>
               </div>
