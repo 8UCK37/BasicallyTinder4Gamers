@@ -15,9 +15,14 @@
           </div>
 
           <div class='dialog' *ngIf="visible" style="top:390px;left:144px;">
-            <h3>Delete Post <i class="pi pi-times" style="margin-left: 416px;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i></h3>
+            <h3>{{deleteHeader}}<i class="pi pi-times" style="margin-left: 416px;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i></h3>
+            <div *ngIf="!showSpinner">
             <p><i class="pi pi-exclamation-triangle" style="font-size: 35px;margin: 22px;">
             </i>Are you sure you want to delete this post?</p>
+            </div>
+            <div *ngIf="showSpinner">
+              <p-progressSpinner [style]="{top:'12px',left:'241px'}"></p-progressSpinner>
+            </div>
             <div class='action-group'>
               <button (click)="confirmDelete()">Delete</button>
               <button (click)="cancelDelete()">Cancel</button>

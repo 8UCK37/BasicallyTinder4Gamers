@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UserService } from 'src/app/login/user.service';
+import { CommentService } from 'src/app/post/comment.service';
 
 @Component({
   selector: 'app-profile-post',
@@ -21,7 +22,7 @@ export class ProfilePostComponent implements OnInit {
   public utcDateTime:any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   public modalRef?: BsModalRef;
-constructor(public userService:UserService,private auth: AngularFireAuth,private route: ActivatedRoute,private modalService: BsModalService) {
+constructor(private commentService: CommentService,public userService:UserService,private auth: AngularFireAuth,private route: ActivatedRoute,private modalService: BsModalService) {
   this.ownProfile = this.route.snapshot.data['ownProfile'];
  }
 
@@ -36,6 +37,9 @@ constructor(public userService:UserService,private auth: AngularFireAuth,private
         this.getPostById(this.userparsed?.id);
       }
       })
+      this.commentService.ownPostsObj$.subscribe(posts => {
+        this.ownPosts= posts;
+      });
     } else {
       this.route.queryParams.subscribe(params => {
         this.profile_id = params['id'];
@@ -52,7 +56,8 @@ constructor(public userService:UserService,private auth: AngularFireAuth,private
         post.isOwnPost=true
       });
       this.ownPosts=res.data
-      console.log(this.ownPosts)
+      //console.log(this.ownPosts)
+      this.commentService.setOwnPostsObj(this.ownPosts);
     }).catch(err=>console.log(err))
   }
 

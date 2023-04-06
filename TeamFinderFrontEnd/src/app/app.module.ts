@@ -40,6 +40,7 @@ import { GalleriaModule } from 'primeng/galleria';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @NgModule({
   declarations: [
       AppComponent,
@@ -66,6 +67,7 @@ import { DialogModule } from 'primeng/dialog';
     SpeedDialModule,
     DialogModule,
     ConfirmDialogModule,
+    ProgressSpinnerModule,
     ButtonModule,
     BrowserModule,
     AppRoutingModule,
