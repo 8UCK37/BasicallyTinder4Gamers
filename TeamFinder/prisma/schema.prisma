@@ -76,6 +76,7 @@ model Posts {
   photoUrl    String
   description String
   comments    Comment[]
+  deleted     Boolean?
 }
 
 model Comment {

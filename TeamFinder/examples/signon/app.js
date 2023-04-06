@@ -899,6 +899,8 @@ app.post('/likePost', ensureAuthenticated, (req, res) => postHelper.likePost(req
 //#endpoint
 app.post('/dislikePost', ensureAuthenticated, (req, res) => postHelper.dislikePost(req, res, prisma))
 //#endpoint
+app.post('/deletePost', ensureAuthenticated, (req, res) => postHelper.deletePost(req, res, prisma))
+//#endpoint
 app.post('/getPostById', ensureAuthenticated, (req, res) => postHelper.getPostById(req, res, prisma))
 //#endpoint
 app.post('/getLatestPost', ensureAuthenticated, (req, res) => postHelper.getLatestPost(req, res, prisma))

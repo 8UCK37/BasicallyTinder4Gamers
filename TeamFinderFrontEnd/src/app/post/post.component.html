@@ -29,7 +29,7 @@
         </ng-container> -->
 
           <div style="display: block;width: 100%;" *ngIf="images.length!=0">
-            <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="position" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
+            <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
               <ng-template pTemplate="item" let-item>
                   <img [src]="item.imageSrcUrl" style="width: 100%;height:40rem; display: block;" />
               </ng-template>
@@ -115,7 +115,6 @@
                 </div>
               </div>
             </div>
-
             <div class="comment-btn" #commentbtn data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight" style="cursor: pointer;" (click)="openComment(childPost)">Comments</div>
 
@@ -125,5 +124,4 @@
       </div>
     </div>
   </div>
-
 </ng-container>

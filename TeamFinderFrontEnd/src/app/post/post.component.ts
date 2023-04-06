@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import axios from 'axios';
 import { CommentService } from './comment.service';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem, MessageService,ConfirmationService, ConfirmEventType } from 'primeng/api';
 
 
 interface Comment {
@@ -23,7 +23,7 @@ interface Comment {
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css'],
-  providers: [MessageService]
+  providers: [MessageService,ConfirmationService]
 
 })
 
@@ -47,12 +47,13 @@ export class PostComponent implements OnInit {
   // commentData: Comment[] = [];
   public treeObj: any = {}
   images: any[] =[];
-  position: string = 'bottom';
+  galeriaPosition: string = 'bottom';
   responsiveOptions: any[] = [];
   items:any[]=[];
   delay:number=90;
   radi:number=100;
-  constructor(private messageService: MessageService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
+  confirmPosition:string ="top";
+  constructor(private confirmationService: ConfirmationService,private messageService: MessageService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
     //   const clickedElementClassList = clickedElement.classList;
@@ -99,7 +100,8 @@ export class PostComponent implements OnInit {
       },
         icon: 'pi pi-pencil',
         command: () => {
-            this.messageService.add({ severity: 'info', summary: 'Add', detail: 'Data Added' });
+          console.log('pencil clicked')
+
         }
     },
 
@@ -109,7 +111,7 @@ export class PostComponent implements OnInit {
       },
         icon: 'pi pi-trash',
         command: () => {
-            this.messageService.add({ severity: 'error', summary: 'Delete', detail: 'Data Deleted' });
+          console.log('delete clicked')
         }
     },
 
@@ -118,8 +120,9 @@ export class PostComponent implements OnInit {
         tooltipLabel: 'Placeholder'
       },
         icon: 'pi pi-external-link',
-        target: '_blank',
-        url: 'http://angular.io'
+        command: () => {
+          console.log('placeholder clicked')
+        }
     }
 ];
 
@@ -189,6 +192,12 @@ export class PostComponent implements OnInit {
     this.commentOpen = true
     this.commentService.setCommentObj({open:this.commentOpen,id:post.id});
 
+  }
+  deletePost(){
+    console.log(this.childPost.id)
+    // axios.post('/deletePost', { id: this.childPost.id}).then(res => {
+    //   console.log(res)
+    // });
   }
 
 }
