@@ -1,69 +1,71 @@
 <p-sidebar [(visible)]="commentOpen" (onHide)="hideComment()" position="right"
   [style]="{width: '31rem', borderRadius: '10px 0 0 10px', backgroundColor: '#262626'}">
   <ng-template pTemplate="header">
-    <h3>Right Sidebar</h3>
+    <h2 style="color: rgb(249, 250, 250);">Comment Section</h2>
   </ng-template>
-  <ng-template pTemplate="footer">Comment
+  <ng-template pTemplate="footer">
+    <h4 style="color: rgb(249, 250, 250);">Comment</h4>
     <div>
-      <input type="text" class="form-control" id="usr" style="
-    visibility: inherit;
-    display: block;
-    position: relative;
-    clip-path: none;
-" [(ngModel)]="parentComment">
-      <button (click)="parentCommentSave()"> save</button>
+      <input type="text" autocomplete="off" placeholder="Whats your problem Green" class="form-control input-field-specs" id="usr" [(ngModel)]="parentComment">
+      <br>
+      <div class="d-grid gap-2">
+        <button class="btn btn-outline-light" style="border-radius: 20px;" (click)="parentCommentSave()"> Comment</button>
+      </div>
     </div>
   </ng-template>
-  <ng-template pTemplate="content">Body Content
+  <ng-template pTemplate="content">
     <div #commentbox>
       <div *ngFor="let nodes of treeObj.nodes; let i = index">
-        <div class="con">
+        <div class="card card-background">
           <img class="user-pic" [src]="nodes.author.profilePicture">
           <div class="user-name">
             {{nodes.author.name}}
           </div>
-            <!-- <div  class="user-time">
+          <!-- <div  class="user-time">
             {{this.utcToLocal(nodes?.createdAt)}}
           </div> -->
-
           <div class="user-comment">
             {{nodes.commentStr}}
           </div>
         </div>
-
-        <button class="button-link" (click)="toggleSection(i)">Reply</button>
+        <button class="button-link" #replyparent (click)="toggleSection(nodes.id)">Reply</button>
+        <section [ngStyle]="{ display: showSection[nodes.id]? 'block' : 'none' }">
+          <div class="form-p">
+            <input type="text" placeholder="Replying to {{nodes.author.name}}" autocomplete="off" class="form-control input-field-specs"
+              id="{{nodes.id}}" ngModel>
+              <button class="btn btn-outline-light comment-btn-posi-parent-can"  (click)="replyparent.click()" >Cancle</button>
+            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submit($event , nodes.id)">Send
+              Reply</button>
+          </div>
+        </section>
         <div class="inrComment">
-          <div *ngFor="let edge of nodes.edges; let child = index">
-            <div class="con">
-
+          <div *ngFor="let edge of nodes.edges;">
+            <div class="card card-background">
               <img class="user-pic" [src]="edge.author.profilePicture">
               <div class="user-name">
                 {{edge.author.name}}
               </div>
-                <!-- <div class="user-time">
+              <!-- <div class="user-time">
                 {{this.utcToLocal(edge?.createdAt)}}
               </div> -->
-
-
               <div class="user-comment">
                 {{edge.commentStr}}
               </div>
             </div>
-
-            <button class="button-link" (click)="toggleSection(child)">Reply // not working Need Backend
-              changes</button>
+            <button class="button-link" #replychild (click)="toggleSection(edge.id)">Reply</button>
+            <section [ngStyle]="{ display: showSection[edge.id]? 'block' : 'none' }">
+              <div class="form-p">
+                <input type="text" placeholder="Replying to {{edge.author.name}}" autocomplete="off" class="form-control input-field-specs"
+                  id="{{edge.id}}" ngModel>
+                  <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="replychild.click()" >Cancle</button>
+                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit($event , nodes.id)">Send
+                  Reply</button>
+              </div>
+            </section>
           </div>
-          <section [ngStyle]="{ display: showSection[i] ? 'block' : 'none' }">
-            <div class="form-p">
-              <input type="text" class="form-control" id="{{nodes.id}}" style="
-    visibility: inherit;
-    display: block;
-    position: relative;
-    clip-path: none;
-" ngModel>
-              <button (click)="submit($event , nodes.id)"> send </button>
-            </div>
-          </section>
+          <br>
+          <a>--------------------------------------------------------------------</a>
+          <br>
         </div>
       </div>
     </div>
