@@ -44,7 +44,9 @@ export class PostComponent implements OnInit {
   showSpinner:boolean=false;
   public userparsed:any;
   deleteHeader:string="Delete Post"
-  constructor(public userService:UserService,private messageService: MessageService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
+  deleteBody:string="Are you sure you want to delete this post?"
+  deleteSuccess:boolean=false;
+  constructor(public userService:UserService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
     //   const clickedElementClassList = clickedElement.classList;
@@ -204,23 +206,26 @@ export class PostComponent implements OnInit {
     //console.log('confirm clicked with post id',this.childPost.id)
     //console.log(this.ownPosts)
     setTimeout(() => {
-      this.messageService.add({key:this.childPost.id.toString(), severity: 'info', summary: 'Confirmed', detail: 'Post deleted' });
+      this.deleteSuccess=true
+      this.deleteHeader="Suceess !!!"
+      this.deleteBody="Successfully deleted your post !!!"
+      this.showSpinner = !this.showSpinner ;
     }, 2000);
     setTimeout(() => {
       //console.log(this.ownPosts)
       this.removePostById(this.childPost.id)
       //console.log(this.ownPosts)
-    }, 3000);
+    }, 4000);
   }
   cancelDelete(){
     //console.log('cancel clicked with post id',this.childPost.id)
     this.visible = !this.visible;
-    this.messageService.add({key:this.childPost.id.toString(),severity: 'error', summary: 'Cancelled', detail: 'The post was not deleted' });
+
   }
   closeDelete(){
     //console.log('close clicked with post id',this.childPost.id)
     this.visible = !this.visible;
-    this.messageService.add({key:this.childPost.id.toString(),severity: 'warn', summary: 'Cancelled', detail: 'You have closed the delete dialog' });
+
   }
   removePostById(postId: number) {
     const index = this.ownPosts.findIndex((post: { id: number; }) => post.id === postId);

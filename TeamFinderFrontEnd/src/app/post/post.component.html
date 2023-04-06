@@ -13,12 +13,13 @@
           <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" >
             <p-speedDial  [model]="items"  direction="down-left" [radius]="radi" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-rounded p-button-text"></p-speedDial>
           </div>
-
           <div class='dialog' *ngIf="visible" style="top:390px;left:144px;">
-            <h3>{{deleteHeader}}<i class="pi pi-times" style="margin-left: 416px;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i></h3>
+            <h3>{{deleteHeader}}</h3>
+            <i class="pi pi-times" style="margin-top: -30px;float:right;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i>
             <div *ngIf="!showSpinner">
-            <p><i class="pi pi-exclamation-triangle" style="font-size: 35px;margin: 22px;">
-            </i>Are you sure you want to delete this post?</p>
+            <i *ngIf="!deleteSuccess" class="pi pi-exclamation-triangle" style="font-size: 35px;margin-top: 38px;margin-left: 70px;margin-right: 20px;"></i>
+            <i *ngIf="deleteSuccess" class="pi pi-check-circle" style="font-size: 35px;margin-top: 38px;margin-left: 70px;margin-right: 20px;"></i>
+            <span>{{deleteBody}}</span>
             </div>
             <div *ngIf="showSpinner">
               <p-progressSpinner [style]="{top:'12px',left:'241px'}"></p-progressSpinner>
@@ -131,5 +132,4 @@
       </div>
     </div>
   </div>
-  <p-toast  key="{{childPost.id}}" position="center"></p-toast>
 </ng-container>
