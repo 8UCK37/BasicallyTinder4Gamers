@@ -13,8 +13,6 @@ export class CommentService {
   postsObj$ = this.postsObjSource.asObservable();
   constructor() { }
 
-
-
   setPostsObj(obj: any) {
     this.postsObjSource.next(obj);
   }

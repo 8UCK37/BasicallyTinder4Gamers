@@ -23,7 +23,7 @@ interface Comment {
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css'],
-  providers: [MessageService,ConfirmationService]
+  providers: [MessageService]
 
 })
 
@@ -53,7 +53,9 @@ export class PostComponent implements OnInit {
   delay:number=90;
   radi:number=100;
   confirmPosition:string ="top";
-  constructor(private confirmationService: ConfirmationService,private messageService: MessageService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
+  visible: boolean=false;
+
+  constructor(private messageService: MessageService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
     //   const clickedElementClassList = clickedElement.classList;
@@ -112,6 +114,7 @@ export class PostComponent implements OnInit {
         icon: 'pi pi-trash',
         command: () => {
           console.log('delete clicked')
+          this.visible = !this.visible;
         }
     },
 
@@ -194,10 +197,24 @@ export class PostComponent implements OnInit {
 
   }
   deletePost(){
-    console.log(this.childPost.id)
-    // axios.post('/deletePost', { id: this.childPost.id}).then(res => {
-    //   console.log(res)
-    // });
+    //console.log(this.childPost.id)
+    axios.post('/deletePost', { id: this.childPost.id}).then(res => {
+      console.log(res)
+    });
   }
-
+  confirmDelete(){
+    //console.log('confirm clicked with post id',this.childPost.id)
+    this.messageService.add({key:this.childPost.id.toString(), severity: 'info', summary: 'Confirmed', detail: 'Post deleted' });
+    this.deletePost()
+  }
+  cancelDelete(){
+    //console.log('cancel clicked with post id',this.childPost.id)
+    this.visible = !this.visible;
+    this.messageService.add({key:this.childPost.id.toString(),severity: 'error', summary: 'Cancelled', detail: 'The post was not deleted' });
+  }
+  closeDelete(){
+    //console.log('close clicked with post id',this.childPost.id)
+    this.visible = !this.visible;
+    this.messageService.add({key:this.childPost.id.toString(),severity: 'warn', summary: 'Cancelled', detail: 'You have closed the delete dialog' });
+  }
 }

@@ -13,6 +13,16 @@
           <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" >
             <p-speedDial  [model]="items"  direction="down-left" [radius]="radi" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-rounded p-button-text"></p-speedDial>
           </div>
+
+          <div class='dialog' *ngIf="visible" style="top:390px;left:144px;">
+            <h3>Delete Post <i class="pi pi-times" style="margin-left: 416px;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i></h3>
+            <p><i class="pi pi-exclamation-triangle" style="font-size: 35px;margin: 22px;">
+            </i>Are you sure you want to delete this post?</p>
+            <div class='action-group'>
+              <button (click)="confirmDelete()">Delete</button>
+              <button (click)="cancelDelete()">Cancel</button>
+            </div>
+          </div>
         </div>
         <div class="p-3">
           <p class="text-justify">{{childPost.description}}</p>
@@ -20,14 +30,6 @@
             <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
           </ng-container>
         </div>
-        <!-- <ng-container *ngIf="childPost.photoUrlArr.length!=0">
-          <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
-            <slide *ngFor="let img of childPost.photoUrlArr">
-              <img [src]="img" alt="first slide" style="display: block; height: 40rem; width: 100%;">
-            </slide>
-          </carousel>
-        </ng-container> -->
-
           <div style="display: block;width: 100%;" *ngIf="images.length!=0">
             <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
               <ng-template pTemplate="item" let-item>
@@ -35,6 +37,7 @@
               </ng-template>
           </p-galleria>
         </div>
+
         <div class="p-2 carousel-btm">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
             <div class="like">
@@ -117,11 +120,11 @@
             </div>
             <div class="comment-btn" #commentbtn data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight" style="cursor: pointer;" (click)="openComment(childPost)">Comments</div>
-
             <div class=" share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <p-toast  key="{{childPost.id}}" position="center"></p-toast>
 </ng-container>

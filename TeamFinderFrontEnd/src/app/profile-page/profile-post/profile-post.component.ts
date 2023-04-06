@@ -60,9 +60,5 @@ constructor(public userService:UserService,private auth: AngularFireAuth,private
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
 }
-openModal(template: TemplateRef<any>) {
-  this.modalRef = this.modalService.show(template,
-    Object.assign({}, { class: 'gray modal-xl' })
-    );
-}
+
 }
