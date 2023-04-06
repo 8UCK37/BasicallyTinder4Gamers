@@ -16,16 +16,15 @@
   <ng-template pTemplate="content">
     <div #commentbox>
       <div *ngFor="let nodes of treeObj.nodes; let i = index">
-        <div class="card card-background">
+        <div class="comment-card">
           <img class="user-pic" [src]="nodes.author.profilePicture">
-          <div class="user-name">
-            {{nodes.author.name}}
-          </div>
-          <!-- <div  class="user-time">
-            {{this.utcToLocal(nodes?.createdAt)}}
-          </div> -->
-          <div class="user-comment">
-            {{nodes.commentStr}}
+          <div class="card card-background">
+            <div class="user-name">
+              {{nodes.author.name}}
+            </div>
+            <div class="user-comment">
+              {{nodes.commentStr}}
+            </div>
           </div>
         </div>
         <button class="button-link" #replyparent (click)="toggleSection(nodes.id)">Reply</button>
@@ -40,16 +39,15 @@
         </section>
         <div class="inrComment">
           <div *ngFor="let edge of nodes.edges;">
-            <div class="card card-background">
+            <div class="comment-card">
               <img class="user-pic" [src]="edge.author.profilePicture">
-              <div class="user-name">
-                {{edge.author.name}}
-              </div>
-              <!-- <div class="user-time">
-                {{this.utcToLocal(edge?.createdAt)}}
-              </div> -->
-              <div class="user-comment">
-                {{edge.commentStr}}
+              <div class="card card-background">
+                <div class="user-name">
+                  {{edge.author.name}}
+                </div>
+                <div class="user-comment">
+                  {{edge.commentStr}}
+                </div>
               </div>
             </div>
             <button class="button-link" #replychild (click)="toggleSection(edge.id)">Reply</button>
