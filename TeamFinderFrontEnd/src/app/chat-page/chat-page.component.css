@@ -114,7 +114,7 @@ body[data-theme=dark] {
   flex-direction: column;
   max-width: 480px;
   margin-right: 20px;
-  margin-left:24px;
+  margin-left:95px;
   overflow-y: auto;
 }
 
@@ -353,8 +353,8 @@ body[data-theme=dark] {
     display: flex;
     flex-direction: column;
     max-width: 480px;
-    margin-right: 24px;
-    margin-left: 10px;
+    margin-right: 95px;
+    margin-left: 20px;
     overflow-y: auto;
     overflow-x: auto;
 }
@@ -899,6 +899,7 @@ body[data-theme=dark] {
 }
 
 .message.received {
+  margin-left: 16px;
   background: #fff;
   border-radius: 0px 5px 5px 5px;
   float: left;
@@ -917,6 +918,7 @@ body[data-theme=dark] {
 
 .message.sent {
   /* opacity: 30%; */
+  margin-right: 16px;
   background: #0000002b;
   border-radius: 5px 0px 5px 5px;
   float: right;
