@@ -13,7 +13,7 @@
           <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" >
             <p-speedDial  [model]="items"  direction="down-left" [radius]="radi" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-rounded p-button-text"></p-speedDial>
           </div>
-          <div class='dialog' *ngIf="visible" style="top:390px;left:144px;">
+          <div class='dialog' *ngIf="visible" [style.top]="images.length === 0 ? '10px' : '390px'" style="left:144px;">
             <h3>{{deleteHeader}}</h3>
             <i class="pi pi-times" style="margin-top: -30px;float:right;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i>
             <div *ngIf="!showSpinner">
@@ -29,6 +29,7 @@
               <button (click)="cancelDelete()">Cancel</button>
             </div>
           </div>
+
         </div>
         <div class="p-3">
           <p class="text-justify">{{childPost.description}}</p>
