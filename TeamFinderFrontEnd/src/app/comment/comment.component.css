@@ -11,8 +11,8 @@
   color: #069;
   text-decoration: underline;
   cursor: pointer;
-  left: 3.6rem;
-    position: relative;
+  left: 15px;
+  position: relative;
 }
 .user-pic{
   position: relative;
@@ -36,17 +36,23 @@
   left: 160px;
   position: relative;
 }
-.user-name {
-  margin-left: 20px;
+.user-name{
+  left: 60px;
+    bottom: 22px;
+    position: relative;
 }
-.user-comment {
-  margin: 10px 20px;
+.user-comment{
+  position: relative;
+    justify-content: left;
+    display: flex;
+    bottom: 9px;
+    left: 13px;
 }
-.card-background {
+
+.card-background{
   background-color: black;
-  border-radius: 5px;
+  border-radius: 20px;
   color: rgb(249, 250, 250);
-  width: 100%;
 }
 .comment-btn {
   height: 45px;
@@ -56,6 +62,7 @@
   align-items: center;
   border-radius: 10px;
 }
+
 .comment-btn:hover {
   background-color: #525252;
   border-radius: 10px;
@@ -104,17 +111,4 @@ input::placeholder {
 .form-control:focus{
   box-shadow: none;
 }
-.comment-card {
-  display: flex;
-  align-items: stretch;
-  width: 105%;
-  position: relative;
-  right: 20px;
-  justify-content: center;
-}
-.user-pic {
-  margin-right: 20px;
-  width: 4vmin;
-  height: 4vmin;
-  border-radius: 50%;
-}
+
