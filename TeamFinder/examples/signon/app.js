@@ -155,20 +155,23 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
 });
 //returns user info #endpoint
 app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
-  console.log("/getUserInfo called")
-  try{
-    let userData = await prisma.User.findUnique({
-      where: {
-        id: req.body.id
-      }
-    })
-    console.log(userData)
-    res.send(JSON.stringify(userData));
-  }
-  catch(e){
-    console.log(e)
-    res.sendStatus(400)
-  }
+    //console.log("/getUserInfo called",req.body)
+    try{
+      let userData = await prisma.User.findUnique({
+        where: {
+          id: req.body.id
+        },
+        include: {
+          userInfo:true
+        }
+      })
+      console.log(userData)
+      res.send(JSON.stringify(userData));
+    }
+    catch(e){
+      console.log(e)
+      res.sendStatus(400)
+    }
 });
 
 app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{

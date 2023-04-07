@@ -62,7 +62,7 @@ export class LoginUserinfoComponent implements OnInit {
     "Lakshadweep",
     "Puducherry"
   ];
-  ;
+  
   public languages:String[] =["Bengali","Hindi","English"]
   constructor(private modalService: BsModalService , private  _elementRef : ElementRef,private auth: AngularFireAuth , private userService: UserService ) {
 
