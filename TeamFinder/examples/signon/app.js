@@ -175,6 +175,26 @@ app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
     }
 });
 
+app.put('/updateUserInfo', ensureAuthenticated, async (req, res) => {
+  //console.log("/getUserInfo called",req.body)
+  try{
+    let userData = await prisma.UserInfo.update({
+      where: {
+        id: req.user.user_id
+      },
+      data: {
+        userInfo:true
+      }
+    })
+    console.log(userData)
+    res.send(JSON.stringify(userData));
+  }
+  catch(e){
+    console.log(e)
+    res.sendStatus(400)
+  }
+});
+
 app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{
 
  let userData = await prisma.User.update({

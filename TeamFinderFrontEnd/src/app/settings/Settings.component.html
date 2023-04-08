@@ -94,12 +94,12 @@
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputFirstName">Username</label>
-                      <input type="text" class="form-control disabled" id="inputFirstName" value={{this.userInfo.name}} readonly>
+                      <input type="text" class="form-control disabled" id="inputFirstName" value={{userInfo.name}} readonly>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail4">Email</label>
-                    <input type="email" class="form-control disabled" id="inputEmail4" value={{this.userInfo.gmailId}} disabled>
+                    <input type="email" class="form-control disabled" id="inputEmail4" value={{userInfo.gmailId}} disabled>
                   </div>
                   <div class="form-group">
                     <label for="inputAddress">Address</label>
@@ -107,17 +107,11 @@
                   </div>
                   <div class="form-group">
                     <label for="inputCountry">Country</label>
-                    <input type="text" class="form-control" id="inputCountry" value={{this.info.Country}}>
-                    <div class="drop-dwn" [ngClass]="cardStyle">
-                      <ul>
-                        <li *ngFor="let state of indianStates; let i = index" (click)="countrySelect(i)"> {{state}}
-                        </li>
-                      </ul>
-                    </div>
+                    <input type="text" [typeahead]="indianStates" class="form-control" id="inputCountry" [isAnimated]="true" [(ngModel)]="info.Country" value={{info.Country}}>
                   </div>
                   <div class="form-group">
                     <label for="inputGender">Gender</label>
-                    <input type="text" class="form-control" id="inputGender" value={{this.info.Gender}}>
+                    <input type="text" [typeahead]="gender" class="form-control" id="inputGender" [isAnimated]="true" [(ngModel)]="info.Gender" value={{info.Gender}}>
                   </div>
                   <!-- <div class="form-row">
                     <div class="form-group col-md-6">
