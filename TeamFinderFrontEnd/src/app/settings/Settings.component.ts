@@ -10,18 +10,65 @@ export class SettingsComponent implements OnInit {
   public newUserName: String="";
   posts: any;
   public userparsed:any;
-  public userInfo:any;
+  public userInfo:any={name:""};
   public bio:any;
+  public info:any={Country:"",Gender:""};
+  public cardStyle?: any;
+  public cardStyle2?: any;
+  selected1?: string;
+  public indianStates: string[] = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+    "Andaman and Nicobar Islands",
+    "Chandigarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Ladakh",
+    "Lakshadweep",
+    "Puducherry"
+  ];
   constructor(public userService:UserService) { }
 
   ngOnInit() {
-
     this.userService.userCast.subscribe(usr=>{
       //console.log("user data" , usr)
+      if(usr){
       this.userparsed = usr;
       this.userInfo = usr;
+      //console.log(this.userInfo)
       this.newUserName=this.userparsed.name
-      this.bio = this.userInfo?.bio;
+      this.bio = this.userInfo?.bio;  
+      axios.post('getUserInfo',{id:usr.id}).then(res => {
+        this.info=res.data.userInfo;
+        console.log(res.data.userInfo)
+      })
+      }
     })
   }
 
@@ -37,5 +84,12 @@ export class SettingsComponent implements OnInit {
     axios.post('updateBio',{bio:this.bio}).then(res=>{
       this.userInfo.bio=this.bio;
    }).catch(err=>console.log(err))
+  }
+  countrySelect(index:number){
+    // console.log(index)
+    // console.log(this.states[index])
+    this.selected1 = this.indianStates[index]
+    this.cardStyle2 = []
+    this.cardStyle = []
   }
 }

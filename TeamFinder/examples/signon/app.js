@@ -1,5 +1,6 @@
 /**
  * Basic example demonstrating passport-steam usage within Express framework
+ adding space
  */
 const axios = require("axios")
 var https = require('https');
@@ -154,24 +155,24 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
 
 });
 //returns user info #endpoint
-app.post('/getUserInfo', async (req, res) => {
-  console.log("/getUserInfo called")
-  try{
-    let userData = await prisma.User.findMany({
-      where: {
-        id: req.body.id
-      },
-      include: {
-        userInfo:true
-      }
-    })
-    console.log(userData)
-    res.send(JSON.stringify(userData));
-  }
-  catch(e){
-    console.log(e)
-    res.sendStatus(400)
-  }
+app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
+    //console.log("/getUserInfo called",req.body)
+    try{
+      let userData = await prisma.User.findUnique({
+        where: {
+          id: req.body.id
+        },
+        include: {
+          userInfo:true
+        }
+      })
+      console.log(userData)
+      res.send(JSON.stringify(userData));
+    }
+    catch(e){
+      console.log(e)
+      res.sendStatus(400)
+    }
 });
 
 app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{
@@ -485,12 +486,13 @@ app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
         return;
       } else if (response.status === 401) {
         // Access token is expired, trying to refresh it
-        refreshTwitchToken(req.user.user_id,refreshToken)
+        const accessToken = refreshTwitchToken(req.user.user_id,refreshToken).access_token;
         const response = await fetch(userUrl, {
           headers: {
             'Client-ID': "5q5a2eqsg77c8nf2xoxohxrfeniskg",
             'Authorization': `Bearer ${accessToken}`,
           },
+          
         });
         const json = await response.json();
         const user = json.data[0];
@@ -541,7 +543,8 @@ async function refreshTwitchToken(userid,refreshToken) {
           twitchtoken: {token:accessToken,refreshToken:refreshToken},
         },
       })
-    } 
+    }
+    return json; 
   } catch (error) {
     console.error(error);
   }
