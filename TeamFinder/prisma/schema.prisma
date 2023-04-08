@@ -104,3 +104,5 @@ model Activity {
   createdAt DateTime @default(now())
   type      String
 }
+
+

@@ -41,6 +41,8 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CreatePostModalComponent } from './utils/create-post-modal/create-post-modal.component';
+
 @NgModule({
   declarations: [
       AppComponent,
@@ -58,7 +60,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
       PrimaryHomePageComponent,
       LoginUserinfoComponent,
       PostComponent,
-      CommentComponent
+      CommentComponent,
+      CreatePostModalComponent
    ],
   imports: [
     SidebarModule,
@@ -90,7 +93,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   ],
   providers: [
     ChatServicesService
-
   ],
   bootstrap: [AppComponent]
 })
