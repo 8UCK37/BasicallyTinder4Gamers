@@ -4,6 +4,7 @@ import axios from 'axios';
 import { UserService } from '../login/user.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { CommentService } from '../post/comment.service';
+import { UtilsServiceService } from '../utils/utils-service.service';
 
 @Component({
   selector: 'app-primary-home-page',
@@ -34,7 +35,7 @@ export class PrimaryHomePageComponent implements OnInit {
   public imageBlobs:any[]=[];
   myInterval = 0;
   activeSlideIndex = 0;
-  constructor(private commentService: CommentService,public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService , private userService : UserService ) {
+  constructor(private commentService: CommentService,public user: UserService ,private auth: AngularFireAuth,private renderer: Renderer2,private modalService: BsModalService , private userService : UserService , public utilsServiceService : UtilsServiceService) {
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && e.target !== this.commentbtn?.nativeElement) {
         this.closeComments?.nativeElement.click();
@@ -56,6 +57,9 @@ export class PrimaryHomePageComponent implements OnInit {
       }
 
     })
+    // this.utilsServiceService.modalObj$.subscribe((modalData:any)=>{
+    //   console.log(modalData)
+    // })
     this.commentService.postsObj$.subscribe(posts => {
       this.posts= posts;
     });
@@ -94,66 +98,14 @@ export class PrimaryHomePageComponent implements OnInit {
     this.posts=newpost
     })
    }
-   uploadPostFile(){
-    console.error("click"  ,this.input)
-    this.formData = new FormData();
-    if(this.input.nativeElement.files[0]!=null){
-      //console.log("not null")
-      let type = this.input.nativeElement.files[0].type
-    if(type != "image/jpeg" && type != "image/jpg"){
-      alert("wrong image type please upload jpg or Jpeg")
-      return
-    }
-    }
-    const textareaElement = document.getElementById("message-text") as HTMLTextAreaElement;
-    const text = textareaElement.value;
-    //console.log(this.input.nativeElement.files);
-    for(let i=0;i< this.imageBlobs.length;i++){
-      this.formData.append("post", this.imageBlobs[i]);
 
-    }
-    //console.log(this.imageBlobs)
-    this.formData.append("data" , JSON.stringify({data : this.tagList,desc:text}))
-    axios.post('/createPost', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
-    }).catch(err =>console.log(err))
-    //console.log(this.input)
-    //console.log(this.formData.data)
-    this.tagList = [];
-    //console.log(this.tagList)
-    this.clearImages()
-    textareaElement.value=''
-    this.ngOnInit()
-    this.imageBlobs=[]
-    setTimeout(() => {
-      this.fetchLatestPost();
-    }, 1500);
-  }
   toggleMenu() {
     this.show=!this.show;
   }
-  onFileSelected(event: any): void {
-    const files: File[] = this.input.nativeElement.files;
-    //console.log(this.input.nativeElement.files)
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const reader = new FileReader();
-        this.imageBlobs.push(files[i])
-        reader.onload = e => this.imageSrcs.push(reader.result as string);
-        reader.readAsDataURL(files[i]);
-      }
-    }
-  }
-  removeImage(index: number): void {
-    this.imageSrcs.splice(index, 1);
-    this.imageBlobs.splice(index, 1);
-    this.input.nativeElement.value ='';
-  }
 
-  clearImages(): void {
-    this.imageSrcs = [];
-    this.imageBlobs = [];
-    this.input.nativeElement.value ='';
-  }
+
+
+
   onProfilePicError() {
     //this.profileurl = this.userparsed?.photoURL;
   }
@@ -184,14 +136,9 @@ export class PrimaryHomePageComponent implements OnInit {
     })
     // console.log(tag)
   }
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template,
-      Object.assign({}, { class: 'gray modal-xl' })
-      );
-  }
-  adjustHeight(){
-    this.textInput.nativeElement.style.height = "5px";
-    this.textInput.nativeElement.style.height = (this.textInput.nativeElement.scrollHeight)+"px";
+
+  openModal(){
+    this.utilsServiceService.modalObjSource.next({open:true, data:null})
   }
 
 }
