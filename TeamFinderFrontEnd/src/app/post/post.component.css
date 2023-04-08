@@ -490,3 +490,10 @@ width: 300px;
     opacity: 1;
   }
 }
+
+@media (min-width: 768px){
+.col-md-6 {
+    flex: none;
+    width: 100%;
+}
+}

@@ -552,7 +552,7 @@ select {
        =============== */
 
     .view-width {
-        width: 70%;
+        width: 86%;
     }
 
     /* ==============
@@ -594,7 +594,7 @@ select {
        =============== */
 
     .view-width {
-        width: 75%;
+        width: 100%;
     }
 
     /* ==============
@@ -833,7 +833,7 @@ button {
     /* background: white; */
     padding: 32px;
     padding-bottom: 80px;
-    width: 104%;
+    width: 100%;
     /* box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); */
     border-radius: 5px;
     min-width: 240px;
@@ -1171,7 +1171,8 @@ button {
   position: relative;
   padding-bottom: 40%;
   overflow: hidden;
-  margin-bottom: -50px;
+  margin-bottom: 0; /* Change margin-bottom to 0 */
+  height: 500px; /* Add fixed height */
 }
 
 .profile__header-image {
@@ -1194,8 +1195,7 @@ button {
   align-items: center;
   margin: 0 40px;
   position: relative;
-  bottom: 136px;
-
+  bottom: 190px;
 }
 
 .profile__avatar {
@@ -1303,4 +1303,15 @@ button {
 }
 .custom-modal-class .modal-content {
   height: 60rem !important;
+}
+
+@media (min-width: 768px){
+.container, .container-md, .container-sm {
+    max-width: 1000px;
+}
+}
+@media (min-width: 1400px){
+.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1320px;
+}
 }

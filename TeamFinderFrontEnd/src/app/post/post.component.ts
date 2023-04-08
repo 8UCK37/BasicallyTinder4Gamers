@@ -4,6 +4,7 @@ import axios from 'axios';
 import { CommentService } from './comment.service';
 import { MenuItem, MessageService,ConfirmationService, ConfirmEventType } from 'primeng/api';
 import { UserService } from '../login/user.service';
+import { UtilsServiceService } from '../utils/utils-service.service';
 
 @Component({
   selector: 'app-post',
@@ -46,7 +47,7 @@ export class PostComponent implements OnInit {
   deleteHeader:string="Delete Post"
   deleteBody:string="Are you sure you want to delete this post?"
   deleteSuccess:boolean=false;
-  constructor(public userService:UserService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
+  constructor(public utilsServiceService : UtilsServiceService, public userService:UserService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
     //   const clickedElementClassList = clickedElement.classList;
@@ -99,8 +100,8 @@ export class PostComponent implements OnInit {
       },
         icon: 'pi pi-pencil',
         command: () => {
-          console.log('pencil clicked')
-
+          console.log('pencil clicked', this.childPost)
+          this.utilsServiceService.modalObjSource.next({open:true,  data: this.childPost })
         }
     },
 
