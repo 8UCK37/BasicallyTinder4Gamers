@@ -12,7 +12,6 @@
   background-color: #262626;
   width: 55rem;
   text-align: center;
-  margin-left: 218px;
 }
 .posi{
   border-radius: 20px;
@@ -72,3 +71,10 @@ body{
 .form-control{
   border: none;
 }
+.row{
+  display: flex;
+  gap: 7rem;
+  position: relative;
+  right: 16rem;
+  flex-wrap: nowrap;
+} 
