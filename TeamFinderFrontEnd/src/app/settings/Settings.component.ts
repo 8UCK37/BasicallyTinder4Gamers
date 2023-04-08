@@ -16,6 +16,7 @@ export class SettingsComponent implements OnInit {
   public cardStyle?: any;
   public cardStyle2?: any;
   selected1?: string;
+  selected2?: string;
   public indianStates: string[] = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
@@ -52,6 +53,11 @@ export class SettingsComponent implements OnInit {
     "Ladakh",
     "Lakshadweep",
     "Puducherry"
+  ];
+  public gender: string[] = [
+    "Male",
+    "Female",
+    "Other"
   ];
   constructor(public userService:UserService) { }
 
@@ -91,5 +97,8 @@ export class SettingsComponent implements OnInit {
     this.selected1 = this.indianStates[index]
     this.cardStyle2 = []
     this.cardStyle = []
+  }
+  updateinfo(){
+    
   }
 }
