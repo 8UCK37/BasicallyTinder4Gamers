@@ -548,3 +548,14 @@
   background-color: #0dfd45;
   border-color: #0dfd45;
 }
+/*new*/
+.tab{
+  margin-top: 50px;
+  cursor: pointer;
+  color: antiquewhite;
+  width:200px;
+  height:60px;
+}
+.tab:hover {
+  background-color: #262626; /* Change the background color on hover */
+}
