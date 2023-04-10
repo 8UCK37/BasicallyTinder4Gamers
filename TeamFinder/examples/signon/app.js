@@ -280,6 +280,10 @@ app.post("/sendNoti", ensureAuthenticated, async (req, res) => {
   res.sendStatus(200);
 });
 
+app.get("/serverTest", async (req, res) => {
+  res.send("works");
+});
+
 //sends a friend request #endpoint
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
