@@ -8,12 +8,12 @@
     <div class="container">
       <section class="profile-header">
         <!-- Profile Banner -->
-        <div class="profile">
+        <div class="profile" [style.height]="radioActivaVal != 1 ? '20rem' : '34rem'">
           <div class="profile__header-image-container">
-            <img class="profile__header-image img-sk" [src]="userInfo?.profileBanner">
+            <img class="profile__header-image img-sk" [src]="userInfo?.profileBanner" [style.height]="radioActivaVal != 1 ? '25%' : '73%'">
           </div>
           <!-- Profile Avater -->
-          <div class="profile__user">
+          <div class="profile__user" [style.bottom]="radioActivaVal != 1 ? '450px' : '190px'">
 
             <img class="profile__avatar img-sk" [src]="userInfo?.profilePicture">
 
