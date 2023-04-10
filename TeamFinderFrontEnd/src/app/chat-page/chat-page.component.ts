@@ -65,7 +65,7 @@ export class ChatPageComponent implements OnInit {
   }
   ngOnInit() {
     this.userService.userCast.subscribe(usr=>{
-      //console.log("user data" , usr)
+      console.log("user data" , usr)
       this.userparsed = usr;
       this.userInfo = usr;
       //console.log(this.userparsed)

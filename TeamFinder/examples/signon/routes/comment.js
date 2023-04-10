@@ -59,5 +59,24 @@ router.post("/add",ensureAuthenticated, async (req, res) => {
 
 })
 
+router.post("/commentEdit",ensureAuthenticated, async (req, res)=> {
+    console.log('commentEditStr',req.body);
+    
+        let editComment=await prisma.Comment.updateMany({
+            where:{
+                id: req.body.id
+            },
+            data: {
+                commentStr: req.body.new_comment
+            }
+        })
+        res.sendStatus(200)
+    
+    
+        //console.log(e)
+       // res.send(JSON.stringify({ status: "someting went wrong while Editing" }))
+    
+   
+})
 
 module.exports = router

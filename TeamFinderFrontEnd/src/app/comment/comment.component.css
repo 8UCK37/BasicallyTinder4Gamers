@@ -11,6 +11,8 @@
   color: #069;
   text-decoration: underline;
   cursor: pointer;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 .user-pic{
   position: relative;
