@@ -64,6 +64,7 @@ export class ChatPageComponent implements OnInit {
     })
   }
   ngOnInit() {
+    this.incMsg();
     this.userService.userCast.subscribe(usr=>{
       console.log("user data" , usr)
       this.userparsed = usr;
@@ -71,12 +72,9 @@ export class ChatPageComponent implements OnInit {
       //console.log(this.userparsed)
       this.getActiveChoice();
       this.getfriendlist();
-      this.incMsg();
       this.getActiveConvo();
-
-
+      
     setTimeout(() => {
-
       if(this.activeConvList[0]?.chat_type =='sent'){
         this.onclick(this.activeConvList[0])
       }
@@ -199,7 +197,7 @@ export class ChatPageComponent implements OnInit {
     incMsg(){
       this.incomingDataSubscription = this.socketService.getIncomingMsg().subscribe((data) => {
         const recData = typeof data === 'string' ? JSON.parse(data) : data;
-        //console.log(recData.sender);
+        console.log(recData);
         this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime()});
         if(recData.sender==this.selectedFrndId){
         this.scrollToBottom();
