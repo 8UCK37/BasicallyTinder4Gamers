@@ -202,7 +202,6 @@
     margin: 0;
     flex-grow: 1;
     position: relative;
-
     gap: 50px;
     padding-right: 2px;
 }
@@ -550,12 +549,16 @@
 }
 /*new*/
 .tab{
-  margin-top: 50px;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;
+  margin-top: 25px;
   cursor: pointer;
   color: antiquewhite;
   width:200px;
   height:60px;
 }
 .tab:hover {
+  border-radius: 10px;
   background-color: #262626; /* Change the background color on hover */
 }

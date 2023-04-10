@@ -39,6 +39,7 @@ export class GamesComponent implements OnInit {
   public frndownedgames: any[] = []
   ownProfile: any;
   public profile_id: any;
+  public showgames:boolean=true
   constructor(public userService:UserService, private modalService: NgbModal, private router: Router, private route: ActivatedRoute) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
