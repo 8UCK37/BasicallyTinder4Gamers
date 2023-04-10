@@ -1,4 +1,5 @@
 <!-- Main -->
+<!-- <app-create-post-modal></app-create-post-modal> -->
 <main id="main" class="flexbox-col-start-center page-bg">
 
   <!-- Profile Page -->
@@ -7,12 +8,12 @@
     <div class="container">
       <section class="profile-header">
         <!-- Profile Banner -->
-        <div class="profile">
+        <div class="profile" [style.height]="radioActivaVal != 1 ? '17rem' : '34rem'">
           <div class="profile__header-image-container">
-            <img class="profile__header-image img-sk" [src]="userInfo?.profileBanner">
+            <img class="profile__header-image img-sk" [src]="userInfo?.profileBanner" [style.height]="radioActivaVal != 1 ? '25%' : '73%'">
           </div>
           <!-- Profile Avater -->
-          <div class="profile__user">
+          <div class="profile__user" [style.bottom]="radioActivaVal != 1 ? '450px' : '190px'">
 
             <img class="profile__avatar img-sk" [src]="userInfo?.profilePicture">
 
@@ -84,11 +85,11 @@
       <input type="radio" id="tab3" name="tab-control" [checked]="radioActivaVal == 3 ? true : false">
       <input type="radio" id="tab4" name="tab-control" [checked]="radioActivaVal == 4 ? true : false">
       <ul>
-        <li title="Posts"><label for="tab1" role="button"><br><span (click)="changeToPost()">POSTS</span></label></li>
-        <li title="Games"><label for="tab2" role="button"><br><span (click)="changeToGame()">GAMES</span></label></li>
-        <li title="Friends"><label for="tab3" role="button"><br><span (click)="changeToFriends()">FRIENDS</span></label>
+        <li title="Posts" (click)="changeToPost()"><label for="tab1" role="button"><br><span >POSTS</span></label></li>
+        <li title="Games" (click)="changeToGame()"><label for="tab2" role="button"><br><span >GAMES</span></label></li>
+        <li title="Friends" (click)="changeToFriends()"><label for="tab3" role="button"><br><span >FRIENDS</span></label>
         </li>
-        <li title="LinkedAccounts"><label for="tab4" role="button"><br><span (click)="changeToLinkedAcc()">Linked
+        <li title="LinkedAccounts" (click)="changeToLinkedAcc()"><label for="tab4" role="button"><br><span >Linked
               Accounts</span></label></li>
       </ul>
 
@@ -98,7 +99,9 @@
       <div class="content">
         <section>
           <h2>POSTS</h2>
+
           <app-profile-post></app-profile-post>
+
         </section>
         <section>
           <h2>GAMES</h2>

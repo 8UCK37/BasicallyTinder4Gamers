@@ -1,7 +1,8 @@
 <ng-container >
+
   <div class="container mt-5 mb-5">
     <!-- <div class="row d-flex align-items-center justify-content-center"> -->
-    <div class="col-md-6">
+    <div class="col-md-6" style="display: flex;justify-content: center;">
       <div class="card_cust">
         <div class="d-flex p-2 px-3" style="position: relative;top: 7px;">
           <div class="d-flex flex-row align-items-center"> <img [src]="childPost.profilePicture" width="50"
@@ -11,8 +12,25 @@
                 style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span></div>
           </div>
           <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" >
-            <p-speedDial  [model]="items"  direction="down-left" [radius]="radi" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-rounded p-button-text"></p-speedDial>
+            <p-speedDial  [model]="items"  direction="down-left" [radius]="radi" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-rounded p-button-text" ></p-speedDial>
           </div>
+          <div class='dialog' *ngIf="visible" [style.top]="images.length === 0 ? '10px' : '390px'" style="left:144px;">
+            <h3>{{deleteHeader}}</h3>
+            <i class="pi pi-times" style="margin-top: -30px;float:right;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i>
+            <div *ngIf="!showSpinner">
+            <i *ngIf="!deleteSuccess" class="pi pi-exclamation-triangle" style="font-size: 35px;margin-top: 38px;margin-left: 70px;margin-right: 20px;"></i>
+            <i *ngIf="deleteSuccess" class="pi pi-check-circle" style="font-size: 35px;margin-top: 38px;margin-left: 70px;margin-right: 20px;"></i>
+            <span>{{deleteBody}}</span>
+            </div>
+            <div *ngIf="showSpinner">
+              <p-progressSpinner [style]="{top:'12px',left:'241px'}"></p-progressSpinner>
+            </div>
+            <div class='action-group'>
+              <button (click)="confirmDelete()">Delete</button>
+              <button (click)="cancelDelete()">Cancel</button>
+            </div>
+          </div>
+
         </div>
         <div class="p-3">
           <p class="text-justify">{{childPost.description}}</p>
@@ -20,21 +38,14 @@
             <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
           </ng-container>
         </div>
-        <!-- <ng-container *ngIf="childPost.photoUrlArr.length!=0">
-          <carousel [isAnimated]="true" [interval]="myInterval" [activeSlide]="activeSlideIndex">
-            <slide *ngFor="let img of childPost.photoUrlArr">
-              <img [src]="img" alt="first slide" style="display: block; height: 40rem; width: 100%;">
-            </slide>
-          </carousel>
-        </ng-container> -->
-
           <div style="display: block;width: 100%;" *ngIf="images.length!=0">
-            <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="position" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
+            <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
               <ng-template pTemplate="item" let-item>
                   <img [src]="item.imageSrcUrl" style="width: 100%;height:40rem; display: block;" />
               </ng-template>
           </p-galleria>
         </div>
+
         <div class="p-2 carousel-btm">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
             <div class="like">
@@ -115,15 +126,12 @@
                 </div>
               </div>
             </div>
-
             <div class="comment-btn" #commentbtn data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight" style="cursor: pointer;" (click)="openComment(childPost)">Comments</div>
-
             <div class=" share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </ng-container>

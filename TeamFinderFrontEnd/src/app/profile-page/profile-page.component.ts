@@ -79,21 +79,30 @@ export class ProfilePageComponent implements OnInit {
       });
     }
   }
-  changeToGame(){
-    if(this.ownProfile){
-      this.router.navigate(['profile-page','games']);
-    }else{
-      this.router.navigate(['user','games'],{ queryParams: { id: this.profile_id } });
-    }
-  }
+
   changeToPost(){
+    this.radioActivaVal=1
+    console.log('posi',this.radioActivaVal)
     if(this.ownProfile){
       this.router.navigate(['profile-page','post']);
     }else{
       this.router.navigate(['user','post'],{ queryParams: { id: this.profile_id } });
     }
   }
+
+  changeToGame(){
+    this.radioActivaVal=2
+    console.log('posi',this.radioActivaVal)
+    if(this.ownProfile){
+      this.router.navigate(['profile-page','games']);
+    }else{
+      this.router.navigate(['user','games'],{ queryParams: { id: this.profile_id } });
+    }
+  }
+
   changeToFriends(){
+    this.radioActivaVal=3
+    console.log('posi',this.radioActivaVal)
     if(this.ownProfile){
       this.router.navigate(['profile-page','friends']);
     }else{
@@ -101,6 +110,8 @@ export class ProfilePageComponent implements OnInit {
     }
   }
   changeToLinkedAcc(){
+    this.radioActivaVal=4
+    console.log('posi',this.radioActivaVal)
     if(this.ownProfile){
       this.router.navigate(['profile-page','linked-accounts']);
     }else{

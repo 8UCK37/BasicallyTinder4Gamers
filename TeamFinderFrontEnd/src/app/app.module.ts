@@ -38,6 +38,11 @@ import { CommentComponent } from './comment/comment.component';
 import { ToastModule } from 'primeng/toast';
 import { GalleriaModule } from 'primeng/galleria';
 import { SpeedDialModule } from 'primeng/speeddial';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CreatePostModalComponent } from './utils/create-post-modal/create-post-modal.component';
+
 @NgModule({
   declarations: [
       AppComponent,
@@ -55,13 +60,17 @@ import { SpeedDialModule } from 'primeng/speeddial';
       PrimaryHomePageComponent,
       LoginUserinfoComponent,
       PostComponent,
-      CommentComponent
+      CommentComponent,
+      CreatePostModalComponent
    ],
   imports: [
     SidebarModule,
     ToastModule,
     GalleriaModule,
     SpeedDialModule,
+    DialogModule,
+    ConfirmDialogModule,
+    ProgressSpinnerModule,
     ButtonModule,
     BrowserModule,
     AppRoutingModule,
@@ -84,7 +93,6 @@ import { SpeedDialModule } from 'primeng/speeddial';
   ],
   providers: [
     ChatServicesService
-
   ],
   bootstrap: [AppComponent]
 })

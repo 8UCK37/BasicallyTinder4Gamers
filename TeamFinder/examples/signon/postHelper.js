@@ -40,6 +40,7 @@ async function createPost(req, res, prisma){
                 author : req.user.user_id,
                 photoUrl:urlArr.toString(),
                 description:body.desc,
+                deleted:false
             }
         })
      // TODO : fix this code , make one like insert to the db , 
@@ -92,10 +93,8 @@ WHERE EXISTS (
     SELECT 1
     FROM public."Friends" f
     WHERE f.sender = ${req.user.user_id} AND f.reciever = p.author
-)
+)AND p.deleted = false
 ORDER BY p."createdAt" DESC;
-
-
 `;
   res.send(JSON.stringify(posts));
 }
@@ -127,7 +126,7 @@ async function getPostById(req, res, prisma) {
       GROUP BY "post"
     ) t ON p.id = t.post
     JOIN public."User" u ON p.author = u.id
-    WHERE p.author=${req.body.uid}
+    WHERE p.author=${req.body.uid} AND p.deleted=false
     ORDER BY p."createdAt" DESC;
   `
   res.send(JSON.stringify(posts))
@@ -179,7 +178,7 @@ async function getPostByTags(req, res, prisma) {
           SELECT post
           FROM public."Tags"
           WHERE "tagName" = ${param}
-        )
+        ) AND deleted = false 
       ) AS p
       LEFT JOIN public."User" AS u ON p.author = u.id
       LEFT JOIN (
@@ -192,7 +191,19 @@ async function getPostByTags(req, res, prisma) {
   res.send(JSON.stringify(postsByTag));
 }
 
+async function deletePost(req,res,prisma){
+  console.log('post id to delete',parseInt(req.body.id))
 
+  let deletePost = await prisma.Posts.updateMany({
+      where:{
+        id:parseInt(req.body.id)
+      },
+      data:{
+        deleted:true
+      }
+  })
+
+}
 
 async function likePost(req, res, prisma){
     // console.log("post liked")
@@ -247,4 +258,4 @@ res.send(JSON.stringify({status: 'ok'}))
 }
 
 
-module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost}
+module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,deletePost}

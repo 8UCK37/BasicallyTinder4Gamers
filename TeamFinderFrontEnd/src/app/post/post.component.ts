@@ -2,22 +2,9 @@ import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import axios from 'axios';
 import { CommentService } from './comment.service';
-import { MenuItem, MessageService } from 'primeng/api';
-
-
-interface Comment {
-  author: String
-  commentOf?: String
-  commentStr
-  : String
-  createdAt
-  : String
-  id
-  : Number
-  postsId
-  :
-  Number
-}
+import { MenuItem, MessageService,ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { UserService } from '../login/user.service';
+import { UtilsServiceService } from '../utils/utils-service.service';
 
 @Component({
   selector: 'app-post',
@@ -47,12 +34,20 @@ export class PostComponent implements OnInit {
   // commentData: Comment[] = [];
   public treeObj: any = {}
   images: any[] =[];
-  position: string = 'bottom';
+  galeriaPosition: string = 'bottom';
   responsiveOptions: any[] = [];
   items:any[]=[];
+  public ownPosts:any=[];
   delay:number=90;
   radi:number=100;
-  constructor(private messageService: MessageService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
+  confirmPosition:string ="top";
+  visible: boolean=false;
+  showSpinner:boolean=false;
+  public userparsed:any;
+  deleteHeader:string="Delete Post"
+  deleteBody:string="Are you sure you want to delete this post?"
+  deleteSuccess:boolean=false;
+  constructor(public utilsServiceService : UtilsServiceService, public userService:UserService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
     //   const clickedElementClassList = clickedElement.classList;
@@ -68,7 +63,13 @@ export class PostComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.userService.userCast.subscribe(usr=>{
+      //console.log("user data" , usr)
+      this.userparsed = usr;
+      this.commentService.ownPostsObj$.subscribe(posts => {
+        this.ownPosts= posts;
+      });
+    })
     this.childPost.photoUrlArr.forEach((url: any) => {
       if(url!=''){
       this.images.push({imageSrcUrl:url})
@@ -99,7 +100,8 @@ export class PostComponent implements OnInit {
       },
         icon: 'pi pi-pencil',
         command: () => {
-            this.messageService.add({ severity: 'info', summary: 'Add', detail: 'Data Added' });
+          console.log('pencil clicked', this.childPost)
+          this.utilsServiceService.modalObjSource.next({open:true,  data: this.childPost })
         }
     },
 
@@ -109,7 +111,8 @@ export class PostComponent implements OnInit {
       },
         icon: 'pi pi-trash',
         command: () => {
-            this.messageService.add({ severity: 'error', summary: 'Delete', detail: 'Data Deleted' });
+          //console.log('delete clicked')
+          this.visible = !this.visible;
         }
     },
 
@@ -118,8 +121,9 @@ export class PostComponent implements OnInit {
         tooltipLabel: 'Placeholder'
       },
         icon: 'pi pi-external-link',
-        target: '_blank',
-        url: 'http://angular.io'
+        command: () => {
+          console.log('placeholder clicked')
+        }
     }
 ];
 
@@ -190,5 +194,45 @@ export class PostComponent implements OnInit {
     this.commentService.setCommentObj({open:this.commentOpen,id:post.id});
 
   }
+  deletePost(){
+    //console.log(this.childPost.id)
+    axios.post('/deletePost', { id: this.childPost.id}).then(res => {
+      console.log(res)
+    });
+  }
+  confirmDelete(){
+    this.deleteHeader="Deleting your post !!!"
+    this.showSpinner = !this.showSpinner ;
+    this.deletePost()
+    //console.log('confirm clicked with post id',this.childPost.id)
+    //console.log(this.ownPosts)
+    setTimeout(() => {
+      this.deleteSuccess=true
+      this.deleteHeader="Suceess !!!"
+      this.deleteBody="Successfully deleted your post !!!"
+      this.showSpinner = !this.showSpinner ;
+    }, 2000);
+    setTimeout(() => {
+      //console.log(this.ownPosts)
+      this.removePostById(this.childPost.id)
+      //console.log(this.ownPosts)
+    }, 4000);
+  }
+  cancelDelete(){
+    //console.log('cancel clicked with post id',this.childPost.id)
+    this.visible = !this.visible;
 
+  }
+  closeDelete(){
+    //console.log('close clicked with post id',this.childPost.id)
+    this.visible = !this.visible;
+
+  }
+  removePostById(postId: number) {
+    const index = this.ownPosts.findIndex((post: { id: number; }) => post.id === postId);
+  if (index !== -1) {
+    this.ownPosts.splice(index, 1);
+  }
+  console.log(this.ownPosts)
+  }
 }
