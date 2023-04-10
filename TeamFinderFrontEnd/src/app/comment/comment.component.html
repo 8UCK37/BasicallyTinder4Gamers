@@ -28,13 +28,23 @@
             {{nodes.commentStr}}
           </div>
         </div>
+        <button  class="button-link" *ngIf="UserVerify(nodes.author.id)" (click)="UserVerify(nodes.author.id);toggleSectionEdit(nodes.id)">Edit</button>
         <button class="button-link" #replyparent (click)="toggleSection(nodes.id)">Reply</button>
         <section [ngStyle]="{ display: showSection[nodes.id]? 'block' : 'none' }">
           <div class="form-p">
             <input type="text" placeholder="Replying to {{nodes.author.name}}" autocomplete="off" class="form-control input-field-specs"
               id="{{nodes.id}}" ngModel>
               <button class="btn btn-outline-light comment-btn-posi-parent-can"  (click)="replyparent.click()" >Cancle</button>
-            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submit($event , nodes.id)">Send
+            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submit($event , nodes.id)" >Send
+              Reply</button>
+          </div>
+        </section>
+        <section [ngStyle]="{display: showEditSection[nodes.id]? 'block' : 'none' }">
+          <div class="form-p">
+            <textarea [(ngModel)]="nodes.commentStr" class="form-control input-field-specs"
+              id="{{nodes.id}}" ngModel></textarea>
+              <button class="btn btn-outline-light comment-btn-posi-parent-can"  (click)="toggleSectionEdit(nodes.id)" >Cancle</button>
+            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submitEdit(nodes.commentStr, nodes.id)" >Send
               Reply</button>
           </div>
         </section>
@@ -52,13 +62,23 @@
                 {{edge.commentStr}}
               </div>
             </div>
+            <button class="button-link" *ngIf="UserVerify(edge.author.id)" (click)="UserVerify(edge.author.id);toggleSectionEdit(edge.id)">Edit</button>
             <button class="button-link" #replychild (click)="toggleSection(edge.id)">Reply</button>
             <section [ngStyle]="{ display: showSection[edge.id]? 'block' : 'none' }">
               <div class="form-p">
                 <input type="text" placeholder="Replying to {{edge.author.name}}" autocomplete="off" class="form-control input-field-specs"
                   id="{{edge.id}}" ngModel>
                   <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="replychild.click()" >Cancle</button>
-                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit($event , nodes.id)">Send
+                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit($event, nodes.id)">Send
+                  Reply</button>
+              </div>
+            </section>
+            <section [ngStyle]="{ display: showEditSection[edge.id]? 'block' : 'none' }">
+              <div class="form-p">
+                <textarea type="text" [(ngModel)]="edge.commentStr" class="form-control input-field-specs"
+                  id="{{edge.id}}" ngModel></textarea>
+                  <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="toggleSectionEdit(edge.id)" >Cancle</button>
+                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submitEdit(edge.commentStr, edge.id)">Send
                   Reply</button>
               </div>
             </section>
