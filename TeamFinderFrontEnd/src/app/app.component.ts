@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
     this.token= localStorage.getItem('token')
     //console.log(this.token)
     axios.defaults.headers.common['authorization'] = `Bearer ${this.token}`
-    axios.defaults.baseURL = 'http://localhost:3000/'
-    
+    axios.defaults.baseURL = 'http://31.192.234.198:3000/'
+
 
   }
 
