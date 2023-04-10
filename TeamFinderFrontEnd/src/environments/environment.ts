@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-	SOCKET_ENDPOINT: 'http://localhost:5000',
+	SOCKET_ENDPOINT: 'http://31.192.234.198:5000',
   firebaseConfig : {
     apiKey: "AIzaSyDpR4P95ehxX3iN0IwLjVM8KFWP6JCN33Q",
     authDomain: "teamfinder-e7048.firebaseapp.com",
