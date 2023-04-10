@@ -506,11 +506,12 @@ app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
         return;
       } else if (response.status === 401) {
         // Access token is expired, trying to refresh it
-        const accessToken = refreshTwitchToken(req.user.user_id,refreshToken).access_token;
+        const newToken = await refreshTwitchToken(req.user.user_id,refreshToken);
+        //console.log(newToken)
         const response = await fetch(userUrl, {
           headers: {
             'Client-ID': "5q5a2eqsg77c8nf2xoxohxrfeniskg",
-            'Authorization': `Bearer ${accessToken}`,
+            'Authorization': `Bearer ${newToken.access_token}`,
           },
           
         });
