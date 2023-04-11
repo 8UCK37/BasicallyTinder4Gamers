@@ -35,7 +35,7 @@
             <input type="text" placeholder="Replying to {{nodes.author.name}}" autocomplete="off" class="form-control input-field-specs"
               id="{{nodes.id}}" ngModel>
               <button class="btn btn-outline-light comment-btn-posi-parent-can"  (click)="replyparent.click()" >Cancle</button>
-            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submit($event , nodes.id)" >Send
+            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submit($event , nodes.id);replyparent.click()">Send
               Reply</button>
           </div>
         </section>
@@ -43,8 +43,8 @@
           <div class="form-p">
             <textarea [(ngModel)]="nodes.commentStr" class="form-control input-field-specs"
               id="{{nodes.id}}" ngModel></textarea>
-              <button class="btn btn-outline-light comment-btn-posi-parent-can"  (click)="toggleSectionEdit(nodes.id)" >Cancle</button>
-            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submitEdit(nodes.commentStr, nodes.id)" >Send
+              <button class="btn btn-outline-light comment-btn-posi-parent-can" #editClosePar (click)="toggleSectionEdit(nodes.id)" >Cancle</button>
+            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submitEdit(nodes.commentStr, nodes.id);editClosePar.click()" >Send
               Reply</button>
           </div>
         </section>
@@ -69,7 +69,7 @@
                 <input type="text" placeholder="Replying to {{edge.author.name}}" autocomplete="off" class="form-control input-field-specs"
                   id="{{edge.id}}" ngModel>
                   <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="replychild.click()" >Cancle</button>
-                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit($event, nodes.id)">Send
+                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit($event, nodes.id);replychild.click()">Send
                   Reply</button>
               </div>
             </section>
@@ -77,8 +77,8 @@
               <div class="form-p">
                 <textarea type="text" [(ngModel)]="edge.commentStr" class="form-control input-field-specs"
                   id="{{edge.id}}" ngModel></textarea>
-                  <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="toggleSectionEdit(edge.id)" >Cancle</button>
-                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submitEdit(edge.commentStr, edge.id)">Send
+                  <button class="btn btn-outline-light comment-btn-posi-child-can" #editCloseChi (click)="toggleSectionEdit(edge.id)" >Cancle</button>
+                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submitEdit(edge.commentStr, edge.id);editCloseChi.click()">Send
                   Reply</button>
               </div>
             </section>
