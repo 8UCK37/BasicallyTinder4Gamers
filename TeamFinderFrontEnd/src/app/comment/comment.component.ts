@@ -97,41 +97,26 @@ export class CommentComponent implements OnInit {
         console.log(res);
     })
   }
+
   fetchComment() {
     axios.get(`/comment?id=${this.commentObj.id}`).then(res => {
       //this.filtercomment(res.data[0].comments)
-      this.parseComments(res.data[0].comments)
-      console.log(res.data);
+      this.commentTree = this.buildCommentTree(res.data[0].comments);
+      console.log(this.commentTree);
     })
   }
-  //beofore u ask something akash i'musing the commentTree thing to populate comments and every comment has it's own child if its present
-  parseComments(commentData: any){
-    console.log(commentData)
-    let commentmap=new Map()
-    commentData.forEach((comment:any) => {
-      comment.childs=[]
-      commentmap.set(comment.id,comment)
-      if(comment.commentOf!=null){
-        //console.log(comment.commentOf)
-        //console.log(commentmap.get(comment.commentOf))
 
-        if(commentmap.get(comment.commentOf)==null || commentmap.get(comment.commentOf)==undefined)
-        {
-          debugger
-        }
-        commentmap.get(comment.commentOf).childs.push(comment)
-      }
-    });
-    //console.log(commentmap)
-    commentmap.forEach(comment => {
-      if(comment.commentOf==null){
-        //console.log(comment)
-        this.commentTree.push(comment)
-      }
-    });
-    //console.log(this.commentTree)
+  buildCommentTree(comments: any[], parentCommentId = null) {
+    const childComments:any = comments
+      .filter(comment => comment.commentOf === parentCommentId)
+      .map(comment => ({
+        ...comment,
+        childs: this.buildCommentTree(comments, comment.id)
+      }));
+    return childComments.length > 0 ? childComments : null;
   }
 
+  //beofore u ask something akash i'musing the commentTree thing to populate comments and every comment has it's own child if its present
   toggleSection(index: number) {
     this.showSection[index] = !this.showSection[index];
   }

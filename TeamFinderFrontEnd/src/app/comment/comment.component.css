@@ -5,14 +5,13 @@
   background: none!important;
   border: none;
   padding: 0!important;
-  /*optional*/
   font-family: arial, sans-serif;
-  /*input has OS specific font-family*/
   color: #069;
   text-decoration: underline;
   cursor: pointer;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 3px 5px 3px 5px;
+  left: 30px;
+  position: relative;
 }
 .user-pic{
   position: relative;
@@ -36,29 +35,52 @@
   left: 280px;
   position: relative;
   bottom: 50px;
+  width: fit-content;
 }
 .user-time-child{
   left: 260px;
   position: relative;
   bottom: 50px;
+  width: fit-content;
 }
 .user-time-grandchild{
   left: 234px;
   position: relative;
   bottom: 50px;
+  width: fit-content;
 }
 .user-name{
   left: 60px;
     bottom: 22px;
     position: relative;
+    width: fit-content;
 }
 .user-comment{
   position: relative;
   justify-content: left;
   display: flex;
-  bottom: 20px;
+  bottom: 8px;
+  left: 14px;
+  max-width: 26rem;
+  width: fit-content;
+}
+.user-comment-child{
+  position: relative;
+    justify-content: left;
+    display: flex;
+    bottom: 9px;
+    left: 13px;
+    max-width: 26rem;
+    width: fit-content;
+}
+.user-comment-grandchild{
+  position: relative;
+  justify-content: left;
+  display: flex;
+  bottom: 7px;
   left: 13px;
-  width: 27rem;
+  max-width: 24rem;
+  width: fit-content;
 }
 
 .card-background{
@@ -126,4 +148,35 @@ textarea{
 textarea::placeholder {
   color: white;
 }
-
+.dropdown-config{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  font-family: arial, sans-serif;
+  color: #069;
+  cursor: pointer;
+  margin: 3px 5px 3px 5px;
+  position: relative;
+  left: 13.5rem;
+  width: 26px;
+  bottom: 1.7rem;
+}
+.dropdown-config-grandchild{
+  background-color: transparent;
+    border: none;
+    outline: none;
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    font-family: arial, sans-serif;
+    color: #069;
+    cursor: pointer;
+    margin: 3px 5px 3px 5px;
+    position: relative;
+    left: 5rem;
+    width: 26px;
+    bottom: 1.7rem;
+}

@@ -30,13 +30,17 @@
             {{comment.commentStr}}
           </div>
         </div>
-        <button class="button-link" *ngIf="UserVerify(comment.author.id)"
-          (click)="toggleSectionEdit(comment.id)">Edit</button>
-        <button class="button-link" *ngIf="UserVerify(comment.author.id)"
-          (click)="AlfF4Comment(comment.id)">Alt+F4</button>
         <button class="button-link" #replyparent (click)="toggleSection(comment.id)">Reply</button>
         <button *ngIf="comment.childs.length>0" class="button-link" (click)="toggleSectionAllReply(comment.id)">More
           Comments</button>
+          <div class="dropdown">
+            <button *ngIf="UserVerify(comment.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="toggleSectionEdit(comment.id)">Edit</a></li>
+              <li><a class="dropdown-item" (click)="AlfF4Comment(comment.id)">Delete</a></li>
+            </ul>
+          </div>
         <section [ngStyle]="{ display: showSection[comment.id]? 'block' : 'none' }">
           <div class="form-p">
             <textarea #parentID placeholder="Replying to {{comment.author.name}}" autocomplete="off"
@@ -70,18 +74,22 @@
                 <div class="user-time-child">
                 {{this.utcToLocal(child?.createdAt)}}
               </div>
-                <div class="user-comment">
+                <div class="user-comment-child">
                   {{child.commentStr}}
                 </div>
               </div>
-              <button class="button-link" *ngIf="UserVerify(child.author.id)"
-                (click)="toggleSectionEdit(child.id)">Edit</button>
-              <button class="button-link" *ngIf="UserVerify(child.author.id)"
-                (click)="AlfF4Comment(child.id)">Alt+F4</button>
               <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>
-              <button *ngIf="child.childs.length>0" class="button-link"
+              <button *ngIf="child.childs && child.childs.length>0" class="button-link"
                 (click)="toggleSectionAllReplyChild(child.id)">More
                 Comments</button>
+                <div class="dropdown">
+                  <button *ngIf="UserVerify(child.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" (click)="toggleSectionEdit(child.id)">Edit</a></li>
+                    <li><a class="dropdown-item" (click)="AlfF4Comment(child.id)">Delete</a></li>
+                  </ul>
+                </div>
               <section [ngStyle]="{ display: showSection[child.id]? 'block' : 'none' }">
                 <div class="form-p">
                   <textarea #childID type="text" placeholder="Replying to {{child.author.name}}" autocomplete="off"
@@ -106,7 +114,7 @@
               </section>
               <section [ngStyle]="{ display: showReplySectionChild[child.id]? 'block' : 'none' }">
                 <div class="inrComment" style="margin-left: 20px;">
-                  <ng-container *ngIf="child.childs.length>0">
+                  <ng-container *ngIf="child.childs && child.childs.length>0">
                     <div *ngFor="let childChild of child.childs;">
                       <div class="card card-background">
                         <img class="user-pic" [src]="childChild.author.profilePicture">
@@ -116,15 +124,19 @@
                         <div class="user-time-grandchild">
                           {{this.utcToLocal(childChild?.createdAt)}}
                         </div>
-                        <div class="user-comment">
+                        <div class="user-comment-grandchild">
                           {{childChild.commentStr}}
                         </div>
                       </div>
-                      <button class="button-link" *ngIf="UserVerify(childChild.author.id)"
-                        (click)="toggleSectionEdit(childChild.id)">Edit</button>
-                      <button class="button-link" *ngIf="UserVerify(childChild.author.id)"
-                        (click)="AlfF4Comment(childChild.id)">Alt+F4</button>
                       <button class="button-link" #replyChildChild (click)="toggleSection(childChild.id)">Reply</button>
+                      <div class="dropdown">
+                        <button *ngIf="UserVerify(childChild.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config-grandchild" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" (click)="toggleSectionEdit(childChild.id)">Edit</a></li>
+                          <li><a class="dropdown-item" (click)="AlfF4Comment(childChild.id)">Delete</a></li>
+                        </ul>
+                      </div>
                       <section [ngStyle]="{ display: showSection[childChild.id]? 'block' : 'none' }">
                         <div class="form-p">
                           <textarea #childChildId placeholder="Replying to {{childChild.author.name}}"
