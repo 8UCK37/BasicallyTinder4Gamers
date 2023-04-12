@@ -25,6 +25,8 @@ export class CommentComponent implements OnInit {
   sections = [];
   showSection: boolean[] = [];
   showEditSection: boolean[] = [];
+  showReplySection: boolean[] = [];
+  showReplySectionChild: boolean[] = [];
   utcDateTime: any;
   LoggedInUserID: any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -75,6 +77,7 @@ export class CommentComponent implements OnInit {
     }).then(res => {
       console.log(res)
     })
+    this.parentComment="";
   }
   hideComment() {
     this.commentOpen = false
@@ -111,6 +114,11 @@ export class CommentComponent implements OnInit {
       if(comment.commentOf!=null){
         //console.log(comment.commentOf)
         //console.log(commentmap.get(comment.commentOf))
+
+        if(commentmap.get(comment.commentOf)==null || commentmap.get(comment.commentOf)==undefined)
+        {
+          debugger
+        }
         commentmap.get(comment.commentOf).childs.push(comment)
       }
     });
@@ -130,18 +138,17 @@ export class CommentComponent implements OnInit {
   toggleSectionEdit(index: number) {
     this.showEditSection[index] = !this.showEditSection[index];
   }
+  toggleSectionAllReply(index: number) {
+    this.showReplySection[index] = !this.showReplySection[index];
+  }
+  toggleSectionAllReplyChild(index: number) {
+    this.showReplySectionChild[index] = !this.showReplySectionChild[index];
+  }
   utcToLocal(utcTime: any) {
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone: this.timeZone });
   }
-
   UserVerify(id: any) {
-    if (this.LoggedInUserID == id) {
-      //console.log(this.LoggedInUserID)
-      return true;
-    }
-    else {
-      return false;
-    }
+   return (this.LoggedInUserID == id);
   }
 }

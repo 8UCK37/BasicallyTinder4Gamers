@@ -16,6 +16,9 @@ router.get("/",ensureAuthenticated, async (req, res) => {
             comments: {
               include: { author: true }
             }
+          },
+          orderBy:{
+            id:'asc'
           }
     })
     

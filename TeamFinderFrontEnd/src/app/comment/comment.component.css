@@ -32,9 +32,20 @@
   text-align: center;
   display: -webkit-box;
 }
-.user-time{
-  left: 160px;
+.user-time-parent{
+  left: 280px;
   position: relative;
+  bottom: 50px;
+}
+.user-time-child{
+  left: 260px;
+  position: relative;
+  bottom: 50px;
+}
+.user-time-grandchild{
+  left: 234px;
+  position: relative;
+  bottom: 50px;
 }
 .user-name{
   left: 60px;
@@ -43,11 +54,11 @@
 }
 .user-comment{
   position: relative;
-    justify-content: left;
-    display: flex;
-    bottom: 9px;
-    left: 13px;
-    width: 27rem;
+  justify-content: left;
+  display: flex;
+  bottom: 20px;
+  left: 13px;
+  width: 27rem;
 }
 
 .card-background{
