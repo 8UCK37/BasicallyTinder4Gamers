@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import axios from 'axios';
 import { CommentService } from '../post/comment.service';
 import { UserService } from '../login/user.service';
+import { forEach } from '@angular-devkit/schematics';
 interface User { id: string; email: string; displayName: string; photoURL: string; emailVerified: boolean; }
 
 @Component({
@@ -20,6 +21,7 @@ export class CommentComponent implements OnInit {
   commentOpen!: boolean;
   public commentObj: any;
   public treeObj: any = {};
+  public commentTree:any[]=[]
   sections = [];
   showSection: boolean[] = [];
   showEditSection: boolean[] = [];
@@ -78,6 +80,7 @@ export class CommentComponent implements OnInit {
     this.commentOpen = false
     this.commentService.setCommentObj({ open: this.commentOpen, id: null });
     this.treeObj = {}
+    this.commentTree=[]
   }
 
   onToggleChange(newValue: boolean) {
@@ -93,38 +96,34 @@ export class CommentComponent implements OnInit {
   }
   fetchComment() {
     axios.get(`/comment?id=${this.commentObj.id}`).then(res => {
-      let commentData = res.data[0].comments
-      this.filtercomment(commentData)
+      //this.filtercomment(res.data[0].comments)
+      this.parseComments(res.data[0].comments)
       console.log(res.data);
     })
   }
-  filtercomment(commentData: any) {
-    this.treeObj = {}
-    console.log(commentData[0].author)
-    let hashMap = new Map()
-    let dirComment: any[] = [];
-    commentData.forEach((ele: any) => {
-      if (ele.commentOf != null) {
-        if (!hashMap.get(ele.commentOf)) {
-          hashMap.set(ele.commentOf, [ele])
-        } else {
-          hashMap.get(ele.commentOf).push(ele)
-        }
-
-      } else {
-        dirComment.push(ele)
+  //beofore u ask something akash i'musing the commentTree thing to populate comments and every comment has it's own child if its present
+  parseComments(commentData: any){
+    console.log(commentData)
+    let commentmap=new Map()
+    commentData.forEach((comment:any) => {
+      comment.childs=[]
+      commentmap.set(comment.id,comment)
+      if(comment.commentOf!=null){
+        //console.log(comment.commentOf)
+        //console.log(commentmap.get(comment.commentOf))
+        commentmap.get(comment.commentOf).childs.push(comment)
       }
     });
-
-
-    for (let i = 0; i < dirComment.length; i++) {
-      let key = dirComment[i].id
-      dirComment[i].edges = hashMap.get(dirComment[i].id)
-    }
-    this.treeObj["nodes"] = dirComment
-    console.log("this one", this.treeObj)
-    //console.log(this.commentbox)
+    //console.log(commentmap)
+    commentmap.forEach(comment => {
+      if(comment.commentOf==null){
+        //console.log(comment)
+        this.commentTree.push(comment)
+      }
+    });
+    //console.log(this.commentTree)
   }
+
   toggleSection(index: number) {
     this.showSection[index] = !this.showSection[index];
   }
