@@ -22,28 +22,28 @@
             {{comment.author.name}}
           </div>
           <!-- <div  class="user-time">
-            {{this.utcToLocal(nodes?.createdAt)}}
+            {{this.utcToLocal(comment?.createdAt)}}
           </div> -->
           <div class="user-comment">
             {{comment.commentStr}}
           </div>
         </div>
-        <button  class="button-link" *ngIf="UserVerify(nodes.author.id)" (click)="UserVerify(nodes.author.id);toggleSectionEdit(nodes.id)">Edit</button>
-        <button class="button-link" *ngIf="UserVerify(nodes.author.id)" (click)="UserVerify(nodes.author.id);AlfF4Comment(nodes.id)">Alt+F4</button>
-        <button class="button-link" #replyparent (click)="toggleSection(nodes.id)">Reply</button>
-        <section [ngStyle]="{ display: showSection[nodes.id]? 'block' : 'none' }">
+        <button  class="button-link" *ngIf="UserVerify(comment.author.id)" (click)="UserVerify(comment.author.id);toggleSectionEdit(comment.id)">Edit</button>
+        <button class="button-link" *ngIf="UserVerify(comment.author.id)" (click)="UserVerify(comment.author.id);AlfF4Comment(comment.id)">Alt+F4</button>
+        <button class="button-link" #replyparent (click)="toggleSection(comment.id)">Reply</button>
+        <section [ngStyle]="{ display: showSection[comment.id]? 'block' : 'none' }">
           <div class="form-p">
-            <textarea #parentID placeholder="Replying to {{nodes.author.name}}" autocomplete="off" class="form-control input-field-specs"id="{{nodes.id}}" ngModel></textarea>
+            <textarea #parentID placeholder="Replying to {{comment.author.name}}" autocomplete="off" class="form-control input-field-specs"id="{{comment.id}}" ngModel></textarea>
               <button class="btn btn-outline-light comment-btn-posi-parent-can"  (click)="replyparent.click()" >Cancle</button>
-            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submit((parentID.value) , nodes.id);replyparent.click()">Send
+            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submit((parentID.value) , comment.id);replyparent.click()">Send
               Reply</button>
           </div>
         </section>
         <section [ngStyle]="{display: showEditSection[comment.id]? 'block' : 'none' }">
           <div class="form-p">
-            <textarea [(ngModel)]="nodes.commentStr" class="form-control input-field-specs" id="{{nodes.id}}" ngModel></textarea>
-              <button class="btn btn-outline-light comment-btn-posi-parent-can" #editClosePar (click)="toggleSectionEdit(nodes.id)" >Cancle</button>
-            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submitEdit(nodes.commentStr, nodes.id);editClosePar.click()" >Send
+            <textarea [(ngModel)]="comment.commentStr" class="form-control input-field-specs" id="{{comment.id}}" ngModel></textarea>
+              <button class="btn btn-outline-light comment-btn-posi-parent-can" #editClosePar (click)="toggleSectionEdit(comment.id)" >Cancle</button>
+            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submitEdit(comment.commentStr, comment.id);editClosePar.click()" >Send
               Reply</button>
           </div>
         </section>
@@ -61,68 +61,66 @@
                 {{child.commentStr}}
               </div>
             </div>
-            <button class="button-link" *ngIf="UserVerify(edge.author.id)" (click)="UserVerify(edge.author.id);toggleSectionEdit(edge.id)">Edit</button>
-            <button class="button-link" *ngIf="UserVerify(edge.author.id)" (click)="UserVerify(edge.author.id);AlfF4Comment(edge.id)">Alt+F4</button>
-            <button class="button-link" #replychild (click)="toggleSection(edge.id)">Reply</button>
-            <section [ngStyle]="{ display: showSection[edge.id]? 'block' : 'none' }">
+            <button class="button-link" *ngIf="UserVerify(child.author.id)" (click)="UserVerify(child.author.id);toggleSectionEdit(child.id)">Edit</button>
+            <button class="button-link" *ngIf="UserVerify(child.author.id)" (click)="UserVerify(child.author.id);AlfF4Comment(child.id)">Alt+F4</button>
+            <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>
+            <section [ngStyle]="{ display: showSection[child.id]? 'block' : 'none' }">
               <div class="form-p">
-                <input type="text" placeholder="Replying to {{edge.author.name}}" autocomplete="off" class="form-control input-field-specs"
-                  id="{{edge.id}}" ngModel>
+                <textarea  #childID type="text" placeholder="Replying to {{child.author.name}}" autocomplete="off" class="form-control input-field-specs"
+                  id="{{child.id}}" ngModel></textarea>
                   <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="replychild.click()" >Cancle</button>
-                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit((childID.value), nodes.id);replychild.click()">Send
+                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit((childID.value), child.id);replychild.click()">Send
                   Reply</button>
               </div>
             </section>
             <section [ngStyle]="{ display: showEditSection[child.id]? 'block' : 'none' }">
               <div class="form-p">
-                <textarea type="text" [(ngModel)]="edge.commentStr" class="form-control input-field-specs"   id="{{edge.id}}" ngModel></textarea>
-                  <button class="btn btn-outline-light comment-btn-posi-child-can" #editCloseChi (click)="toggleSectionEdit(edge.id)" >Cancle</button>
-                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submitEdit(edge.commentStr, edge.id);editCloseChi.click()">Send
+                <textarea type="text" [(ngModel)]="child.commentStr" class="form-control input-field-specs"   id="{{child.id}}" ngModel></textarea>
+                  <button class="btn btn-outline-light comment-btn-posi-child-can" #editCloseChi (click)="toggleSectionEdit(child.id)" >Cancle</button>
+                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submitEdit(child.commentStr, child.id);editCloseChi.click()">Send
                   Reply</button>
               </div>
             </section>
             <div class="inrComment" style="margin-left: 20px;">
               <ng-container *ngIf="child.childs.length>0" >
-              <div *ngFor="let child of child.childs;">
+              <div *ngFor="let childChild of child.childs;">
                 <div class="card card-background">
-                  <img class="user-pic" [src]="child.author.profilePicture">
+                  <img class="user-pic" [src]="childChild.author.profilePicture">
                   <div class="user-name">
-                    {{child.author.name}}
+                    {{childChild.author.name}}
                   </div>
                   <div class="user-comment">
-                    {{child.commentStr}}
+                    {{childChild.commentStr}}
                   </div>
                 </div>
-                <button class="button-link" *ngIf="UserVerify(child.author.id)" (click)="UserVerify(child.author.id);toggleSectionEdit(child.id)">Edit</button>
-                <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>
-                <section [ngStyle]="{ display: showSection[child.id]? 'block' : 'none' }">
+                <button class="button-link" *ngIf="UserVerify(childChild.author.id)" (click)="UserVerify(childChild.author.id);AlfF4Comment(childChild.id)">Alt+F4</button>
+                <button class="button-link" *ngIf="UserVerify(childChild.author.id)" (click)="UserVerify(childChild.author.id);toggleSectionEdit(childChild.id)">Edit</button>
+                <button class="button-link" #replychild (click)="toggleSection(childChild.id)">Reply</button>
+                <section [ngStyle]="{ display: showSection[childChild.id]? 'block' : 'none' }">
                   <div class="form-p">
-                    <input type="text" placeholder="Replying to {{child.author.name}}" autocomplete="off" class="form-control input-field-specs"
-                      id="{{child.id}}" ngModel>
+                    <textarea #childChildId placeholder="Replying to {{childChild.author.name}}" autocomplete="off" class="form-control input-field-specs"
+                      id="{{childChild.id}}" ngModel></textarea>
                       <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="replychild.click()" >Cancle</button>
-                    <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit($event, child.id)">Send
+                    <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit((childChildId.value), childChild.id)">Send
                       Reply</button>
                   </div>
                 </section>
-                <section [ngStyle]="{ display: showEditSection[child.id]? 'block' : 'none' }">
+                <section [ngStyle]="{ display: showEditSection[childChild.id]? 'block' : 'none' }">
                   <div class="form-p">
-                    <textarea type="text" [(ngModel)]="child.commentStr" class="form-control input-field-specs"
-                      id="{{child.id}}" ngModel></textarea>
-                      <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="toggleSectionEdit(child.id)" >Cancle</button>
-                    <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submitEdit(child.commentStr, child.id)">Send
+                    <textarea [(ngModel)]="childChild.commentStr" class="form-control input-field-specs"
+                      id="{{childChild.id}}" ngModel></textarea>
+                      <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="toggleSectionEdit(childChild.id)" >Cancle</button>
+                    <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submitEdit(childChild.commentStr, childChild.id)">Send
                       Reply</button>
                   </div>
                 </section>
               </div>
             </ng-container>
               <br>
-              <a>--------------------------------------------------------------------</a>
+              <a>-----------------------------------------------------------------</a>
               <br>
             </div>
           </div>
-          <br>
-          <a>--------------------------------------------------------------------</a>
-          <br>
         </div>
       </div>
     </div>
