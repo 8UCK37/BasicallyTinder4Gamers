@@ -46,22 +46,14 @@ export class CommentComponent implements OnInit {
   }
   submit(data: any, id: any) {
     console.log(data, id)
-    let forms = document.querySelectorAll<HTMLInputElement>('.form-p input');
-    forms.forEach(elm => {
-      if (id == elm.id) {
-        console.log(elm.value)
-        if (elm.value == "") return
         axios.post('/comment/add', {
           "postId": this.commentObj.id,
           "commentOf": id,
-          "msg": elm.value
+          "msg": data
         }).then(res => {
           console.log(res)
         })
-        return;
       }
-    });
-  }
 
   submitEdit(data: any, id: any) {
     console.log(data, id)
@@ -91,6 +83,13 @@ export class CommentComponent implements OnInit {
   onToggleChange(newValue: boolean) {
     this.toggle = newValue;
     this.toggleChange.emit(newValue);
+  }
+  AlfF4Comment(id:any){
+    axios.post('comment/commentDelete', {
+      "id": id,
+    }).then(res => {
+        console.log(res);
+    })
   }
   fetchComment() {
     axios.get(`/comment?id=${this.commentObj.id}`).then(res => {

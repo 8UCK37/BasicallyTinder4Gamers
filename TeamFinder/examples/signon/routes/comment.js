@@ -78,5 +78,21 @@ router.post("/commentEdit",ensureAuthenticated, async (req, res)=> {
     
    
 })
-
+router.post("/commentDelete",ensureAuthenticated, async (req, res)=> {
+    console.log('commentDeltStr',req.body);
+    
+        let delChildComment=await prisma.Comment.deleteMany({
+            where:{
+                commentOf: req.body.id
+            },
+        })
+        //console.log(e)
+       // res.send(JSON.stringify({ status: "someting went wrong while Editing" }))
+       let delParComment=await prisma.Comment.deleteMany({
+        where:{
+            id: req.body.id
+        },
+    })
+    res.sendStatus(200)
+})
 module.exports = router

@@ -47,6 +47,7 @@
     display: flex;
     bottom: 9px;
     left: 13px;
+    width: 27rem;
 }
 
 .card-background{
@@ -95,9 +96,6 @@
   top: 29px;
   border-radius: 20px;
 }
-input::placeholder {
-  color: white;
-}
 .input-field-specs
 {
   visibility: inherit;
@@ -110,5 +108,11 @@ input::placeholder {
 }
 .form-control:focus{
   box-shadow: none;
+}
+textarea{
+  max-height: 150px;
+}
+textarea::placeholder {
+  color: white;
 }
 
