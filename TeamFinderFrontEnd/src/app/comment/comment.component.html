@@ -35,7 +35,7 @@
         <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: comment}"></ng-container>
         <div class="commentOptions">
         <button class="button-link" #replyparent (click)="toggleSection(comment.id)">Reply</button>
-        <button *ngIf="comment.childs.length>0" class="button-link" (click)="toggleSectionAllReply(comment.id)">More Comments</button>
+        <button *ngIf="comment.childs && comment.childs.length>0" class="button-link" (click)="toggleSectionAllReply(comment.id)">More Comments</button>
           <div class="dropdown">
             <button *ngIf="UserVerify(comment.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             </button>

@@ -138,12 +138,14 @@ export class CommentComponent implements OnInit {
   }
 
   likeButtonClick(commentId: any, type: String) {
-    axios.post('comment/commentReactionLike', {id: commentId,type:type}).then(res =>{
-      console.log(res);
-    })
+    console.log(type," clicked for commentID= ",commentId)
+    // axios.post('comment/commentReactionLike', {id: commentId,type:type}).then(res =>{
+    //   console.log(res);
+    // })
+    // axios.post('comment/commentReactionDisLike', {id: commentId,type:type}).then(res =>{
+    //   console.log(res);
+    // })
   }
-
-
 
 }
 

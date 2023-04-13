@@ -104,13 +104,57 @@ router.post("/commentDelete",ensureAuthenticated, async (req, res)=> {
 
 router.post("/commentReactionLike",ensureAuthenticated, async (req, res)=> {
     console.log('comment id =',req.body);
-    
-        
+    let check = await prisma.CommentReaction.findMany({
+        where:{
+          commentid :  parseInt(req.body.id),
+          authorid : req.user.user_id,
+        }
+        })
+        if(check.length!=0){
+            console.log("found",check[0].type)
+            let CommentReactionUpdate = await prisma.CommentReaction.updateMany({
+              where:{
+                commentid :  parseInt(req.body.id),
+                authorid : req.user.user_id,
+              },
+              data:{
+                type:req.body.type
+              }
+              })
+          }else{
+          console.log('not found')
+          let commentreaction = await prisma.CommentReaction.create({
+            data :{
+                commentid :  parseInt(req.body.id),
+                type : req.body.type,
+                author:{
+                    connect:{id:req.user.user_id}
+                    },
+                }
+            })
+          }
     res.sendStatus(200)
-        
 })
-
-
-
-
+router.post("/commentReactionDisLike",ensureAuthenticated, async (req, res)=> {
+    console.log('comment id =',req.body);
+    let check = await prisma.CommentReaction.findMany({
+        where:{
+          commentid :  parseInt(req.body.id),
+          authorid : req.user.user_id,
+        }
+        })
+        if(check.length!=0){
+            console.log("found",check[0].type)
+            let CommentReactionUpdate = await prisma.CommentReaction.updateMany({
+              where:{
+                commentid :  parseInt(req.body.id),
+                authorid : req.user.user_id,
+              },
+              data:{
+                type:'dislike'
+              }
+              })
+          }
+    res.sendStatus(200)
+})
 module.exports = router
