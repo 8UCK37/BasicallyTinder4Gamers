@@ -141,7 +141,7 @@
                       <div class="commentOptions" [style.bottom]="UserVerify(childChild.author.id) ? '83px' : '77px'">
                       <button class="button-link" #replyChildChild (click)="toggleSection(childChild.id)">Reply</button>
                       <div class="dropdown">
-                        <button *ngIf="UserVerify(childChild.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config-grandchild" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button *ngIf="UserVerify(childChild.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         </button>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" (click)="toggleSectionEdit(childChild.id)">Edit</a></li>

@@ -156,22 +156,6 @@ textarea::placeholder {
   cursor: pointer;
   position: relative;
 }
-.dropdown-config-grandchild{
-  background-color: transparent;
-    border: none;
-    outline: none;
-    background: none!important;
-    border: none;
-    padding: 0!important;
-    font-family: arial, sans-serif;
-    color: #069;
-    cursor: pointer;
-    margin: 3px 5px 3px 5px;
-    position: relative;
-    left: 5rem;
-    width: 26px;
-    bottom: 1.7rem;
-}
 
 .commentOptions{
   display:flex;
