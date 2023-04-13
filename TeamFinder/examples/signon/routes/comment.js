@@ -5,28 +5,34 @@ const prisma = new PrismaClient()
 const auth  = require('./../middleware/authMiddleware')
 const ensureAuthenticated = auth.ensureAuthenticated
 //this is to get all the comment under one post
-router.get("/",ensureAuthenticated, async (req, res) => {
-    
-    let comments = await prisma.Posts.findMany({
-        where:
-        {
-            id: parseInt(req.query.id),
-        },
-        include: {
-            comments: {
-              include: { author: true },
-              where: { deleted: false }
-            }
+router.get("/", ensureAuthenticated, async (req, res) => {
+    const postId = parseInt(req.query.id);
+    const comments = await prisma.posts.findMany({
+      where: { id: postId },
+      include: {
+        comments: {
+          include: {
+            author: true,
+            CommentReaction: {
+              select: {
+                author:true,
+                type: true,
+              },
+              
+            },
           },
-          orderBy:{
-            id:'asc'
-          }
-    })
-    
-    console.log(comments)
-    res.send(comments)
-
-})
+          where: { deleted: false }
+        }
+      },
+      orderBy: {
+        id: "asc"
+      }
+    });
+  
+    console.log(comments);
+    res.send(comments);
+  });
+  
 
 // this is to create a new edge in comment tree 
 // In req.body commentOf can be null or int
@@ -126,7 +132,9 @@ router.post("/commentReactionLike",ensureAuthenticated, async (req, res)=> {
           console.log('not found')
           let commentreaction = await prisma.CommentReaction.create({
             data :{
-                commentid :  parseInt(req.body.id),
+                comment:{
+                    connect:{id:parseInt(req.body.id)}
+                },
                 type : req.body.type,
                 author:{
                     connect:{id:req.user.user_id}

@@ -100,7 +100,7 @@ export class CommentComponent implements OnInit {
 
   fetchComment() {
     axios.get(`/comment?id=${this.commentObj.id}`).then(res => {
-      //this.filtercomment(res.data[0].comments)
+      console.log(res.data[0].comments)
       this.commentTree = this.buildCommentTree(res.data[0].comments);
       console.log(this.commentTree);
     })
@@ -139,9 +139,9 @@ export class CommentComponent implements OnInit {
 
   likeButtonClick(commentId: any, type: String) {
     console.log(type," clicked for commentID= ",commentId)
-    // axios.post('comment/commentReactionLike', {id: commentId,type:type}).then(res =>{
-    //   console.log(res);
-    // })
+    axios.post('comment/commentReactionLike', {id: commentId,type:type}).then(res =>{
+      console.log(res);
+    })
     // axios.post('comment/commentReactionDisLike', {id: commentId,type:type}).then(res =>{
     //   console.log(res);
     // })
