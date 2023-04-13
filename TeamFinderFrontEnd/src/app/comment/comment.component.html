@@ -33,7 +33,7 @@
 
 
         <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: comment}"></ng-container>
-        <div class="commentOptions">
+        <div class="commentOptions" [style.bottom]="UserVerify(comment.author.id) ? '83px' : '77px'">
         <button class="button-link" #replyparent (click)="toggleSection(comment.id)">Reply</button>
         <button *ngIf="comment.childs && comment.childs.length>0" class="button-link" (click)="toggleSectionAllReply(comment.id)">More Comments</button>
           <div class="dropdown">
@@ -84,7 +84,7 @@
               </div>
 
               <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: child}"></ng-container>
-
+              <div class="commentOptions" [style.bottom]="UserVerify(child.author.id) ? '83px' : '77px'">
               <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>
               <button *ngIf="child.childs && child.childs.length>0" class="button-link"
                 (click)="toggleSectionAllReplyChild(child.id)">More
@@ -97,6 +97,7 @@
                     <li><a class="dropdown-item" (click)="AlfF4Comment(child.id)">Delete</a></li>
                   </ul>
                 </div>
+              </div>
               <section [ngStyle]="{ display: showSection[child.id]? 'block' : 'none' }">
                 <div class="form-p">
                   <textarea #childID type="text" placeholder="Replying to {{child.author.name}}" autocomplete="off"
@@ -137,7 +138,7 @@
                       </div>
 
                       <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: childChild}"></ng-container>
-
+                      <div class="commentOptions" [style.bottom]="UserVerify(childChild.author.id) ? '83px' : '77px'">
                       <button class="button-link" #replyChildChild (click)="toggleSection(childChild.id)">Reply</button>
                       <div class="dropdown">
                         <button *ngIf="UserVerify(childChild.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config-grandchild" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -147,6 +148,7 @@
                           <li><a class="dropdown-item" (click)="AlfF4Comment(childChild.id)">Delete</a></li>
                         </ul>
                       </div>
+                    </div>
                       <section [ngStyle]="{ display: showSection[childChild.id]? 'block' : 'none' }">
                         <div class="form-p">
                           <textarea #childChildId placeholder="Replying to {{childChild.author.name}}"

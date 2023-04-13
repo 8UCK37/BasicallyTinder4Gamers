@@ -47,7 +47,8 @@ router.post("/add",ensureAuthenticated, async (req, res) => {
                             connect:{id:req.user.user_id}
                         },
                         commentStr: req.body.msg,
-                        commentOf: req.body.commentOf
+                        commentOf: req.body.commentOf,
+                        deleted:false
                     }
                 }
 
