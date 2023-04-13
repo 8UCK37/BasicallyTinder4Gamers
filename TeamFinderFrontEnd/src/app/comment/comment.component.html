@@ -30,9 +30,12 @@
             {{comment.commentStr}}
           </div>
         </div>
+
+
+        <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: comment}"></ng-container>
+        <div class="commentOptions">
         <button class="button-link" #replyparent (click)="toggleSection(comment.id)">Reply</button>
-        <button *ngIf="comment.childs.length>0" class="button-link" (click)="toggleSectionAllReply(comment.id)">More
-          Comments</button>
+        <button *ngIf="comment.childs.length>0" class="button-link" (click)="toggleSectionAllReply(comment.id)">More Comments</button>
           <div class="dropdown">
             <button *ngIf="UserVerify(comment.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             </button>
@@ -41,6 +44,7 @@
               <li><a class="dropdown-item" (click)="AlfF4Comment(comment.id)">Delete</a></li>
             </ul>
           </div>
+        </div>
         <section [ngStyle]="{ display: showSection[comment.id]? 'block' : 'none' }">
           <div class="form-p">
             <textarea #parentID placeholder="Replying to {{comment.author.name}}" autocomplete="off"
@@ -78,6 +82,9 @@
                   {{child.commentStr}}
                 </div>
               </div>
+
+              <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: child}"></ng-container>
+
               <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>
               <button *ngIf="child.childs && child.childs.length>0" class="button-link"
                 (click)="toggleSectionAllReplyChild(child.id)">More
@@ -128,6 +135,9 @@
                           {{childChild.commentStr}}
                         </div>
                       </div>
+
+                      <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: childChild}"></ng-container>
+
                       <button class="button-link" #replyChildChild (click)="toggleSection(childChild.id)">Reply</button>
                       <div class="dropdown">
                         <button *ngIf="UserVerify(childChild.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config-grandchild" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -173,3 +183,44 @@
     </div>
   </ng-template>
 </p-sidebar>
+<ng-template #reactionButtons let-comment>
+  <button class="button-reaction">Like</button>
+  <div class="toolbox" style="z-index: 99;">
+    <div class="container">
+      <div class="row" style="color: black;">
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}h" (click)="likeButtonClick(comment.id,'haha')">
+          <label for="{{comment.id}}h" class="react haha">
+            <i data-icon=""></i>
+          </label>
+        </div>
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}s" (click)="likeButtonClick(comment.id,'sad')">
+          <label for="{{comment.id}}s" class="react sad">
+            <i data-icon=""></i>
+          </label>
+        </div>
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}l" (click)="likeButtonClick(comment.id,'love')">
+          <label for="{{comment.id}}l" class="react love">
+            <i data-icon=""></i>
+          </label>
+        </div>
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}p" (click)="likeButtonClick(comment.id,'poop')">
+          <label for="{{comment.id}}p" class="react poop">
+            <i data-icon="https://cdn-icons-png.flaticon.com/512/4951/4951989.png"></i>
+          </label>
+        </div>
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}f" (click)="likeButtonClick(comment.id,'like')">
+          <label for="{{comment.id}}f" class="react fire2">
+            <i data-icon=""></i>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+

@@ -10,11 +10,12 @@ router.get("/",ensureAuthenticated, async (req, res) => {
     let comments = await prisma.Posts.findMany({
         where:
         {
-            id: parseInt(req.query.id)
+            id: parseInt(req.query.id),
         },
         include: {
             comments: {
-              include: { author: true }
+              include: { author: true },
+              where: { deleted: false }
             }
           },
           orderBy:{
@@ -74,28 +75,42 @@ router.post("/commentEdit",ensureAuthenticated, async (req, res)=> {
             }
         })
         res.sendStatus(200)
-    
-    
         //console.log(e)
        // res.send(JSON.stringify({ status: "someting went wrong while Editing" }))
-    
-   
 })
 router.post("/commentDelete",ensureAuthenticated, async (req, res)=> {
     console.log('commentDeltStr',req.body);
     
-        let delChildComment=await prisma.Comment.deleteMany({
+        let delChildComment=await prisma.Comment.updateMany({
             where:{
                 commentOf: req.body.id
             },
+            data:{
+                deleted:true
+            }
         })
         //console.log(e)
        // res.send(JSON.stringify({ status: "someting went wrong while Editing" }))
-       let delParComment=await prisma.Comment.deleteMany({
+       let delParComment=await prisma.Comment.updateMany({
         where:{
             id: req.body.id
         },
+        data:{
+            deleted:true
+        }
     })
     res.sendStatus(200)
 })
+
+router.post("/commentReactionLike",ensureAuthenticated, async (req, res)=> {
+    console.log('comment id =',req.body);
+    
+        
+    res.sendStatus(200)
+        
+})
+
+
+
+
 module.exports = router

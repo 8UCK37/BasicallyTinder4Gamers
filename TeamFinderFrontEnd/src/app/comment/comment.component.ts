@@ -134,6 +134,16 @@ export class CommentComponent implements OnInit {
     return this.utcDateTime.toLocaleString('en-US', { timeZone: this.timeZone });
   }
   UserVerify(id: any) {
-   return (this.LoggedInUserID == id);
+   return this.LoggedInUserID == id;
   }
+
+  likeButtonClick(commentId: any, type: String) {
+    axios.post('comment/commentReactionLike', {id: commentId,type:type}).then(res =>{
+      console.log(res);
+    })
+  }
+
+
+
 }
+

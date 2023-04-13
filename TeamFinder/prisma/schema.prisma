@@ -8,20 +8,21 @@ generator client {
 }
 
 model User {
-  id             String    @id
-  createdAt      DateTime  @default(now())
-  name           String
-  profilePicture String?
-  profileBanner  String?
-  bio            String?
-  steamId        String?
-  twitchtoken    Json?
-  gmailId        String?
-  activeChoice   Boolean?
-  isConnected    Boolean?
-  userInfoId     Int?      @unique
-  userInfo       UserInfo? @relation(fields: [userInfoId], references: [id])
-  Comment        Comment[]
+  id              String            @id
+  createdAt       DateTime          @default(now())
+  name            String
+  profilePicture  String?
+  profileBanner   String?
+  bio             String?
+  steamId         String?
+  twitchtoken     Json?
+  gmailId         String?
+  activeChoice    Boolean?
+  isConnected     Boolean?
+  userInfoId      Int?              @unique
+  userInfo        UserInfo?         @relation(fields: [userInfoId], references: [id])
+  Comment         Comment[]
+  CommentReaction CommentReaction[]
 }
 
 model UserInfo {
@@ -89,6 +90,7 @@ model Comment {
   Posts      Posts?   @relation(fields: [postsId], references: [id])
   postsId    Int?
   userId     String
+  deleted    Boolean?
 }
 
 model Tags {
@@ -103,5 +105,14 @@ model Activity {
   weight    Int
   author    String
   createdAt DateTime @default(now())
+  type      String
+}
+
+model CommentReaction {
+  id        Int      @id @default(autoincrement())
+  author    User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  commentid Int
+  userId    String
   type      String
 }
