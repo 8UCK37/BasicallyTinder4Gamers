@@ -6,32 +6,39 @@ const auth  = require('./../middleware/authMiddleware')
 const ensureAuthenticated = auth.ensureAuthenticated
 //this is to get all the comment under one post
 router.get("/", ensureAuthenticated, async (req, res) => {
-    const postId = parseInt(req.query.id);
-    const comments = await prisma.posts.findMany({
-      where: { id: postId },
-      include: {
-        comments: {
-          include: {
-            author: true,
-            CommentReaction: {
-              select: {
-                type: true,
-              },
-              where:{
-                authorid:req.user.user_id,
-              }
+  const postId = parseInt(req.query.id);
+  const comments = await prisma.posts.findMany({
+    where: { id: postId },
+    include: {
+      comments: {
+        include: {
+          author: true,
+          CommentReaction: {
+            select: {
+              type: true,
+            },
+            where: {
+              authorid: req.user.user_id,
             },
           },
-          where: { deleted: false }
-        }
+          _count: {
+            select: {
+              CommentReaction: true,
+            },
+          },
+        },
+        where: { deleted: false },
       },
-      orderBy: {
-        id: "asc"
-      }
-    });
-   
-    res.send(comments);
+    },
+    orderBy: {
+      id: "asc",
+    },
   });
+
+  res.send(comments);
+});
+
+
   
 
 // this is to create a new edge in comment tree 

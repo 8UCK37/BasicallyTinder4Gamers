@@ -44,6 +44,7 @@
               <li><a class="dropdown-item" (click)="AlfF4Comment(comment.id)">Delete</a></li>
             </ul>
           </div>
+          <div>{{comment._count.CommentReaction}}</div>
         </div>
         <section [ngStyle]="{ display: showSection[comment.id]? 'block' : 'none' }">
           <div class="form-p">
