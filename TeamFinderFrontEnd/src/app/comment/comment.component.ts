@@ -139,11 +139,13 @@ export class CommentComponent implements OnInit {
 
   likeButtonClick(comment: any, type: String) {
     console.log(type," clicked on= ",comment)
+    if(comment.CommentReaction.length!=0){
     console.log(comment.CommentReaction[0].type)
     if(comment.CommentReaction[0].type==type){
       console.log('dislike called')
       axios.post('comment/commentReactionDisLike', {id: comment.id,type:type}).then(res =>{
       comment.CommentReaction[0].type='dislike'
+      comment._count.CommentReaction--
       console.log(res);
       })
 
@@ -154,6 +156,14 @@ export class CommentComponent implements OnInit {
         console.log(res);
     })
     }
+  }else{
+    console.log('new reaction called',type)
+      axios.post('comment/commentReactionLike', {id: comment.id,type:type}).then(res =>{
+        comment.CommentReaction[0]={type:type}
+        comment._count.CommentReaction++
+        console.log(res);
+    })
+  }
     console.log(this.commentTree);
   }
 

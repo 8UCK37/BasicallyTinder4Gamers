@@ -23,7 +23,7 @@ router.get("/", ensureAuthenticated, async (req, res) => {
           },
           _count: {
             select: {
-              CommentReaction: true,
+              CommentReaction:{ where: { type: {not :'dislike'} } }
             },
           },
         },

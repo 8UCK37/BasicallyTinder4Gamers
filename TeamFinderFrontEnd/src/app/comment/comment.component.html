@@ -85,7 +85,7 @@
               </div>
 
               <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: child}"></ng-container>
-              <div class="commentOptions" [style.bottom]="UserVerify(child.author.id) ? '83px' : '77px'">
+              <div class="commentOptions" [style.bottom]="UserVerify(child.author.id) ? '83px' : '78px'">
               <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>
               <button *ngIf="child.childs && child.childs.length>0" class="button-link"
                 (click)="toggleSectionAllReplyChild(child.id)">More
