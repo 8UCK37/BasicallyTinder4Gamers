@@ -137,14 +137,24 @@ export class CommentComponent implements OnInit {
    return this.LoggedInUserID == id;
   }
 
-  likeButtonClick(commentId: any, type: String) {
-    console.log(type," clicked for commentID= ",commentId)
-    axios.post('comment/commentReactionLike', {id: commentId,type:type}).then(res =>{
+  likeButtonClick(comment: any, type: String) {
+    console.log(type," clicked on= ",comment)
+    console.log(comment.CommentReaction[0].type)
+    if(comment.CommentReaction[0].type==type){
+      console.log('dislike called')
+      axios.post('comment/commentReactionDisLike', {id: comment.id,type:type}).then(res =>{
+      comment.CommentReaction[0].type='dislike'
       console.log(res);
+      })
+
+    }else{
+      console.log('reaction called',type)
+      axios.post('comment/commentReactionLike', {id: comment.id,type:type}).then(res =>{
+        comment.CommentReaction[0].type=type
+        console.log(res);
     })
-    // axios.post('comment/commentReactionDisLike', {id: commentId,type:type}).then(res =>{
-    //   console.log(res);
-    // })
+    }
+    console.log(this.commentTree);
   }
 
 }

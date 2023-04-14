@@ -15,10 +15,11 @@ router.get("/", ensureAuthenticated, async (req, res) => {
             author: true,
             CommentReaction: {
               select: {
-                author:true,
                 type: true,
               },
-              
+              where:{
+                authorid:req.user.user_id,
+              }
             },
           },
           where: { deleted: false }
@@ -28,8 +29,7 @@ router.get("/", ensureAuthenticated, async (req, res) => {
         id: "asc"
       }
     });
-  
-    console.log(comments);
+   
     res.send(comments);
   });
   
