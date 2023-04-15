@@ -46,6 +46,7 @@
           <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:comment}"></ng-container>
         </div>
         <section [ngStyle]="{ display: showSection[comment.id]? 'block' : 'none' }">
+
           <div class="form-p">
             <textarea #parentID placeholder="Replying to {{comment.author.name}}" autocomplete="off"
               class="form-control input-field-specs" id="{{comment.id}}" ngModel></textarea>
@@ -185,7 +186,8 @@
         </section>
       </ng-container>
       <br>
-      <a>------------------------------End OF Line--------------------------</a>
+      <div *ngIf="this.commentTree.length==0">------------------------------No Comments-------------------------</div>
+      <div *ngIf="this.commentTree.length>0">------------------------------End OF Line--------------------------</div>
     </div>
   </ng-template>
 </p-sidebar>
