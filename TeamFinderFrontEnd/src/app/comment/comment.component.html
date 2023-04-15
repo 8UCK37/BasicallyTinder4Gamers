@@ -230,22 +230,21 @@
 
 <ng-template #userReaction let-comment>
   <div class="react-count">
-    <div>{{comment._count.CommentReaction}}</div>
-    <ng-container *ngIf="comment.CommentReaction[0]?.type=='like'">
+    <div>{{comment.reactionMap.get('total')}}</div>
+    <ng-container *ngIf="comment.userReaction?.type=='like'">
       <div class="fire-icon"></div>
     </ng-container>
-    <ng-container *ngIf="comment.CommentReaction[0]?.type=='haha'">
+    <ng-container *ngIf="comment.userReaction?.type=='haha'">
       <div class="haha-icon"></div>
     </ng-container>
-    <ng-container *ngIf="comment.CommentReaction[0]?.type=='love'">
+    <ng-container *ngIf="comment.userReaction?.type=='love'">
       <div class="love-icon"></div>
     </ng-container>
-    <ng-container *ngIf="comment.CommentReaction[0]?.type=='sad'">
+    <ng-container *ngIf="comment.userReaction?.type=='sad'">
       <div class="sad-icon"></div>
     </ng-container>
-    <ng-container *ngIf="comment.CommentReaction[0]?.type=='poop'">
+    <ng-container *ngIf="comment.userReaction?.type=='poop'">
       <div class="sad-icon"></div>
     </ng-container>
-
 </div>
 </ng-template>

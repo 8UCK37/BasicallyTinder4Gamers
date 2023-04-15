@@ -105,8 +105,32 @@ export class CommentComponent implements OnInit {
       console.log(this.commentTree);
     })
   }
+  countReaction(comment:any){
+    let reactionmap = new Map()
+    reactionmap.set('total',0)
+    comment.userReaction=null
+    comment.CommentReaction.forEach((reaction: any) => {
 
+      if(reaction.author.id==this.LoggedInUserID){
+        comment.userReaction=reaction
+      }
+      if(reaction.type!='dislike'){
+
+      if(reactionmap.get(reaction.type)!=undefined){
+        reactionmap.set(reaction.type,reactionmap.get(reaction.type)+1)
+      }else{
+        reactionmap.set(reaction.type,1)
+      }
+      reactionmap.set('total',reactionmap.get('total')+1)
+    }
+
+    });
+    comment.reactionMap=reactionmap
+  }
   buildCommentTree(comments: any[], parentCommentId = null) {
+    comments.forEach(comment => {
+      this.countReaction(comment)
+    });
     const childComments:any = comments
       .filter(comment => comment.commentOf === parentCommentId)
       .map(comment => ({
@@ -140,30 +164,29 @@ export class CommentComponent implements OnInit {
   likeButtonClick(comment: any, type: String) {
     console.log(type," clicked on= ",comment)
     if(comment.CommentReaction.length!=0){
-    console.log(comment.CommentReaction[0].type)
-    if(comment.CommentReaction[0].type==type){
+    if(comment.userReaction.type==type){
       console.log('dislike called')
       axios.post('comment/commentReactionDisLike', {id: comment.id,type:type}).then(res =>{
-      comment.CommentReaction[0].type='dislike'
-      comment._count.CommentReaction--
+      comment.userReaction.type='dislike'
+      comment.reactionMap.set('total',comment.reactionMap.get('total')-1)
       console.log(res);
       })
 
     }else{
       console.log('reaction called',type)
       axios.post('comment/commentReactionLike', {id: comment.id,type:type}).then(res =>{
-        if(comment.CommentReaction[0].type =='dislike'){
-          comment._count.CommentReaction++
+        if(comment.userReaction.type =='dislike'){
+          comment.reactionMap.set('total',comment.reactionMap.get('total')+1)
         }
-        comment.CommentReaction[0].type=type
+        comment.userReaction.type=type
         console.log(res);
     })
     }
   }else{
     console.log('new reaction called',type)
       axios.post('comment/commentReactionLike', {id: comment.id,type:type}).then(res =>{
-        comment.CommentReaction[0]={type:type}
-        comment._count.CommentReaction++
+        comment.userReaction.type=type
+        comment.reactionMap.set('total',comment.reactionMap.get('total')+1)
         console.log(res);
     })
   }

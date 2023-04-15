@@ -15,15 +15,8 @@ router.get("/", ensureAuthenticated, async (req, res) => {
           author: true,
           CommentReaction: {
             select: {
+              author:true,
               type: true,
-            },
-            where: {
-              authorid: req.user.user_id,
-            },
-          },
-          _count: {
-            select: {
-              CommentReaction:{ where: { type: {not :'dislike'} } }
             },
           },
         },
