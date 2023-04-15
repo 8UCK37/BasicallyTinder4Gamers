@@ -383,3 +383,34 @@ input {
   background-color: #525252;
   border-radius: 10px;
 }
+
+.fire-icon {
+  background-image: url('https://i.giphy.com/media/J2awouDsf23R2vo2p5/giphy.webp');
+  background-size: 25px 25px;
+  width: 25px;
+  height: 25px;
+}
+.haha-icon {
+  background-image: url("https://i.giphy.com/media/hVlZnRT6QW1DeYj6We/giphy.webp");
+  background-size: 25px 25px;
+  width: 25px;
+  height: 25px;
+}
+.love-icon {
+  background-image: url("https://i.giphy.com/media/YondZW6AMjgTEHevF0/giphy.webp");
+  background-size: 25px 25px;
+  width: 25px;
+  height: 25px;
+}
+.sad-icon {
+  background-image: url("https://i.giphy.com/media/IzcFv6WJ4310bDeGjo/giphy.webp");
+  background-size: 25px 25px;
+  width: 25px;
+  height: 25px;
+}
+.poop-icon {
+  background-image: url("https://i.giphy.com/media/W4tf7M2R7jUC9YjFcG/giphy.webp");
+  background-size: 25px 25px;
+  width: 25px;
+  height: 25px;
+}

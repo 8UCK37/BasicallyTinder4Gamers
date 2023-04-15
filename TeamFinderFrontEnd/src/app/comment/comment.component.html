@@ -44,7 +44,7 @@
               <li><a class="dropdown-item" (click)="AlfF4Comment(comment.id)">Delete</a></li>
             </ul>
           </div>
-          <div>{{comment._count.CommentReaction}}</div>
+          <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:comment}"></ng-container>
         </div>
         <section [ngStyle]="{ display: showSection[comment.id]? 'block' : 'none' }">
           <div class="form-p">
@@ -98,6 +98,7 @@
                     <li><a class="dropdown-item" (click)="AlfF4Comment(child.id)">Delete</a></li>
                   </ul>
                 </div>
+                <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:child}"></ng-container>
               </div>
               <section [ngStyle]="{ display: showSection[child.id]? 'block' : 'none' }">
                 <div class="form-p">
@@ -149,6 +150,7 @@
                           <li><a class="dropdown-item" (click)="AlfF4Comment(childChild.id)">Delete</a></li>
                         </ul>
                       </div>
+                      <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:childChild}"></ng-container>
                     </div>
                       <section [ngStyle]="{ display: showSection[childChild.id]? 'block' : 'none' }">
                         <div class="form-p">
@@ -226,4 +228,23 @@
   </div>
 </ng-template>
 
-
+<ng-template #userReaction let-comment>
+  <div>
+    <ng-container *ngIf="comment.CommentReaction[0]?.type=='like'">
+      <div class="fire-icon"></div>
+    </ng-container>
+    <ng-container *ngIf="comment.CommentReaction[0]?.type=='haha'">
+      <div class="haha-icon"></div>
+    </ng-container>
+    <ng-container *ngIf="comment.CommentReaction[0]?.type=='love'">
+      <div class="love-icon"></div>
+    </ng-container>
+    <ng-container *ngIf="comment.CommentReaction[0]?.type=='sad'">
+      <div class="sad-icon"></div>
+    </ng-container>
+    <ng-container *ngIf="comment.CommentReaction[0]?.type=='poop'">
+      <div class="sad-icon"></div>
+    </ng-container>
+  </div>
+  <div>{{comment._count.CommentReaction}}</div>
+</ng-template>
