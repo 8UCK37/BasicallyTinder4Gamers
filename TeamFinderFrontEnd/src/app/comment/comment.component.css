@@ -56,7 +56,7 @@
   position: relative;
   justify-content: left;
   display: flex;
-  bottom: 8px;
+  bottom: 20px;
   left: 14px;
   max-width: 26rem;
   width: fit-content;
@@ -65,7 +65,7 @@
   position: relative;
     justify-content: left;
     display: flex;
-    bottom: 9px;
+    bottom: 20px;
     left: 13px;
     max-width: 26rem;
     width: fit-content;
@@ -74,7 +74,7 @@
   position: relative;
   justify-content: left;
   display: flex;
-  bottom: 7px;
+  bottom: 20px;
   left: 13px;
   max-width: 24rem;
   width: fit-content;
