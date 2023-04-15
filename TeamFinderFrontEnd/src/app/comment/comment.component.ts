@@ -163,7 +163,7 @@ export class CommentComponent implements OnInit {
 
   likeButtonClick(comment: any, type: String) {
     console.log(type," clicked on= ",comment)
-    if(comment.CommentReaction.length!=0){
+    if(comment.userReaction!=null){
     if(comment.userReaction.type==type){
       console.log('dislike called')
       axios.post('comment/commentReactionDisLike', {id: comment.id,type:type}).then(res =>{
@@ -185,7 +185,7 @@ export class CommentComponent implements OnInit {
   }else{
     console.log('new reaction called',type)
       axios.post('comment/commentReactionLike', {id: comment.id,type:type}).then(res =>{
-        comment.userReaction.type=type
+        comment.userReaction={type:type}
         comment.reactionMap.set('total',comment.reactionMap.get('total')+1)
         console.log(res);
     })
