@@ -9,6 +9,8 @@
   text-decoration: underline;
   cursor: pointer;
   position: relative;
+  padding: 0!important;
+  margin: 3px 5px 3px 5px;
 }
 
 .user-pic{
@@ -178,6 +180,10 @@ textarea::placeholder {
   cursor: pointer;
   margin-left:33px;
   position: relative;
+  padding: 0!important;
+  margin: 3px 5px 3px 5px;
+  left: 30px;
+  top: 4px;
 }
 
 .toolbox {
