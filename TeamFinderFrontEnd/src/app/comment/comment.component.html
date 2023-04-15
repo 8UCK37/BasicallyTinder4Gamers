@@ -17,7 +17,7 @@
   </ng-template>
   <ng-template pTemplate="content">
     <div #commentbox>
-      <div *ngFor="let comment of commentTree; let i = index">
+      <ng-container  *ngFor="let comment of commentTree; let i = index">
         <div class="card card-background">
           <img class="user-pic" [src]="comment.author.profilePicture">
           <div class="user-name">
@@ -30,12 +30,11 @@
             {{comment.commentStr}}
           </div>
         </div>
-
-
         <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: comment}"></ng-container>
-        <div class="commentOptions" [style.bottom]="UserVerify(comment.author.id) ? '83px' : '77px'">
+        <div class="commentOptions" [style.bottom]="UserVerify(comment.author.id) ? '3px' : '-2px'">
         <button class="button-link" #replyparent (click)="toggleSection(comment.id)">Reply</button>
         <button *ngIf="comment.childs && comment.childs.length>0" class="button-link" (click)="toggleSectionAllReply(comment.id)">More Comments</button>
+
           <div class="dropdown">
             <button *ngIf="UserVerify(comment.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             </button>
@@ -85,7 +84,7 @@
               </div>
 
               <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: child}"></ng-container>
-              <div class="commentOptions" [style.bottom]="UserVerify(child.author.id) ? '83px' : '78px'">
+              <div class="commentOptions" [style.bottom]="UserVerify(child.author.id) ? '3px' : '-2px'">
               <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>
               <button *ngIf="child.childs && child.childs.length>0" class="button-link"
                 (click)="toggleSectionAllReplyChild(child.id)">More
@@ -140,7 +139,7 @@
                       </div>
 
                       <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: childChild}"></ng-container>
-                      <div class="commentOptions" [style.bottom]="UserVerify(childChild.author.id) ? '83px' : '77px'">
+                      <div class="commentOptions" [style.bottom]="UserVerify(childChild.author.id) ? '3px' : '-2px'">
                       <button class="button-link" #replyChildChild (click)="toggleSection(childChild.id)">Reply</button>
                       <div class="dropdown">
                         <button *ngIf="UserVerify(childChild.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -184,7 +183,7 @@
             <br>
           </div>
         </section>
-      </div>
+      </ng-container>
     </div>
   </ng-template>
 </p-sidebar>
