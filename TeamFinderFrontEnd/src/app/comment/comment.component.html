@@ -186,8 +186,8 @@
         </section>
       </ng-container>
       <br>
-      <div *ngIf="this.commentTree.length==0">------------------------------No Comments-------------------------</div>
-      <div *ngIf="this.commentTree.length>0">------------------------------End OF Line--------------------------</div>
+      <div *ngIf="this.commentTree.length==0 || this.commentTree==null">------------------------------No Comments-------------------------</div>
+      <div *ngIf="this.commentTree.length>0 || !this.commentTree==null">------------------------------End OF Line--------------------------</div>
     </div>
   </ng-template>
 </p-sidebar>
