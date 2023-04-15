@@ -229,7 +229,8 @@
 </ng-template>
 
 <ng-template #userReaction let-comment>
-  <div>
+  <div class="react-count">
+    <div>{{comment._count.CommentReaction}}</div>
     <ng-container *ngIf="comment.CommentReaction[0]?.type=='like'">
       <div class="fire-icon"></div>
     </ng-container>
@@ -245,6 +246,6 @@
     <ng-container *ngIf="comment.CommentReaction[0]?.type=='poop'">
       <div class="sad-icon"></div>
     </ng-container>
-  </div>
-  <div>{{comment._count.CommentReaction}}</div>
+
+</div>
 </ng-template>

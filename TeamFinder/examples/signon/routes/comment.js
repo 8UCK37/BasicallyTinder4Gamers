@@ -39,8 +39,6 @@ router.get("/", ensureAuthenticated, async (req, res) => {
 });
 
 
-  
-
 // this is to create a new edge in comment tree 
 // In req.body commentOf can be null or int
 router.post("/add",ensureAuthenticated, async (req, res) => {

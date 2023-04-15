@@ -152,6 +152,9 @@ export class CommentComponent implements OnInit {
     }else{
       console.log('reaction called',type)
       axios.post('comment/commentReactionLike', {id: comment.id,type:type}).then(res =>{
+        if(comment.CommentReaction[0].type =='dislike'){
+          comment._count.CommentReaction++
+        }
         comment.CommentReaction[0].type=type
         console.log(res);
     })

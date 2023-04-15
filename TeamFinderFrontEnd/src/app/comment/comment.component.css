@@ -5,7 +5,7 @@
   background: none!important;
   border: none;
   font-family: arial, sans-serif;
-  color: #069;
+  color: rgb(255, 255, 255);
   text-decoration: underline;
   cursor: pointer;
   position: relative;
@@ -171,7 +171,7 @@ textarea::placeholder {
   background: none!important;
   border: none;
   font-family: arial, sans-serif;
-  color: #069;
+  color: rgb(255, 255, 255);
   text-decoration: underline;
   cursor: pointer;
   margin-left:33px;
@@ -382,6 +382,13 @@ input {
 .like:hover {
   background-color: #525252;
   border-radius: 10px;
+}
+
+.react-count{
+  display: flex;
+  position:absolute;
+  right:78px;
+  top:5px;
 }
 
 .fire-icon {
