@@ -210,7 +210,7 @@
   <ng-container *ngIf="comment.userReaction?.type=='poop'">
     <button class="button-reaction" style="color:#d59a41">Poop</button>
   </ng-container>
-  
+
   <div class="toolbox" style="z-index: 99;">
     <div class="container">
       <div class="row" style="color: black;">
@@ -250,8 +250,8 @@
 </ng-template>
 
 <ng-template #userReaction let-comment>
-  <div class="react-count">
-    <div>{{comment.reactionMap.get('total')}}</div>
+  <div class="react-user">
+    <div *ngIf="comment.reactionMap.get('total')==0">0</div>
     <ng-container *ngIf="comment.userReaction?.type=='like'">
       <div class="fire-icon"></div>
     </ng-container>
@@ -267,5 +267,8 @@
     <ng-container *ngIf="comment.userReaction?.type=='poop'">
       <div class="poop-icon"></div>
     </ng-container>
+</div>
+<div class="react-details">
+  react counts
 </div>
 </ng-template>

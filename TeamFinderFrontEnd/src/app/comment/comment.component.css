@@ -367,26 +367,31 @@ input {
   transform: scale(1.8);
 }
 
-
-.like {
-  width: 18.3rem;
-  height: 45px;
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-}
-
-.like:hover {
-  background-color: #525252;
-  border-radius: 10px;
-}
-
-.react-count{
+.react-user{
   display: flex;
   position:absolute;
+  cursor: pointer;
   right:78px;
   top:5px;
+}
+.react-details{
+  height:100px;
+  width:100px;
+  color: rgb(43, 7, 73);
+  background-color: aliceblue;
+  border-radius: 5px;
+  position:absolute;
+  opacity:.9;
+  z-index:1;
+  top:32px;
+  right:65px;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.react-user:hover.react-details {
+  visibility: visible;
+  opacity: 1;
 }
 
 .fire-icon {
