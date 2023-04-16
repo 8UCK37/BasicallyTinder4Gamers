@@ -558,6 +558,11 @@
   width:200px;
   height:60px;
 }
+.border{
+  border-radius: 10px;
+  transition: all 0.5s;
+  color:#540980;
+}
 .tab:hover {
   border-radius: 10px;
   background-color: #262626; /* Change the background color on hover */
