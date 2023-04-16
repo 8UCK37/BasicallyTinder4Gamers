@@ -187,7 +187,7 @@
       </ng-container>
       <br>
       <div *ngIf="this.commentTree.length==0">------------------------------No Comments-------------------------</div>
-      <div *ngIf="this.commentTree.length>0">------------------------------End OF Line--------------------------</div>
+      <div *ngIf="this.commentTree.length>0">------------------------------End Of Line--------------------------</div>
     </div>
   </ng-template>
 </p-sidebar>
@@ -268,7 +268,21 @@
       <div class="poop-icon"></div>
     </ng-container>
 </div>
-<div class="react-details">
-  react counts
+<div class="reactDetails">
+  <div class="reactCount" *ngIf="comment.reactionMap.get('like')>0">
+    <div class="fire-icon"></div><span>{{comment.reactionMap.get('like')}}</span>
+  </div>
+  <div class="reactCount" *ngIf="comment.reactionMap.get('haha')>0">
+    <div class="haha-icon"></div><span>{{comment.reactionMap.get('haha')}}</span>
+  </div>
+  <div class="reactCount" *ngIf="comment.reactionMap.get('love')>0">
+    <div class="love-icon"></div><span>{{comment.reactionMap.get('love')}}</span>
+  </div>
+  <div class="reactCount" *ngIf="comment.reactionMap.get('sad')>0">
+    <div class="sad-icon"></div><span>{{comment.reactionMap.get('sad')}}</span>
+  </div>
+  <div class="reactCount" *ngIf="comment.reactionMap.get('poop')>0">
+    <div class="poop-icon"></div><span>{{comment.reactionMap.get('poop')}}</span>
+  </div>
 </div>
 </ng-template>
