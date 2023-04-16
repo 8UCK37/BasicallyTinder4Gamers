@@ -13,7 +13,7 @@
       </div>
     </div>
   </div>
-  <div class="profile-page-item flexbox" *ngIf="showgames">
+  <div class="profile-page-item flexbox" *ngIf="showgames" [@appear]>
     <ng-container *ngIf="ownProfile">
       <ng-container *ngFor="let game of MobileGameList let i=index">
         <div *ngIf="game.selected">
@@ -114,7 +114,7 @@
       </div>
     </ng-template>
   </div>
-  <div class="profile-page-item flexbox" *ngIf="!showgames">
+  <div class="profile-page-item flexbox" *ngIf="!showgames" [@appear]>
     Achievements
   </div>
 </div>
