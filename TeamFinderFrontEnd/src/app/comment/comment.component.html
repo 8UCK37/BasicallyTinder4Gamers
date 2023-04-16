@@ -192,7 +192,25 @@
   </ng-template>
 </p-sidebar>
 <ng-template #reactionButtons let-comment>
-  <button class="button-reaction">Like</button>
+  <ng-container *ngIf="comment.userReaction==null || comment.userReaction.type =='dislike' ">
+    <button class="button-reaction">Like</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='like'">
+    <button class="button-reaction" style="color:rgb(233, 63, 7)">Like</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='haha'">
+    <button class="button-reaction" style="color:#F5DB37">Haha</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='love'">
+    <button class="button-reaction" style="color:#DC143C">Love</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='sad'">
+    <button class="button-reaction" style="color:#123f77">Sad</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='poop'">
+    <button class="button-reaction" style="color:#d59a41">Poop</button>
+  </ng-container>
+  
   <div class="toolbox" style="z-index: 99;">
     <div class="container">
       <div class="row" style="color: black;">

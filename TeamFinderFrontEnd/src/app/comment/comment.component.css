@@ -157,17 +157,17 @@ textarea::placeholder {
   position: relative;
 }
 
-.commentOptions{
-  display:flex;
-  flex-direction:row;
-  left: 70px;
-  position: relative;
-  bottom: 83px;
-}
+
 
 
 /*reactions css*/
-
+.commentOptions{
+  display:flex;
+  flex-direction:row;
+  left: 75px;
+  position: relative;
+  bottom: 83px;
+}
 .button-reaction {
   background: none!important;
   border: none;
@@ -175,6 +175,7 @@ textarea::placeholder {
   color: rgb(255, 255, 255);
   text-decoration: underline;
   cursor: pointer;
+  transition: all 0.5s;
   position: relative;
   left: 30px;
 }
@@ -243,10 +244,6 @@ textarea::placeholder {
   transition: transform .6s cubic-bezier(0.5, -12, 1, -12);
 }
 
-/* .react:hover{
-transform:rotate(0.1deg);
-transition:transform 0.25s cubic-bezier(0.5,400,0.5,-400);
-} */
 .react:before {
   content: "";
   grid-area: 1/1;
