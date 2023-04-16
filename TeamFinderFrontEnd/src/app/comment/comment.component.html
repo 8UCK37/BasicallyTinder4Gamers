@@ -17,6 +17,7 @@
   </ng-template>
   <ng-template pTemplate="content">
     <div #commentbox>
+      <div *ngIf="this.commentTree?.length==0"><p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar></div>
       <ng-container  *ngFor="let comment of commentTree; let i = index">
         <div class="card card-background">
           <img class="user-pic" [src]="comment.author.profilePicture">
@@ -186,8 +187,8 @@
         </section>
       </ng-container>
       <br>
-      <div *ngIf="this.commentTree.length==0">------------------------------No Comments-------------------------</div>
-      <div *ngIf="this.commentTree.length>0">------------------------------End Of Line--------------------------</div>
+      <div *ngIf="this.commentTree==null">------------------------------No Comments-------------------------</div>
+      <div *ngIf="this.commentTree!=null && this.commentTree.length>0">------------------------------End Of Line--------------------------</div>
     </div>
   </ng-template>
 </p-sidebar>
