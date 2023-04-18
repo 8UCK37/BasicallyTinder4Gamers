@@ -50,12 +50,11 @@
 
   <ng-container *ngIf="twitchdata">
     <div class="col-md-auto">
-      <div class="card card0">
-        <img src="https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png" alt="" style="width:250px;height:250px;">
-        <!-- <img [src]="twitchdata.profile_image_url" alt="">
-        <span>{{twitchdata.id}}</span>
-        <span>{{twitchdata.email}}</span>
-        <h2>{{twitchdata.display_name}}</h2>-->
+      <div class="card card0" [style.background-image]="'url(' + imgSrc + ')'" [style.backgroundSize]="imgSize"
+      style="transition: all 0.8s ease-in-out;"
+      (mouseover)="imgSrc=twitchdata.profile_image_url;imgSize='325px'"
+      (mouseout)="imgSrc='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';imgSize='250px'">
+        <h2>{{twitchdata.display_name}}</h2>
         <div class="icons" style="cursor: pointer;" (click)="redirectToTwitchProfile()">
             <i class="fa-brands fa-twitch fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6"  ></i>
         </div>

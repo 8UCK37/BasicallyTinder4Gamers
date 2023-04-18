@@ -20,6 +20,8 @@ export class LinkedAccountsComponent implements OnInit {
   changeText: any = false;
   ownProfile: any;
   twitchdata:any;
+  public imgSrc:any='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';
+  public imgSize:any='250px'
   constructor(private route: ActivatedRoute, private router: Router,public userService: UserService) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
@@ -111,4 +113,5 @@ export class LinkedAccountsComponent implements OnInit {
   redirectToTwitchProfile(): void {
     window.open(`https://www.twitch.tv/${this.twitchdata.login}`, '_blank');
   }
+
 }

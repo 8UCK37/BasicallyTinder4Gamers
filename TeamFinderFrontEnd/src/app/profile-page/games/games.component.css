@@ -201,6 +201,7 @@
     grid-template-columns: 20% 20% 20%;
     margin: 0;
     flex-grow: 1;
+    left:-80px;
     position: relative;
     gap: 50px;
     padding-right: 2px;
