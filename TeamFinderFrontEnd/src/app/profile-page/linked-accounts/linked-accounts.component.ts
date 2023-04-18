@@ -14,7 +14,8 @@ export class LinkedAccountsComponent implements OnInit {
   public steamId: string = '';
   public usr: any;
   public userparsed: any;
-  public linked: boolean = false;
+  public steamLinked: boolean = false;
+  public twitchLinked:boolean = false;
   public steamInfo: any;
   public profile_id: any;
   changeText: any = false;
@@ -33,7 +34,7 @@ export class LinkedAccountsComponent implements OnInit {
           this.userparsed = usr;
           if (usr!=null) {
             this.fetchUserData();
-            this.getTwitchInfo();
+            this.getOwnTwitchInfo();
           }
         })
       } else {
@@ -44,13 +45,20 @@ export class LinkedAccountsComponent implements OnInit {
           //console.log(res.data)
           if(res.data.steamId!=null){
           this.steamId = res.data.steamId
-          this.linked=true;
+          this.steamLinked=true;
           }else{
-            this.linked = false
+            this.steamLinked = false
+          }
+          if(res.data.twitchtoken!=null){
+            this.twitchLinked=false
+            console.log(this.twitchLinked)
+          }else{
+            this.twitchLinked=false
+            console.log(this.twitchLinked)
           }
         }).catch(err => console.log(err))
         //console.log(this.steamId)
-        if (this.linked) {
+        if (this.steamLinked) {
           //console.log(this.steamId)
           await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
             //console.log(res.data)
@@ -84,20 +92,22 @@ export class LinkedAccountsComponent implements OnInit {
       //console.log(res.data)
       if(res.data.steamId!=null){
       this.steamId = res.data.steamId
-      this.linked=true
+      this.steamLinked=true
       }
       //console.log(this.linked)
     }).catch(err => console.log(err))
     this.getSteamInfo();
    }
 
-   getTwitchInfo(){
+   getOwnTwitchInfo(){
     axios.get('getowntwitchinfo').then(res=>{
       //console.log(res.data)
       if(res.data!='not logged in'){
         this.twitchdata=res.data
+        this.twitchLinked=true
+      }else{
+        this.twitchLinked=false
       }
-      console.log(this.twitchdata)
     }).catch(err=>console.log(err))
    }
 

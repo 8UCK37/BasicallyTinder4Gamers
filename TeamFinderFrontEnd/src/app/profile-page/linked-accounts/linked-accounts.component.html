@@ -5,20 +5,20 @@
    <div class="row" style="color: white;width:30rem">
     <!--change the width to fit more icons -->
     <div class="col-sm">
-      <ng-container *ngIf="ownProfile; else elseblock">
-        <i class="fa-brands fa-steam fa-3x" (click)="linked ? null : redirectToSteamLogin()"
-          [ngClass]="{'disabled': linked}" [style.cursor]="linked ? 'default' : 'pointer'"></i>
+      <ng-container *ngIf="ownProfile; else steamelseblock">
+        <i class="fa-brands fa-steam fa-3x" (click)="steamLinked ? null : redirectToSteamLogin()"
+          [ngClass]="{'disabled': steamLinked}" [style.cursor]="steamLinked ? 'default' : 'pointer'"></i>
       </ng-container>
-      <ng-template #elseblock>
+      <ng-template #steamelseblock>
         <i class="fa-brands fa-steam fa-3x"></i>
       </ng-template>
     </div>
     <div class="col-sm">
-      <ng-container *ngIf="ownProfile; else elseblock">
+      <ng-container *ngIf="ownProfile; else twitchelseblock">
         <i class="fa-brands fa-twitch" (click)="redirectToTwitchLogin()"
         [ngClass]="{'disabled': twitchdata}" [style.cursor]="twitchdata ? 'default' : 'pointer'"></i>
       </ng-container>
-      <ng-template #elseblock>
+      <ng-template #twitchelseblock>
         <i class="fa-brands fa-twitch"></i>
       </ng-template>
     </div>
@@ -37,7 +37,7 @@
 
 <ng-container>
   <div class="row">
-    <ng-container *ngIf="linked">
+    <ng-container *ngIf="steamLinked">
     <div class="col-md-auto">
         <div class="card card0 " [ngStyle]="{ background: getStyle(),backgroundSize: getSize()}"
           (mouseover)="changeText = true" (mouseout)="changeText = false">
@@ -49,7 +49,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="twitchdata">
+  <ng-container *ngIf="twitchLinked">
     <div class="col-md-auto">
       <div class="card card0" [style.background-image]="'url(' + imgSrc + ')'" [style.backgroundSize]="imgSize"
       style="transition: all 0.8s ease-in-out;"
