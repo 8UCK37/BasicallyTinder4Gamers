@@ -15,7 +15,8 @@
     </div>
     <div class="col-sm">
       <ng-container *ngIf="ownProfile; else elseblock">
-        <i class="fa-brands fa-twitch" (click)="redirectToTwitchLogin()" style="cursor: pointer;" ></i>
+        <i class="fa-brands fa-twitch" (click)="redirectToTwitchLogin()"
+        [ngClass]="{'disabled': twitchdata}" [style.cursor]="twitchdata ? 'default' : 'pointer'"></i>
       </ng-container>
       <ng-template #elseblock>
         <i class="fa-brands fa-twitch"></i>
