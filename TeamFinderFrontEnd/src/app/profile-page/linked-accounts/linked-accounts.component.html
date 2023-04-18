@@ -53,7 +53,7 @@
     <div class="col-md-auto">
       <div class="card card0" [style.background-image]="'url(' + imgSrc + ')'" [style.backgroundSize]="imgSize"
       style="transition: all 0.8s ease-in-out;"
-      (mouseover)="imgSrc=twitchdata.profile_image_url;imgSize='325px'"
+      (mouseover)="imgSrc=twitchdata.profile_image_url;imgSize='400px'"
       (mouseout)="imgSrc='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';imgSize='250px'">
         <h2>{{twitchdata.display_name}}</h2>
         <div class="icons" style="cursor: pointer;" (click)="redirectToTwitchProfile()">

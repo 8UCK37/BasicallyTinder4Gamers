@@ -34,7 +34,7 @@ export class LinkedAccountsComponent implements OnInit {
           this.userparsed = usr;
           if (usr!=null) {
             this.fetchUserData();
-            this.getOwnTwitchInfo();
+            this.getTwitchInfo(this.userparsed.id);
           }
         })
       } else {
@@ -50,11 +50,7 @@ export class LinkedAccountsComponent implements OnInit {
             this.steamLinked = false
           }
           if(res.data.twitchtoken!=null){
-            this.twitchLinked=false
-            console.log(this.twitchLinked)
-          }else{
-            this.twitchLinked=false
-            console.log(this.twitchLinked)
+            this.getTwitchInfo(this.profile_id)
           }
         }).catch(err => console.log(err))
         //console.log(this.steamId)
@@ -99,8 +95,8 @@ export class LinkedAccountsComponent implements OnInit {
     this.getSteamInfo();
    }
 
-   getOwnTwitchInfo(){
-    axios.get('getowntwitchinfo').then(res=>{
+   getTwitchInfo(id:any){
+    axios.get(`getowntwitchinfo?id=${id}`).then(res=>{
       //console.log(res.data)
       if(res.data!='not logged in'){
         this.twitchdata=res.data
