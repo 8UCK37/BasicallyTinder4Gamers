@@ -374,26 +374,27 @@ input {
   right:78px;
   top:5px;
 }
-.react-details{
-  height:100px;
-  width:100px;
+.reactDetails{
+  height:auto;
+  width:auto;
   color: rgb(43, 7, 73);
   background-color: aliceblue;
   border-radius: 5px;
   position:absolute;
-  opacity:.9;
+  opacity:.95;
   z-index:1;
-  top:32px;
+  top:30px;
   right:65px;
   visibility: hidden;
-  opacity: 0;
 }
 
-.react-user:hover.react-details {
+.react-user:hover + .reactDetails, .reactDetails:hover {
   visibility: visible;
-  opacity: 1;
 }
-
+.reactCount{
+  margin:10px;
+  display: flex;
+}
 .fire-icon {
   background-image: url('https://i.giphy.com/media/J2awouDsf23R2vo2p5/giphy.webp');
   background-size: 25px 25px;

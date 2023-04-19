@@ -41,6 +41,7 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { CreatePostModalComponent } from './utils/create-post-modal/create-post-modal.component';
 import { NotificationComponent } from './settings/notification/notification.component';
 
@@ -73,6 +74,7 @@ import { NotificationComponent } from './settings/notification/notification.comp
     DialogModule,
     ConfirmDialogModule,
     ProgressSpinnerModule,
+    ProgressBarModule,
     ButtonModule,
     BrowserModule,
     AppRoutingModule,

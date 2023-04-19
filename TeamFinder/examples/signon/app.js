@@ -481,7 +481,7 @@ async function setTwitchToken(req, res,token,refreshToken) {
 app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
   let tokenFromDb = await prisma.User.findUnique({
     where: {
-      id: req.user.user_id
+      id: req.query.id
     },
     select: {
       twitchtoken: true
@@ -506,7 +506,7 @@ app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
         return;
       } else if (response.status === 401) {
         // Access token is expired, trying to refresh it
-        const newToken = await refreshTwitchToken(req.user.user_id,refreshToken);
+        const newToken = await refreshTwitchToken(req.query.id,refreshToken);
         //console.log(newToken)
         const response = await fetch(userUrl, {
           headers: {

@@ -201,6 +201,7 @@
     grid-template-columns: 20% 20% 20%;
     margin: 0;
     flex-grow: 1;
+    left:-80px;
     position: relative;
     gap: 50px;
     padding-right: 2px;
@@ -557,6 +558,11 @@
   color: antiquewhite;
   width:200px;
   height:60px;
+}
+.border{
+  border-radius: 10px;
+  transition: all 0.5s;
+  color:#540980;
 }
 .tab:hover {
   border-radius: 10px;

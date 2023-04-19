@@ -5,19 +5,20 @@
    <div class="row" style="color: white;width:30rem">
     <!--change the width to fit more icons -->
     <div class="col-sm">
-      <ng-container *ngIf="ownProfile; else elseblock">
-        <i class="fa-brands fa-steam fa-3x" (click)="linked ? null : redirectToSteamLogin()"
-          [ngClass]="{'disabled': linked}" [style.cursor]="linked ? 'default' : 'pointer'"></i>
+      <ng-container *ngIf="ownProfile; else steamelseblock">
+        <i class="fa-brands fa-steam fa-3x" (click)="steamLinked ? null : redirectToSteamLogin()"
+          [ngClass]="{'disabled': steamLinked}" [style.cursor]="steamLinked ? 'default' : 'pointer'"></i>
       </ng-container>
-      <ng-template #elseblock>
+      <ng-template #steamelseblock>
         <i class="fa-brands fa-steam fa-3x"></i>
       </ng-template>
     </div>
     <div class="col-sm">
-      <ng-container *ngIf="ownProfile; else elseblock">
-        <i class="fa-brands fa-twitch" (click)="redirectToTwitchLogin()" style="cursor: pointer;" ></i>
+      <ng-container *ngIf="ownProfile; else twitchelseblock">
+        <i class="fa-brands fa-twitch" (click)="redirectToTwitchLogin()"
+        [ngClass]="{'disabled': twitchdata}" [style.cursor]="twitchdata ? 'default' : 'pointer'"></i>
       </ng-container>
-      <ng-template #elseblock>
+      <ng-template #twitchelseblock>
         <i class="fa-brands fa-twitch"></i>
       </ng-template>
     </div>
@@ -34,10 +35,10 @@
 </div>
 
 
-<ng-container *ngIf="linked">
+<ng-container>
   <div class="row">
-    <div class="col">
-      <div class="col">
+    <ng-container *ngIf="steamLinked">
+    <div class="col-md-auto">
         <div class="card card0 " [ngStyle]="{ background: getStyle(),backgroundSize: getSize()}"
           (mouseover)="changeText = true" (mouseout)="changeText = false">
           <h2>{{steamInfo?.info[0]?.personaname }}</h2>
@@ -45,25 +46,22 @@
               <i class="fa-brands fa-steam-symbol fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6"  ></i>
           </div>
         </div>
-      </div>
     </div>
-  </div>
-</ng-container>
-<ng-container *ngIf="twitchdata">
-  <div class="row">
-    <div class="col">
-      <div class="col">
-        <div class="card">
-          <span>{{twitchdata.id}}</span>
-          <span>{{twitchdata.display_name}}</span>
-          <span>{{twitchdata.email}}</span>
-          <!-- <img [src]="twitchdata.profile_image_url" alt=""> -->
-          <h2>{{steamInfo?.info[0]?.personaname }}</h2>
-          <div class="icons" style="cursor: pointer;" (click)="redirectToTwitchProfile()">
-              <i class="fa-brands fa-twitch fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6"  ></i>
-          </div>
+  </ng-container>
+
+  <ng-container *ngIf="twitchLinked">
+    <div class="col-md-auto">
+      <div class="card card0" [style.background-image]="'url(' + imgSrc + ')'" [style.backgroundSize]="imgSize"
+      style="transition: all 0.8s ease-in-out;"
+      (mouseover)="imgSrc=twitchdata.profile_image_url;imgSize='400px'"
+      (mouseout)="imgSrc='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';imgSize='250px'">
+        <h2>{{twitchdata.display_name}}</h2>
+        <div *ngIf="imgSrc==twitchdata.profile_image_url" class="icons" style="cursor: pointer;" (click)="redirectToTwitchProfile() ">
+            <i class="fa-brands fa-twitch fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6"  ></i>
         </div>
-      </div>
     </div>
   </div>
+  </ng-container>
+  </div>
 </ng-container>
+

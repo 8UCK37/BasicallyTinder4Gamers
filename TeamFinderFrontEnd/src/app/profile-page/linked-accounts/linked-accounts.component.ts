@@ -14,12 +14,15 @@ export class LinkedAccountsComponent implements OnInit {
   public steamId: string = '';
   public usr: any;
   public userparsed: any;
-  public linked: boolean = false;
+  public steamLinked: boolean = false;
+  public twitchLinked:boolean = false;
   public steamInfo: any;
   public profile_id: any;
   changeText: any = false;
   ownProfile: any;
   twitchdata:any;
+  public imgSrc:any='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';
+  public imgSize:any='250px'
   constructor(private route: ActivatedRoute, private router: Router,public userService: UserService) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
@@ -31,7 +34,7 @@ export class LinkedAccountsComponent implements OnInit {
           this.userparsed = usr;
           if (usr!=null) {
             this.fetchUserData();
-            this.getTwitchInfo();
+            this.getTwitchInfo(this.userparsed.id);
           }
         })
       } else {
@@ -42,13 +45,16 @@ export class LinkedAccountsComponent implements OnInit {
           //console.log(res.data)
           if(res.data.steamId!=null){
           this.steamId = res.data.steamId
-          this.linked=true;
+          this.steamLinked=true;
           }else{
-            this.linked = false
+            this.steamLinked = false
+          }
+          if(res.data.twitchtoken!=null){
+            this.getTwitchInfo(this.profile_id)
           }
         }).catch(err => console.log(err))
         //console.log(this.steamId)
-        if (this.linked) {
+        if (this.steamLinked) {
           //console.log(this.steamId)
           await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
             //console.log(res.data)
@@ -82,20 +88,22 @@ export class LinkedAccountsComponent implements OnInit {
       //console.log(res.data)
       if(res.data.steamId!=null){
       this.steamId = res.data.steamId
-      this.linked=true
+      this.steamLinked=true
       }
       //console.log(this.linked)
     }).catch(err => console.log(err))
     this.getSteamInfo();
    }
 
-   getTwitchInfo(){
-    axios.get('getowntwitchinfo').then(res=>{
+   getTwitchInfo(id:any){
+    axios.get(`getowntwitchinfo?id=${id}`).then(res=>{
       //console.log(res.data)
       if(res.data!='not logged in'){
         this.twitchdata=res.data
+        this.twitchLinked=true
+      }else{
+        this.twitchLinked=false
       }
-      console.log(this.twitchdata)
     }).catch(err=>console.log(err))
    }
 
@@ -111,4 +119,5 @@ export class LinkedAccountsComponent implements OnInit {
   redirectToTwitchProfile(): void {
     window.open(`https://www.twitch.tv/${this.twitchdata.login}`, '_blank');
   }
+
 }

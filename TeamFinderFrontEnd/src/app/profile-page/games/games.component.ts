@@ -2,7 +2,7 @@ import { json } from '@angular-devkit/core';
 import { forEach } from '@angular-devkit/schematics';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BoundElementProperty } from '@angular/compiler';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import axios from 'axios';
@@ -22,8 +22,21 @@ import { UserService } from 'src/app/login/user.service';
       })),
       transition('active => inactive', animate('500ms ease-out')),
       transition('inactive => active', animate('500ms ease-in'))
+    ]),
+    trigger('appear', [
+      state('void', style({
+        opacity: 0,
+        transform: 'translateY(200px)'
+      })),
+      transition('void => *', [
+        animate(300, style({
+          opacity: 1,
+          transform: 'translateY(0)'
+        }))
+      ])
     ])
   ]
+
 })
 export class GamesComponent implements OnInit {
   public gameList: any[] = [];
