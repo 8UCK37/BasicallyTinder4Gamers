@@ -64,6 +64,7 @@ export class ChatPageComponent implements OnInit {
     })
   }
   ngOnInit() {
+    this.incMsg();
     this.userService.userCast.subscribe(usr=>{
       console.log("user data" , usr)
       this.userparsed = usr;
@@ -71,10 +72,7 @@ export class ChatPageComponent implements OnInit {
       //console.log(this.userparsed)
       this.getActiveChoice();
       this.getfriendlist();
-      this.incMsg();
       this.getActiveConvo();
-
-
     setTimeout(() => {
 
       if(this.activeConvList[0]?.chat_type =='sent'){
