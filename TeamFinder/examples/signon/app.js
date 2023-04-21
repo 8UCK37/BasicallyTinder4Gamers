@@ -279,6 +279,13 @@ app.post("/sendNoti", ensureAuthenticated, async (req, res) => {
   socketRunner.sendNotification(io, userSocketMap, "poke", req.user.user_id, req.body.receiver_id)
   res.sendStatus(200);
 });
+//testing endpoint with no ensureauth
+app.get("/micCheck", async (req, res) => {
+  console.log("mic-check hit")
+  res.send("works");
+});
+
+
 
 //sends a friend request #endpoint
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
@@ -969,6 +976,6 @@ socketRunner.execute(io, socketUserMap, userSocketMap)
 
 
 app.listen(3000);
-http.listen(5000, () => console.log(`Listening on port ${5000}`));
+http.listen(5000, () => console.log(`Listening on port ${3000}`));
 
 
