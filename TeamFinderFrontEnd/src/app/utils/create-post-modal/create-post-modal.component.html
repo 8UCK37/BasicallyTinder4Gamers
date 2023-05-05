@@ -23,8 +23,9 @@ tabindex="-1"  #modal >
             <img [src]="userInfo?.profilePicture" class="user-pic" >
           </div>
           <div class="textarea">
-            <textarea onkeyup="InputAdjust(this)" (input)="adjustHeight($event)" #textInput class="form-control"
-            id="message-text" placeholder="what's on you mind?" style="box-shadow: 0px;" [ngModel]="desc"></textarea>
+            <!-- <textarea onkeyup="InputAdjust(this)" (input)="adjustHeight($event)" #textInput class="form-control"
+            id="message-text" placeholder="what's on you mind?" style="box-shadow: 0px;" [ngModel]="desc"></textarea> -->
+            <app-mention-text-input  (editorChange)="update($event)"  ></app-mention-text-input>
           </div>
         </div>
         <div style="background: white;border-radius: 5px;">

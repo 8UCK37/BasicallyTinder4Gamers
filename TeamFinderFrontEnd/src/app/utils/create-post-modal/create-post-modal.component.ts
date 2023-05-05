@@ -148,4 +148,8 @@ export class CreatePostModalComponent implements OnInit {
     this.modalService.hide()
     this.isOpen = false
   }
+
+  update(e:any){
+    console.log(e)
+  }
 }

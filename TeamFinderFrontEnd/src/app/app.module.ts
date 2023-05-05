@@ -42,6 +42,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CreatePostModalComponent } from './utils/create-post-modal/create-post-modal.component';
+import { MentionTextInputComponent } from './utils/mention-text-input/mention-text-input.component';
+import { QuillModule } from "ngx-quill";
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import { CreatePostModalComponent } from './utils/create-post-modal/create-post-
       LoginUserinfoComponent,
       PostComponent,
       CommentComponent,
-      CreatePostModalComponent
+      CreatePostModalComponent,
+      MentionTextInputComponent
    ],
   imports: [
     SidebarModule,
@@ -89,7 +92,8 @@ import { CreatePostModalComponent } from './utils/create-post-modal/create-post-
     PickerModule,
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    QuillModule.forRoot()
   ],
   providers: [
     ChatServicesService

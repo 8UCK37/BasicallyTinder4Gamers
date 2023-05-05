@@ -2,6 +2,42 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
+
+.mat-elevation-z8{
+  background: green ;
+}
+.ql-editor {
+ height: 100px !important;
+ background: grey !important;
+}
+
+.ql-mention-list {
+  background-color: white;
+  list-style-type: none;
+  transform: translateY(-2px);
+  margin-top: 0;
+  padding: 0px 0px 0px 20px;
+  z-index: 100;
+}
+
+.ql-mention-list .ql-mention-list-item {
+  cursor: pointer;
+  padding: 10px 10px;
+}
+
+.ql-mention-list .ql-mention-list-item.selected {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+span.mention {
+  background-color: rgba(0, 0, 0, 0.12);
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
 *{
   scrollbar-width: none;
 }

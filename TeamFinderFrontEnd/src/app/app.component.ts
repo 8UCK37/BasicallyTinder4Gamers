@@ -30,5 +30,8 @@ export class AppComponent implements OnInit {
 
 
   }
+  update(e:any){
 
+    console.log( e)
+  }
 }
