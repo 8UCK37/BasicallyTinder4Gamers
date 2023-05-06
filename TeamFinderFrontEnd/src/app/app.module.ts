@@ -47,6 +47,7 @@ import { MentionTextInputComponent } from './utils/mention-text-input/mention-te
 import { QuillModule } from "ngx-quill";
 import { NotificationComponent } from './settings/notification/notification.component';
 
+
 @NgModule({
   declarations: [
       AppComponent,

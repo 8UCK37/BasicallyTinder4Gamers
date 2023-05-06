@@ -12,7 +12,8 @@ export const environment = {
     storageBucket: "teamfinder-e7048.appspot.com",
     messagingSenderId: "760131924547",
     appId: "1:760131924547:web:9e93ae9834f848699fdaf6",
-    measurementId: "G-Q0LNWXCFB6"
+    measurementId: "G-Q0LNWXCFB6",
+    vapidKey: "BNvDzxHlCpYtuvbJVr-u4YhAMUzEaHkh7F522s0KUrDXoQQx8zjxU8mT_DuAWaB2KQlv9fuGz_cA40b6IINuC0Q"
   }
 };
 

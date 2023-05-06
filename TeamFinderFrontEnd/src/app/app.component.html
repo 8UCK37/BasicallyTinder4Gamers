@@ -7,3 +7,10 @@
 <footer></footer>
 <!-- <app-mention-text-input  (editorChange)="update($event)"  ></app-mention-text-input> -->
 <!-- <app-login-userinfo></app-login-userinfo> -->
+<div *ngIf="message;">
+    <h1>{{ message.notification.title }}</h1>
+    <h2>{{ message.notification.body }}</h2>
+  </div>
+  <div *ngIf="!message;">
+    No Message Arrived
+  </div>
