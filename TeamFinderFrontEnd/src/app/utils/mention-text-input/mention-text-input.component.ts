@@ -54,14 +54,12 @@ export class MentionTextInputComponent implements OnInit {
           //     matches.push(entry);
           //   }
           // });
-          let i=0
           this.getUsers(searchTerm).then(data=>{
             if(data.length>5){
               data.splice(5)
             }
             data.forEach((user: any) => {
-              matches.push({id:i,value:user.name,user:user})
-              i++;
+              matches.push({id:user.id,value:user.name,user:user})
             });
             renderList(matches, searchTerm);
           })

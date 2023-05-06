@@ -39,6 +39,7 @@ constructor(private commentService: CommentService,public userService:UserServic
       })
       this.commentService.ownPostsObj$.subscribe(posts => {
         this.ownPosts= posts;
+        console.log(this.ownPosts)
       });
     } else {
       this.route.queryParams.subscribe(params => {

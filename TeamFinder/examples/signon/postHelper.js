@@ -34,13 +34,31 @@ async function createPost(req, res, prisma){
     
     //console.log(myUUID);
     //console.log(req.body.data.desc)
-      
+      console.log(body);
+      let text = "" 
+      mentionList = [] 
+      body.desc.ops.forEach(element => {
+        // console.log(element.insert)
+        if(element.insert.mention == undefined ){
+          text += element.insert
+        }
+
+        else{
+          text += element.insert.mention.denotationChar+ element.insert.mention.id
+          mentionList.push({id : element.insert.mention.id});
+        }
+      });
+      console.log("51 : text -> " , text , mentionList)
+      // return ;
           let newPost = await prisma.Posts.create({
             data :{
                 author : req.user.user_id,
                 photoUrl:urlArr.toString(),
-                description:body.desc,
-                deleted:false
+                description:text,
+                deleted:false,
+                mention: {
+                  connect: mentionList,
+                }
             }
         })
      // TODO : fix this code , make one like insert to the db , 

@@ -28,6 +28,7 @@ export class CreatePostModalComponent implements OnInit {
   @ViewChild('modal') modal!:TemplateRef<any>;
   isOpen:boolean = false;
   desc: any;
+  textObj: any;
 
   constructor(private modalService: BsModalService , public userService: UserService , public utilsServiceService : UtilsServiceService) { }
 
@@ -111,15 +112,15 @@ export class CreatePostModalComponent implements OnInit {
     //   return
     // }
     }
-    const textareaElement = document.getElementById("message-text") as HTMLTextAreaElement;
-    const text = textareaElement.value;
+    // const textareaElement = document.getElementById("message-text") as HTMLTextAreaElement;
+    // const text = textareaElement.value;
     //console.log(this.input.nativeElement.files);
     for(let i=0;i< this.imageBlobs.length;i++){
       this.formData.append("post", this.imageBlobs[i]);
 
     }
     //console.log(this.imageBlobs)
-    this.formData.append("data" , JSON.stringify({data : this.tagList,desc:text}))
+    this.formData.append("data" , JSON.stringify({data : this.tagList,desc: this.textObj}))
     axios.post('/createPost', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
     }).catch(err =>console.log(err))
     //console.log(this.input)
@@ -128,7 +129,7 @@ export class CreatePostModalComponent implements OnInit {
     //console.log(this.tagList)
     this.clearImages()
     this.isOpen = false
-    textareaElement.value=''
+    // textareaElement.value=''
     this.utilsServiceService.modalObjSource.next({open:false})
     this.closeModal(this.modal)
     // this.ngOnInit()
@@ -149,7 +150,8 @@ export class CreatePostModalComponent implements OnInit {
     this.isOpen = false
   }
 
-  update(e:any){
-    console.log(e)
+  update(data:any){
+    console.log(data)
+    this.textObj = data
   }
 }
