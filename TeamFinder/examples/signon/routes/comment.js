@@ -4,7 +4,9 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient()
 const auth  = require('./../middleware/authMiddleware')
 const ensureAuthenticated = auth.ensureAuthenticated
+const socketRunner = require('./../sockerRunner')
 //this is to get all the comment under one post
+
 router.get("/", ensureAuthenticated, async (req, res) => {
   const postId = parseInt(req.query.id);
   const comments = await prisma.posts.findMany({
@@ -36,6 +38,17 @@ router.get("/", ensureAuthenticated, async (req, res) => {
 // In req.body commentOf can be null or int
 router.post("/add",ensureAuthenticated, async (req, res) => {
     console.log('comntpost',req.user.user_id)
+    const io = req.app.get('socketIo')
+    console.log(io)
+    let postAuthor = await prisma.Posts.findMany({
+      where:{
+        id:req.body.postId
+      },select:{
+        author:true
+      }
+    })
+    socketRunner.sendNotification(io,"new comment", req.user.user_id, postAuthor[0].author)
+    console.log('author of the post',postAuthor)
     try {
 
         console.log(req.body)

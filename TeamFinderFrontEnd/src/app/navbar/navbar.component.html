@@ -69,6 +69,17 @@
                           </div>
                         </div>
                       </ng-container>
+                      <ng-container *ngIf="noti.notiType=='new comment'">
+                        <div class="frnd-noti">
+
+                          <div class="noti-img" (click)="onclick(noti.sender)" style="cursor: pointer;">
+                            <img [src]="noti.profileurl" class="img-sk" referrerpolicy="no-referrer" />
+                          </div>
+                          <div class="accpt-rej-btns">
+                            <div style="color: rgb(227, 213, 213);margin-top: 10px;"> {{noti.userName}} commented on your post</div>
+                          </div>
+                        </div>
+                      </ng-container>
                     </div>
                   </div>
                   <ng-template #elseblock>

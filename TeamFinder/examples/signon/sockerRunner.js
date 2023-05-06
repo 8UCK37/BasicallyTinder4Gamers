@@ -1,6 +1,12 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient()
-async function execute(io , socketUserMap ,  userSocketMap){
+
+
+
+const socketUserMap = new Map();
+const userSocketMap = new Map();
+
+async function execute(io){
     io.on('connection', (socket) => {
         console.log('a user connected' , socket.id);
         
@@ -76,11 +82,13 @@ async function execute(io , socketUserMap ,  userSocketMap){
         });
       });       
 }
-async function sendNotification(io , userSocketMap,notification,sender_id,receiver_id){
+async function sendNotification(io,notification,sender_id,receiver_id){
   // console.log("func called")
   // console.log(sender_id)
   // console.log(receiver_id)
+  // console.log(userSocketMap)
   let receiver = userSocketMap.get(receiver_id)
+  // console.log(receiver)
   io.to(receiver).emit('notification' , {sender:sender_id,notification:notification});
 }
 module.exports = { execute,sendNotification }

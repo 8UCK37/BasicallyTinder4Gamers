@@ -87,14 +87,14 @@ passport.deserializeUser(function (obj, done) {
 
 
 const http = require('http').createServer(app);
-const io = require('socket.io')(http, {
-  cors: {
+const io = require('socket.io')(http, {  
+  cors: { 
     origins: ['http://localhost:4200']
   }
 });
 
-const socketUserMap = new Map();
-const userSocketMap = new Map();
+
+
 const sessionMap = new Map()
 
 
@@ -276,7 +276,7 @@ app.post("/friendsoffriendData", ensureAuthenticated, async (req, res) => {
 app.post("/sendNoti", ensureAuthenticated, async (req, res) => {
   // console.log(req.user.user_id);
   // console.log(req.body.receiver_id);
-  socketRunner.sendNotification(io, userSocketMap, "poke", req.user.user_id, req.body.receiver_id)
+  socketRunner.sendNotification(io, "poke", req.user.user_id, req.body.receiver_id)
   res.sendStatus(200);
 });
 //testing endpoint with no ensureauth
@@ -295,7 +295,7 @@ app.get("/serverTest", async (req, res) => {
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
   console.log(req.body.to)
-  socketRunner.sendNotification(io, userSocketMap, "frnd req", req.user.user_id, jsonObject.to)
+  socketRunner.sendNotification(io, "frnd req", req.user.user_id, jsonObject.to)
 
   let friendReq = await prisma.FriendRequest.create({
     data: {
@@ -385,7 +385,7 @@ app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res
       sender: jsonObject.frnd_id
     }
   })
-  socketRunner.sendNotification(io, userSocketMap, "frndReqAcc", req.user.user_id, jsonObject.frnd_id)
+  socketRunner.sendNotification(io, "frndReqAcc", req.user.user_id, jsonObject.frnd_id)
   res.sendStatus(200);
 })
 //rejects a friend req #endpoint
@@ -751,9 +751,9 @@ app.post('/activeStateChange', ensureAuthenticated, urlencodedParser, async (req
   //console.log(friendlist)
   friendlist.forEach(frnd => {
     if (jsonObject.state) {
-      socketRunner.sendNotification(io, userSocketMap, "online", req.user.user_id, frnd.reciever)
+      socketRunner.sendNotification(io, "online", req.user.user_id, frnd.reciever)
     } else {
-      socketRunner.sendNotification(io, userSocketMap, "disc", req.user.user_id, frnd.reciever)
+      socketRunner.sendNotification(io, "disc", req.user.user_id, frnd.reciever)
     }
   });
 });
@@ -970,7 +970,7 @@ app.post("/updateBio", ensureAuthenticated, async (req, res) => {
 });
 
 
-socketRunner.execute(io, socketUserMap, userSocketMap)
+socketRunner.execute(io)
 
 
 
@@ -983,5 +983,5 @@ socketRunner.execute(io, socketUserMap, userSocketMap)
 
 app.listen(3000);
 http.listen(5000, () => console.log(`Listening on port ${3000}`));
-
+app.set('socketIo',io)
 
