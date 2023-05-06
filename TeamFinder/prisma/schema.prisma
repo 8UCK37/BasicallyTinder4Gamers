@@ -5,23 +5,25 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
 }
 
 model User {
-  id             String    @id
-  createdAt      DateTime  @default(now())
-  name           String
-  profilePicture String?
-  profileBanner  String?
-  bio            String?
-  steamId        String?
-  twitchtoken    Json?
-  gmailId        String?
-  activeChoice   Boolean?
-  isConnected    Boolean?
-  userInfoId     Int?      @unique
-  userInfo       UserInfo? @relation(fields: [userInfoId], references: [id])
-  Comment        Comment[]
+  id              String            @id
+  createdAt       DateTime          @default(now())
+  name            String
+  profilePicture  String?
+  profileBanner   String?
+  bio             String?
+  steamId         String?
+  twitchtoken     Json?
+  gmailId         String?
+  activeChoice    Boolean?
+  isConnected     Boolean?
+  userInfoId      Int?              @unique
+  userInfo        UserInfo?         @relation(fields: [userInfoId], references: [id])
+  Comment         Comment[]
+  CommentReaction CommentReaction[]
 }
 
 model UserInfo {
@@ -81,14 +83,16 @@ model Posts {
 }
 
 model Comment {
-  id         Int      @id @default(autoincrement())
-  author     User     @relation(fields: [userId], references: [id])
-  createdAt  DateTime @default(now())
-  commentStr String
-  commentOf  Int?
-  Posts      Posts?   @relation(fields: [postsId], references: [id])
-  postsId    Int?
-  userId     String
+  id              Int               @id @default(autoincrement())
+  author          User              @relation(fields: [userId], references: [id])
+  createdAt       DateTime          @default(now())
+  commentStr      String
+  commentOf       Int?
+  Posts           Posts?            @relation(fields: [postsId], references: [id])
+  postsId         Int?
+  userId          String
+  deleted         Boolean?
+  CommentReaction CommentReaction[]
 }
 
 model Tags {
@@ -103,5 +107,15 @@ model Activity {
   weight    Int
   author    String
   createdAt DateTime @default(now())
+  type      String
+}
+
+model CommentReaction {
+  id        Int      @id @default(autoincrement())
+  author    User     @relation(fields: [authorid], references: [id])
+  authorid  String
+  createdAt DateTime @default(now())
+  comment   Comment  @relation(fields: [commentid], references: [id])
+  commentid Int
   type      String
 }

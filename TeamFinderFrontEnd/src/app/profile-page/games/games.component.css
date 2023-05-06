@@ -201,8 +201,8 @@
     grid-template-columns: 20% 20% 20%;
     margin: 0;
     flex-grow: 1;
+    left:-80px;
     position: relative;
-
     gap: 50px;
     padding-right: 2px;
 }
@@ -547,4 +547,24 @@
 .form-check-input:checked {
   background-color: #0dfd45;
   border-color: #0dfd45;
+}
+/*new*/
+.tab{
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;
+  margin-top: 25px;
+  cursor: pointer;
+  color: antiquewhite;
+  width:200px;
+  height:60px;
+}
+.border{
+  border-radius: 10px;
+  transition: all 0.5s;
+  color:#540980;
+}
+.tab:hover {
+  border-radius: 10px;
+  background-color: #262626; /* Change the background color on hover */
 }

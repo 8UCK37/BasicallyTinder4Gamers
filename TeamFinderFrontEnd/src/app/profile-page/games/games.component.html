@@ -1,5 +1,19 @@
 <div class="profile-page-inner">
-  <div class="profile-page-item flexbox">
+  <div class="container" style="width:200px;position: relative;left:-200px">
+    <div class="row tab" [class.border]="showgames" (click)="showgames=true">
+      <div class="col-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/2780/2780122.png" alt="" style="width:40px;height:40px">
+        Games
+      </div>
+    </div>
+    <div class="row tab" [class.border]="!showgames" (click)="showgames=false">
+      <div class="col-sm">
+        <img src="https://cdn-icons-png.flaticon.com/512/861/861506.png" alt="" style="width:40px;height:40px">
+        Achievements
+      </div>
+    </div>
+  </div>
+  <div class="profile-page-item flexbox" *ngIf="showgames" [@appear]>
     <ng-container *ngIf="ownProfile">
       <ng-container *ngFor="let game of MobileGameList let i=index">
         <div *ngIf="game.selected">
@@ -99,6 +113,8 @@
         <button type="button" class="btn btn-light" (click)="submit()">Save</button>
       </div>
     </ng-template>
-
+  </div>
+  <div class="profile-page-item flexbox" *ngIf="!showgames" [@appear]>
+    Achievements
   </div>
 </div>

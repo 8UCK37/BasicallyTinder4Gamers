@@ -41,9 +41,11 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { CreatePostModalComponent } from './utils/create-post-modal/create-post-modal.component';
 import { MentionTextInputComponent } from './utils/mention-text-input/mention-text-input.component';
 import { QuillModule } from "ngx-quill";
+import { NotificationComponent } from './settings/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,8 @@ import { QuillModule } from "ngx-quill";
       PostComponent,
       CommentComponent,
       CreatePostModalComponent,
-      MentionTextInputComponent
+      MentionTextInputComponent,
+      NotificationComponent
    ],
   imports: [
     SidebarModule,
@@ -74,6 +77,7 @@ import { QuillModule } from "ngx-quill";
     DialogModule,
     ConfirmDialogModule,
     ProgressSpinnerModule,
+    ProgressBarModule,
     ButtonModule,
     BrowserModule,
     AppRoutingModule,

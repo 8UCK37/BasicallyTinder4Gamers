@@ -73,7 +73,7 @@ export class ChatPageComponent implements OnInit {
       this.getActiveChoice();
       this.getfriendlist();
       this.getActiveConvo();
-      
+
     setTimeout(() => {
       if(this.activeConvList[0]?.chat_type =='sent'){
         this.onclick(this.activeConvList[0])

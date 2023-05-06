@@ -5,7 +5,7 @@ tabindex="-1"  #modal >
     <div class="" style="background-color: currentColor;">
       <div class="modal-header" style="border: 0px;">
         <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: whitesmoke;">Create a Post</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal(this.modal)"></button>
       </div>
       <div class="modal-body">
         <!-- <div class="mb-3">
@@ -62,7 +62,7 @@ tabindex="-1"  #modal >
         <br>
       </div>
       <div class="modal-footer" style="border: 0px;">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal(this.modal)">Close</button>
         <button type="button" class="btn btn-primary" (click)="uploadPostFile()"
           data-bs-dismiss="modal">Post</button>
       </div>

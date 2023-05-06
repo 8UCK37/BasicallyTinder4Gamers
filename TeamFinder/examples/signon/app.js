@@ -279,6 +279,13 @@ app.post("/sendNoti", ensureAuthenticated, async (req, res) => {
   socketRunner.sendNotification(io, userSocketMap, "poke", req.user.user_id, req.body.receiver_id)
   res.sendStatus(200);
 });
+//testing endpoint with no ensureauth
+app.get("/micCheck", async (req, res) => {
+  console.log("mic-check hit")
+  res.send("works");
+});
+
+
 
 app.get("/serverTest", async (req, res) => {
   res.send("works");
@@ -485,7 +492,7 @@ async function setTwitchToken(req, res,token,refreshToken) {
 app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
   let tokenFromDb = await prisma.User.findUnique({
     where: {
-      id: req.user.user_id
+      id: req.query.id
     },
     select: {
       twitchtoken: true
@@ -510,7 +517,7 @@ app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
         return;
       } else if (response.status === 401) {
         // Access token is expired, trying to refresh it
-        const newToken = await refreshTwitchToken(req.user.user_id,refreshToken);
+        const newToken = await refreshTwitchToken(req.query.id,refreshToken);
         //console.log(newToken)
         const response = await fetch(userUrl, {
           headers: {
@@ -973,6 +980,6 @@ socketRunner.execute(io, socketUserMap, userSocketMap)
 
 
 app.listen(3000);
-http.listen(5000, () => console.log(`Listening on port ${5000}`));
+http.listen(5000, () => console.log(`Listening on port ${3000}`));
 
 
