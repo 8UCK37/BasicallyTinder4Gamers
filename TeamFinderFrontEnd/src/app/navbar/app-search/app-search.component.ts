@@ -46,7 +46,7 @@ export class AppSearchComponent implements OnInit {
     }
   else{
     this.searchResults=[];
-  }
+    }
   }
   sendReq(data:string){
     axios.post('addFriend',{from:this.userparsed.id,to:data}).then(res=>{
@@ -63,6 +63,5 @@ export class AppSearchComponent implements OnInit {
     if (!this.dropdown.nativeElement.contains(event.target)) {
       this.searchResults = [];
     }
-
   }
 }

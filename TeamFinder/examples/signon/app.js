@@ -345,6 +345,8 @@ app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function 
         contains: jsonObject.searchTerm,
         mode: 'insensitive',
       },
+    },orderBy:{
+      name:'asc'
     }
   })
   //console.log("searchresults for"+jsonObject.searchTerm)
