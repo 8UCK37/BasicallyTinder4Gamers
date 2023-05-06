@@ -46,20 +46,20 @@ export class MentionTextInputComponent implements OnInit {
         ];
 
         
-        // if (searchTerm.length === 0) {
-        //   renderList(values, searchTerm);
-        // } else {
-        //   const matches:any = [];
+        if (searchTerm.length === 0) {
+          renderList(values, searchTerm);
+        } else {
+          const matches:any = [];
 
-        //   values.forEach(entry => {
-        //     if (
-        //       entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
-        //     ) {
-        //       matches.push(entry);
-        //     }
-        //   });
-        //   renderList(matches, searchTerm);
-        // }
+          values.forEach(entry => {
+            if (
+              entry.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+            ) {
+              matches.push(entry);
+            }
+          });
+          renderList(matches, searchTerm);
+        }
       },
       renderItem : (item:any, searchTerm:any) =>{
         console.log(item)
