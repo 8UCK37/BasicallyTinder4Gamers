@@ -6,88 +6,284 @@
   <ng-template pTemplate="footer">
     <h4 style="color: rgb(249, 250, 250);">Comment</h4>
     <div>
-      <input type="text" autocomplete="off" placeholder="Whats your problem Green" class="form-control input-field-specs" id="usr" [(ngModel)]="parentComment">
+      <textarea #userComment autocomplete="off" placeholder="Whats your problem Green"
+        class="form-control input-field-specs" id="usr" [(ngModel)]="parentComment"></textarea>
       <br>
       <div class="d-grid gap-2">
-        <button class="btn btn-outline-light" style="border-radius: 20px;" (click)="parentCommentSave()"> Comment</button>
+        <button class="btn btn-outline-light" style="border-radius: 20px;" (click)="parentCommentSave();userComment.value=''">
+          Comment</button>
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate="content">
     <div #commentbox>
-      <div *ngFor="let nodes of treeObj.nodes; let i = index">
+      <div *ngIf="this.commentTree?.length==0"><p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar></div>
+      <ng-container  *ngFor="let comment of commentTree; let i = index">
         <div class="card card-background">
-          <img class="user-pic" [src]="nodes.author.profilePicture">
+          <img class="user-pic" [src]="comment.author.profilePicture">
           <div class="user-name">
-            {{nodes.author.name}}
+            {{comment.author.name}}
           </div>
-          <!-- <div  class="user-time">
-            {{this.utcToLocal(nodes?.createdAt)}}
-          </div> -->
+          <div  class="user-time-parent">
+            {{this.utcToLocal(comment?.createdAt)}}
+          </div>
           <div class="user-comment">
-            {{nodes.commentStr}}
+            {{comment.commentStr}}
           </div>
         </div>
-        <button  class="button-link" *ngIf="UserVerify(nodes.author.id)" (click)="UserVerify(nodes.author.id);toggleSectionEdit(nodes.id)">Edit</button>
-        <button class="button-link" #replyparent (click)="toggleSection(nodes.id)">Reply</button>
-        <section [ngStyle]="{ display: showSection[nodes.id]? 'block' : 'none' }">
+        <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: comment}"></ng-container>
+        <div class="commentOptions" [style.bottom]="UserVerify(comment.author.id) ? '3px' : '-2px'">
+        <button class="button-link" #replyparent (click)="toggleSection(comment.id)">Reply</button>
+        <button *ngIf="comment.childs && comment.childs.length>0" class="button-link" (click)="toggleSectionAllReply(comment.id)">More Comments</button>
+
+          <div class="dropdown">
+            <button *ngIf="UserVerify(comment.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="toggleSectionEdit(comment.id)">Edit</a></li>
+              <li><a class="dropdown-item" (click)="AlfF4Comment(comment.id)">Delete</a></li>
+            </ul>
+          </div>
+          <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:comment}"></ng-container>
+        </div>
+        <section [ngStyle]="{ display: showSection[comment.id]? 'block' : 'none' }">
+
           <div class="form-p">
-            <input type="text" placeholder="Replying to {{nodes.author.name}}" autocomplete="off" class="form-control input-field-specs"
-              id="{{nodes.id}}" ngModel>
-              <button class="btn btn-outline-light comment-btn-posi-parent-can"  (click)="replyparent.click()" >Cancle</button>
-            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submit($event , nodes.id);replyparent.click()">Send
+            <textarea #parentID placeholder="Replying to {{comment.author.name}}" autocomplete="off"
+              class="form-control input-field-specs" id="{{comment.id}}" ngModel></textarea>
+            <button class="btn btn-outline-light comment-btn-posi-parent-can"
+              (click)="replyparent.click();parentID.value=''">Cancle</button>
+            <br><button class="btn btn-outline-light comment-btn-posi-parent"
+              (click)="submit((parentID.value) , comment.id);replyparent.click();parentID.value=''">Send
               Reply</button>
           </div>
         </section>
-        <section [ngStyle]="{display: showEditSection[nodes.id]? 'block' : 'none' }">
+        <section [ngStyle]="{display: showEditSection[comment.id]? 'block' : 'none' }">
           <div class="form-p">
-            <textarea [(ngModel)]="nodes.commentStr" class="form-control input-field-specs"
-              id="{{nodes.id}}" ngModel></textarea>
-              <button class="btn btn-outline-light comment-btn-posi-parent-can" #editClosePar (click)="toggleSectionEdit(nodes.id)" >Cancle</button>
-            <br><button class="btn btn-outline-light comment-btn-posi-parent"  (click)="submitEdit(nodes.commentStr, nodes.id);editClosePar.click()" >Send
+            <textarea [(ngModel)]="comment.commentStr" class="form-control input-field-specs" id="{{comment.id}}"
+              ngModel></textarea>
+            <button class="btn btn-outline-light comment-btn-posi-parent-can" #editClosePar
+              (click)="toggleSectionEdit(comment.id)">Cancle</button>
+            <br><button class="btn btn-outline-light comment-btn-posi-parent"
+              (click)="submitEdit(comment.commentStr, comment.id);editClosePar.click()">Send
               Reply</button>
           </div>
         </section>
-        <div class="inrComment">
-          <div *ngFor="let edge of nodes.edges;">
-            <div class="card card-background">
-              <img class="user-pic" [src]="edge.author.profilePicture">
-              <div class="user-name">
-                {{edge.author.name}}
+        <section [ngStyle]="{ display: showReplySection[comment.id]? 'block' : 'none' }">
+          <div class="inrComment">
+            <div *ngFor="let child of comment.childs;">
+              <div class="card card-background">
+                <img class="user-pic" [src]="child.author.profilePicture">
+                <div class="user-name">
+                  {{child.author.name}}
+                </div>
+                <div class="user-time-child">
+                {{this.utcToLocal(child?.createdAt)}}
               </div>
-              <!-- <div class="user-time">
-                {{this.utcToLocal(edge?.createdAt)}}
-              </div> -->
-              <div class="user-comment">
-                {{edge.commentStr}}
+                <div class="user-comment-child">
+                  {{child.commentStr}}
+                </div>
               </div>
+
+              <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: child}"></ng-container>
+              <div class="commentOptions" [style.bottom]="UserVerify(child.author.id) ? '3px' : '-2px'">
+              <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>
+              <button *ngIf="child.childs && child.childs.length>0" class="button-link"
+                (click)="toggleSectionAllReplyChild(child.id)">More
+                Comments</button>
+                <div class="dropdown">
+                  <button *ngIf="UserVerify(child.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" (click)="toggleSectionEdit(child.id)">Edit</a></li>
+                    <li><a class="dropdown-item" (click)="AlfF4Comment(child.id)">Delete</a></li>
+                  </ul>
+                </div>
+                <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:child}"></ng-container>
+              </div>
+              <section [ngStyle]="{ display: showSection[child.id]? 'block' : 'none' }">
+                <div class="form-p">
+                  <textarea #childID type="text" placeholder="Replying to {{child.author.name}}" autocomplete="off"
+                    class="form-control input-field-specs" id="{{child.id}}" ngModel></textarea>
+                  <button class="btn btn-outline-light comment-btn-posi-child-can"
+                    (click)="replychild.click()">Cancle</button>
+                  <br><button class="btn btn-outline-light comment-btn-posi-child"
+                    (click)="submit((childID.value), child.id);replychild.click()">Send
+                    Reply</button>
+                </div>
+              </section>
+              <section [ngStyle]="{ display: showEditSection[child.id]? 'block' : 'none' }">
+                <div class="form-p">
+                  <textarea type="text" [(ngModel)]="child.commentStr" class="form-control input-field-specs"
+                    id="{{child.id}}" ngModel></textarea>
+                  <button class="btn btn-outline-light comment-btn-posi-child-can" #editCloseChi
+                    (click)="toggleSectionEdit(child.id)">Cancle</button>
+                  <br><button class="btn btn-outline-light comment-btn-posi-child"
+                    (click)="submitEdit(child.commentStr, child.id);editCloseChi.click()">Send
+                    Reply</button>
+                </div>
+              </section>
+              <section [ngStyle]="{ display: showReplySectionChild[child.id]? 'block' : 'none' }">
+                <div class="inrComment" style="margin-left: 20px;">
+                  <ng-container *ngIf="child.childs && child.childs.length>0">
+                    <div *ngFor="let childChild of child.childs;">
+                      <div class="card card-background">
+                        <img class="user-pic" [src]="childChild.author.profilePicture">
+                        <div class="user-name">
+                          {{childChild.author.name}}
+                        </div>
+                        <div class="user-time-grandchild">
+                          {{this.utcToLocal(childChild?.createdAt)}}
+                        </div>
+                        <div class="user-comment-grandchild">
+                          {{childChild.commentStr}}
+                        </div>
+                      </div>
+
+                      <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: childChild}"></ng-container>
+                      <div class="commentOptions" [style.bottom]="UserVerify(childChild.author.id) ? '3px' : '-2px'">
+                      <button class="button-link" #replyChildChild (click)="toggleSection(childChild.id)">Reply</button>
+                      <div class="dropdown">
+                        <button *ngIf="UserVerify(childChild.author.id)" class="btn btn-secondary dropdown-toggle dropdown-config" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" (click)="toggleSectionEdit(childChild.id)">Edit</a></li>
+                          <li><a class="dropdown-item" (click)="AlfF4Comment(childChild.id)">Delete</a></li>
+                        </ul>
+                      </div>
+                      <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:childChild}"></ng-container>
+                    </div>
+                      <section [ngStyle]="{ display: showSection[childChild.id]? 'block' : 'none' }">
+                        <div class="form-p">
+                          <textarea #childChildId placeholder="Replying to {{childChild.author.name}}"
+                            autocomplete="off" class="form-control input-field-specs" id="{{childChild.id}}"
+                            ngModel></textarea>
+                          <button class="btn btn-outline-light comment-btn-posi-child-can"
+                            (click)="replyChildChild.click()">Cancle</button>
+                          <br><button class="btn btn-outline-light comment-btn-posi-child"
+                            (click)="submit((childChildId.value), child.id);replyChildChild.click()">Send
+                            Reply</button>
+                        </div>
+                      </section>
+                      <section [ngStyle]="{ display: showEditSection[childChild.id]? 'block' : 'none' }">
+                        <div class="form-p">
+                          <textarea [(ngModel)]="childChild.commentStr" class="form-control input-field-specs"
+                            id="{{childChild.id}}" ngModel></textarea>
+                          <button class="btn btn-outline-light comment-btn-posi-child-can" #childChildEditClose
+                            (click)="toggleSectionEdit(childChild.id)">Cancle</button>
+                          <br><button class="btn btn-outline-light comment-btn-posi-child"
+                            (click)="submitEdit(childChild.commentStr, child.id);childChildEditClose.click()">Send
+                            Reply</button>
+                        </div>
+                      </section>
+                    </div>
+                  </ng-container>
+                </div>
+              </section>
+              <br>
             </div>
-            <button class="button-link" *ngIf="UserVerify(edge.author.id)" (click)="UserVerify(edge.author.id);toggleSectionEdit(edge.id)">Edit</button>
-            <button class="button-link" #replychild (click)="toggleSection(edge.id)">Reply</button>
-            <section [ngStyle]="{ display: showSection[edge.id]? 'block' : 'none' }">
-              <div class="form-p">
-                <input type="text" placeholder="Replying to {{edge.author.name}}" autocomplete="off" class="form-control input-field-specs"
-                  id="{{edge.id}}" ngModel>
-                  <button class="btn btn-outline-light comment-btn-posi-child-can"  (click)="replychild.click()" >Cancle</button>
-                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submit($event, nodes.id);replychild.click()">Send
-                  Reply</button>
-              </div>
-            </section>
-            <section [ngStyle]="{ display: showEditSection[edge.id]? 'block' : 'none' }">
-              <div class="form-p">
-                <textarea type="text" [(ngModel)]="edge.commentStr" class="form-control input-field-specs"
-                  id="{{edge.id}}" ngModel></textarea>
-                  <button class="btn btn-outline-light comment-btn-posi-child-can" #editCloseChi (click)="toggleSectionEdit(edge.id)" >Cancle</button>
-                <br><button class="btn btn-outline-light comment-btn-posi-child"  (click)="submitEdit(edge.commentStr, edge.id);editCloseChi.click()">Send
-                  Reply</button>
-              </div>
-            </section>
+            <br>
           </div>
-          <br>
-          <a>--------------------------------------------------------------------</a>
-          <br>
-        </div>
-      </div>
+        </section>
+      </ng-container>
+      <br>
+      <div *ngIf="this.commentTree==null">------------------------------No Comments-------------------------</div>
+      <div *ngIf="this.commentTree!=null && this.commentTree.length>0">------------------------------End Of Line--------------------------</div>
     </div>
   </ng-template>
 </p-sidebar>
+<ng-template #reactionButtons let-comment>
+  <ng-container *ngIf="comment.userReaction==null || comment.userReaction.type =='dislike' ">
+    <button class="button-reaction">Like</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='like'">
+    <button class="button-reaction" style="color:rgb(233, 63, 7)">Like</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='haha'">
+    <button class="button-reaction" style="color:#F5DB37">Haha</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='love'">
+    <button class="button-reaction" style="color:#DC143C">Love</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='sad'">
+    <button class="button-reaction" style="color:#123f77">Sad</button>
+  </ng-container>
+  <ng-container *ngIf="comment.userReaction?.type=='poop'">
+    <button class="button-reaction" style="color:#d59a41">Poop</button>
+  </ng-container>
+
+  <div class="toolbox" style="z-index: 99;">
+    <div class="container">
+      <div class="row" style="color: black;">
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}h" (click)="likeButtonClick(comment,'haha')">
+          <label for="{{comment.id}}h" class="react haha">
+            <i data-icon=""></i>
+          </label>
+        </div>
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}s" (click)="likeButtonClick(comment,'sad')">
+          <label for="{{comment.id}}s" class="react sad">
+            <i data-icon=""></i>
+          </label>
+        </div>
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}l" (click)="likeButtonClick(comment,'love')">
+          <label for="{{comment.id}}l" class="react love">
+            <i data-icon=""></i>
+          </label>
+        </div>
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}p" (click)="likeButtonClick(comment,'poop')">
+          <label for="{{comment.id}}p" class="react poop">
+            <i data-icon="https://cdn-icons-png.flaticon.com/512/4951/4951989.png"></i>
+          </label>
+        </div>
+        <div class="col-sm ">
+          <input type="checkbox" id="{{comment.id}}f" (click)="likeButtonClick(comment,'like')">
+          <label for="{{comment.id}}f" class="react fire2">
+            <i data-icon=""></i>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #userReaction let-comment>
+  <div class="react-user">
+    <div *ngIf="comment.reactionMap.get('total')==0">0</div>
+    <ng-container *ngIf="comment.userReaction?.type=='like'">
+      <div class="fire-icon"></div>
+    </ng-container>
+    <ng-container *ngIf="comment.userReaction?.type=='haha'">
+      <div class="haha-icon"></div>
+    </ng-container>
+    <ng-container *ngIf="comment.userReaction?.type=='love'">
+      <div class="love-icon"></div>
+    </ng-container>
+    <ng-container *ngIf="comment.userReaction?.type=='sad'">
+      <div class="sad-icon"></div>
+    </ng-container>
+    <ng-container *ngIf="comment.userReaction?.type=='poop'">
+      <div class="poop-icon"></div>
+    </ng-container>
+</div>
+<div class="reactDetails">
+  <div class="reactCount" *ngIf="comment.reactionMap.get('like')>0">
+    <div class="fire-icon"></div><span>{{comment.reactionMap.get('like')}}</span>
+  </div>
+  <div class="reactCount" *ngIf="comment.reactionMap.get('haha')>0">
+    <div class="haha-icon"></div><span>{{comment.reactionMap.get('haha')}}</span>
+  </div>
+  <div class="reactCount" *ngIf="comment.reactionMap.get('love')>0">
+    <div class="love-icon"></div><span>{{comment.reactionMap.get('love')}}</span>
+  </div>
+  <div class="reactCount" *ngIf="comment.reactionMap.get('sad')>0">
+    <div class="sad-icon"></div><span>{{comment.reactionMap.get('sad')}}</span>
+  </div>
+  <div class="reactCount" *ngIf="comment.reactionMap.get('poop')>0">
+    <div class="poop-icon"></div><span>{{comment.reactionMap.get('poop')}}</span>
+  </div>
+</div>
+</ng-template>

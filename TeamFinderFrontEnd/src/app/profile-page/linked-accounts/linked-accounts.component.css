@@ -3,11 +3,10 @@
 .card {
   height: 250px;
   width: 250px;
-  background: #808080;
   border-radius: 10px;
+  background-color: #262626;
   transition: background 0.8s;
   overflow: hidden;
-  background: #000;
   box-shadow: 0 70px 63px -60px #000;
   display: flex;
   justify-content: center;

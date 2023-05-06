@@ -78,3 +78,10 @@ body{
   right: 16rem;
   flex-wrap: nowrap;
 } 
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+  background-color: #262626;
+}
+.nav-pills .nav-link {
+  display: flex;
+  align-items: start;
+}

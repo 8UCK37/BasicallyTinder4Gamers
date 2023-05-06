@@ -494,8 +494,8 @@ a:visited{
   background-color: #969595;
 }
 .frnd-noti{
-  height: 95px;
-  margin-top: 35px;
+  height: 105px;
+  margin-top: 0px;
   display: flex;
   margin-left: 0px;
   gap: 30px;

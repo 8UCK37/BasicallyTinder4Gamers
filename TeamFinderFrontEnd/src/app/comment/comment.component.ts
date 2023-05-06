@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import axios from 'axios';
 import { CommentService } from '../post/comment.service';
 import { UserService } from '../login/user.service';
+import { forEach } from '@angular-devkit/schematics';
 interface User { id: string; email: string; displayName: string; photoURL: string; emailVerified: boolean; }
 
 @Component({
@@ -20,9 +21,12 @@ export class CommentComponent implements OnInit {
   commentOpen!: boolean;
   public commentObj: any;
   public treeObj: any = {};
+  public commentTree:any[]=[]
   sections = [];
   showSection: boolean[] = [];
   showEditSection: boolean[] = [];
+  showReplySection: boolean[] = [];
+  showReplySectionChild: boolean[] = [];
   utcDateTime: any;
   LoggedInUserID: any;
   public timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -46,22 +50,14 @@ export class CommentComponent implements OnInit {
   }
   submit(data: any, id: any) {
     console.log(data, id)
-    let forms = document.querySelectorAll<HTMLInputElement>('.form-p input');
-    forms.forEach(elm => {
-      if (id == elm.id) {
-        console.log(elm.value)
-        if (elm.value == "") return
         axios.post('/comment/add', {
           "postId": this.commentObj.id,
           "commentOf": id,
-          "msg": elm.value
+          "msg": data
         }).then(res => {
           console.log(res)
         })
-        return;
       }
-    });
-  }
 
   submitEdit(data: any, id: any) {
     console.log(data, id)
@@ -81,69 +77,121 @@ export class CommentComponent implements OnInit {
     }).then(res => {
       console.log(res)
     })
+    this.parentComment="";
   }
   hideComment() {
     this.commentOpen = false
     this.commentService.setCommentObj({ open: this.commentOpen, id: null });
     this.treeObj = {}
+    this.commentTree=[]
   }
 
   onToggleChange(newValue: boolean) {
     this.toggle = newValue;
     this.toggleChange.emit(newValue);
   }
-  fetchComment() {
-    axios.get(`/comment?id=${this.commentObj.id}`).then(res => {
-      let commentData = res.data[0].comments
-      this.filtercomment(commentData)
-      console.log(res.data);
+  AlfF4Comment(id:any){
+    axios.post('comment/commentDelete', {
+      "id": id,
+    }).then(res => {
+        console.log(res);
     })
   }
-  filtercomment(commentData: any) {
-    this.treeObj = {}
-    console.log(commentData[0].author)
-    let hashMap = new Map()
-    let dirComment: any[] = [];
-    commentData.forEach((ele: any) => {
-      if (ele.commentOf != null) {
-        if (!hashMap.get(ele.commentOf)) {
-          hashMap.set(ele.commentOf, [ele])
-        } else {
-          hashMap.get(ele.commentOf).push(ele)
-        }
 
-      } else {
-        dirComment.push(ele)
-      }
-    });
-
-
-    for (let i = 0; i < dirComment.length; i++) {
-      let key = dirComment[i].id
-      dirComment[i].edges = hashMap.get(dirComment[i].id)
-    }
-    this.treeObj["nodes"] = dirComment
-    console.log("this one", this.treeObj)
-    //console.log(this.commentbox)
+  fetchComment() {
+    axios.get(`/comment?id=${this.commentObj.id}`).then(res => {
+      console.log(res.data[0].comments)
+      this.commentTree = this.buildCommentTree(res.data[0].comments);
+      console.log(this.commentTree);
+    })
   }
+  countReaction(comment:any){
+    let reactionmap = new Map()
+    reactionmap.set('total',0)
+    comment.userReaction=null
+    comment.CommentReaction.forEach((reaction: any) => {
+
+      if(reaction.author.id==this.LoggedInUserID){
+        comment.userReaction=reaction
+      }
+      if(reaction.type!='dislike'){
+
+      if(reactionmap.get(reaction.type)!=undefined){
+        reactionmap.set(reaction.type,reactionmap.get(reaction.type)+1)
+      }else{
+        reactionmap.set(reaction.type,1)
+      }
+      reactionmap.set('total',reactionmap.get('total')+1)
+    }
+
+    });
+    comment.reactionMap=reactionmap
+  }
+  buildCommentTree(comments: any[], parentCommentId = null) {
+    comments.forEach(comment => {
+      this.countReaction(comment)
+    });
+    const childComments:any = comments
+      .filter(comment => comment.commentOf === parentCommentId)
+      .map(comment => ({
+        ...comment,
+        childs: this.buildCommentTree(comments, comment.id)
+      }));
+    return childComments.length > 0 ? childComments : null;
+  }
+
+  //beofore u ask something akash i'musing the commentTree thing to populate comments and every comment has it's own child if its present
   toggleSection(index: number) {
     this.showSection[index] = !this.showSection[index];
   }
   toggleSectionEdit(index: number) {
     this.showEditSection[index] = !this.showEditSection[index];
   }
+  toggleSectionAllReply(index: number) {
+    this.showReplySection[index] = !this.showReplySection[index];
+  }
+  toggleSectionAllReplyChild(index: number) {
+    this.showReplySectionChild[index] = !this.showReplySectionChild[index];
+  }
   utcToLocal(utcTime: any) {
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone: this.timeZone });
   }
-
   UserVerify(id: any) {
-    if (this.LoggedInUserID == id) {
-      //console.log(this.LoggedInUserID)
-      return true;
-    }
-    else {
-      return false;
-    }
+   return this.LoggedInUserID == id;
   }
+
+  likeButtonClick(comment: any, type: String) {
+    console.log(type," clicked on= ",comment)
+    if(comment.userReaction!=null){
+    if(comment.userReaction.type==type){
+      console.log('dislike called')
+      axios.post('comment/commentReactionDisLike', {id: comment.id,type:type}).then(res =>{
+      comment.userReaction.type='dislike'
+      comment.reactionMap.set('total',comment.reactionMap.get('total')-1)
+      console.log(res);
+      })
+
+    }else{
+      console.log('reaction called',type)
+      axios.post('comment/commentReactionLike', {id: comment.id,type:type}).then(res =>{
+        if(comment.userReaction.type =='dislike'){
+          comment.reactionMap.set('total',comment.reactionMap.get('total')+1)
+        }
+        comment.userReaction.type=type
+        console.log(res);
+    })
+    }
+  }else{
+    console.log('new reaction called',type)
+      axios.post('comment/commentReactionLike', {id: comment.id,type:type}).then(res =>{
+        comment.userReaction={type:type}
+        comment.reactionMap.set('total',comment.reactionMap.get('total')+1)
+        console.log(res);
+    })
+  }
+    console.log(this.commentTree);
+  }
+
 }
+

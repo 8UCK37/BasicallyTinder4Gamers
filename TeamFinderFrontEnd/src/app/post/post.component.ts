@@ -130,7 +130,7 @@ export class PostComponent implements OnInit {
   }
 
   likeButtonClick(post: any, type: String) {
-    if ((post.reactiontype=='like' && type == 'like') || (post.reactiontype=='haha' && type == 'haha') || (post.reactiontype=='love' && type == 'love') || (post.reactiontype=='sad' && type == 'sad') || (post.reactiontype=='poop' && type == 'poop')) {
+    if (post.reactiontype==type) {
       //console.log("dislike call")
       console.log(type)
       post.reactiontype='dislike'
@@ -192,7 +192,6 @@ export class PostComponent implements OnInit {
     console.log(post)
     this.commentOpen = true
     this.commentService.setCommentObj({open:this.commentOpen,id:post.id});
-
   }
   deletePost(){
     //console.log(this.childPost.id)
