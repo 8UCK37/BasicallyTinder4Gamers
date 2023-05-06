@@ -39,6 +39,19 @@ constructor(private commentService: CommentService,public userService:UserServic
       })
       this.commentService.ownPostsObj$.subscribe(posts => {
         this.ownPosts= posts;
+        
+       
+        this.ownPosts.forEach((ele:any)=> {
+          ele.refinedText= ele.description
+          if(ele.mention != null &&  ele.mention.list != undefined ) 
+          {
+            // debugger
+            ele.mention.list.forEach((mention:any) => {
+              ele.refinedText  = ele.refinedText.replace(mention.id , mention.name)
+            });
+          }
+         
+        });
         console.log(this.ownPosts)
       });
     } else {

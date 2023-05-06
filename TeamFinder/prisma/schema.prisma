@@ -24,8 +24,6 @@ model User {
   userInfo        UserInfo?         @relation(fields: [userInfoId], references: [id])
   Comment         Comment[]
   CommentReaction CommentReaction[]
-  Posts           Posts?            @relation(fields: [postsId], references: [id])
-  postsId         Int?
 }
 
 model UserInfo {
@@ -82,7 +80,7 @@ model Posts {
   description String
   comments    Comment[]
   deleted     Boolean?
-  mention     User[]
+  mention     Json?
 }
 
 model Comment {

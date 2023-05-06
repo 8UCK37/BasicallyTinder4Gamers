@@ -44,21 +44,20 @@ async function createPost(req, res, prisma){
         }
 
         else{
-          text += element.insert.mention.denotationChar+ element.insert.mention.id
-          mentionList.push({id : element.insert.mention.id});
+          text += element.insert.mention.id
+          mentionList.push({id : element.insert.mention.id, name: element.insert.mention.value});
         }
       });
       console.log("51 : text -> " , text , mentionList)
       // return ;
+      // let newPost = await prisma.Posts.$queryRaw``;
           let newPost = await prisma.Posts.create({
             data :{
                 author : req.user.user_id,
                 photoUrl:urlArr.toString(),
                 description:text,
                 deleted:false,
-                mention: {
-                  connect: mentionList,
-                }
+                mention: {list : mentionList}
             }
         })
      // TODO : fix this code , make one like insert to the db , 
