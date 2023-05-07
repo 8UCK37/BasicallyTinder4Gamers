@@ -27,6 +27,7 @@
             <div class="profile__actions">
               <ng-container *ngIf="ownProfile;else elseblock" >
               <a class="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor:pointer" (click)="modalOpen()">Edit Profile</a>
+              <button class="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"(click)="copyToClipboard()"><img src="https://img.icons8.com/material/24/null/share-2.png"/></button>
               </ng-container>
               <ng-template #elseblock >
                   <span [ngClass]="status?.style" style="cursor:pointer" (click)="sendreq()">{{status?.value}}</span>
@@ -118,11 +119,6 @@
         </section>
       </div>
     </div>
-
     <!-- Profile Page -->
-
-
   </div>
-
-
 </main>

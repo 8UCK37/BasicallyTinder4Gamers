@@ -147,6 +147,7 @@ textarea::placeholder {
   color: white;
 }
 .dropdown-config{
+  animation: drop-slow 2s infinite;
   background-color: transparent;
   border: none;
   outline: none;
@@ -157,7 +158,25 @@ textarea::placeholder {
   position: relative;
 }
 
+@keyframes drop-slow{
 
+  5%{
+      transform:rotate(10deg);
+  }
+
+  10%{
+      transform:rotate(-10deg);
+  }
+
+  15%{
+      transform:rotate(10deg);
+  }
+
+  20%{
+      transform:rotate(0deg);
+  }
+
+}
 
 
 /*reactions css*/
