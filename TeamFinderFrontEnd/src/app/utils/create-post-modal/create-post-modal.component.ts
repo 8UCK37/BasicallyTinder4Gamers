@@ -22,7 +22,7 @@ export class CreatePostModalComponent implements OnInit {
   public modalRef?: BsModalRef;
   selectImage:any;
   modalData?:any;
-
+  public mentionList:any;
   @ViewChild('imageInput') imageInput!:ElementRef;
   @ViewChild('textInput') textInput!:ElementRef;
   @ViewChild('modal') modal!:TemplateRef<any>;
@@ -102,7 +102,7 @@ export class CreatePostModalComponent implements OnInit {
   }
 
   uploadPostFile(){
-    // console.error("click"  ,this.imageInput)
+
     this.formData = new FormData();
     if(this.imageSrcs && this.imageSrcs.length != 0){
       //console.log("not null")
@@ -134,6 +134,10 @@ export class CreatePostModalComponent implements OnInit {
     this.closeModal(this.modal)
     // this.ngOnInit()
     this.imageBlobs=[]
+
+    this.mentionNotification(this.textObj)
+
+
     setTimeout(() => {
       // this.fetchLatestPost();
     }, 1500);
@@ -153,5 +157,11 @@ export class CreatePostModalComponent implements OnInit {
   update(data:any){
     console.log(data)
     this.textObj = data
+  }
+
+  mentionNotification(data:any){
+    data.forEach((ele:any) => {
+      
+    });
   }
 }
