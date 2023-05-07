@@ -47,7 +47,7 @@ router.post("/add",ensureAuthenticated, async (req, res) => {
         author:true
       }
     })
-    socketRunner.sendNotification(io,"new comment", req.user.user_id, postAuthor[0].author)
+    socketRunner.sendNotification(io,"new comment", req.user.user_id, postAuthor[0].author,{postId:req.body.postId})
     console.log('author of the post',postAuthor)
     try {
 
