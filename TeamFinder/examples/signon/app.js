@@ -299,14 +299,30 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
   const jsonObject = req.body;
   console.log(req.body.to)
   socketRunner.sendNotification(io, "frnd req", req.user.user_id, jsonObject.to,"null")
-
+  let frnddata= await prisma.FriendRequest.findMany({
+    where: {
+      sender: req.user.user_id,
+      reciever: jsonObject.to,
+    }
+  })
+  if(frnddata!=null){
+    let friendReq = await prisma.FriendRequest.updateMany({
+      where:{
+        sender: req.user.user_id,
+        reciever: jsonObject.to,
+      },
+      data: {
+        status: 'pending'
+      }
+    })
+  }else{
   let friendReq = await prisma.FriendRequest.create({
     data: {
       sender: req.user.user_id,
       reciever: jsonObject.to,
       status: 'pending'
     }
-  })
+  })}
   //console.log(friendReq)
   res.sendStatus(200);
 });
