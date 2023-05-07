@@ -54,10 +54,10 @@ constructor(private commentService: CommentService,public userService:UserServic
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
-        post.isOwnPost=true
+        post.isOwnPost=this.ownProfile
       });
       this.ownPosts=res.data
-      //console.log(this.ownPosts)
+      console.log(this.ownPosts)
       this.commentService.setOwnPostsObj(this.ownPosts);
     }).catch(err=>console.log(err))
   }
