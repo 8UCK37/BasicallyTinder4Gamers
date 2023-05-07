@@ -22,7 +22,7 @@ export class CreatePostModalComponent implements OnInit {
   public modalRef?: BsModalRef;
   selectImage:any;
   modalData?:any;
-  public mentionList:any;
+  public mentionList:any[]=[];
   @ViewChild('imageInput') imageInput!:ElementRef;
   @ViewChild('textInput') textInput!:ElementRef;
   @ViewChild('modal') modal!:TemplateRef<any>;
@@ -138,6 +138,7 @@ export class CreatePostModalComponent implements OnInit {
     this.mentionNotification(this.textObj)
 
 
+
     setTimeout(() => {
       // this.fetchLatestPost();
     }, 1500);
@@ -160,8 +161,16 @@ export class CreatePostModalComponent implements OnInit {
   }
 
   mentionNotification(data:any){
+    this.mentionList=[]
     data.forEach((ele:any) => {
-      
+      //console.log(ele)
+      if(ele.insert.mention){
+        //console.log(ele.insert.mention)
+        this.mentionList.push({id:ele.insert.mention.id})
+      }
     });
+    //console.log(this.mentionList)
+    axios.post('/mention',{mentionlist:this.mentionList}).then(res=>{
+    }).catch(err =>console.log(err))
   }
 }

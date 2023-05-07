@@ -933,7 +933,11 @@ app.post('/getFrndOwnedgames', ensureAuthenticated, async (req, res) => {
 //#endpoint
 app.get('/getPost', ensureAuthenticated, (req, res) => postHelper.getPost(req, res, prisma))
 //#endpoint
+app.post('/getPostByPostId', ensureAuthenticated, (req, res) => postHelper.getPostByPostId(req, res, prisma))
+//#endpoint
 app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.createPost(req, res, prisma))
+//#endpoint
+app.post('/mention', ensureAuthenticated, (req, res) => postHelper.mentionedInPost(req, res, prisma))
 //#endpoint
 app.post('/likePost', ensureAuthenticated, (req, res) => postHelper.likePost(req, res, prisma))
 //#endpoint

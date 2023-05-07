@@ -36,8 +36,8 @@ export class CommentComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.userCast.subscribe((usr: User) => {
-      this.LoggedInUserID = usr.id;
-      console.log("this user", usr.id)
+      this.LoggedInUserID = usr?.id;
+      console.log("this user", usr?.id)
     });
     this.commentService.commentObj$.subscribe(commentObj => {
       this.commentObj = commentObj;

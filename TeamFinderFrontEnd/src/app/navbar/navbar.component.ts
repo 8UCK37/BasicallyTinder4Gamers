@@ -103,7 +103,7 @@ export class NavbarComponent implements  OnInit {
   incNotification() {
     this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
       this.recData = typeof data === 'string' ? JSON.parse(data) : data;
-      //console.log(this.recData);
+      console.log(this.recData);
       if (this.recData.notification != 'disc' && this.recData.notification != 'online') {
         this.notificationArray.push({ sender: this.recData.sender, notiType: this.recData.notification })
         this.notificationArray.forEach((noti: any) => {
