@@ -4,6 +4,7 @@ import axios from 'axios';
 import { UserService } from '../login/user.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile-page',
@@ -220,8 +221,7 @@ export class ProfilePageComponent implements OnInit {
     }, 300);
   }
   copyToClipboard() {
-    const baseUrl= 'http://localhost:4200/user/post?id='
-    const finalUrl= baseUrl+this.userparsed.id;
+    const finalUrl= environment.baseUrl+"/user/post?id="+this.userparsed.id;
     navigator.clipboard.writeText(finalUrl)
       .then(() => console.log('Copied to clipboard: ' + finalUrl))
       .catch(err => console.error('Error copying to clipboard: ', err));

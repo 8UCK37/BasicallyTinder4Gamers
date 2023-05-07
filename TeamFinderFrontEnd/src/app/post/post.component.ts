@@ -6,6 +6,7 @@ import { MenuItem, MessageService,ConfirmationService, ConfirmEventType } from '
 import { UserService } from '../login/user.service';
 import { UtilsServiceService } from '../utils/utils-service.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-post',
@@ -85,7 +86,7 @@ export class PostComponent implements OnInit {
       {
         // debugger
         this.childPost.mention.list.forEach((mention:any) => {
-          this.childPost.refinedText  = this.childPost.refinedText.replace(mention.id , `<a href="http://localhost:4200/user/post?id=${mention.id}">
+          this.childPost.refinedText  = this.childPost.refinedText.replace(mention.id , `<a href="${environment.baseUrl}/user/post?id=${mention.id}">
           <u class="mention-highlight">${mention.name}</u>
         </a>
         `)

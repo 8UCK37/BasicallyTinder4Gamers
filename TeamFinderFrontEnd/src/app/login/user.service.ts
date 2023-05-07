@@ -10,6 +10,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { environment } from 'src/environments/environment';
 
 
 interface User {
@@ -65,7 +66,7 @@ export class UserService {
       if (user) {
         user.getIdToken().then(id => {
           axios.defaults.headers.common['authorization'] = `Bearer ${id}`
-          axios.defaults.baseURL = 'http://localhost:3000/'
+          axios.defaults.baseURL = environment.endpointUrl;
           localStorage.setItem('token', id);
           axios.post('/saveuser').then(res => {
             this.userData.next(res.data)
