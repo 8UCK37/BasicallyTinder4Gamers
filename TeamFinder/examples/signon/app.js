@@ -257,6 +257,9 @@ app.post("/isFriend", ensureAuthenticated, urlencodedParser, async (req, res) =>
     else if (isfrnd[0].status == 'pending') {
       res.send('pending');
     }
+    else if (isfrnd[0].status == 'unfriended') {
+      res.send('unfriended');
+    }
   } else {
     res.send('no engagement')
   }
@@ -296,15 +299,47 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
   const jsonObject = req.body;
   console.log(req.body.to)
   socketRunner.sendNotification(io, "frnd req", req.user.user_id, jsonObject.to,"null")
-
+  let frnddata= await prisma.FriendRequest.findMany({
+    where: {
+      sender: req.user.user_id,
+      reciever: jsonObject.to,
+    }
+  })
+  if(frnddata!=null){
+    let friendReq = await prisma.FriendRequest.updateMany({
+      where:{
+        sender: req.user.user_id,
+        reciever: jsonObject.to,
+      },
+      data: {
+        status: 'pending'
+      }
+    })
+  }else{
   let friendReq = await prisma.FriendRequest.create({
     data: {
       sender: req.user.user_id,
       reciever: jsonObject.to,
       status: 'pending'
     }
-  })
+  })}
   //console.log(friendReq)
+  res.sendStatus(200);
+});
+
+//unfriend a friend #endpoint
+app.post('/unFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
+  const user_id = req.user.user_id;
+  const frnd_id = req.body.to;
+  const result = await prisma.$queryRaw`
+  UPDATE public."FriendRequest" fr
+  SET status = 'unfriended'
+  WHERE (fr.sender = ${user_id} AND fr.reciever = ${frnd_id}) 
+  OR (fr.reciever = ${user_id} AND fr.sender = ${frnd_id})`;
+  const result1 = await prisma.$queryRaw`
+  DELETE FROM public."Friends"
+  WHERE (sender = ${user_id} AND reciever = ${frnd_id})
+  OR (reciever = ${user_id} AND sender = ${frnd_id})`;
   res.sendStatus(200);
 });
 

@@ -31,6 +31,7 @@
               </ng-container>
               <ng-template #elseblock >
                   <span [ngClass]="status?.style" style="cursor:pointer" (click)="sendreq()">{{status?.value}}</span>
+                  <span *ngIf="status?.value=='Friend'" [ngClass]="unfriend?.style" style="cursor:pointer" (click)="unfrnd()"><i class="fas fa-user-times" style="color:white;"></i></span>
               </ng-template>
             </div>
           </div>
