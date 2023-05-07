@@ -91,9 +91,10 @@ app-app-search{
   background: #262626;
   padding: 20px;
   margin: 10px;
-  height:64vh;
+  height:58vh;
   border-radius: 10px;
   overflow-y: auto;
+  border:3px solid #5a0d8d
 }
 .box::-webkit-scrollbar-track
 {
