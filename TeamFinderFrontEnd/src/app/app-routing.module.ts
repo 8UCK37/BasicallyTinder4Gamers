@@ -10,6 +10,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { SettingsComponent } from './settings/Settings.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { GamesComponent } from './profile-page/games/games.component';
+import { PostPageComponent } from './post/post-page/post-page.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,7 @@ const routes: Routes = [
     data: { ownProfile: false }
   },
   { path: 'home', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
+  { path: 'post-page', component: PostPageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
   { path: 'settings', pathMatch: 'full', component: SettingsComponent },
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
