@@ -84,7 +84,7 @@ export class PostComponent implements OnInit {
       {
         // debugger
         this.childPost.mention.list.forEach((mention:any) => {
-          this.childPost.refinedText  = this.childPost.refinedText.replace(mention.id , mention.name)
+          this.childPost.refinedText  = this.childPost.refinedText.replace(mention.id , `<span class="mention-highlight">${mention.name}</span>`)
         });
       }
 
