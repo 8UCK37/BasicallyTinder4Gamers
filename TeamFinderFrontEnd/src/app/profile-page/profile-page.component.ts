@@ -29,6 +29,7 @@ export class ProfilePageComponent implements OnInit {
   public userName:any;
   public profile_id:any;
   public status:any;
+  public unfriend:any;
   constructor(public userService:UserService,public modalService: NgbModal, user: UserService,private router : Router,private auth: AngularFireAuth,private route: ActivatedRoute) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
@@ -52,15 +53,16 @@ export class ProfilePageComponent implements OnInit {
       this.route.queryParams.subscribe(async params => {
         this.radioActivaVal = 1
         this.profile_id = params['id'];
-        //console.log(this.profile_id)
+        console.log(this.profile_id)
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           //console.log(res.data)
           this.userInfo = res.data
         }).catch(err => console.log(err))
         axios.post('isFriend', { id: this.profile_id }).then(res => {
-          //console.log(res.data)
+          console.log(res.data)
           if (res.data == 'accepted') {
             this.status = { style: 'button', value: 'Friend' }
+            //this.unfriend = {value: 'Unfriend' }
             //console.log(this.status)
           } else if (res.data == 'rejected') {
             //this.status = { style: 'fa-sharp fa-solid fa-ban fa-2x', value: '' }
@@ -69,6 +71,10 @@ export class ProfilePageComponent implements OnInit {
           }
           else if (res.data == 'pending') {
             this.status = { style: 'button', value: 'Pending' }
+            //console.log(this.status)
+          }
+          else if (res.data == 'unfriended') {
+            this.status = { style: 'button', value: 'Send Req' }
             //console.log(this.status)
           }
           else {
@@ -218,5 +224,14 @@ export class ProfilePageComponent implements OnInit {
         this.bNsave=false;
       }
     }, 300);
+  }
+  unfrnd(){
+    //console.log(this.status.value)
+    if(this.status.value=='Friend'){
+      axios.post('unFriend', { to:this.profile_id}).then(res => {
+        this.status = { style: 'button', value: 'Send Req' }
+        //console.log(this.status)
+      }).catch(err => console.log(err))
+      }
   }
 }
