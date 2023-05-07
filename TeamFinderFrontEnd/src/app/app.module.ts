@@ -46,6 +46,7 @@ import { CreatePostModalComponent } from './utils/create-post-modal/create-post-
 import { MentionTextInputComponent } from './utils/mention-text-input/mention-text-input.component';
 import { QuillModule } from "ngx-quill";
 import { NotificationComponent } from './settings/notification/notification.component';
+import { PostPageComponent } from './post/post-page/post-page.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { NotificationComponent } from './settings/notification/notification.comp
       CommentComponent,
       CreatePostModalComponent,
       MentionTextInputComponent,
-      NotificationComponent
+      NotificationComponent,
+      PostPageComponent
    ],
   imports: [
     SidebarModule,

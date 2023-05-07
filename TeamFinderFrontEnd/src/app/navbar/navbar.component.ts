@@ -103,13 +103,14 @@ export class NavbarComponent implements  OnInit {
   incNotification() {
     this.incomingNotiSubscription = this.socketService.getIncomingNoti().subscribe((data) => {
       this.recData = typeof data === 'string' ? JSON.parse(data) : data;
-      console.log(this.recData);
+      //console.log(this.recData);
       if (this.recData.notification != 'disc' && this.recData.notification != 'online') {
-        this.notificationArray.push({ sender: this.recData.sender, notiType: this.recData.notification })
+        this.notificationArray.push({ sender: this.recData.sender, notiType: this.recData.notification ,data:this.recData.data})
         this.notificationArray.forEach((noti: any) => {
           axios.post('getUserInfo', { id: noti.sender }).then(res => {
             noti.profileurl = res.data.profilePicture;
             noti.userName = res.data.name;
+
             if(noti.notiType =="frndReqAcc"){
               this.messageService.add({ severity: 'success', summary: 'Accepted', detail: noti.userName.toString()+' accepted your friend request' });
             }
@@ -140,7 +141,8 @@ export class NavbarComponent implements  OnInit {
   }
 
   onclick(userid: any) {
-    console.log(userid)
+    //console.log(userid)
+    this.notiShow=false
     this.router.navigate(['/user'], { queryParams: { id: userid } });
   }
   acceptReq(frndid: any) {
@@ -159,8 +161,13 @@ export class NavbarComponent implements  OnInit {
   }
 
   notiDismiss(index:any){
-    console.log(index)
+    //console.log(index)
     this.notificationArray.splice(index,1)
     console.log(this.notificationArray)
+  }
+  goToPost(postId:any,index:any){
+    this.notiDismiss(index)
+    this.notiShow=false
+    this.router.navigate(['post-page'],{ queryParams: { post_id: postId} });
   }
 }

@@ -276,7 +276,7 @@ app.post("/friendsoffriendData", ensureAuthenticated, async (req, res) => {
 app.post("/sendNoti", ensureAuthenticated, async (req, res) => {
   // console.log(req.user.user_id);
   // console.log(req.body.receiver_id);
-  socketRunner.sendNotification(io, "poke", req.user.user_id, req.body.receiver_id)
+  socketRunner.sendNotification(io, "poke", req.user.user_id, req.body.receiver_id,"null")
   res.sendStatus(200);
 });
 //testing endpoint with no ensureauth
@@ -295,7 +295,7 @@ app.get("/serverTest", async (req, res) => {
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
   console.log(req.body.to)
-  socketRunner.sendNotification(io, "frnd req", req.user.user_id, jsonObject.to)
+  socketRunner.sendNotification(io, "frnd req", req.user.user_id, jsonObject.to,"null")
 
   let friendReq = await prisma.FriendRequest.create({
     data: {
@@ -385,7 +385,7 @@ app.post("/acceptFriend", ensureAuthenticated, urlencodedParser, async (req, res
       sender: jsonObject.frnd_id
     }
   })
-  socketRunner.sendNotification(io, "frndReqAcc", req.user.user_id, jsonObject.frnd_id)
+  socketRunner.sendNotification(io, "frndReqAcc", req.user.user_id, jsonObject.frnd_id,"null")
   res.sendStatus(200);
 })
 //rejects a friend req #endpoint
@@ -751,9 +751,9 @@ app.post('/activeStateChange', ensureAuthenticated, urlencodedParser, async (req
   //console.log(friendlist)
   friendlist.forEach(frnd => {
     if (jsonObject.state) {
-      socketRunner.sendNotification(io, "online", req.user.user_id, frnd.reciever)
+      socketRunner.sendNotification(io, "online", req.user.user_id, frnd.reciever,"null")
     } else {
-      socketRunner.sendNotification(io, "disc", req.user.user_id, frnd.reciever)
+      socketRunner.sendNotification(io, "disc", req.user.user_id, frnd.reciever,"null")
     }
   });
 });
@@ -932,6 +932,8 @@ app.post('/getFrndOwnedgames', ensureAuthenticated, async (req, res) => {
 
 //#endpoint
 app.get('/getPost', ensureAuthenticated, (req, res) => postHelper.getPost(req, res, prisma))
+//#endpoint
+app.post('/getPostByPostId', ensureAuthenticated, (req, res) => postHelper.getPostByPostId(req, res, prisma))
 //#endpoint
 app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.createPost(req, res, prisma))
 //#endpoint

@@ -5,6 +5,7 @@ import { CommentService } from './comment.service';
 import { MenuItem, MessageService,ConfirmationService, ConfirmEventType } from 'primeng/api';
 import { UserService } from '../login/user.service';
 import { UtilsServiceService } from '../utils/utils-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post',
@@ -47,7 +48,7 @@ export class PostComponent implements OnInit {
   deleteHeader:string="Delete Post"
   deleteBody:string="Are you sure you want to delete this post?"
   deleteSuccess:boolean=false;
-  constructor(public utilsServiceService : UtilsServiceService, public userService:UserService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document) {
+  constructor(public utilsServiceService : UtilsServiceService, public userService:UserService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document,private router: Router) {
     // this.renderer.listen('window', 'click', (e: Event) => {
     //   const clickedElement = e.target as HTMLElement;
     //   const clickedElementClassList = clickedElement.classList;
@@ -130,11 +131,12 @@ export class PostComponent implements OnInit {
 
     {
       tooltipOptions: {
-        tooltipLabel: 'Placeholder'
+        tooltipLabel: 'Go to this post'
       },
         icon: 'pi pi-external-link',
         command: () => {
           console.log('placeholder clicked')
+          this.goToPostPage()
         }
     }
 ];
@@ -245,5 +247,9 @@ export class PostComponent implements OnInit {
     this.ownPosts.splice(index, 1);
   }
   console.log(this.ownPosts)
+  }
+  goToPostPage(){
+    //console.log(this.childPost.id)
+    this.router.navigate(['post-page'],{ queryParams: { post_id: this.childPost.id } });
   }
 }

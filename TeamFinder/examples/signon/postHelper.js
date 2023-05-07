@@ -284,4 +284,41 @@ async function mentionedInPost(req, res, prisma){
 res.send(JSON.stringify({status: 'ok'}))
 }
 
-module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,deletePost,mentionedInPost}
+
+async function getPostByPostId(req, res, prisma){
+  //console.log(req.body.postId)
+  postid=parseInt(req.body.postId)
+  const post = await prisma.$queryRaw`
+  SELECT p.*, t.tagNames, u."name", u."profilePicture", a.type AS reactionType,
+       CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
+       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount
+  FROM public."Posts" p
+  LEFT JOIN (
+      SELECT post,
+             COUNT(*) FILTER (WHERE type = 'like') AS likeCount,
+             COUNT(*) FILTER (WHERE type = 'haha') AS hahaCount,
+             COUNT(*) FILTER (WHERE type = 'sad') AS sadCount,
+             COUNT(*) FILTER (WHERE type = 'love') AS loveCount,
+             COUNT(*) FILTER (WHERE type = 'poop') AS poopCount
+      FROM public."Activity"
+      GROUP BY post
+  ) r ON r.post = p.id
+  LEFT JOIN (
+      SELECT post, STRING_AGG("tagName", ',') AS tagNames
+      FROM public."Tags"
+      GROUP BY "post"
+  ) t ON p.id = t.post
+  LEFT JOIN (
+      SELECT post, type, author
+      FROM public."Activity"
+      WHERE type != 'post'
+  ) a ON p.id = a.post AND a.author = ${req.user.user_id}
+  LEFT JOIN public."User" u ON p.author = u.id
+  WHERE p.id = ${postid} AND p.deleted = false
+  ORDER BY p."createdAt" DESC;
+`;
+res.send(JSON.stringify(post))
+}
+
+
+module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,deletePost,mentionedInPost,getPostByPostId}

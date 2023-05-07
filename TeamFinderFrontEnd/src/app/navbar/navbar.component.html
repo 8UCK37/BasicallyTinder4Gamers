@@ -75,7 +75,7 @@
                           <div class="noti-img" (click)="onclick(noti.sender)" style="cursor: pointer;">
                             <img [src]="noti.profileurl" class="img-sk" referrerpolicy="no-referrer" />
                           </div>
-                          <div class="accpt-rej-btns">
+                          <div class="accpt-rej-btns" style="cursor: pointer;" (click)="goToPost(noti.data.postId,i)">
                             <div style="color: rgb(227, 213, 213);margin-top: 10px;"> {{noti.userName}} commented on your post</div>
                           </div>
                         </div>
