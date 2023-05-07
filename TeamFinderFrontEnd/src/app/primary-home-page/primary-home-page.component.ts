@@ -81,6 +81,7 @@ export class PrimaryHomePageComponent implements OnInit {
       console.log(this.posts)
     })
    }
+
    fetchLatestPost(){
     axios.post("/getLatestPost").then(res=>{
       //console.log(res.data)
@@ -103,12 +104,10 @@ export class PrimaryHomePageComponent implements OnInit {
     this.show=!this.show;
   }
 
-
-
-
   onProfilePicError() {
     //this.profileurl = this.userparsed?.photoURL;
   }
+
   async onPostPicError(i:any) {
     //console.log(this.posts[i].author)
     // await axios.post('getUserInfo',{id:this.posts[i].author}).then(res=>{
@@ -121,12 +120,13 @@ export class PrimaryHomePageComponent implements OnInit {
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
   }
+
   onNextClick(event:any) {
     event.preventDefault();
   }
+
   fetchByTag(tag:any){
     axios.get(`/getpostbytagname?tags=${tag}`).then(res=>{
-
       this.posts = []
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
@@ -140,7 +140,6 @@ export class PrimaryHomePageComponent implements OnInit {
   openModal(){
     this.utilsServiceService.modalObjSource.next({open:true, data:null})
   }
-
 }
 
 

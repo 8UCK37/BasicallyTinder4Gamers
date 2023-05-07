@@ -46,7 +46,7 @@
           </div>
           <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:comment}"></ng-container>
         </div>
-        <section [ngStyle]="{ display: showSection[comment.id]? 'block' : 'none' }">
+        <section [ngStyle]="{display: showSection[comment.id]? 'block' : 'none'}">
 
           <div class="form-p">
             <textarea #parentID placeholder="Replying to {{comment.author.name}}" autocomplete="off"
@@ -58,7 +58,7 @@
               Reply</button>
           </div>
         </section>
-        <section [ngStyle]="{display: showEditSection[comment.id]? 'block' : 'none' }">
+        <section [ngStyle]="{display: showEditSection[comment.id]? 'block' : 'none'}">
           <div class="form-p">
             <textarea [(ngModel)]="comment.commentStr" class="form-control input-field-specs" id="{{comment.id}}"
               ngModel></textarea>
@@ -69,7 +69,7 @@
               Reply</button>
           </div>
         </section>
-        <section [ngStyle]="{ display: showReplySection[comment.id]? 'block' : 'none' }">
+        <section [ngStyle]="{display: showReplySection[comment.id]? 'block' : 'none'}">
           <div class="inrComment">
             <div *ngFor="let child of comment.childs;">
               <div class="card card-background">
@@ -84,7 +84,7 @@
                   {{child.commentStr}}
                 </div>
               </div>
-
+              
               <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: child}"></ng-container>
               <div class="commentOptions" [style.bottom]="UserVerify(child.author.id) ? '3px' : '-2px'">
               <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>
@@ -101,7 +101,7 @@
                 </div>
                 <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:child}"></ng-container>
               </div>
-              <section [ngStyle]="{ display: showSection[child.id]? 'block' : 'none' }">
+              <section [ngStyle]="{display: showSection[child.id]? 'block' : 'none'}">
                 <div class="form-p">
                   <textarea #childID type="text" placeholder="Replying to {{child.author.name}}" autocomplete="off"
                     class="form-control input-field-specs" id="{{child.id}}" ngModel></textarea>
@@ -112,7 +112,7 @@
                     Reply</button>
                 </div>
               </section>
-              <section [ngStyle]="{ display: showEditSection[child.id]? 'block' : 'none' }">
+              <section [ngStyle]="{display: showEditSection[child.id]? 'block' : 'none'}">
                 <div class="form-p">
                   <textarea type="text" [(ngModel)]="child.commentStr" class="form-control input-field-specs"
                     id="{{child.id}}" ngModel></textarea>
@@ -123,7 +123,7 @@
                     Reply</button>
                 </div>
               </section>
-              <section [ngStyle]="{ display: showReplySectionChild[child.id]? 'block' : 'none' }">
+              <section [ngStyle]="{display: showReplySectionChild[child.id]? 'block' : 'none'}">
                 <div class="inrComment" style="margin-left: 20px;">
                   <ng-container *ngIf="child.childs && child.childs.length>0">
                     <div *ngFor="let childChild of child.childs;">
