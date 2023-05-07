@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "teamfinder-e7048",
+  "private_key_id": "0aa2643a8baf685c90b689fad6d6f869cd6b6206",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDVJ4AnKns9zbnz\nUmFwhtDR0TK/rUeXmY1OIrJQZMjyJo55zznSRxMaW4hm+hS9W7nFr8/2wDqy5mY/\noRj4z5fki8EnqDzkM37jJHQnfGrJKVpTwAY+J3Yxc7DvS0OHvlHn2vnvBlq3Wwqp\nm2jJpWtR54diP3OTdal/wlS7fDFqRphDaF2hXR6/SARRrpD2PJF7kExOxNrzexrp\ncLtNwGmBz43sLQFQ0d9mLqr0ALLkUwsDah5aV4MjcAB2HkKzHE2oOW1X8ubSohOK\nS4zkppyOMy4Z//zDWzD+Prz7eoWxo188ZecxZdKCwcPTO4PPsWL3uqUl6jp+2iLc\nUmqBn3qbAgMBAAECggEAJCnqfTqg5DB2PwkYDQ5ieWaj1I9imR7tMXeDh05CJYtT\nGumEpt92Jz+mWcpOIH5ie17Dytp8WwPqDxuW8AfQfm8Tm1XY1uLBwWna5yQdvflt\nIM5wgLUTQXqeZ0r+rxYkMVEenGYYmAkzOulqEuQk3CWK+6lGQ5tv4YQn+hMtExmN\n0RVfOWZF8fBrGQ0pKiFSc8f3Rr3QMC2VXuxx7zts32rxEqSe48fH4PLxuRVuHnGI\nnNsHvUeU0izFVb3LLNePn9L5vgmv/+jmeEZcUszhKrVRbf2del6OQVG+1y2yAGpN\nanNx2d0FU0DTa65lgTdAKpAOfDEcl8+yIO2E2TfjWQKBgQDrrr7ADcbUKH9XVMhG\nvVZiESgxTzmflcdzf20jlzOtLK2MxGbQ8zmtNPB9J+c8vlMGSCjUVmJqZgkSZYBA\no30/Mqr2Vmoo0jNaVFEy0hsNULQs0S9q8C07aS0rPi+Yoo2c1G0cPuxoGYsYKVkF\nQXSQSDBoL5RtykLpXkAlA8ZYdwKBgQDnh5SuERPavDZEeQOd+cHRRQGx5ugQnH4W\nm0/ZqQbN/sxkKqjAn2F0I2jlM/qJPOqmt4iOgPIIPM0kqkwRnEGAKgZtlsleZMuA\nBBzT10ErvdGcV3TsuQA4TscD2K2xfoMx2Kce9BDcZRDZpzfcnbz2vrsASgkRFmN4\nAqZRlcab/QKBgH0hAt9esSC0+573QXnlTna0mz1KzdI/qGxWzDAoN+SKov3ozJnF\neOrP/5rDU875UYU1TJAn6QqKb+iXgTdQVc/267Pr/2L67w7XU2EDEh/IqFBfI6jI\nKYuwdK3Pz19fdoY8dk2XztYaMbI7SaszrFpqKWE3WbvMtifGxZGhZm5TAoGAShKH\nT7Uo+/bxCbEJpjXsey4vn6H3JrFaaZMg1csM4USeUYGQYafb/tMBUSrzAYsaq2HW\nb3jzdg01uIA/O/cYwY8wZUkzfV6T+I3YRzH7qKne8LzOLJn3ZwxVAXcGAt4tzPm6\nZd3BszEmVev4pD1W4j4dB7en9O6Lvi5i1YEsfGUCgYEA4GxctIme7MXGD9XLX7cn\nhrCydPnCMnx1Xxw6MvXgk9Cyqbgyor+QzVm/QKYseL1rhSNFtVqExD1oOOfk2H55\n8P99aKrOaTLx1+mi8woR30rDPLFs+qM7Qau8CpNgwsGngnfXXEcZW/uQ0ZvRZ/1d\ngJfmYqFKVpI1Jha6GqJU3v0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-9fapk@teamfinder-e7048.iam.gserviceaccount.com",
+  "client_id": "115733052485578498467",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-9fapk%40teamfinder-e7048.iam.gserviceaccount.com"
+}
