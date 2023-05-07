@@ -79,6 +79,15 @@ export class PostComponent implements OnInit {
       this.postsByTag= posts;
     });
 
+      this.childPost.refinedText= this.childPost.description
+      if(this.childPost.mention != null &&  this.childPost.mention.list != undefined )
+      {
+        // debugger
+        this.childPost.mention.list.forEach((mention:any) => {
+          this.childPost.refinedText  = this.childPost.refinedText.replace(mention.id , mention.name)
+        });
+      }
+
     this. responsiveOptions = [
       {
           breakpoint: '1024px',
