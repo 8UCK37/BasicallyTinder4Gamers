@@ -1,7 +1,7 @@
 const {Storage} = require('@google-cloud/storage')
 const bucketName = 'gs://teamfinder-e7048.appspot.com/';
 const { v4: uuidv4 } = require('uuid');
-
+const socketRunner = require('./sockerRunner')
 
 BigInt.prototype.toJSON = function() {
   return this.toString();
@@ -274,5 +274,14 @@ async function dislikePost(req, res, prisma){
 res.send(JSON.stringify({status: 'ok'}))
 }
 
+async function mentionedInPost(req, res, prisma){
+  //console.log(req.body.mentionlist)
+  const io = req.app.get('socketIo')
+  req.body.mentionlist.forEach(ele => {
+    //console.log(ele.id)
+    socketRunner.sendNotification(io,"new mention", req.user.user_id, ele.id)
+  });
+res.send(JSON.stringify({status: 'ok'}))
+}
 
-module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,deletePost}
+module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,deletePost,mentionedInPost}
