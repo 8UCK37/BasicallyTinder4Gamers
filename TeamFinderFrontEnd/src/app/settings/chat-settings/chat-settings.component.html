@@ -1,7 +1,7 @@
 <p>chat-settings works!</p>
-<input type="file" name="" id="" style="display: none;" #image (change)="previewImage()">
+<input type="file" style="display: none;" #image (change)="previewImage()">
 <div class="button-holder">
-<div (click)="image.click()">
+<div class="upload-btn"  (click)="image.click()">
   <div class="wrapper">
     <div class="file-select">
       <i class="fa fa-image"></i>
@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div (click)="uploadChatBackground()">
+<div class="upload-btn"  (click)="uploadChatBackground()">
   <div class="wrapper">
     <div class="file-upload">
       <i class="fa fa-arrow-up"></i>
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<div (click)="cancelSelect()" >
+<div class="upload-btn"  (click)="cancelSelect()" >
   <div class="wrapper">
     <div class="file-cancel">
       <i class="fa fa-xmark"></i>
@@ -26,13 +26,13 @@
 </div>
 </div>
   <img src="" alt="" #previewImageElement style="max-width: 100%; max-height: 300px;display: none;">
-
+<div class="mock-conversation">
 <div class="user-bar">
   <div class="avatar">
-    <img [src]="userparsed.profilePicture" referrerpolicy="no-referrer" alt="Avatar">
+    <img [src]="userparsed?.profilePicture" referrerpolicy="no-referrer" alt="Avatar">
   </div>
   <div class="name">
-    <span>{{userparsed.name}}</span>
+    <span>{{userparsed?.name}}</span>
   </div>
 </div>
 <div class="conversation" [style.background-image]="fileSelected ? 'url(' + previewImageElement.src + ')' : 'url(' + chatBackGroundUrl + ')'">
@@ -72,5 +72,5 @@
   <div #menu *ngIf="showEmojiPicker">
     <emoji-mart class="emoji-mart" set="google" ></emoji-mart>
   </div>
-
+</div>
 </div>

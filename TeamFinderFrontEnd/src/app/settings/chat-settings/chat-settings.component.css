@@ -453,3 +453,13 @@
   font-weight: 400;
   letter-spacing: 0;
 }
+.button-holder{
+  position:relative;
+  float:right;
+}
+.mock-conversation{
+  width:48rem;
+}
+.upload-btn{
+  margin-top: 15px;
+}
