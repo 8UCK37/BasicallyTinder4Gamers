@@ -1,1 +1,19 @@
 <p>chat-settings works!</p>
+<input type="file" name="" id="" style="display: none;" #image (change)="previewImage()">
+<div (click)="image.click()">
+  <div class="wrapper">
+    <div class="file-upload">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="wrapper">
+    <div class="file-cancel">
+      <i class="fa fa-xmark"></i>
+    </div>
+  </div>
+</div>
+<div>
+  <img src="" alt="" #previewImageElement style="max-width: 100%; max-height: 300px;">
+</div>
