@@ -1327,3 +1327,27 @@ button {
     max-width: 1320px;
 }
 }
+.homeicon{
+  height: 20px;
+  bottom: 7px;
+  width: 20px;
+  right: 4px;
+  cursor: pointer;
+  position: relative;
+  }
+  .frndicon{
+    height: 20px;
+    bottom: 3px;
+    width: 20px;
+    right: 4px;
+    cursor: pointer;
+    position: relative;
+    }
+    .posticon{
+      height: 20px;
+      bottom: 3px;
+      width: 20px;
+      right: 4px;
+      cursor: pointer;
+      position: relative;
+      }

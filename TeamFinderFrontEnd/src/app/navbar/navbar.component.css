@@ -44,7 +44,7 @@ app-app-search{
 
 .nav-btn:hover{
   border-radius: 3px;
-  background: rgb(43, 57, 137);
+  /* background: rgb(43, 57, 137); */
   padding-right:10px;
   padding-left: 10px;
 }
@@ -325,18 +325,17 @@ a:visited{
 }
 
 .number{
-  height: 30px;
-  width:  30px;
-  background-color: #d63031;
+  height: 15px;
+  width:  15px;
+  /* background-color: #d63031; */
   border-radius: 20px;
   color: white;
   text-align: center;
   position: absolute;
-  top: 0px;
-  left: 60px;
+  bottom: 38px;
+  left: 29px;
   padding: 3px;
-  border-style: solid;
-  border-width: 2px;
+  z-index: 99;
 }
 
 .number:empty {
@@ -534,4 +533,16 @@ a:visited{
   nav {
       max-width: 1920px;
   }
+  }
+.homeicon{
+height: 20px;
+width: 20px;
+cursor: pointer;
+}
+.notiicon{
+  height: 35px;
+  width: 35px;
+  cursor: pointer;
+  bottom: 5px;
+  position: relative;
   }
