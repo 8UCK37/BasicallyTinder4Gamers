@@ -1,13 +1,23 @@
 <p>chat-settings works!</p>
 <input type="file" name="" id="" style="display: none;" #image (change)="previewImage()">
+
 <div (click)="image.click()">
+  <div class="wrapper">
+    <div class="file-select">
+      <i class="fa fa-image"></i>
+    </div>
+  </div>
+</div>
+
+<div (click)="uploadChatBackground()">
   <div class="wrapper">
     <div class="file-upload">
       <i class="fa fa-arrow-up"></i>
     </div>
   </div>
 </div>
-<div>
+
+<div (click)="cancelSelect()" >
   <div class="wrapper">
     <div class="file-cancel">
       <i class="fa fa-xmark"></i>

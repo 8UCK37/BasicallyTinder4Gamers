@@ -65,3 +65,32 @@
   background-position: 0 -100%;
   color: #eb2525;
 }
+.wrapper .file-select {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid #FFFFFF;
+  overflow: hidden;
+  background-image: linear-gradient(to bottom, #25eb50 50%, #FFFFFF 50%);
+  background-size: 100% 200%;
+  transition: all 1s;
+  color: #FFFFFF;
+  font-size: 25px;
+}
+.wrapper .file-select input[type=file] {
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.wrapper .file-select:hover {
+  background-position: 0 -100%;
+  color: #25eb50;
+}
