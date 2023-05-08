@@ -1309,6 +1309,14 @@ button {
   height: 60rem !important;
 }
 
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+    font-size: var(--mdc-snackbar-supporting-text-size, inherit);
+    font-family: var(--mdc-snackbar-supporting-text-font, inherit);
+    font-weight: var(--mdc-snackbar-supporting-text-weight, inherit);
+    line-height: var(--mdc-snackbar-supporting-text-line-height, inherit);
+    color: red;
+}
+
 @media (min-width: 768px){
 .container, .container-md, .container-sm {
     max-width: 1000px;

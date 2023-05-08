@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     this.token= localStorage.getItem('token')
     //console.log(this.token)
     axios.defaults.headers.common['authorization'] = `Bearer ${this.token}`
-    axios.defaults.baseURL = 'http://localhost:3000/'
+    axios.defaults.baseURL = environment.endpointUrl;
     this.requestPermission();
     this.listen();
 
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
   }
   requestPermission() {
     const messaging = getMessaging();
-    getToken(messaging, 
+    getToken(messaging,
      { vapidKey: environment.firebaseConfig.vapidKey}).then(
        (currentToken) => {
          if (currentToken) {

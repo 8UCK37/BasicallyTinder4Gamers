@@ -4,33 +4,36 @@ import axios from 'axios';
 import { UserService } from '../login/user.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
-  @ViewChild('image') input!:ElementRef;
-  @ViewChild('banner') banner!:ElementRef;
-  radioActivaVal:any;
-  radioAtGame:any = false;
+  @ViewChild('image') input!: ElementRef;
+  @ViewChild('banner') banner!: ElementRef;
+  radioActivaVal: any;
+  radioAtGame: any = false;
   ownProfile: any;
-  userid:any;
-  public usr:any;
-  public userparsed:any;
-  public userInfo:any;
-  public bio:any;
-  public bannerPreview:any;
-  public dpPreview:any;
-  public dPsave:boolean=false;
-  public bNsave:boolean=false;
-  public formData:any;
-  public userName:any;
-  public profile_id:any;
-  public status:any;
-  public unfriend:any;
-  constructor(public userService:UserService,public modalService: NgbModal, user: UserService,private router : Router,private auth: AngularFireAuth,private route: ActivatedRoute) {
+  userid: any;
+  public usr: any;
+  public userparsed: any;
+  public userInfo: any;
+  public bio: any;
+  public bannerPreview: any;
+  public dpPreview: any;
+  public dPsave: boolean = false;
+  public bNsave: boolean = false;
+  public formData: any;
+  public userName: any;
+  public profile_id: any;
+  public status: any;
+  public unfriend: any;
+  public message: string="copied to clipboard";
+  public action: string="Close"
+  constructor(public snackBar: MatSnackBar,public userService: UserService, public modalService: NgbModal, user: UserService, private router: Router, private auth: AngularFireAuth, private route: ActivatedRoute) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
 
@@ -43,7 +46,7 @@ export class ProfilePageComponent implements OnInit {
     if (lastUrl == 'linked-accounts') this.radioActivaVal = 4;
     // this.radioAtGame = true
     if (this.ownProfile) {
-      this.userService.userCast.subscribe(usr=>{
+      this.userService.userCast.subscribe(usr => {
         //console.log("user data" , usr)
         this.userparsed = usr;
         this.userInfo = usr;
@@ -86,152 +89,166 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
-  changeToPost(){
-    this.radioActivaVal=1
-    console.log('posi',this.radioActivaVal)
-    if(this.ownProfile){
-      this.router.navigate(['profile-page','post']);
-    }else{
-      this.router.navigate(['user','post'],{ queryParams: { id: this.profile_id } });
+  changeToPost() {
+    this.radioActivaVal = 1
+    console.log('posi', this.radioActivaVal)
+    if (this.ownProfile) {
+      this.router.navigate(['profile-page', 'post']);
+    } else {
+      this.router.navigate(['user', 'post'], { queryParams: { id: this.profile_id } });
     }
   }
 
-  changeToGame(){
-    this.radioActivaVal=2
-    console.log('posi',this.radioActivaVal)
-    if(this.ownProfile){
-      this.router.navigate(['profile-page','games']);
-    }else{
-      this.router.navigate(['user','games'],{ queryParams: { id: this.profile_id } });
+  changeToGame() {
+    this.radioActivaVal = 2
+    console.log('posi', this.radioActivaVal)
+    if (this.ownProfile) {
+      this.router.navigate(['profile-page', 'games']);
+    } else {
+      this.router.navigate(['user', 'games'], { queryParams: { id: this.profile_id } });
     }
   }
 
-  changeToFriends(){
-    this.radioActivaVal=3
-    console.log('posi',this.radioActivaVal)
-    if(this.ownProfile){
-      this.router.navigate(['profile-page','friends']);
-    }else{
-      this.router.navigate(['user','friends'],{ queryParams: { id: this.profile_id } });
+  changeToFriends() {
+    this.radioActivaVal = 3
+    console.log('posi', this.radioActivaVal)
+    if (this.ownProfile) {
+      this.router.navigate(['profile-page', 'friends']);
+    } else {
+      this.router.navigate(['user', 'friends'], { queryParams: { id: this.profile_id } });
     }
   }
-  changeToLinkedAcc(){
-    this.radioActivaVal=4
-    console.log('posi',this.radioActivaVal)
-    if(this.ownProfile){
-      this.router.navigate(['profile-page','linked-accounts']);
-    }else{
-      this.router.navigate(['user','linked-accounts'],{ queryParams: { id: this.profile_id } });
+  changeToLinkedAcc() {
+    this.radioActivaVal = 4
+    console.log('posi', this.radioActivaVal)
+    if (this.ownProfile) {
+      this.router.navigate(['profile-page', 'linked-accounts']);
+    } else {
+      this.router.navigate(['user', 'linked-accounts'], { queryParams: { id: this.profile_id } });
     }
   }
-  uploadProfilePic(){
+  uploadProfilePic() {
     this.formData = new FormData();
     //this.input.nativeElement.value=null;
     //console.log(this.input.nativeElement.files[0])
 
-    if(this.input.nativeElement.files[0]!=null){
+    if (this.input.nativeElement.files[0] != null) {
       console.log("not null")
       let type = this.input.nativeElement.files[0].type
-    if(type != "image/jpeg" && type != "image/jpg"){
-      alert("wrong image type please upload jpg or Jpeg")
-      return
-    }
+      if (type != "image/jpeg" && type != "image/jpg") {
+        alert("wrong image type please upload jpg or Jpeg")
+        return
+      }
     }
     this.formData.append("avatar", this.input.nativeElement.files[0]);
-    axios.post('/uploadProfile', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
-      this.dPsave=false;
-      this.input.nativeElement.value=null;
-    }).catch(err =>console.log(err))
+    axios.post('/uploadProfile', this.formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
+      this.dPsave = false;
+      this.input.nativeElement.value = null;
+    }).catch(err => console.log(err))
     //console.log(this.input)
     //console.log(this.formData)
     this.userInfo.profilePicture = this.dpPreview
   }
-  cancelProfileUpload(){
-    this.input.nativeElement.value=null;
+  cancelProfileUpload() {
+    this.input.nativeElement.value = null;
   }
-  uploadBanner(){
+  uploadBanner() {
     //this.banner.nativeElement.value=null;
     this.formData = new FormData();
-    if(this.input.nativeElement.files[0]!=null){
+    if (this.input.nativeElement.files[0] != null) {
       //console.log("not null")
       let type = this.input.nativeElement.files[0].type
-    if(type != "image/jpeg" && type != "image/jpg"){
-      alert("wrong image type please upload jpg or Jpeg")
-      return
-    }
+      if (type != "image/jpeg" && type != "image/jpg") {
+        alert("wrong image type please upload jpg or Jpeg")
+        return
+      }
     }
     this.formData.append("banner", this.banner.nativeElement.files[0]);
-    axios.post('/uploadBanner', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
-      this.bNsave=false;
-      this.banner.nativeElement.value=null;
-    }).catch(err =>console.log(err))
+    axios.post('/uploadBanner', this.formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
+      this.bNsave = false;
+      this.banner.nativeElement.value = null;
+    }).catch(err => console.log(err))
     this.userInfo.profileBanner = this.bannerPreview
     //console.log(this.input)
   }
-  cancelBannerUpload(){
-    this.banner.nativeElement.value=null;
+  cancelBannerUpload() {
+    this.banner.nativeElement.value = null;
   }
-  setBio(){
+  setBio() {
     const textareaElement = document.getElementById("bio-text") as HTMLTextAreaElement;
-    textareaElement.value=this.bio;
+    textareaElement.value = this.bio;
   }
 
-  updateBio(){
-    axios.post('updateBio',{bio:this.bio}).then(res=>{
-      this.userInfo.bio=this.bio;
-   }).catch(err=>console.log(err))
+  updateBio() {
+    axios.post('updateBio', { bio: this.bio }).then(res => {
+      this.userInfo.bio = this.bio;
+    }).catch(err => console.log(err))
   }
 
-  combineUpload(){
+  combineUpload() {
     this.updateBio();
     this.uploadBanner();
     this.uploadProfilePic();
     //window.location.reload()
   }
-  sendreq(){
+  sendreq() {
     //console.log(this.status.value)
-    if(this.status.value!='Pending' && this.status.value!='Friend'){
-      axios.post('addFriend', { to:this.profile_id}).then(res => {
-        this.status={style:'button',value:'Pending'}
+    if (this.status.value != 'Pending' && this.status.value != 'Friend') {
+      axios.post('addFriend', { to: this.profile_id }).then(res => {
+        this.status = { style: 'button', value: 'Pending' }
         //console.log(this.status)
       }).catch(err => console.log(err))
-      }
+    }
   }
-  modalOpen(){
-    this.bannerPreview=this.userInfo.profileBanner
-    this.dpPreview=this.userInfo.profilePicture
+  modalOpen() {
+    this.bannerPreview = this.userInfo.profileBanner
+    this.dpPreview = this.userInfo.profilePicture
     setInterval(() => {
-      if(this.input.nativeElement.files[0]!=null){
+      if (this.input.nativeElement.files[0] != null) {
         let reader = new FileReader();
         reader.onload = (e: any) => {
-        this.dpPreview = e.target.result;
-        this.dPsave=true;
-      }
-    reader.readAsDataURL(this.input.nativeElement.files[0]);
-      }else{
+          this.dpPreview = e.target.result;
+          this.dPsave = true;
+        }
+        reader.readAsDataURL(this.input.nativeElement.files[0]);
+      } else {
         //console.log("null")
-        this.dPsave=false;
+        this.dPsave = false;
       }
-      if(this.banner.nativeElement.files[0]!=null){
+      if (this.banner.nativeElement.files[0] != null) {
         let reader = new FileReader();
         reader.onload = (e: any) => {
-        this.bannerPreview = e.target.result;
-        this.bNsave=true;
-      }
-    reader.readAsDataURL(this.banner.nativeElement.files[0]);
-      }else{
+          this.bannerPreview = e.target.result;
+          this.bNsave = true;
+        }
+        reader.readAsDataURL(this.banner.nativeElement.files[0]);
+      } else {
         //console.log("null")
-        this.bNsave=false;
+        this.bNsave = false;
       }
     }, 300);
   }
-  unfrnd(){
-    //console.log(this.status.value)
-    if(this.status.value=='Friend'){
-      axios.post('unFriend', { to:this.profile_id}).then(res => {
+  copyToClipboard() {
+    const finalUrl = environment.baseUrl + "/user/post?id=" + this.userparsed.id;
+    navigator.clipboard.writeText(finalUrl)
+      .then(() => console.log('Copied to clipboard: ' + finalUrl))
+      .catch(err => console.error('Error copying to clipboard: ', err));
+      this.openSnackBar()
+  }
+
+  unfrnd() {
+    console.log(this.status.value)
+    if (this.status.value == 'Friend') {
+      axios.post('unFriend', { to: this.profile_id }).then(res => {
         this.status = { style: 'button', value: 'Send Req' }
-        //console.log(this.status)
       }).catch(err => console.log(err))
-      }
+    }
+  }
+
+  openSnackBar() {
+    this.snackBar.open(this.message, this.action, {
+      duration: 2000,
+      panelClass: ['my-custom-class']
+    });
   }
 }

@@ -47,7 +47,6 @@
           <ng-container *ngTemplateOutlet="userReaction; context:{$implicit:comment}"></ng-container>
         </div>
         <section [ngStyle]="{display: showSection[comment.id]? 'block' : 'none'}">
-
           <div class="form-p">
             <textarea #parentID placeholder="Replying to {{comment.author.name}}" autocomplete="off"
               class="form-control input-field-specs" id="{{comment.id}}" ngModel></textarea>
@@ -84,7 +83,6 @@
                   {{child.commentStr}}
                 </div>
               </div>
-              
               <ng-container *ngTemplateOutlet="reactionButtons; context: {$implicit: child}"></ng-container>
               <div class="commentOptions" [style.bottom]="UserVerify(child.author.id) ? '3px' : '-2px'">
               <button class="button-link" #replychild (click)="toggleSection(child.id)">Reply</button>

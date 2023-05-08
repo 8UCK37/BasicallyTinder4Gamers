@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { UserService } from 'src/app/login/user.service';
 import { GamesComponent } from '../games/games.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-linked-accounts',
@@ -111,10 +112,10 @@ export class LinkedAccountsComponent implements OnInit {
     window.open(`https://steamcommunity.com/profiles/${this.steamId}`, '_blank');
   }
   redirectToSteamLogin(): void {
-    window.location.href = `http://localhost:3000/auth/steam?uid=${this.userparsed?.id}`;
+    window.location.href = `${environment.endpointUrl}`+`/auth/steam?uid=${this.userparsed?.id}`;
   }
   redirectToTwitchLogin(): void {
-    window.location.href = `http://localhost:3000/auth/twitch?uid=${this.userparsed?.id}`;
+    window.location.href = `${environment.endpointUrl}`+`/auth/twitch?uid=${this.userparsed?.id}`;
   }
   redirectToTwitchProfile(): void {
     window.open(`https://www.twitch.tv/${this.twitchdata.login}`, '_blank');

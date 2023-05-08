@@ -48,8 +48,7 @@ import { QuillModule } from "ngx-quill";
 import { NotificationComponent } from './settings/notification/notification.component';
 import { PostPageComponent } from './post/post-page/post-page.component';
 import { ChatSettingsComponent } from './settings/chat-settings/chat-settings.component';
-
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
       AppComponent,
@@ -102,7 +101,8 @@ import { ChatSettingsComponent } from './settings/chat-settings/chat-settings.co
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    MatSnackBarModule
   ],
   providers: [
     ChatServicesService

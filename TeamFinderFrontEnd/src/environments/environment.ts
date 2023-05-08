@@ -2,9 +2,13 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import axios from "axios";
+
 export const environment = {
   production: false,
 	SOCKET_ENDPOINT: 'http://localhost:5000',
+  baseUrl: 'http://localhost:4200',
+  endpointUrl: 'http://localhost:3000',
   firebaseConfig : {
     apiKey: "AIzaSyDpR4P95ehxX3iN0IwLjVM8KFWP6JCN33Q",
     authDomain: "teamfinder-e7048.firebaseapp.com",
