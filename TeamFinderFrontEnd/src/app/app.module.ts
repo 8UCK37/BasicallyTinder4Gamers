@@ -47,6 +47,7 @@ import { MentionTextInputComponent } from './utils/mention-text-input/mention-te
 import { QuillModule } from "ngx-quill";
 import { NotificationComponent } from './settings/notification/notification.component';
 import { PostPageComponent } from './post/post-page/post-page.component';
+import { ChatSettingsComponent } from './settings/chat-settings/chat-settings.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
       CreatePostModalComponent,
       MentionTextInputComponent,
       NotificationComponent,
-      PostPageComponent
+      PostPageComponent,
+      ChatSettingsComponent
    ],
   imports: [
     SidebarModule,

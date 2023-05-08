@@ -306,12 +306,18 @@ app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (re
     }
   })
   if(frnddata!=null){
-    let friendReq = await prisma.FriendRequest.updateMany({
-      where:{
+    let reqmanage = await prisma.FriendRequest.deleteMany({
+      where: {
+        OR: [
+          { sender: req.user.user_id, reciever: jsonObject.to },
+          { sender: jsonObject.to, reciever: req.user.user_id }
+        ]
+      },
+    });
+    let friendReq = await prisma.FriendRequest.create({
+      data: {
         sender: req.user.user_id,
         reciever: jsonObject.to,
-      },
-      data: {
         status: 'pending'
       }
     })
