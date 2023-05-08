@@ -16,6 +16,7 @@ require("dotenv").config()
 
 let postHelper = require('./postHelper')
 let profileHelper = require('./profileHelper')
+let chatRouter = require('./chatRouter')
 var bodyParser = require('body-parser')
 // create application/json parser
 var jsonParser = bodyParser.json()
@@ -121,6 +122,7 @@ app.use('/static', express.static(__dirname + '/../../public'));
 //routers
 
 app.use("/comment", require('./routes/comment'))
+
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
@@ -204,10 +206,7 @@ app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{
   data:{
     userInfo:{
       create:req.body  
-      
-      
     }
-    
   },
   include: { userInfo: true }
  })
@@ -1013,7 +1012,11 @@ app.post("/updateBio", ensureAuthenticated, async (req, res) => {
   })
   res.sendStatus(200);
 });
-
+app.post("/chat/background", ensureAuthenticated, upload.single('chatbackground'), (req, res) => {
+  console.log("chat",req.user.user_id)
+  chatRouter.upChatBackGround(req,res)
+  res.sendStatus(200);
+});
 
 socketRunner.execute(io)
 

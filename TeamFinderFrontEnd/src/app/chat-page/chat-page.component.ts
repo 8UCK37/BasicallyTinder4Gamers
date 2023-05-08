@@ -42,6 +42,7 @@ export class ChatPageComponent implements OnInit {
   public activeConvList:any[]=[];
   public static incSenderIds:any[]=[];
   public recData:any;
+  public chatBackGroundUrl:any;
   @ViewChild('toggleButton') toggleButton!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
   constructor(public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2) {
@@ -66,10 +67,11 @@ export class ChatPageComponent implements OnInit {
   ngOnInit() {
     this.incMsg();
     this.userService.userCast.subscribe(usr=>{
-      console.log("user data" , usr)
+      //console.log("user data" , usr)
       this.userparsed = usr;
       this.userInfo = usr;
-      //console.log(this.userparsed)
+      //console.log(this.userparsed.id)
+      this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${this.userparsed.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
       this.getActiveChoice();
       this.getfriendlist();
       this.getActiveConvo();

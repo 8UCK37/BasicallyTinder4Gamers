@@ -27,13 +27,13 @@ model User {
 }
 
 model UserInfo {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  Gender    String?
-  Country   String?
-  Language  String?
-  User      User?
-  Address   String?
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  Gender          String?
+  Country         String?
+  Language        String?
+  User            User?
+  Address         String?
 }
 
 model Friends {
