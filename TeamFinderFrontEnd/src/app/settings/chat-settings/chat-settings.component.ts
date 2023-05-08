@@ -44,27 +44,23 @@ export class ChatSettingsComponent implements OnInit {
     if(this.input.nativeElement.files[0]!=null){
       console.log("not null")
       let type = this.input.nativeElement.files[0].type
-    if(type != "image/jpeg" && type != "image/jpg"){
-      alert("wrong image type please upload jpg or Jpeg")
-      return
-    }
-    this.formData.append("chatbackground", this.input.nativeElement.files[0]);
-    axios.post('chat/background', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
-
-      this.input.nativeElement.value=null;
-    }).catch(err =>console.log(err))
-
-    }else{
+      if(type != "image/jpeg" && type != "image/jpg"){
+        alert("wrong image type please upload jpg or Jpeg")
+        return
+      }
+      this.formData.append("chatbackground", this.input.nativeElement.files[0]);
+      axios.post('chat/background', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
+          this.input.nativeElement.value=null;
+        }).catch(err =>console.log(err))
+      }else{
       console.log("empty")
-    }
-
-    //console.log(this.input)
-    //console.log(this.formData)
+      }
   }
-
 
   cancelSelect(){
     console.log("upload cancelled")
+    this.fileSelected=false;
+    this.input.nativeElement.value=null;
   }
 
 }
