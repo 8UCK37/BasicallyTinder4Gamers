@@ -1,6 +1,6 @@
 <p>chat-settings works!</p>
 <input type="file" name="" id="" style="display: none;" #image (change)="previewImage()">
-
+<div class="button-holder">
 <div (click)="image.click()">
   <div class="wrapper">
     <div class="file-select">
@@ -24,6 +24,53 @@
     </div>
   </div>
 </div>
-<div>
-  <img src="" alt="" #previewImageElement style="max-width: 100%; max-height: 300px;">
+</div>
+  <img src="" alt="" #previewImageElement style="max-width: 100%; max-height: 300px;display: none;">
+
+<div class="user-bar">
+  <div class="avatar">
+    <img [src]="userparsed.profilePicture" referrerpolicy="no-referrer" alt="Avatar">
+  </div>
+  <div class="name">
+    <span>{{userparsed.name}}</span>
+  </div>
+</div>
+<div class="conversation" [style.background-image]="fileSelected ? 'url(' + previewImageElement.src + ')' : 'url(' + chatBackGroundUrl + ')'">
+  <div #messageContainer class="conversation-container">
+    <div>
+      <ng-container>
+
+          <div class="message received" >
+            mock incoming text
+            <span class="metadata">
+              <span class="time"></span>
+            </span>
+          </div>
+
+          <div class="message sent">
+            mock outgoing text
+            <span class="metadata" >
+              <span class="time"></span>
+            </span>
+          </div>
+
+      </ng-container>
+    </div>
+  </div>
+  <form class="conversation-compose">
+    <div class="emoji">
+      <a style="cursor: pointer;"> 😀</a><br>
+    </div>
+    <input #msg class="input-msg" style="background-color: #00000082;
+    color: white;" name="input" placeholder="Type a message" autocomplete="off" autofocus>
+    <button class="send">
+      <div class="circle">
+        <i class="fa-sharp fa-solid fa-location-arrow"></i>
+      </div>
+    </button>
+  </form>
+  <div #menu *ngIf="showEmojiPicker">
+    <emoji-mart class="emoji-mart" set="google" ></emoji-mart>
+  </div>
+
 </div>
