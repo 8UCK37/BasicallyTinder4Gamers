@@ -5,7 +5,7 @@ import { UserService } from '../login/user.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -31,7 +31,9 @@ export class ProfilePageComponent implements OnInit {
   public profile_id: any;
   public status: any;
   public unfriend: any;
-  constructor(public userService: UserService, public modalService: NgbModal, user: UserService, private router: Router, private auth: AngularFireAuth, private route: ActivatedRoute) {
+  public message: string="copied to clipboard";
+  public action: string="Close"
+  constructor(public snackBar: MatSnackBar,public userService: UserService, public modalService: NgbModal, user: UserService, private router: Router, private auth: AngularFireAuth, private route: ActivatedRoute) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
 
@@ -231,6 +233,7 @@ export class ProfilePageComponent implements OnInit {
     navigator.clipboard.writeText(finalUrl)
       .then(() => console.log('Copied to clipboard: ' + finalUrl))
       .catch(err => console.error('Error copying to clipboard: ', err));
+      this.openSnackBar()
   }
 
   unfrnd() {
@@ -240,5 +243,12 @@ export class ProfilePageComponent implements OnInit {
         this.status = { style: 'button', value: 'Send Req' }
       }).catch(err => console.log(err))
     }
+  }
+
+  openSnackBar() {
+    this.snackBar.open(this.message, this.action, {
+      duration: 2000,
+      panelClass: ['my-custom-class']
+    });
   }
 }

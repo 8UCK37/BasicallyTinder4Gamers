@@ -47,8 +47,7 @@ import { MentionTextInputComponent } from './utils/mention-text-input/mention-te
 import { QuillModule } from "ngx-quill";
 import { NotificationComponent } from './settings/notification/notification.component';
 import { PostPageComponent } from './post/post-page/post-page.component';
-
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
       AppComponent,
@@ -100,7 +99,8 @@ import { PostPageComponent } from './post/post-page/post-page.component';
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    MatSnackBarModule
   ],
   providers: [
     ChatServicesService
