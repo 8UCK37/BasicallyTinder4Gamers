@@ -5,7 +5,8 @@ import { ConnectableObservable, Subscription } from 'rxjs';
 import axios from 'axios';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { UserService } from '../login/user.service';
-
+import { prominent } from 'color.js'
+import { average } from 'color.js'
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
@@ -75,7 +76,9 @@ export class ChatPageComponent implements OnInit {
       this.getActiveChoice();
       this.getfriendlist();
       this.getActiveConvo();
-
+      average('https://images.pexels.com/photos/35857/amazing-beautiful-breathtaking-clouds.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',{format:'hex'}).then(color=>{
+        console.log(color)
+      })
     setTimeout(() => {
         this.onclick(this.activeConvList[0])
       this.friendList.forEach(frnd => {
