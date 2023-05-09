@@ -16,7 +16,10 @@ export class ChatSettingsComponent implements OnInit {
   public formData:any;
   showEmojiPicker = false;
   public userparsed:any;
-  public fileSelected:boolean=false
+  public fileSelected:boolean=false;
+  public visible:boolean=false;
+  showSpinner:boolean=true;
+  deleteSuccess:boolean=false;
   ngOnInit(): void {
     this.userService.userCast.subscribe(usr=>{
       //console.log("user data" , usr)
@@ -55,12 +58,23 @@ export class ChatSettingsComponent implements OnInit {
       }else{
       console.log("empty")
       }
+    this.showUploadProgress()
   }
+
 
   cancelSelect(){
     console.log("upload cancelled")
     this.fileSelected=false;
     this.input.nativeElement.value=null;
   }
-
+  showUploadProgress() {
+    this.visible=true
+    setTimeout(() => {
+      this.showSpinner=false
+    }, 2000);
+    this.showSpinner=true
+  }
+  closeDelete(){
+    this.visible = !this.visible;
+  }
 }

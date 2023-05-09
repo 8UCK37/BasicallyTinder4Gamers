@@ -27,6 +27,21 @@
 </div>
   <img src="" alt="" #previewImageElement style="max-width: 100%; max-height: 300px;display: none;">
 <div class="mock-conversation">
+  <div class='dialog' *ngIf="visible"  style="left:103px;">
+    <h3>Uploading the picture</h3>
+    <i *ngIf="!showSpinner" class="pi pi-times" style="margin-top: -30px;float:right;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i>
+    <div *ngIf="!showSpinner">
+    <i class="pi pi-check-circle" style="font-size: 35px;margin-top: 38px;margin-left: 246px;margin-right: 20px;"></i>
+    <br>
+    <span style="position: relative;right:-160px">Chat Background Updated!!</span>
+    <br>
+    <span style="position: relative;right:-91px">Reload the chat page a few times to see results</span>
+    </div>
+    <div *ngIf="showSpinner">
+      <p-progressSpinner [style]="{top:'12px',left:'241px'}"></p-progressSpinner>
+    </div>
+
+  </div>
 <div class="user-bar">
   <div class="avatar">
     <img [src]="userparsed?.profilePicture" referrerpolicy="no-referrer" alt="Avatar">
@@ -35,8 +50,11 @@
     <span>{{userparsed?.name}}</span>
   </div>
 </div>
+
 <div class="conversation" [style.background-image]="fileSelected ? 'url(' + previewImageElement.src + ')' : 'url(' + chatBackGroundUrl + ')'">
   <div #messageContainer class="conversation-container">
+
+
     <div>
       <ng-container>
 
