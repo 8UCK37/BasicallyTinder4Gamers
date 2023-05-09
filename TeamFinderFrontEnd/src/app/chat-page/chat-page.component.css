@@ -1115,3 +1115,9 @@ body[data-theme=dark] {
   background-color: #00000082;
   color: white;
 }
+.settings-icon{
+  position: relative;
+  left: -108px;
+  top: -10px;
+  cursor: pointer;
+}

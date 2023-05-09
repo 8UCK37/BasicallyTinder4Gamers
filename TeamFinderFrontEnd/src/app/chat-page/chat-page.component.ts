@@ -45,7 +45,7 @@ export class ChatPageComponent implements OnInit {
   public chatBackGroundUrl:any;
   @ViewChild('toggleButton') toggleButton!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
-  constructor(public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2) {
+  constructor(public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
       /**
        * Only run when toggleButton is not clicked
@@ -77,13 +77,7 @@ export class ChatPageComponent implements OnInit {
       this.getActiveConvo();
 
     setTimeout(() => {
-      if(this.activeConvList[0]?.chat_type =='sent'){
         this.onclick(this.activeConvList[0])
-      }
-      if(this.activeConvList[0]?.chat_type =='received'){
-        this.onclick(this.activeConvList[0])
-      }
-      //console.log(ChatPageComponent.incSenderIds)
       this.friendList.forEach(frnd => {
         ChatPageComponent.incSenderIds.forEach(sender => {
           if(frnd.data.id==sender){
@@ -92,7 +86,6 @@ export class ChatPageComponent implements OnInit {
         });
       });
     }, 500);
-
     })
     this.incNotification();
   }
@@ -116,7 +109,6 @@ export class ChatPageComponent implements OnInit {
     this.values= ''
 
     setTimeout(() => {
-      //this.getActiveConvo();
       this.getActiveConvo();
     }, 300);
 
@@ -280,6 +272,9 @@ export class ChatPageComponent implements OnInit {
       axios.post('sendNoti',{receiver_id:frndid}).then(res=>{
         console.log(res.data);
      }).catch(err=>console.log(err))
+    }
+    goToChatSettings(){
+      this.router.navigate(['/settings'], { queryParams: { tab:"chat-settings" } });
     }
 }
 
