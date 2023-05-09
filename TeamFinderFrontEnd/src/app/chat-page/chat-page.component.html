@@ -59,7 +59,7 @@
     <div style="width:100%;justify-content: center;display: flex;">
     <div class="chat" *ngIf="selectedFrnd!=null">
       <div class="chat-container">
-        <div class="user-bar">
+        <div class="user-bar" [style.background]="averageHue">
           <div class="avatar">
             <img [src]="selectedFrnd.profilePicture" referrerpolicy="no-referrer" alt="Avatar">
           </div>

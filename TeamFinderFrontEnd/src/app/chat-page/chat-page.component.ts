@@ -44,6 +44,7 @@ export class ChatPageComponent implements OnInit {
   public static incSenderIds:any[]=[];
   public recData:any;
   public chatBackGroundUrl:any;
+  public averageHue:any;
   @ViewChild('toggleButton') toggleButton!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
   constructor(public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2,private router: Router) {
@@ -72,13 +73,15 @@ export class ChatPageComponent implements OnInit {
       this.userparsed = usr;
       this.userInfo = usr;
       //console.log(this.userparsed.id)
-      this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${this.userparsed.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
+      this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${this.userparsed?.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
       this.getActiveChoice();
       this.getfriendlist();
       this.getActiveConvo();
-      average('https://images.pexels.com/photos/35857/amazing-beautiful-breathtaking-clouds.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',{format:'hex'}).then(color=>{
+      average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
         console.log(color)
-      })
+        this.averageHue=color
+      }).catch(err=>console.log(err))
+
     setTimeout(() => {
         this.onclick(this.activeConvList[0])
       this.friendList.forEach(frnd => {
@@ -136,11 +139,11 @@ export class ChatPageComponent implements OnInit {
       this.allMsgs = []
       res.data.forEach((ele:any) => {
         this.timeArr=this.utcToLocal(ele.createdAt).split(" ")[1].split(":")
-        let left = (ele.sender== this.userparsed.id) ? false : true
+        let left = (ele.sender== this.userparsed?.id) ? false : true
         this.allMsgs.push({sender:friendId,rec: left , msg: ele.msg,time:this.timeArr[0]+":"+this.timeArr[1]})
         })
         //console.log(this.allMsgs)
-      });
+      }).catch(err=>console.log(err));
       this.scrollToBottom();
     }
 
@@ -167,10 +170,10 @@ export class ChatPageComponent implements OnInit {
     onclick(frnd:any){
       //console.log(frnd.id)
       this.values='';
-      this.fetchChatData(frnd.id);
-      this.selectedFrndId=frnd.id;
+      this.fetchChatData(frnd?.id);
+      this.selectedFrndId=frnd?.id;
       this.selectedFrnd=frnd;
-      this.notification.set(frnd.id,false);
+      this.notification.set(frnd?.id,false);
       this.scrollToBottom();
     }
 
@@ -187,7 +190,9 @@ export class ChatPageComponent implements OnInit {
 
     scrollToBottom() {
       setTimeout(() => {
+        if(this.messageContainer.nativeElement.scrollTop){
         this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement?.scrollHeight;
+        }
       }, 100);
     }
 
