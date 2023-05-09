@@ -28,7 +28,7 @@ export class ChatSettingsComponent implements OnInit {
       this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${usr.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
 
       average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
-        console.log(color)
+        //console.log(color)
         this.averageHue=color
       }).catch(err=>console.log(err))
 
@@ -36,14 +36,23 @@ export class ChatSettingsComponent implements OnInit {
   }
 
   previewImage() {
-    this.fileSelected=true
+    this.fileSelected = true;
     const file = this.input.nativeElement.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      this.previewImageElement.nativeElement.src = reader.result as string;
+      const img = new Image();
+      img.onload = () => {
+        average(img, { format: 'hex' }).then(color => {
+          //console.log(color);
+          this.averageHue = color;
+        }).catch(err => console.log(err));
+      }
+      img.src = reader.result as string;
+      this.previewImageElement.nativeElement.src = img.src;
     }
     reader.readAsDataURL(file);
   }
+
 
 
   uploadChatBackground(){

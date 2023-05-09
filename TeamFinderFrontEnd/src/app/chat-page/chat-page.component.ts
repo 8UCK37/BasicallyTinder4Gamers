@@ -78,7 +78,7 @@ export class ChatPageComponent implements OnInit {
       this.getfriendlist();
       this.getActiveConvo();
       average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
-        console.log(color)
+        //console.log(color)
         this.averageHue=color
       }).catch(err=>console.log(err))
 
