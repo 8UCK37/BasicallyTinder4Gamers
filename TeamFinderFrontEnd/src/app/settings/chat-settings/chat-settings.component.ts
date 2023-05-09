@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import axios from 'axios';
 import { UserService } from 'src/app/login/user.service';
-
+import { average } from 'color.js'
 @Component({
   selector: 'app-chat-settings',
   templateUrl: './chat-settings.component.html',
@@ -20,11 +20,18 @@ export class ChatSettingsComponent implements OnInit {
   public visible:boolean=false;
   showSpinner:boolean=true;
   deleteSuccess:boolean=false;
+  public averageHue:any;
   ngOnInit(): void {
     this.userService.userCast.subscribe(usr=>{
       //console.log("user data" , usr)
       this.userparsed=usr
       this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${usr.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
+
+      average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
+        console.log(color)
+        this.averageHue=color
+      }).catch(err=>console.log(err))
+
     })
   }
 
