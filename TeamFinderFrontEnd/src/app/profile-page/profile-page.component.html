@@ -101,9 +101,23 @@
       <div class="content">
         <section>
           <h2>POSTS</h2>
-
+          <div class="post-body">
+            <div class="container ">
+              <div class="con">
+                  <div class="profileimg">
+                    <img [src]="userInfo?.profilePicture" class="user-pic" (error)="onProfilePicError()"
+                      referrerpolicy="no-referrer">
+                  </div>
+                    <button #open type="button" class="btn btn-outline-light" (click)="openModal()">
+                      Rant about those lootboxes here.......
+                    </button>
+                    <a type="button" class="btn image " style="left: 178px;">
+                      <img src="./../../assets/icon-resource/image.png" style="height: 30px"><span
+                        style="color: aliceblue; left: 6px;position: relative;">Image</span></a>
+              </div>
+            </div>
           <app-profile-post></app-profile-post>
-
+        </div>
         </section>
         <section>
           <h2>GAMES</h2>

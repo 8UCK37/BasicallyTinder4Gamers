@@ -6,6 +6,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsServiceService } from '../utils/utils-service.service';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -33,7 +34,8 @@ export class ProfilePageComponent implements OnInit {
   public unfriend: any;
   public message: string="copied to clipboard";
   public action: string="Close"
-  constructor(public snackBar: MatSnackBar,public userService: UserService, public modalService: NgbModal, user: UserService, private router: Router, private auth: AngularFireAuth, private route: ActivatedRoute) {
+  //utilsServiceService: any;
+  constructor(public snackBar: MatSnackBar,public userService: UserService, public modalService: NgbModal, user: UserService, private router: Router, private auth: AngularFireAuth, private route: ActivatedRoute, public utilsServiceService : UtilsServiceService) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
 
@@ -251,4 +253,11 @@ export class ProfilePageComponent implements OnInit {
       panelClass: ['my-custom-class']
     });
   }
+  openModal(){
+    this.utilsServiceService.modalObjSource.next({open:true, data:null})
+  }
+  onProfilePicError() {
+    //this.profileurl = this.userparsed?.photoURL;
+  }
 }
+
