@@ -96,7 +96,7 @@
 }
 
 
-/*conversation*/
+
 /* Conversation */
 
 .conversation {
@@ -107,7 +107,7 @@
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
   background-repeat: no-repeat;
-  background-color: currentColor;
+  background-color: #212529;
   /* background-attachment: fixed; */
   background-position: center;
   border-bottom-right-radius: 10px;
