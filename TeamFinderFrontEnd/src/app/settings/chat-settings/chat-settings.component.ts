@@ -25,7 +25,7 @@ export class ChatSettingsComponent implements OnInit {
     this.userService.userCast.subscribe(usr=>{
       //console.log("user data" , usr)
       this.userparsed=usr
-      this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${usr.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
+      this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${this.userparsed?.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
 
       average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
         //console.log(color)
@@ -34,26 +34,25 @@ export class ChatSettingsComponent implements OnInit {
 
     })
   }
-
   previewImage() {
     this.fileSelected = true;
     const file = this.input.nativeElement.files[0];
     const reader = new FileReader();
-    reader.onload = () => {
-      const img = new Image();
-      img.onload = () => {
-        average(img, { format: 'hex' }).then(color => {
-          //console.log(color);
-          this.averageHue = color;
-        }).catch(err => console.log(err));
+    if(this.input.nativeElement.files[0]!=null){
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          average(img, { format: 'hex' }).then(color => {
+            //console.log(color);
+            this.averageHue = color;
+          }).catch(err => console.log(err));
+        }
+        img.src = reader.result as string;
+        this.previewImageElement.nativeElement.src = img.src;
       }
-      img.src = reader.result as string;
-      this.previewImageElement.nativeElement.src = img.src;
+      reader.readAsDataURL(file);
     }
-    reader.readAsDataURL(file);
   }
-
-
 
   uploadChatBackground(){
     this.formData = new FormData();
@@ -89,8 +88,12 @@ export class ChatSettingsComponent implements OnInit {
       this.showSpinner=false
     }, 2000);
     this.showSpinner=true
+
   }
-  closeDelete(){
+  closeUploadDialog(){
     this.visible = !this.visible;
+    setTimeout(() => {
+      window.location.reload()
+    }, 500);
   }
 }
