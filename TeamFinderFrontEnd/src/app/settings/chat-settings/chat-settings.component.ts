@@ -89,7 +89,10 @@ export class ChatSettingsComponent implements OnInit {
       this.messageService.add({ severity: 'warn', summary: 'No image selcted', detail: 'No Image has yet been selected by you' });
     }
     this.input.nativeElement.value=null;
-
+    average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
+      //console.log(color)
+      this.averageHue=color
+    }).catch(err=>console.log(err))
   }
   showUploadProgress() {
     this.visible=true
