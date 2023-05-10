@@ -2,14 +2,16 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import axios from 'axios';
 import { UserService } from 'src/app/login/user.service';
 import { average } from 'color.js'
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-chat-settings',
   templateUrl: './chat-settings.component.html',
-  styleUrls: ['./chat-settings.component.css']
+  styleUrls: ['./chat-settings.component.css'],
+  providers: [MessageService]
 })
 export class ChatSettingsComponent implements OnInit {
 
-  constructor(public userService:UserService) { }
+  constructor(public userService:UserService,private messageService: MessageService) { }
   @ViewChild('image') input!:ElementRef;
   @ViewChild('previewImageElement', { static: false }) previewImageElement!: ElementRef<HTMLImageElement>;
   public chatBackGroundUrl:any;
@@ -67,20 +69,27 @@ export class ChatSettingsComponent implements OnInit {
         return
       }
       this.formData.append("chatbackground", this.input.nativeElement.files[0]);
+      this.showUploadProgress()
       axios.post('chat/background', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
           this.input.nativeElement.value=null;
         }).catch(err =>console.log(err))
       }else{
-      console.log("empty")
+        this.messageService.add({ severity: 'error', summary: 'No image selected', detail: 'No image to upload' });
       }
-    this.showUploadProgress()
+
   }
 
 
   cancelSelect(){
-    console.log("upload cancelled")
+    //console.log("upload cancelled")
     this.fileSelected=false;
+    if(this.input.nativeElement.value[0]!=null){
+      this.messageService.add({ severity: 'info', summary: 'Selected image discarded', detail: 'Selected Image discarded' });
+    }else{
+      this.messageService.add({ severity: 'warn', summary: 'No image selcted', detail: 'No Image has yet been selected by you' });
+    }
     this.input.nativeElement.value=null;
+
   }
   showUploadProgress() {
     this.visible=true
