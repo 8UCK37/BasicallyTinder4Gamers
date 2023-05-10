@@ -83,7 +83,7 @@ export class ChatPageComponent implements OnInit {
       }).catch(err=>console.log(err))
 
     setTimeout(() => {
-        this.onclick(this.activeConvList[0])
+      this.onclick(this.activeConvList[0])
       this.friendList.forEach(frnd => {
         ChatPageComponent.incSenderIds.forEach(sender => {
           if(frnd.data.id==sender){
@@ -190,10 +190,8 @@ export class ChatPageComponent implements OnInit {
 
     scrollToBottom() {
       setTimeout(() => {
-        if(this.messageContainer.nativeElement.scrollTop){
         this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement?.scrollHeight;
-        }
-      }, 100);
+      }, 200);
     }
 
     incMsg(){
