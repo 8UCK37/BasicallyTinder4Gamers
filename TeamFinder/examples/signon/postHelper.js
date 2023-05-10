@@ -319,6 +319,21 @@ async function getPostByPostId(req, res, prisma){
 `;
 res.send(JSON.stringify(post))
 }
+async function quickSharePost(req, res, prisma){
+  console.log(req.user.user_id)
+  console.log(req.body.originalPostId)
+  let quickShare = await prisma.Posts.create({
+    data:{
+      author : req.user.user_id,
+      photoUrl:null,
+      description:null,
+      deleted:false,
+      mention: {data:'null'},
+      shared : parseInt(req.body.originalPostId)
+    }
+  })
+  res.sendStatus(200)
+}
 
-
-module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,deletePost,mentionedInPost,getPostByPostId}
+module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,
+                    deletePost,mentionedInPost,getPostByPostId,quickSharePost}

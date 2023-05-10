@@ -260,4 +260,13 @@ export class PostComponent implements OnInit {
     //console.log(this.childPost.id)
     this.router.navigate(['post-page'],{ queryParams: { post_id: this.childPost.id } });
   }
+  quickShare(postId:any){
+    console.log('qs',postId)
+    axios.post('/quickSharePost', { originalPostId: postId }).then(res => {
+      console.log(res.data)
+    })
+  }
+  feedShare(postId:any){
+    console.log('fs',postId)
+  }
 }
