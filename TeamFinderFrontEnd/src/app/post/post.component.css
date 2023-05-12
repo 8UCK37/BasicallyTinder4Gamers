@@ -496,4 +496,16 @@ width: 300px;
     flex: none;
     width: 100%;
 }
+.parent-author{
+  border: 1px solid #1da750;
+  border-bottom: 0px;
+  margin-left: 80px;
+  margin-top:25px;
+  margin-right:25px;
+}
+.parent-author-dp{
+  border-radius: 50%;
+  width:40px;
+  margin-left: 15px;
+}
 }

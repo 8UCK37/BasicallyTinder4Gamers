@@ -100,6 +100,25 @@ export class PostComponent implements OnInit {
         });
       }
 
+      if(this.childPost.shared && this.childPost.parentpost.mention != null &&  this.childPost.parentpost.mention.list != undefined )
+      {
+        this.childPost.parentpost.refinedText= this.childPost.parentpost?.description
+        this.childPost.parentpost.mention.list.forEach((mention:any) => {
+
+          if(mention.id==this.userparsed.id){
+            this.childPost.parentpost.refinedText  = this.childPost.parentpost.refinedText.replace(mention.id ,
+              `<a href="${environment.baseUrl}/profile-page/post">
+                <u class="mention-highlight">${mention.name}</u>
+              </a>`)
+          }else{
+          this.childPost.parentpost.refinedText  = this.childPost.parentpost.refinedText.replace(mention.id ,
+          `<a href="${environment.baseUrl}/user/post?id=${mention.id}">
+            <u class="mention-highlight">${mention.name}</u>
+          </a>`)
+        }
+        });
+      }
+
     this. responsiveOptions = [
       {
           breakpoint: '1024px',
