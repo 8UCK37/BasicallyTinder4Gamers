@@ -9,8 +9,19 @@
               class="rounded-circle">
             <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
                 style="margin-left: 10px;">{{childPost.name}}</span><span
-                style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span></div>
+                style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span>
+              </div>
           </div>
+          <ng-container *ngIf="childPost.shared">
+            <div class="parent-author">
+            <div class="d-flex flex-row align-items-center"> <img [src]="childPost.parentpostauthor.profilePicture" width="50"
+              class="rounded-circle">
+            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
+                style="margin-left: 10px;">{{childPost.parentpostauthor.name}}</span>
+              </div>
+          </div>
+          </div>
+          </ng-container>
           <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" >
             <p-speedDial  [model]="items"  direction="down-left" [radius]="radi" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-rounded p-button-text" ></p-speedDial>
           </div>

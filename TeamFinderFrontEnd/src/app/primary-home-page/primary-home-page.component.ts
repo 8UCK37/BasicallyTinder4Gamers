@@ -79,7 +79,7 @@ export class PrimaryHomePageComponent implements OnInit {
         if(post.shared!=null){
           post.parentpost=JSON.parse(post.parentpost)
           post.parentpost.tagArr=post.parentpost.tagnames?.split(',')
-          post.parentpost.photoUrlArr=post.parentpost.photoUrl?.split(',')
+          post.photoUrlArr=post.parentpost.photoUrl?.split(',')
         }
       });
       this.commentService.setPostsObj(this.posts);

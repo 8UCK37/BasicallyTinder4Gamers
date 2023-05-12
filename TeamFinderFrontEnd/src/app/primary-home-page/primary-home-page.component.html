@@ -24,8 +24,6 @@
     </div>
   </div>
   <ng-container *ngFor="let post of posts">
-    <ng-container *ngIf="post.shared==null">
     <app-post [childPost]="post"></app-post>
-  </ng-container>
   </ng-container>
 </main>
