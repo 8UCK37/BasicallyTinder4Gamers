@@ -287,5 +287,6 @@ export class PostComponent implements OnInit {
   }
   feedShare(postId:any){
     console.log('fs',postId)
+    alert('I know you want to add a custom desc when sharing a post\nbut i cant implement that unless the\nedit/create-post modal is finished and looking pretty and working!!\n ar oi kaj ta ami ekebarei korbo na!!!');
   }
 }
