@@ -158,7 +158,7 @@
             <div class="dropdown ">
               <div class="share dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
               <ul class="dropdown-menu">
-                <li style="cursor: pointer;"><a class="dropdown-item" (click)="quickShare(childPost.id)" >Quick Share</a></li>
+                <li style="cursor: pointer;"><a class="dropdown-item" (click)="quickShare(childPost.shared ? childPost.parentpost.id : childPost.id)" >Quick Share</a></li>
                 <li style="cursor: pointer;"><a class="dropdown-item" (click)="feedShare(childPost.id)">Share to feed</a></li>
               </ul>
             </div>
