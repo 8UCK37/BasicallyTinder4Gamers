@@ -87,7 +87,8 @@ async function getPost(req, res, prisma) {
   const posts = await prisma.$queryRaw`
   SELECT p.*, t.tagNames, u."name", u."profilePicture", a.type AS reactionType,
        CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
-       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount
+       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount,
+       CASE WHEN p.shared IS NULL THEN NULL ELSE row_to_json(pp)::text END AS ParentPost
 FROM public."Posts" p
 LEFT JOIN (
     SELECT post,
@@ -106,6 +107,7 @@ LEFT JOIN (
 ) t ON p.id = t.post
 LEFT JOIN public."Activity" a ON p.id = a.post AND a.author = ${req.user.user_id}
 LEFT JOIN public."User" u ON p.author = u.id
+LEFT JOIN public."Posts" pp ON pp.id = p.shared
 WHERE EXISTS (
     SELECT 1
     FROM public."Friends" f
