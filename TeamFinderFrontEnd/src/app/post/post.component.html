@@ -29,7 +29,7 @@
             <div *ngIf="showSpinner">
               <p-progressSpinner [style]="{top:'12px',left:'241px'}"></p-progressSpinner>
             </div>
-            <div class='action-group'>
+            <div class='action-group' *ngIf="!deleteSuccess">
               <button (click)="confirmDelete()">Delete</button>
               <button (click)="cancelDelete()">Cancel</button>
             </div>
@@ -52,6 +52,9 @@
                   style="margin-left: 10px;">{{childPost?.parentpostauthor?.name}}</span>
                   <span style="margin-left: 10px;">{{this.utcToLocal(childPost?.parentpost?.createdAt)}}</span>
               </div>
+              <ng-container *ngIf="childPost?.parentpost?.deleted">
+                <span>{{childPost?.parentpost?.message}}</span>
+              </ng-container>
             </div>
             <div class="p-3" *ngIf="childPost?.parentpost?.refinedText">
               <p class="text-justify" [innerHTML]="childPost.parentpost?.refinedText"></p>

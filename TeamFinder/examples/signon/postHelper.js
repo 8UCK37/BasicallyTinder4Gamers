@@ -88,7 +88,11 @@ async function getPost(req, res, prisma) {
   SELECT p.*, t.tagNames, u."name", u."profilePicture", a.type AS reactionType,
        CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
        r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount,
-       CASE WHEN p.shared IS NULL THEN NULL ELSE row_to_json(pp)::text END AS ParentPost,
+       CASE 
+        WHEN p.shared IS NULL THEN NULL 
+        WHEN pp.deleted = true THEN '{"deleted":"true","message": "This post is no longer available"}'
+        ELSE row_to_json(pp)::text 
+        END AS ParentPost,
        json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor
 FROM public."Posts" p
 LEFT JOIN (
@@ -130,7 +134,11 @@ async function getPostById(req, res, prisma) {
       FROM public."Activity" a
       WHERE a.author = ${req.user.user_id} AND a.post = p.id
     ) AS reactionType,
-    CASE WHEN p.shared IS NULL THEN NULL ELSE row_to_json(pp)::text END AS ParentPost,
+    CASE 
+        WHEN p.shared IS NULL THEN NULL 
+        WHEN pp.deleted = true THEN '{"deleted":"true","message": "This post is no longer available"}'
+        ELSE row_to_json(pp)::text 
+        END AS ParentPost,
         json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor,
     CASE WHEN NOT EXISTS (
       SELECT *
