@@ -130,6 +130,8 @@ async function getPostById(req, res, prisma) {
       FROM public."Activity" a
       WHERE a.author = ${req.user.user_id} AND a.post = p.id
     ) AS reactionType,
+    CASE WHEN p.shared IS NULL THEN NULL ELSE row_to_json(pp)::text END AS ParentPost,
+        json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor,
     CASE WHEN NOT EXISTS (
       SELECT *
       FROM public."Activity" a
@@ -147,6 +149,8 @@ async function getPostById(req, res, prisma) {
       GROUP BY "post"
     ) t ON p.id = t.post
     JOIN public."User" u ON p.author = u.id
+    LEFT JOIN public."Posts" pp ON pp.id = p.shared
+    LEFT JOIN public."User" pu ON pp.author = pu.id
     WHERE p.author=${req.body.uid} AND p.deleted=false
     ORDER BY p."createdAt" DESC;
   `

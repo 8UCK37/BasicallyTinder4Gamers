@@ -72,7 +72,7 @@ export class PostComponent implements OnInit {
         this.ownPosts= posts;
       });
     })
-    this.childPost.photoUrlArr.forEach((url: any) => {
+    this.childPost.photoUrlArr?.forEach((url: any) => {
       if(url!=''){
       this.images.push({imageSrcUrl:url})
     }
@@ -100,7 +100,7 @@ export class PostComponent implements OnInit {
         });
       }
 
-      if(this.childPost.shared && this.childPost.parentpost.mention != null &&  this.childPost.parentpost.mention.list != undefined )
+      if(this.childPost.shared && this.childPost.parentpost?.mention != null &&  this.childPost.parentpost?.mention.list != undefined )
       {
         this.childPost.parentpost.refinedText= this.childPost.parentpost?.description
         this.childPost.parentpost.mention.list.forEach((mention:any) => {

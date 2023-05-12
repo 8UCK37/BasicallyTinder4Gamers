@@ -46,16 +46,16 @@
         <ng-container *ngIf="childPost.shared">
           <div class="parent-author">
             <div class="d-flex flex-row align-items-center" style="margin-top: 5px;margin-bottom: 5px;">
-              <img [src]="childPost.parentpostauthor.profilePicture" width="50"
+              <img [src]="childPost.parentpostauthor?.profilePicture" width="50"
                 class="parent-author-dp">
               <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
-                  style="margin-left: 10px;">{{childPost.parentpostauthor.name}}</span>
-                  <span style="margin-left: 10px;">{{this.utcToLocal(childPost?.parentpost.createdAt)}}</span>
+                  style="margin-left: 10px;">{{childPost?.parentpostauthor?.name}}</span>
+                  <span style="margin-left: 10px;">{{this.utcToLocal(childPost?.parentpost?.createdAt)}}</span>
               </div>
             </div>
-            <div class="p-3" *ngIf="childPost.parentpost.refinedText">
-              <p class="text-justify" [innerHTML]="childPost.parentpost.refinedText"></p>
-              <ng-container *ngFor="let tag of childPost.parentpost.tagArr">
+            <div class="p-3" *ngIf="childPost?.parentpost?.refinedText">
+              <p class="text-justify" [innerHTML]="childPost.parentpost?.refinedText"></p>
+              <ng-container *ngFor="let tag of childPost.parentpost?.tagArr">
                 <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
               </ng-container>
             </div>
