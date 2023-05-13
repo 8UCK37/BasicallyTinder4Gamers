@@ -30,7 +30,7 @@ const { json } = require("express");
 
 const prisma = new PrismaClient()
 const multer = require('multer');
-const socketRunner = require('./sockerRunner')
+const socketRunner = require('./socketRunner')
 const { randomUUID } = require("crypto");
 const auth  = require('./middleware/authMiddleware')
 const ensureAuthenticated = auth.ensureAuthenticated
