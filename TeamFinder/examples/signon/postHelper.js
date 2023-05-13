@@ -307,7 +307,10 @@ async function getPostByPostId(req, res, prisma){
   const post = await prisma.$queryRaw`
   SELECT p.*, t.tagNames, u."name", u."profilePicture", a.type AS reactionType,
        CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
-       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount
+       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount,
+       CASE WHEN p.shared IS NULL THEN NULL WHEN pp.deleted = true THEN '{"deleted":"true","message": "This post is no longer available"}'
+        ELSE row_to_json(pp)::text END AS ParentPost,
+        json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor
   FROM public."Posts" p
   LEFT JOIN (
       SELECT post,
@@ -330,6 +333,8 @@ async function getPostByPostId(req, res, prisma){
       WHERE type != 'post'
   ) a ON p.id = a.post AND a.author = ${req.user.user_id}
   LEFT JOIN public."User" u ON p.author = u.id
+  LEFT JOIN public."Posts" pp ON pp.id = p.shared
+  LEFT JOIN public."User" pu ON pp.author = pu.id
   WHERE p.id = ${postid} AND p.deleted = false
   ORDER BY p."createdAt" DESC;
 `;

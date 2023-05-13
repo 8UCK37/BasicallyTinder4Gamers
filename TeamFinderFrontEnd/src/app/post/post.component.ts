@@ -86,7 +86,7 @@ export class PostComponent implements OnInit {
       {
         // debugger
         this.childPost.mention.list.forEach((mention:any) => {
-          if(mention.id==this.userparsed.id){
+          if(mention.id==this.userparsed?.id){
             this.childPost.refinedText  = this.childPost.refinedText.replace(mention.id ,
               `<a href="${environment.baseUrl}/profile-page/post">
                 <u class="mention-highlight">${mention.name}</u>
@@ -105,7 +105,7 @@ export class PostComponent implements OnInit {
         this.childPost.parentpost.refinedText= this.childPost.parentpost?.description
         this.childPost.parentpost.mention.list.forEach((mention:any) => {
 
-          if(mention.id==this.userparsed.id){
+          if(mention.id==this.userparsed?.id){
             this.childPost.parentpost.refinedText  = this.childPost.parentpost.refinedText.replace(mention.id ,
               `<a href="${environment.baseUrl}/profile-page/post">
                 <u class="mention-highlight">${mention.name}</u>
