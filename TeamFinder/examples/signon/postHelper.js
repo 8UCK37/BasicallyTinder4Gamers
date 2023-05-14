@@ -1,7 +1,7 @@
 const {Storage} = require('@google-cloud/storage')
 const bucketName = 'gs://teamfinder-e7048.appspot.com/';
 const { v4: uuidv4 } = require('uuid');
-const socketRunner = require('./sockerRunner')
+const socketRunner = require('./socketRunner')
 
 BigInt.prototype.toJSON = function() {
   return this.toString();

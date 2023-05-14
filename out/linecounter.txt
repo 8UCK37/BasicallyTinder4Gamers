@@ -39,7 +39,7 @@ TeamFinder\examples\signon\client\homepage.html, code is 42, comment is 0, blank
 TeamFinder\examples\signon\client\PendingRequest.html, code is 63, comment is 0, blank is 8.
 TeamFinder\examples\signon\postHelper.js, code is 101, comment is 26, blank is 16.
 TeamFinder\examples\signon\profileHelper.js, code is 47, comment is 18, blank is 9.
-TeamFinder\examples\signon\sockerRunner.js, code is 65, comment is 4, blank is 7.
+TeamFinder\examples\signon\socketRunner.js, code is 65, comment is 4, blank is 7.
 TeamFinder\googlekey.json, code is 12, comment is 0, blank is 0.
 TeamFinder\key\firebaseadminkey.json, code is 12, comment is 0, blank is 0.
 TeamFinder\lib\passport-steam\index.js, code is 4, comment is 3, blank is 3.
