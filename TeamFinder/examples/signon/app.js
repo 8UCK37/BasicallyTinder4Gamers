@@ -490,7 +490,6 @@ app.get('/auth/twitch/callback', async (req, res) => {
   }
 });
 
-
 //updates the twitchtoken of a user to the user table 
 async function setTwitchToken(req, res,token,refreshToken) {
   //console.log('setTwitchToken called')
