@@ -123,6 +123,10 @@ app.use('/static', express.static(__dirname + '/../../public'));
 
 app.use("/comment", require('./routes/comment'))
 
+//Player States API
+app.use("/stats", require('./routes/playerStates'))
+
+
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
