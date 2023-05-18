@@ -37,7 +37,7 @@ async function createPost(req, res, prisma){
       console.log(body);
       let text = "" 
       mentionList = [] 
-      body.desc.ops.forEach(element => {
+      body.desc.content.ops.forEach(element => {
         // console.log(element.insert)
         if(element.insert.mention == undefined ){
           text += element.insert
@@ -57,7 +57,8 @@ async function createPost(req, res, prisma){
                 photoUrl:urlArr.toString(),
                 description:text,
                 deleted:false,
-                mention: {list : mentionList}
+                mention: {list : mentionList},
+                raw:JSON.stringify( body.desc.content)
             }
         })
      // TODO : fix this code , make one like insert to the db , 
