@@ -49,8 +49,9 @@ import { NotificationComponent } from './settings/notification/notification.comp
 import { PostPageComponent } from './post/post-page/post-page.component';
 import { ChatSettingsComponent } from './settings/chat-settings/chat-settings.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { PlayerStatsComponent } from './player-stats/player-stats.component';
 @NgModule({
-  declarations: [
+  declarations: [	
       AppComponent,
       PrimaryHomePageComponent,
       LoginComponent,
@@ -71,7 +72,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
       MentionTextInputComponent,
       NotificationComponent,
       PostPageComponent,
-      ChatSettingsComponent
+      ChatSettingsComponent,
+      PlayerStatsComponent
    ],
   imports: [
     SidebarModule,

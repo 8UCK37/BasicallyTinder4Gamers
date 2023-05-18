@@ -1,5 +1,5 @@
 <div class="profile-page-inner">
-  <div class="container" style="width:200px;position: relative;left:-200px">
+  <div class="container" style="width:200px;position: fixed;left:-200px">
     <div class="row tab" [class.border]="showgames" (click)="showgames=true">
       <div class="col-sm">
         <img src="https://cdn-icons-png.flaticon.com/512/2780/2780122.png" alt="" style="width:40px;height:40px">
@@ -9,7 +9,7 @@
     <div class="row tab" [class.border]="!showgames" (click)="showgames=false">
       <div class="col-sm">
         <img src="https://cdn-icons-png.flaticon.com/512/861/861506.png" alt="" style="width:40px;height:40px">
-        Achievements
+       Stats
       </div>
     </div>
   </div>
@@ -114,7 +114,7 @@
       </div>
     </ng-template>
   </div>
-  <div class="profile-page-item flexbox" *ngIf="!showgames" [@appear]>
-    Achievements
+  <div *ngIf="!showgames" [@appear]>
+   <app-player-stats></app-player-stats>
   </div>
 </div>

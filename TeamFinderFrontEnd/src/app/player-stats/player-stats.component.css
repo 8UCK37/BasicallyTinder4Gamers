@@ -1,0 +1,29 @@
+.container{
+  display: flex;
+}
+
+.con{
+  height: 270px;
+  border-radius: 40px;
+  color: rgb(249, 250, 250);
+  background-color: #262626;
+  width: 19rem;
+  text-align: center;
+  margin: 65px 65px 65px 65px;
+}
+
+.card{
+  height: 170px;
+  width: 170px;
+  border-radius: 100px;
+  justify-content: center;
+  color: #262626;
+  background-color: bisque;
+  left: 80px;
+  top: 25px;
+}
+
+.tagline{
+  position: relative;
+  top: 45px;
+}
