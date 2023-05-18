@@ -5,7 +5,8 @@ import { ConnectableObservable, Subscription } from 'rxjs';
 import axios from 'axios';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { UserService } from '../login/user.service';
-
+import { prominent } from 'color.js'
+import { average } from 'color.js'
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
@@ -42,9 +43,11 @@ export class ChatPageComponent implements OnInit {
   public activeConvList:any[]=[];
   public static incSenderIds:any[]=[];
   public recData:any;
+  public chatBackGroundUrl:any;
+  public averageHue:any;
   @ViewChild('toggleButton') toggleButton!: ElementRef;
   @ViewChild('menu') menu!: ElementRef;
-  constructor(public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2) {
+  constructor(public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
       /**
        * Only run when toggleButton is not clicked
@@ -66,22 +69,21 @@ export class ChatPageComponent implements OnInit {
   ngOnInit() {
     this.incMsg();
     this.userService.userCast.subscribe(usr=>{
-      console.log("user data" , usr)
+      //console.log("user data" , usr)
       this.userparsed = usr;
       this.userInfo = usr;
-      //console.log(this.userparsed)
+      //console.log(this.userparsed.id)
+      this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${this.userparsed?.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
       this.getActiveChoice();
       this.getfriendlist();
       this.getActiveConvo();
+      average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
+        //console.log(color)
+        this.averageHue=color
+      }).catch(err=>console.log(err))
 
     setTimeout(() => {
-      if(this.activeConvList[0]?.chat_type =='sent'){
-        this.onclick(this.activeConvList[0])
-      }
-      if(this.activeConvList[0]?.chat_type =='received'){
-        this.onclick(this.activeConvList[0])
-      }
-      //console.log(ChatPageComponent.incSenderIds)
+      this.onclick(this.activeConvList[0])
       this.friendList.forEach(frnd => {
         ChatPageComponent.incSenderIds.forEach(sender => {
           if(frnd.data.id==sender){
@@ -90,7 +92,6 @@ export class ChatPageComponent implements OnInit {
         });
       });
     }, 500);
-
     })
     this.incNotification();
   }
@@ -114,7 +115,6 @@ export class ChatPageComponent implements OnInit {
     this.values= ''
 
     setTimeout(() => {
-      //this.getActiveConvo();
       this.getActiveConvo();
     }, 300);
 
@@ -139,11 +139,11 @@ export class ChatPageComponent implements OnInit {
       this.allMsgs = []
       res.data.forEach((ele:any) => {
         this.timeArr=this.utcToLocal(ele.createdAt).split(" ")[1].split(":")
-        let left = (ele.sender== this.userparsed.id) ? false : true
+        let left = (ele.sender== this.userparsed?.id) ? false : true
         this.allMsgs.push({sender:friendId,rec: left , msg: ele.msg,time:this.timeArr[0]+":"+this.timeArr[1]})
         })
         //console.log(this.allMsgs)
-      });
+      }).catch(err=>console.log(err));
       this.scrollToBottom();
     }
 
@@ -170,10 +170,10 @@ export class ChatPageComponent implements OnInit {
     onclick(frnd:any){
       //console.log(frnd.id)
       this.values='';
-      this.fetchChatData(frnd.id);
-      this.selectedFrndId=frnd.id;
+      this.fetchChatData(frnd?.id);
+      this.selectedFrndId=frnd?.id;
       this.selectedFrnd=frnd;
-      this.notification.set(frnd.id,false);
+      this.notification.set(frnd?.id,false);
       this.scrollToBottom();
     }
 
@@ -191,7 +191,7 @@ export class ChatPageComponent implements OnInit {
     scrollToBottom() {
       setTimeout(() => {
         this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement?.scrollHeight;
-      }, 100);
+      }, 200);
     }
 
     incMsg(){
@@ -278,6 +278,9 @@ export class ChatPageComponent implements OnInit {
       axios.post('sendNoti',{receiver_id:frndid}).then(res=>{
         console.log(res.data);
      }).catch(err=>console.log(err))
+    }
+    goToChatSettings(){
+      this.router.navigate(['/settings'], { queryParams: { tab:"chat-settings" } });
     }
 }
 

@@ -56,7 +56,7 @@
       (mouseover)="imgSrc=twitchdata.profile_image_url;imgSize='400px'"
       (mouseout)="imgSrc='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';imgSize='250px'">
         <h2>{{twitchdata.display_name}}</h2>
-        <div *ngIf="imgSrc==twitchdata.profile_image_url" class="icons" style="cursor: pointer;" (click)="redirectToTwitchProfile() ">
+        <div [style.display]="imgSrc==twitchdata.profile_image_url? 'block':'none'" class="icons" style="cursor: pointer;display: none;" (click)="redirectToTwitchProfile() ">
             <i class="fa-brands fa-twitch fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6"  ></i>
         </div>
     </div>

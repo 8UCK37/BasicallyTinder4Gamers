@@ -72,7 +72,7 @@ export class PostComponent implements OnInit {
         this.ownPosts= posts;
       });
     })
-    this.childPost.photoUrlArr.forEach((url: any) => {
+    this.childPost.photoUrlArr?.forEach((url: any) => {
       if(url!=''){
       this.images.push({imageSrcUrl:url})
     }
@@ -86,10 +86,36 @@ export class PostComponent implements OnInit {
       {
         // debugger
         this.childPost.mention.list.forEach((mention:any) => {
-          this.childPost.refinedText  = this.childPost.refinedText.replace(mention.id , `<a href="${environment.baseUrl}/user/post?id=${mention.id}">
-          <u class="mention-highlight">${mention.name}</u>
-        </a>
-        `)
+          if(mention.id==this.userparsed?.id){
+            this.childPost.refinedText  = this.childPost.refinedText.replace(mention.id ,
+              `<a href="${environment.baseUrl}/profile-page/post">
+                <u class="mention-highlight">${mention.name}</u>
+              </a>`)
+          }else{
+          this.childPost.refinedText  = this.childPost.refinedText.replace(mention.id ,
+          `<a href="${environment.baseUrl}/user/post?id=${mention.id}">
+            <u class="mention-highlight">${mention.name}</u>
+          </a>`)
+        }
+        });
+      }
+
+      if(this.childPost.shared && this.childPost.parentpost?.mention != null &&  this.childPost.parentpost?.mention.list != undefined )
+      {
+        this.childPost.parentpost.refinedText= this.childPost.parentpost?.description
+        this.childPost.parentpost.mention.list.forEach((mention:any) => {
+
+          if(mention.id==this.userparsed?.id){
+            this.childPost.parentpost.refinedText  = this.childPost.parentpost.refinedText.replace(mention.id ,
+              `<a href="${environment.baseUrl}/profile-page/post">
+                <u class="mention-highlight">${mention.name}</u>
+              </a>`)
+          }else{
+          this.childPost.parentpost.refinedText  = this.childPost.parentpost.refinedText.replace(mention.id ,
+          `<a href="${environment.baseUrl}/user/post?id=${mention.id}">
+            <u class="mention-highlight">${mention.name}</u>
+          </a>`)
+        }
         });
       }
 
@@ -252,5 +278,15 @@ export class PostComponent implements OnInit {
   goToPostPage(){
     //console.log(this.childPost.id)
     this.router.navigate(['post-page'],{ queryParams: { post_id: this.childPost.id } });
+  }
+  quickShare(postId:any){
+    console.log('qs',postId)
+    axios.post('/quickSharePost', { originalPostId: postId }).then(res => {
+      console.log(res.data)
+    })
+  }
+  feedShare(postId:any){
+    console.log('fs',postId)
+    alert('I know you want to add a custom desc when sharing a post\nbut i cant implement that unless the\nedit/create-post modal is finished and looking pretty and working!!\n ar oi kaj ta ami ekebarei korbo na!!!');
   }
 }

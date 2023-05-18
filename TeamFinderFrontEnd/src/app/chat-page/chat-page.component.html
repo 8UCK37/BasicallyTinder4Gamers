@@ -2,6 +2,7 @@
   <div class="app-container">
     <div class="app-left">
       <div class="app-profile-box">
+        <img class="settings-icon" style="width: 25px;height: 25px;"src="" src="./../../assets/icon-resource/setting2.png" (click)="goToChatSettings()">
         <img [src]="userInfo?.profilePicture" alt="profile" referrerpolicy="no-referrer"  />
         <div class="app-profile-box-name">
           {{ userparsed?.name }}
@@ -58,7 +59,7 @@
     <div style="width:100%;justify-content: center;display: flex;">
     <div class="chat" *ngIf="selectedFrnd!=null">
       <div class="chat-container">
-        <div class="user-bar">
+        <div class="user-bar" [style.background]="averageHue">
           <div class="avatar">
             <img [src]="selectedFrnd.profilePicture" referrerpolicy="no-referrer" alt="Avatar">
           </div>
@@ -72,7 +73,7 @@
             </ng-template>
           </div>
         </div>
-        <div class="conversation" style="background-image: url('https://r4.wallpaperflare.com/wallpaper/919/572/1021/anime-naruto-naruto-uzumaki-sasuke-uchiha-wallpaper-d80728f5c6ea44aea36390588e93ad62.jpg')">
+        <div class="conversation" style="background-image: url('{{chatBackGroundUrl}}')">
           <div #messageContainer class="conversation-container">
             <div *ngFor="let i of allMsgs">
               <ng-container *ngIf="i.sender==selectedFrndId" >

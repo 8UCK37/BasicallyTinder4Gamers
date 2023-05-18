@@ -161,7 +161,7 @@
                     "blank": 7,
                     "code": 65,
                     "comment": 4,
-                    "filename": "TeamFinder\\examples\\signon\\sockerRunner.js"
+                    "filename": "TeamFinder\\examples\\signon\\socketRunner.js"
                 },
                 {
                     "blank": 0,

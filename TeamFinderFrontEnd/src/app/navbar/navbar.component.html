@@ -4,12 +4,12 @@
     <nav class="nav-bg">
       <img src="./../../assets/icon-resource/logo-no-background.png" class="logo">
       <app-app-search></app-app-search>
-      <li style="margin-left: 35rem;"><a class="nav-btn" style="color: antiquewhite;"
-          [routerLink]="['/home']">Home</a></li>
+      <li style="margin-left: 35rem;" [routerLink]="['/home']"><img class="homeicon" src="./../../assets/icon-resource/home.png"><a class="nav-btn" style="color: antiquewhite;"
+          >Home</a></li>
       <!-- <li class="hover-effect"><a class="nav-btn"  >Features</a></li>
         <li class="hover-effect"><a class="nav-btn"  >About</a></li> -->
       <!-- <li><a [routerLink]="['/chat']"[queryParams]="{ id: userparsed.uid}"[skipLocationChange]="true">Chat</a></li> -->
-      <li><a class="nav-btn" style="align-items: center;" (click)="onchatClicked()">Chat</a>
+      <li (click)="onchatClicked()"><img class="homeicon" src="./../../assets/icon-resource/chat.png"><a class="nav-btn" style="align-items: center;" >Chat</a>
         <div class="wrapper">
           <i *ngIf="noti" class="fa fa-bell icon"></i>
         </div>
@@ -19,7 +19,7 @@
           <div class="notBtn" href="#">
             <!--Number supports double digits and automaticly hides itself when there is nothing between divs -->
             <div class="number" *ngIf="notificationArray?.length!=0">{{notificationArray?.length}}</div>
-            <i class="fas fa-bell" #togglenoti (click)="toggleNotiDropDown()"></i>
+            <i ><img class="notiicon" src="./../../assets/icon-resource/notification.png" #togglenoti (click)="toggleNotiDropDown()"></i>
           </div>
         </div>
       </li>
@@ -116,16 +116,16 @@
             <h3>{{userInfo?.name}}</h3>
           </div>
           <hr>
-          <a href="#" [routerLink]="['/settings']" routerLinkActive="router-link-active" class="sub-menu-link">
-            <img src="./../../assets/icon-resource/setting.png">
+          <a href="#" [routerLink]="['/settings']" [queryParams]="{ tab: 'account-settings' }"routerLinkActive="router-link-active" class="sub-menu-link">
+            <img src="./../../assets/icon-resource/setting2.png">
             <p>Settings & Privacy</p>
           </a>
           <a href="#" class="sub-menu-link">
-            <img src="./../../assets/icon-resource/help.png">
+            <img src="./../../assets/icon-resource/help1.png">
             <p>Help & Support</p>
           </a>
           <a (click)="user.logout()" href="#" class="sub-menu-link">
-            <img src="./../../assets/icon-resource/logout.png">
+            <img src="./../../assets/icon-resource/logout2.png">
             <p>Logout</p>
           </a>
         </div>

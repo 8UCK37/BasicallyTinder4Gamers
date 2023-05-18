@@ -21,9 +21,15 @@ export class PostPageComponent implements OnInit {
   }
   async getPostByPostId(id:any){
     await axios.post('getPostByPostId',{postId:id}).then(res=>{
+      console.log(res.data)
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
+        if(post.shared!=null){
+          post.parentpost=JSON.parse(post.parentpost)
+          post.parentpost.tagArr=post.parentpost.tagnames?.split(',')
+          post.photoUrlArr=post.parentpost.photoUrl?.split(',')
+        }
       });
       this.newPost=res.data
       console.log(this.newPost)

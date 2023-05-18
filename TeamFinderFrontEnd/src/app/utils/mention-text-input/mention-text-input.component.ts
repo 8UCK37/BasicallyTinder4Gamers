@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import axios from 'axios';
 import { QuillEditorComponent } from "ngx-quill";
 
 import "quill-mention";
+import { UtilsServiceService } from '../utils-service.service';
 
 @Component({
   selector: 'app-mention-text-input',
@@ -14,6 +15,7 @@ export class MentionTextInputComponent implements OnInit {
 
   name = "Angular ";
   @Output() editorChange:EventEmitter<any> =new EventEmitter();
+  @Input() data:any;
   @ViewChild(QuillEditorComponent, { static: true })
   editor?: QuillEditorComponent;
 
@@ -75,18 +77,39 @@ export class MentionTextInputComponent implements OnInit {
 
   content = "";
 
-  constructor() {
-
+  constructor(private utilsServiceService : UtilsServiceService) {
+   
+    this.utilsServiceService.modalObj.subscribe((modalData:any)=>{
+      if(modalData.data){
+        // this.desc=  modalData.data.description
+        console.log(modalData.data.raw)
+        const waitForEditorAndSetText = () => {
+          if (this.editor != null) {
+            this.editor.quillEditor.setContents(JSON.parse( modalData.data.raw));
+       
+          } else {
+            setTimeout(waitForEditorAndSetText.bind(this), 100); // Wait 100 milliseconds and check again
+          }
+        }
+        
+        waitForEditorAndSetText();
+        
+      }
+    })
+    
   }
+
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
-
+    
   }
 
 
 
   update() {
-    this.editorChange.emit(this.editor?.quillEditor.getContents());
+    
+    this.editorChange.emit({content: this.editor?.quillEditor.getContents() ,raw: this.editor?.quillEditor.root.innerHTML});
+    console.log(this.editor?.quillEditor.root.innerHTML)
   }
   getText() {
     console.log(this.editor?.quillEditor.getContents());

@@ -6,10 +6,13 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsServiceService } from '../utils/utils-service.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
-  styleUrls: ['./profile-page.component.css']
+  styleUrls: ['./profile-page.component.css'],
+  providers: [MessageService]
 })
 export class ProfilePageComponent implements OnInit {
   @ViewChild('image') input!: ElementRef;
@@ -33,7 +36,8 @@ export class ProfilePageComponent implements OnInit {
   public unfriend: any;
   public message: string="copied to clipboard";
   public action: string="Close"
-  constructor(public snackBar: MatSnackBar,public userService: UserService, public modalService: NgbModal, user: UserService, private router: Router, private auth: AngularFireAuth, private route: ActivatedRoute) {
+  //utilsServiceService: any;
+  constructor(public snackBar: MatSnackBar,public userService: UserService, public modalService: NgbModal, user: UserService, private router: Router, private auth: AngularFireAuth, private route: ActivatedRoute, public utilsServiceService : UtilsServiceService,private messageService: MessageService) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
 
@@ -234,6 +238,7 @@ export class ProfilePageComponent implements OnInit {
       .then(() => console.log('Copied to clipboard: ' + finalUrl))
       .catch(err => console.error('Error copying to clipboard: ', err));
       this.openSnackBar()
+      this.messageService.add({severity: 'success', summary: '', detail: 'Your profile link has been copied to clipboard'});
   }
 
   unfrnd() {
@@ -251,4 +256,11 @@ export class ProfilePageComponent implements OnInit {
       panelClass: ['my-custom-class']
     });
   }
+  openModal(){
+    this.utilsServiceService.modalObjSource.next({open:true, data:null})
+  }
+  onProfilePicError() {
+    //this.profileurl = this.userparsed?.photoURL;
+  }
 }
+

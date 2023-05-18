@@ -16,6 +16,7 @@ require("dotenv").config()
 
 let postHelper = require('./postHelper')
 let profileHelper = require('./profileHelper')
+let chatRouter = require('./chatRouter')
 var bodyParser = require('body-parser')
 // create application/json parser
 var jsonParser = bodyParser.json()
@@ -29,7 +30,7 @@ const { json } = require("express");
 
 const prisma = new PrismaClient()
 const multer = require('multer');
-const socketRunner = require('./sockerRunner')
+const socketRunner = require('./socketRunner')
 const { randomUUID } = require("crypto");
 const auth  = require('./middleware/authMiddleware')
 const ensureAuthenticated = auth.ensureAuthenticated
@@ -121,6 +122,7 @@ app.use('/static', express.static(__dirname + '/../../public'));
 //routers
 
 app.use("/comment", require('./routes/comment'))
+
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
@@ -204,10 +206,7 @@ app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{
   data:{
     userInfo:{
       create:req.body  
-      
-      
     }
-    
   },
   include: { userInfo: true }
  })
@@ -977,6 +976,8 @@ app.post('/getPostByPostId', ensureAuthenticated, (req, res) => postHelper.getPo
 //#endpoint
 app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.createPost(req, res, prisma))
 //#endpoint
+app.post('/quickSharePost', ensureAuthenticated, urlencodedParser, (req, res) => postHelper.quickSharePost(req, res, prisma))
+//#endpoint
 app.post('/mention', ensureAuthenticated, (req, res) => postHelper.mentionedInPost(req, res, prisma))
 //#endpoint
 app.post('/likePost', ensureAuthenticated, (req, res) => postHelper.likePost(req, res, prisma))
@@ -1012,7 +1013,11 @@ app.post("/updateBio", ensureAuthenticated, async (req, res) => {
   })
   res.sendStatus(200);
 });
-
+app.post("/chat/background", ensureAuthenticated, upload.single('chatbackground'), (req, res) => {
+  console.log("chat",req.user.user_id)
+  chatRouter.upChatBackGround(req,res)
+  res.sendStatus(200);
+});
 
 socketRunner.execute(io)
 

@@ -76,11 +76,13 @@ model Posts {
   id          Int       @id @default(autoincrement())
   author      String
   createdAt   DateTime  @default(now())
-  photoUrl    String
-  description String
+  photoUrl    String?
+  description String?
   comments    Comment[]
   deleted     Boolean?
   mention     Json?
+  shared      Int?
+  raw         String?
 }
 
 model Comment {

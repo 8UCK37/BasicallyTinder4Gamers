@@ -4,7 +4,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient()
 const auth  = require('./../middleware/authMiddleware')
 const ensureAuthenticated = auth.ensureAuthenticated
-const socketRunner = require('./../sockerRunner')
+const socketRunner = require('./../socketRunner')
 //this is to get all the comment under one post
 
 router.get("/", ensureAuthenticated, async (req, res) => {

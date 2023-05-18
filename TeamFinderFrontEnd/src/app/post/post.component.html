@@ -2,15 +2,19 @@
 
   <div class="container mt-5 mb-5">
     <!-- <div class="row d-flex align-items-center justify-content-center"> -->
-    <div class="col-md-6" style="display: flex;">
+    <div class="col-md-6" style="display: flex;justify-content: flex-end;">
       <div class="card_cust">
         <div class="d-flex p-2 px-3" style="position: relative;top: 7px;">
           <div class="d-flex flex-row align-items-center"> <img [src]="childPost.profilePicture" width="50"
               class="rounded-circle">
             <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
                 style="margin-left: 10px;">{{childPost.name}}</span><span
-                style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span></div>
+                style="margin-left: 10px;">{{this.utcToLocal(childPost?.createdAt)}}</span>
+              </div>
           </div>
+
+
+
           <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" >
             <p-speedDial  [model]="items"  direction="down-left" [radius]="radi" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-rounded p-button-text" ></p-speedDial>
           </div>
@@ -25,19 +29,41 @@
             <div *ngIf="showSpinner">
               <p-progressSpinner [style]="{top:'12px',left:'241px'}"></p-progressSpinner>
             </div>
-            <div class='action-group'>
+            <div class='action-group' *ngIf="!deleteSuccess">
               <button (click)="confirmDelete()">Delete</button>
               <button (click)="cancelDelete()">Cancel</button>
             </div>
           </div>
 
         </div>
-        <div class="p-3">
+
+        <div class="p-3" *ngIf="childPost.refinedText">
           <p class="text-justify" [innerHTML]="childPost.refinedText"></p>
           <ng-container *ngFor="let tag of childPost.tagArr">
             <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
           </ng-container>
         </div>
+        <ng-container *ngIf="childPost.shared">
+          <div class="parent-author">
+            <div class="d-flex flex-row align-items-center" style="margin-top: 5px;margin-bottom: 5px;">
+              <img [src]="childPost.parentpostauthor?.profilePicture" width="50"
+                class="parent-author-dp">
+              <div class="d-flex flex-column ml-2"> <span class="font-weight-bold"
+                  style="margin-left: 10px;">{{childPost?.parentpostauthor?.name}}</span>
+                  <span style="margin-left: 10px;">{{this.utcToLocal(childPost?.parentpost?.createdAt)}}</span>
+              </div>
+              <ng-container *ngIf="childPost?.parentpost?.deleted">
+                <span>{{childPost?.parentpost?.message}}</span>
+              </ng-container>
+            </div>
+            <div class="p-3" *ngIf="childPost?.parentpost?.refinedText">
+              <p class="text-justify" [innerHTML]="childPost.parentpost?.refinedText"></p>
+              <ng-container *ngFor="let tag of childPost.parentpost?.tagArr">
+                <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
           <div style="display: block;width: 100%;" *ngIf="images.length!=0">
             <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
               <ng-template pTemplate="item" let-item>
@@ -46,7 +72,7 @@
           </p-galleria>
         </div>
 
-        <div class="p-2 carousel-btm">
+        <div class="p-2 carousel-btm" style="border-top: 1px solid #3b82f6;">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
             <div class="like">
               <ng-container *ngIf="childPost.noreaction || childPost.reactiontype=='like'||childPost.reactiontype=='dislike'">
@@ -128,8 +154,16 @@
             </div>
             <div class="comment-btn" #commentbtn data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
               aria-controls="offcanvasRight" style="cursor: pointer;" (click)="openComment(childPost)">Comments</div>
-            <div class=" share"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
+
+            <div class="dropdown ">
+              <div class="share dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
+              <ul class="dropdown-menu">
+                <li style="cursor: pointer;"><a class="dropdown-item" (click)="quickShare(childPost.shared ? childPost.parentpost.id : childPost.id)" >Quick Share</a></li>
+                <li style="cursor: pointer;"><a class="dropdown-item" (click)="feedShare(childPost.id)">Share to feed</a></li>
+              </ul>
+            </div>
           </div>
+
         </div>
       </div>
     </div>

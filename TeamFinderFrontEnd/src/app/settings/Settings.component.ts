@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-Settings',
   templateUrl: './Settings.component.html',
@@ -15,6 +16,7 @@ export class SettingsComponent implements OnInit {
   public info:any={Country:"",Gender:""};
   public cardStyle?: any;
   public cardStyle2?: any;
+  public tab:any;
   selected1?: string;
   selected2?: string;
   public indianStates: string[] = [
@@ -59,9 +61,13 @@ export class SettingsComponent implements OnInit {
     "Female",
     "Other"
   ];
-  constructor(public userService:UserService) { }
+  constructor(public userService:UserService,private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(async params => {
+      this.tab = params['tab'];
+      //console.log(this.tab)
+    })
     this.userService.userCast.subscribe(usr=>{
       //console.log("user data" , usr)
       if(usr){
@@ -69,7 +75,7 @@ export class SettingsComponent implements OnInit {
       this.userInfo = usr;
       //console.log(this.userInfo)
       this.newUserName=this.userparsed.name
-      this.bio = this.userInfo?.bio;  
+      this.bio = this.userInfo?.bio;
       axios.post('getUserInfo',{id:usr.id}).then(res => {
         this.info=res.data.userInfo;
         console.log(res.data.userInfo)
@@ -99,6 +105,7 @@ export class SettingsComponent implements OnInit {
     this.cardStyle = []
   }
   updateinfo(){
-    
+
   }
+
 }

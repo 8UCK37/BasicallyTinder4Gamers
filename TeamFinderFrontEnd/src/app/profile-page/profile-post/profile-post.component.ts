@@ -55,6 +55,11 @@ constructor(private commentService: CommentService,public userService:UserServic
         post.tagArr=post.tagnames?.split(',')
         post.photoUrlArr=post.photoUrl?.split(',')
         post.isOwnPost=this.ownProfile
+        if(post.shared!=null){
+          post.parentpost=JSON.parse(post.parentpost)
+          post.parentpost.tagArr=post.parentpost.tagnames?.split(',')
+          post.photoUrlArr=post.parentpost.photoUrl?.split(',')
+        }
       });
       this.ownPosts=res.data
       console.log(this.ownPosts)

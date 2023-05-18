@@ -1,7 +1,7 @@
 const {Storage} = require('@google-cloud/storage')
 const bucketName = 'gs://teamfinder-e7048.appspot.com/';
 const { v4: uuidv4 } = require('uuid');
-const socketRunner = require('./sockerRunner')
+const socketRunner = require('./socketRunner')
 
 BigInt.prototype.toJSON = function() {
   return this.toString();
@@ -37,7 +37,7 @@ async function createPost(req, res, prisma){
       console.log(body);
       let text = "" 
       mentionList = [] 
-      body.desc.ops.forEach(element => {
+      body.desc.content.ops.forEach(element => {
         // console.log(element.insert)
         if(element.insert.mention == undefined ){
           text += element.insert
@@ -57,7 +57,8 @@ async function createPost(req, res, prisma){
                 photoUrl:urlArr.toString(),
                 description:text,
                 deleted:false,
-                mention: {list : mentionList}
+                mention: {list : mentionList},
+                raw:JSON.stringify( body.desc.content)
             }
         })
      // TODO : fix this code , make one like insert to the db , 
@@ -87,7 +88,13 @@ async function getPost(req, res, prisma) {
   const posts = await prisma.$queryRaw`
   SELECT p.*, t.tagNames, u."name", u."profilePicture", a.type AS reactionType,
        CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
-       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount
+       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount,
+       CASE 
+        WHEN p.shared IS NULL THEN NULL 
+        WHEN pp.deleted = true THEN '{"deleted":"true","message": "This post is no longer available"}'
+        ELSE row_to_json(pp)::text 
+        END AS ParentPost,
+       json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor
 FROM public."Posts" p
 LEFT JOIN (
     SELECT post,
@@ -106,6 +113,8 @@ LEFT JOIN (
 ) t ON p.id = t.post
 LEFT JOIN public."Activity" a ON p.id = a.post AND a.author = ${req.user.user_id}
 LEFT JOIN public."User" u ON p.author = u.id
+LEFT JOIN public."Posts" pp ON pp.id = p.shared
+LEFT JOIN public."User" pu ON pp.author = pu.id
 WHERE EXISTS (
     SELECT 1
     FROM public."Friends" f
@@ -126,6 +135,12 @@ async function getPostById(req, res, prisma) {
       FROM public."Activity" a
       WHERE a.author = ${req.user.user_id} AND a.post = p.id
     ) AS reactionType,
+    CASE 
+        WHEN p.shared IS NULL THEN NULL 
+        WHEN pp.deleted = true THEN '{"deleted":"true","message": "This post is no longer available"}'
+        ELSE row_to_json(pp)::text 
+        END AS ParentPost,
+        json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor,
     CASE WHEN NOT EXISTS (
       SELECT *
       FROM public."Activity" a
@@ -143,6 +158,8 @@ async function getPostById(req, res, prisma) {
       GROUP BY "post"
     ) t ON p.id = t.post
     JOIN public."User" u ON p.author = u.id
+    LEFT JOIN public."Posts" pp ON pp.id = p.shared
+    LEFT JOIN public."User" pu ON pp.author = pu.id
     WHERE p.author=${req.body.uid} AND p.deleted=false
     ORDER BY p."createdAt" DESC;
   `
@@ -291,7 +308,10 @@ async function getPostByPostId(req, res, prisma){
   const post = await prisma.$queryRaw`
   SELECT p.*, t.tagNames, u."name", u."profilePicture", a.type AS reactionType,
        CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
-       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount
+       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount,
+       CASE WHEN p.shared IS NULL THEN NULL WHEN pp.deleted = true THEN '{"deleted":"true","message": "This post is no longer available"}'
+        ELSE row_to_json(pp)::text END AS ParentPost,
+        json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor
   FROM public."Posts" p
   LEFT JOIN (
       SELECT post,
@@ -314,11 +334,28 @@ async function getPostByPostId(req, res, prisma){
       WHERE type != 'post'
   ) a ON p.id = a.post AND a.author = ${req.user.user_id}
   LEFT JOIN public."User" u ON p.author = u.id
+  LEFT JOIN public."Posts" pp ON pp.id = p.shared
+  LEFT JOIN public."User" pu ON pp.author = pu.id
   WHERE p.id = ${postid} AND p.deleted = false
   ORDER BY p."createdAt" DESC;
 `;
 res.send(JSON.stringify(post))
 }
+async function quickSharePost(req, res, prisma){
+  console.log(req.user.user_id)
+  console.log(req.body.originalPostId)
+  let quickShare = await prisma.Posts.create({
+    data:{
+      author : req.user.user_id,
+      photoUrl:null,
+      description:null,
+      deleted:false,
+      mention: {data:'null'},
+      shared : parseInt(req.body.originalPostId)
+    }
+  })
+  res.sendStatus(200)
+}
 
-
-module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,deletePost,mentionedInPost,getPostByPostId}
+module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,
+                    deletePost,mentionedInPost,getPostByPostId,quickSharePost}
