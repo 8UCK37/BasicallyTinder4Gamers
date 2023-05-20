@@ -122,7 +122,7 @@ app.use('/static', express.static(__dirname + '/../../public'));
 //routers
 
 app.use("/comment", require('./routes/comment'))
-
+app.use("/user", require('./routes/userRoute'))
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
