@@ -122,7 +122,7 @@ app.use('/static', express.static(__dirname + '/../../public'));
 //routers
 
 app.use("/comment", require('./routes/comment'))
-
+app.use("/user", require('./routes/userRoute'))
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
@@ -489,7 +489,6 @@ app.get('/auth/twitch/callback', async (req, res) => {
     res.status(500).send('Failed to get access token');
   }
 });
-
 
 //updates the twitchtoken of a user to the user table 
 async function setTwitchToken(req, res,token,refreshToken) {
