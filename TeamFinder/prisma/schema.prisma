@@ -57,6 +57,7 @@ model Chat {
   sender    String
   receiver  String
   msg       String
+  photoUrl  String?
 }
 
 model GameSelectInfo {
