@@ -224,6 +224,16 @@ export class ChatPageComponent implements OnInit {
       this.incomingDataSubscription = this.socketService.getIncomingMsg().subscribe((data) => {
         const recData = typeof data === 'string' ? JSON.parse(data) : data;
         console.log(recData);
+        if(recData.photo){
+          console.log(recData.sender)
+          this.showLoading=true
+          setTimeout(() => {
+          this.showLoading=false
+          }, 2000);
+          setTimeout(() => {
+            this.fetchChatData(recData.sender)
+          }, 2000);
+        }
         this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime(),photo:recData.photo});
         if(recData.sender==this.selectedFrndId){
         this.scrollToBottom();
@@ -307,15 +317,6 @@ export class ChatPageComponent implements OnInit {
     }
     goToChatSettings(){
       this.router.navigate(['/settings'], { queryParams: { tab:"chat-settings" } });
-    }
-    loadIncomingPictures(id:any){
-      this.showLoading=true
-      setTimeout(() => {
-        this.showLoading=false
-      }, 750);
-      setTimeout(() => {
-        this.fetchChatData(id)
-      }, 1000);
     }
     deleteSelected(){
       this.fileSelected=false;

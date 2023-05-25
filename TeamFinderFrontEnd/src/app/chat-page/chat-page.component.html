@@ -85,9 +85,6 @@
                       </ng-container>
                       <ng-container *ngIf="i.photo">
                         <div style="position:relative;cursor:pointer" >
-                          <i class="pi pi-download" style="color: #708090;font-size: 3rem;z-index: 80;
-                              position: absolute;left: 106px;
-                              top: 106px;cursor: pointer;" (click)="loadIncomingPictures(selectedFrnd.id)" *ngIf="!showLoading"></i>
                               <div style="position: absolute;left: 78px;top: 86px;">
                               <p-progressSpinner *ngIf="showLoading"></p-progressSpinner>
                             </div>
