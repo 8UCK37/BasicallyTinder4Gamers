@@ -1018,7 +1018,15 @@ app.post("/chat/background", ensureAuthenticated, upload.single('chatbackground'
   chatRouter.upChatBackGround(req,res)
   res.sendStatus(200);
 });
-
+app.post("/chat/Images", ensureAuthenticated, upload.single('chatimages'), (req, res) => {
+  try{
+  chatRouter.uploadChatImage(req,res,prisma)
+  res.sendStatus(200);
+  }catch(e){
+    console.log(e)
+    res.sendStatus(400)
+  }
+});
 socketRunner.execute(io)
 
 

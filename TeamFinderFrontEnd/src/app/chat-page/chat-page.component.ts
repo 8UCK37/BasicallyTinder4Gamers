@@ -14,7 +14,11 @@ import { average } from 'color.js'
 })
 export class ChatPageComponent implements OnInit {
   @ViewChild('messageContainer', {static: false}) messageContainer!: ElementRef;
+  @ViewChild('toggleButton') toggleButton!: ElementRef;
+  @ViewChild('menu') menu!: ElementRef;
 
+  @ViewChild('image') input!:ElementRef;
+  @ViewChild('imagePreview', { static: false }) imagePreview!: ElementRef<HTMLImageElement>;
   name = 'Angular';
   message = '';
   showEmojiPicker = false;
@@ -45,8 +49,11 @@ export class ChatPageComponent implements OnInit {
   public recData:any;
   public chatBackGroundUrl:any;
   public averageHue:any;
-  @ViewChild('toggleButton') toggleButton!: ElementRef;
-  @ViewChild('menu') menu!: ElementRef;
+
+  public showLoading:boolean=false;
+  public fileSelected:boolean=false;
+  public formData:any;
+  public sentImages:any;
   constructor(public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
       /**
@@ -101,14 +108,33 @@ export class ChatPageComponent implements OnInit {
   }
 
   sendMessage(){
-    if(this.values == "" || this.values.length == 0 ) return;
+    this.formData = new FormData();
 
-    let data = {receiver: this.to , msg : this.values , sender : this.userparsed.id}
-    //console.log("sending to: "+this.to);
-    //console.log("msg txt: "+this.values);
+    if((this.values == "" || this.values.length == 0) && !this.fileSelected) return;
+    let data = {receiver: this.to , msg : this.values , sender : this.userparsed.id,photo:this.fileSelected}
+    console.log(data);
+
     this.socketService.send(data);
-    this.allMsgs.push({sender:this.to,rec:false,msg:this.values,time:this.getLocalTime(),stl:"anim"})
-    //console.log(this.getLocalTime())
+    if(this.input.nativeElement.files[0]!=null){
+      console.log("not null")
+      let type = this.input.nativeElement.files[0].type
+      if(type != "image/jpeg" && type != "image/jpg"){
+        alert("wrong image type please upload jpg or Jpeg")
+        return
+      }
+      this.formData.append("chatimages", this.input.nativeElement.files[0]);
+
+      this.allMsgs.push({sender:this.to,rec:false,msg:this.values,photoUrl:this.sentImages,time:this.getLocalTime(),stl:"anim"})
+    }else{
+      this.allMsgs.push({sender:this.to,rec:false,msg:this.values,time:this.getLocalTime(),stl:"anim"})
+    }
+
+      this.formData.append("data" , JSON.stringify({data : data}))
+      axios.post('chat/Images',this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
+          this.input.nativeElement.value=null;
+          this.imagePreview.nativeElement.src=''
+          this.fileSelected=false
+        }).catch(err =>console.log(err))
     this.scrollToBottom();
 
     // this.messageContainer.nativeElement.
@@ -140,7 +166,7 @@ export class ChatPageComponent implements OnInit {
       res.data.forEach((ele:any) => {
         this.timeArr=this.utcToLocal(ele.createdAt).split(" ")[1].split(":")
         let left = (ele.sender== this.userparsed?.id) ? false : true
-        this.allMsgs.push({sender:friendId,rec: left , msg: ele.msg,time:this.timeArr[0]+":"+this.timeArr[1]})
+        this.allMsgs.push({sender:friendId,rec: left , msg: ele.msg,time:this.timeArr[0]+":"+this.timeArr[1],photoUrl:ele.photoUrl})
         })
         //console.log(this.allMsgs)
       }).catch(err=>console.log(err));
@@ -198,7 +224,7 @@ export class ChatPageComponent implements OnInit {
       this.incomingDataSubscription = this.socketService.getIncomingMsg().subscribe((data) => {
         const recData = typeof data === 'string' ? JSON.parse(data) : data;
         console.log(recData);
-        this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime()});
+        this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime(),photo:recData.photo});
         if(recData.sender==this.selectedFrndId){
         this.scrollToBottom();
         //this.getActiveConvo();
@@ -281,6 +307,33 @@ export class ChatPageComponent implements OnInit {
     }
     goToChatSettings(){
       this.router.navigate(['/settings'], { queryParams: { tab:"chat-settings" } });
+    }
+    loadIncomingPictures(id:any){
+      this.showLoading=true
+      setTimeout(() => {
+        this.showLoading=false
+      }, 750);
+      setTimeout(() => {
+        this.fetchChatData(id)
+      }, 1000);
+    }
+    deleteSelected(){
+      this.fileSelected=false;
+      this.input.nativeElement.value=null;
+    }
+    previewImage() {
+      this.fileSelected = true;
+      const file = this.input.nativeElement.files[0];
+      const reader = new FileReader();
+      if(this.input.nativeElement.files[0]!=null){
+        reader.onload = () => {
+          const img = new Image();
+          img.src = reader.result as string;
+          this.imagePreview.nativeElement.src=img.src
+          this.sentImages=img.src
+        }
+        reader.readAsDataURL(file);
+      }
     }
 }
 

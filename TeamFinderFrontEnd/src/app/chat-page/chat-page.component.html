@@ -79,6 +79,22 @@
               <ng-container *ngIf="i.sender==selectedFrndId" >
                 <ng-container *ngIf="i.rec; else elseBlock">
                   <div class="message received" >
+                    <ng-container *ngIf="i.photoUrl">
+                        <img class="preview-image-card" [src]="i.photoUrl" alt="" *ngIf="i.photoUrl">
+                        <br>
+                      </ng-container>
+                      <ng-container *ngIf="i.photo">
+                        <div style="position:relative;cursor:pointer" >
+                          <i class="pi pi-download" style="color: #708090;font-size: 3rem;z-index: 80;
+                              position: absolute;left: 106px;
+                              top: 106px;cursor: pointer;" (click)="loadIncomingPictures(selectedFrnd.id)" *ngIf="!showLoading"></i>
+                              <div style="position: absolute;left: 78px;top: 86px;">
+                              <p-progressSpinner *ngIf="showLoading"></p-progressSpinner>
+                            </div>
+                          <img class="preview-image-card" src="./../../assets/icon-resource/chatPhoto.png" alt="">
+                        </div>
+                        <br>
+                      </ng-container>
                     {{ i.msg }}
                     <span class="metadata">
                       <span class="time">{{i.time}}</span>
@@ -87,6 +103,10 @@
                 </ng-container>
                 <ng-template #elseBlock>
                   <div class="message sent" [ngClass]="i.stl">
+                    <ng-container *ngIf="i.photoUrl">
+                      <img class="preview-image-card" [src]="i.photoUrl" alt="">
+                      <br>
+                    </ng-container>
                     {{ i.msg }}
                     <span class="metadata" >
                       <span class="time">{{i.time}}</span>
@@ -95,10 +115,22 @@
                 </ng-template>
               </ng-container>
             </div>
+            <img class="preview-image-card"
+            style="position: absolute;bottom: 73px;left: 70px;border: 3px solid green;border-radius: 5px;z-index: 99;" src=""
+            #imagePreview alt="" *ngIf="fileSelected">
+            <div class="upload-btn" *ngIf="fileSelected" (click)="deleteSelected()">
+              <div class="wrapper">
+                <div class="file-cancel">
+                  <i class="fa fa-xmark"></i>
+                </div>
+              </div>
+            </div>
           </div>
+          <input type="file" style="display: none;" #image (change)="previewImage()">
           <form class="conversation-compose">
             <div class="emoji">
               <a style="cursor: pointer;"  (click)="toggleEmojiPicker()"> 😀</a><br>
+              <i class="fa-solid fa-paperclip" style="cursor:pointer" (click)="image.click()"></i>
             </div>
             <input #msg class="input-msg" style="background-color: #00000082;
             color: white;" name="input" placeholder="Type a message" autocomplete="off" autofocus
