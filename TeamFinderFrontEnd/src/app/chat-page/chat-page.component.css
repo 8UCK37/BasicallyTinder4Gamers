@@ -165,6 +165,7 @@ body[data-theme=dark] {
   padding: 16px;
   border-radius: 10px;
   margin-bottom: 24px;
+  position: relative;
 }
 .app-profile-box img {
   width: 48px;
@@ -1117,10 +1118,12 @@ body[data-theme=dark] {
   color: white;
 }
 .settings-icon{
-  position: relative;
+  position: absolute;
   left: -108px;
   top: -10px;
   cursor: pointer;
+  top:8px;
+  left:10px
 }
 .preview-image-card{
   height:270px;
