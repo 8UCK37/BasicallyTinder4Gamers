@@ -7,10 +7,12 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { UserService } from '../login/user.service';
 import { prominent } from 'color.js'
 import { average } from 'color.js'
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
-  styleUrls: ['./chat-page.component.css']
+  styleUrls: ['./chat-page.component.css'],
+  providers: [MessageService]
 })
 export class ChatPageComponent implements OnInit {
   @ViewChild('messageContainer', {static: false}) messageContainer!: ElementRef;
@@ -54,7 +56,7 @@ export class ChatPageComponent implements OnInit {
   public fileSelected:boolean=false;
   public formData:any;
   public sentImages:any;
-  constructor(public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2,private router: Router) {
+  constructor(private messageService: MessageService,public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
       /**
        * Only run when toggleButton is not clicked
@@ -110,7 +112,10 @@ export class ChatPageComponent implements OnInit {
   sendMessage(){
     this.formData = new FormData();
 
-    if((this.values == "" || this.values.length == 0) && !this.fileSelected) return;
+    if((this.values == "" || this.values.length == 0) && !this.fileSelected || (this.input.nativeElement.files[0].type != "image/jpeg" && this.input.nativeElement.files[0].type != "image/jpg")) {
+      this.messageService.add({severity: 'warn', summary: '', detail: "You can't yet upload anything else other than jpeg/jpg"});
+      return
+    };
     let data = {receiver: this.to , msg : this.values , sender : this.userparsed.id,photo:this.fileSelected}
     console.log(data);
 
