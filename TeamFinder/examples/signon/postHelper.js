@@ -434,7 +434,8 @@ async function shareToFeed(req, res, prisma){
           description:text,
           deleted:false,
           mention: {list:mentionList},
-          shared : parseInt(req.body.data.id)
+          shared : parseInt(req.body.data.id),
+          raw:JSON.stringify( body.desc.content)
         }
       })
 

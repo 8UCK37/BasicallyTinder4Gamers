@@ -64,7 +64,7 @@ export class CreatePostModalComponent implements OnInit {
         this.postData =  modalData.data
         this.desc = modalData.data.description
         this.imageSrcs=modalData.data.photoUrlArr
-        console.log(this.desc)
+        //console.log(this.desc)
         //console.log(modalData, this.modalData)
       }
 
@@ -72,6 +72,7 @@ export class CreatePostModalComponent implements OnInit {
         this.openModal(this.modal )
         this.isOpen = true
       }
+      console.log(this.desc)
     })
 
 

@@ -80,6 +80,7 @@ export class MentionTextInputComponent implements OnInit {
   constructor(private utilsServiceService : UtilsServiceService) {
 
     this.utilsServiceService.postModalObj.subscribe((modalData:any)=>{
+      console.log(modalData)
       if(modalData.data){
         // this.desc=  modalData.data.description
         console.log(modalData.data.raw)
