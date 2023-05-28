@@ -34,6 +34,7 @@ export class CreatePostModalComponent implements OnInit {
   desc: any;
   textObj: any;
   edit:boolean=false
+  share:boolean=false
   constructor(private commentService: CommentService,private route: ActivatedRoute,private modalService: BsModalService , public userService: UserService , public utilsServiceService : UtilsServiceService) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
@@ -56,13 +57,14 @@ export class CreatePostModalComponent implements OnInit {
 
     this.utilsServiceService.postModalObj.subscribe((modalData:any)=>{
       console.log(modalData)
+      this.share=modalData.share
       this.edit=false
       if(modalData.data){
         this.edit=true
         this.postData =  modalData.data
         this.desc = modalData.data.description
         this.imageSrcs=modalData.data.photoUrlArr
-        //console.log(this.imageSrcs)
+        console.log(this.desc)
         //console.log(modalData, this.modalData)
       }
 
@@ -123,16 +125,22 @@ export class CreatePostModalComponent implements OnInit {
     }
 
 
-    if(this.edit){
+    if(this.edit && !this.share){
+      console.log("first")
       this.formData.append("data", JSON.stringify({id:this.postData.id, data: this.tagList, desc: this.textObj }))
       console.log("this is a edit",{ data: this.tagList, desc: this.textObj })
       axios.post('/editPost', this.formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
-
       }).catch(err => console.log(err))
       setTimeout(() => {
         this.getPostById(this.userparsed?.id);
       }, 1500);
-    }else{
+     }
+    else if(this.edit && this.share){
+      console.log("here")
+      axios.post('/shareToFeed', { data:{ id:this.postData.id,tags: this.tagList, desc: this.textObj } }).then(res => {
+      }).catch(err => console.log(err))
+    }
+    else{
       this.formData.append("data", JSON.stringify({ data: this.tagList, desc: this.textObj }))
     axios.post('/createPost', this.formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
     }).catch(err => console.log(err))

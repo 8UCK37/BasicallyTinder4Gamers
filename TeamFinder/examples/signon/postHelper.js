@@ -409,5 +409,39 @@ async function quickSharePost(req, res, prisma){
   res.sendStatus(200)
 }
 
+async function shareToFeed(req, res, prisma){
+  console.log(req.body.data)
+  let body=req.body.data
+  let text = "" 
+      mentionList = [] 
+      body.desc.content.ops.forEach(element => {
+        
+        if(element.insert.mention == undefined ){
+          text += element.insert
+        }
+
+        else{
+          text += element.insert.mention.id
+          mentionList.push({id : element.insert.mention.id, name: element.insert.mention.value});
+        }
+      });
+      console.log("shared incoming data: " , text , mentionList)
+
+      let feedShare = await prisma.Posts.create({
+        data:{
+          author : req.user.user_id,
+          photoUrl:null,
+          description:text,
+          deleted:false,
+          mention: {list:mentionList},
+          shared : parseInt(req.body.data.id)
+        }
+      })
+
+  res.sendStatus(200)
+}
+
+
+
 module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,
-                    deletePost,mentionedInPost,getPostByPostId,quickSharePost,editPost}
+                    deletePost,mentionedInPost,getPostByPostId,quickSharePost,editPost,shareToFeed}

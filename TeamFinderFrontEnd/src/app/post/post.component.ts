@@ -141,7 +141,7 @@ export class PostComponent implements OnInit {
         icon: 'pi pi-pencil',
         command: () => {
           console.log('pencil clicked', this.childPost)
-          this.utilsServiceService.postModalObjSource.next({open:true,  data: this.childPost })
+          this.utilsServiceService.postModalObjSource.next({open:true,  data: this.childPost ,share:false})
         }
     },
 
@@ -286,7 +286,6 @@ export class PostComponent implements OnInit {
     })
   }
   feedShare(postId:any){
-    console.log('fs',postId)
-    alert('I know you want to add a custom desc when sharing a post\nbut i cant implement that unless the\nedit/create-post modal is finished and looking pretty and working!!\n ar oi kaj ta ami ekebarei korbo na!!!');
+    this.utilsServiceService.postModalObjSource.next({open:true,  data: this.childPost ,share:true})
   }
 }

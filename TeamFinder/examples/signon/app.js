@@ -980,6 +980,8 @@ app.post('/editPost', ensureAuthenticated, uploadPost.array('post', 10), urlenco
 //#endpoint
 app.post('/quickSharePost', ensureAuthenticated, urlencodedParser, (req, res) => postHelper.quickSharePost(req, res, prisma))
 //#endpoint
+app.post('/shareToFeed', ensureAuthenticated, urlencodedParser, (req, res) => postHelper.shareToFeed(req, res, prisma))
+//#endpoint
 app.post('/mention', ensureAuthenticated, (req, res) => postHelper.mentionedInPost(req, res, prisma))
 //#endpoint
 app.post('/likePost', ensureAuthenticated, (req, res) => postHelper.likePost(req, res, prisma))

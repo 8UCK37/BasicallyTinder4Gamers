@@ -50,8 +50,10 @@ tabindex="-1"  #modal >
       </div>
       <div class="modal-footer" style="border: 0px;">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal(this.modal)">Close</button>
-        <button type="button" class="btn btn-primary" (click)="uploadPostFile()"
+        <button *ngIf="!share" type="button" class="btn btn-primary" (click)="uploadPostFile()"
           data-bs-dismiss="modal">{{ edit? 'Save changes':'Post'}}</button>
+        <button *ngIf="share" type="button" class="btn btn-primary" (click)="uploadPostFile()"
+          data-bs-dismiss="modal">Share</button>
       </div>
     </div>
   </div>
