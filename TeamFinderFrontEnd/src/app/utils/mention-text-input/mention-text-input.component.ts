@@ -107,7 +107,6 @@ export class MentionTextInputComponent implements OnInit {
 
 
   update() {
-
     this.editorChange.emit({content: this.editor?.quillEditor.getContents() ,raw: this.editor?.quillEditor.root.innerHTML});
     console.log(this.editor?.quillEditor.root.innerHTML)
   }

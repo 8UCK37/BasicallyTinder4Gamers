@@ -51,7 +51,7 @@ tabindex="-1"  #modal >
       <div class="modal-footer" style="border: 0px;">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal(this.modal)">Close</button>
         <button type="button" class="btn btn-primary" (click)="uploadPostFile()"
-          data-bs-dismiss="modal">Post</button>
+          data-bs-dismiss="modal">{{ edit? 'Save changes':'Post'}}</button>
       </div>
     </div>
   </div>
