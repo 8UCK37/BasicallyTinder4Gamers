@@ -63,7 +63,7 @@ export class LoginUserinfoComponent implements OnInit {
     "Puducherry"
   ];
   
-  public languages:String[] =["Bengali","Hindi","English"]
+  public languages:string[] =["Bengali","Hindi","English"]
   constructor(private modalService: BsModalService , private  _elementRef : ElementRef,private auth: AngularFireAuth , private userService: UserService ) {
 
   }
@@ -106,7 +106,7 @@ export class LoginUserinfoComponent implements OnInit {
     this.cardStyle = []
   }
   userLanguageSelect(index : number){
-    this.selected2 = this.indianStates[index]
+    this.selected2 = this.languages[index]
     this.cardStyle = []
     this.cardStyle2 = []
 
