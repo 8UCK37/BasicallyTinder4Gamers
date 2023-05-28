@@ -976,6 +976,8 @@ app.post('/getPostByPostId', ensureAuthenticated, (req, res) => postHelper.getPo
 //#endpoint
 app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.createPost(req, res, prisma))
 //#endpoint
+app.post('/editPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.editPost(req, res, prisma))
+//#endpoint
 app.post('/quickSharePost', ensureAuthenticated, urlencodedParser, (req, res) => postHelper.quickSharePost(req, res, prisma))
 //#endpoint
 app.post('/mention', ensureAuthenticated, (req, res) => postHelper.mentionedInPost(req, res, prisma))

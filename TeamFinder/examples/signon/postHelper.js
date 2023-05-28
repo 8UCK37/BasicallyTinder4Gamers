@@ -83,6 +83,58 @@ async function createPost(req, res, prisma){
     }
 }
 
+
+async function editPost(req, res, prisma){
+  let body = JSON.parse(req.body.data)
+  
+  console.log(body.id);
+    let text = "" 
+    mentionList = [] 
+    body.desc.content.ops.forEach(element => {
+      // console.log(element.insert)
+      if(element.insert.mention == undefined ){
+        text += element.insert
+      }
+
+      else{
+        text += element.insert.mention.id
+        mentionList.push({id : element.insert.mention.id, name: element.insert.mention.value});
+      }
+    });
+    console.log("mention parsed" , text , mentionList)
+   
+        let newPost = await prisma.Posts.update({
+          where:{
+            id:body.id
+          },
+          data :{
+              description:text,
+              mention: {list : mentionList},
+              raw:JSON.stringify( body.desc.content)
+          }
+      })
+   
+    
+      // body.data.forEach( async ele => {
+      //     let tag = await prisma.Tags.create({
+      //         data :{
+      //             tagName : ele.display,
+      //             post : newPost.id
+      //         }
+      //     })
+      // });
+      // let activity = await prisma.Activity.create({
+      //     data :{
+      //         post : newPost.id,
+      //         weight : 1,
+      //         author : req.user.user_id,
+      //         type : 'post'
+      //     }
+      // })
+  
+}
+
+
 async function getPost(req, res, prisma) {
   console.log("get post for",req.user.user_id);
   const posts = await prisma.$queryRaw`
@@ -358,4 +410,4 @@ async function quickSharePost(req, res, prisma){
 }
 
 module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,
-                    deletePost,mentionedInPost,getPostByPostId,quickSharePost}
+                    deletePost,mentionedInPost,getPostByPostId,quickSharePost,editPost}
