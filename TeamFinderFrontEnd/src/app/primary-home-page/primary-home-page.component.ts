@@ -143,7 +143,7 @@ export class PrimaryHomePageComponent implements OnInit {
   }
 
   openModal(){
-    this.utilsServiceService.modalObjSource.next({open:true, data:null})
+    this.utilsServiceService.postModalObjSource.next({open:true, data:null})
   }
 }
 

@@ -48,7 +48,7 @@ export class CreatePostModalComponent implements OnInit {
       this.isOpen = false
     })
 
-    this.utilsServiceService.modalObj.subscribe((modalData:any)=>{
+    this.utilsServiceService.postModalObj.subscribe((modalData:any)=>{
       if(modalData.data){
         this.modalData =  modalData.data
         this.desc=  modalData.data.description
@@ -130,7 +130,7 @@ export class CreatePostModalComponent implements OnInit {
     this.clearImages()
     this.isOpen = false
     // textareaElement.value=''
-    this.utilsServiceService.modalObjSource.next({open:false})
+    this.utilsServiceService.postModalObjSource.next({open:false})
     this.closeModal(this.modal)
     // this.ngOnInit()
     this.imageBlobs=[]

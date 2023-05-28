@@ -141,7 +141,7 @@ export class PostComponent implements OnInit {
         icon: 'pi pi-pencil',
         command: () => {
           console.log('pencil clicked', this.childPost)
-          this.utilsServiceService.modalObjSource.next({open:true,  data: this.childPost })
+          this.utilsServiceService.postModalObjSource.next({open:true,  data: this.childPost })
         }
     },
 

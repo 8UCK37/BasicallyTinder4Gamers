@@ -78,36 +78,36 @@ export class MentionTextInputComponent implements OnInit {
   content = "";
 
   constructor(private utilsServiceService : UtilsServiceService) {
-   
-    this.utilsServiceService.modalObj.subscribe((modalData:any)=>{
+
+    this.utilsServiceService.postModalObj.subscribe((modalData:any)=>{
       if(modalData.data){
         // this.desc=  modalData.data.description
         console.log(modalData.data.raw)
         const waitForEditorAndSetText = () => {
           if (this.editor != null) {
             this.editor.quillEditor.setContents(JSON.parse( modalData.data.raw));
-       
+
           } else {
             setTimeout(waitForEditorAndSetText.bind(this), 100); // Wait 100 milliseconds and check again
           }
         }
-        
+
         waitForEditorAndSetText();
-        
+
       }
     })
-    
+
   }
 
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
-    
+
   }
 
 
 
   update() {
-    
+
     this.editorChange.emit({content: this.editor?.quillEditor.getContents() ,raw: this.editor?.quillEditor.root.innerHTML});
     console.log(this.editor?.quillEditor.root.innerHTML)
   }
