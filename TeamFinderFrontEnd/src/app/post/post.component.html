@@ -56,6 +56,13 @@
                 <span>{{childPost?.parentpost?.message}}</span>
               </ng-container>
             </div>
+
+            <div class="p-3" *ngIf="childPost?.parentpost?.refinedText">
+              <p class="text-justify" [innerHTML]="childPost.parentpost?.refinedText"></p>
+              <ng-container *ngFor="let tag of childPost.parentpost?.tagArr">
+                <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
+              </ng-container>
+            </div>
             <div style="display: block;width: 100%;" *ngIf="images.length!=0">
               <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
                 <ng-template pTemplate="item" let-item>
@@ -63,12 +70,6 @@
                 </ng-template>
             </p-galleria>
           </div>
-            <div class="p-3" *ngIf="childPost?.parentpost?.refinedText">
-              <p class="text-justify" [innerHTML]="childPost.parentpost?.refinedText"></p>
-              <ng-container *ngFor="let tag of childPost.parentpost?.tagArr">
-                <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
-              </ng-container>
-            </div>
           </div>
         </ng-container>
           <div style="display: block;width: 100%;" *ngIf="images.length!=0  && !childPost.shared">
