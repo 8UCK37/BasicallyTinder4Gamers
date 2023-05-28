@@ -21,7 +21,6 @@
               <!-- Main header -->
               <h1 class="profile__name">{{userInfo?.name}}</h1>
               <!-- SubHeader -->
-              <p class="profile__subtitle">{{userInfo?.bio}}
             </div>
             <!-- "Follow" button -->
             <div class="profile__actions">
@@ -101,21 +100,30 @@
       <div class="content">
         <section>
           <h2>POSTS</h2>
-          <div class="post-body">
+          <div class="user-info">
+            <span class="profile__subtitle">{{userInfo?.bio}}</span>
+            <span class="profile__mail">{{userInfo?.gmailId}}</span>
+            <br>
+            <span class="profile__gender">{{info.Gender}}</span>
+            <br>
+            <span class="profile__gender">{{info.Country}}</span>
+          </div>
+           <div class="post-body">
             <div class="container" style="display: flex;justify-content: flex-end;right: 195px;position: relative;">
+
               <div class="con">
-                  <div class="profileimg">
-                    <img [src]="userInfo?.profilePicture" class="user-pic" (error)="onProfilePicError()"
+                <div class="profileimg">
+                  <img [src]="userInfo?.profilePicture" class="user-pic" (error)="onProfilePicError()"
                       referrerpolicy="no-referrer">
-                  </div>
+                   </div>
                     <button #open type="button" class="btn btn-outline-light" (click)="openModal()">
                       Rant about those lootboxes here.......
                     </button>
                     <a type="button" class="btn image " style="left: 178px;">
                       <img src="./../../assets/icon-resource/image.png" style="height: 30px"><span
-                        style="color: aliceblue; left: 6px;position: relative;">Image</span></a>
-              </div>
-            </div>
+                      style="color: aliceblue; left: 6px;position: relative;">Image</span></a>
+                </div>
+          </div>
           <app-profile-post></app-profile-post>
         </div>
         </section>
