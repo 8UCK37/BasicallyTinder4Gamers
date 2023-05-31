@@ -699,7 +699,7 @@ async function setSteamId(req, res) {
     console.log("already linked")
     // res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
   }
-  res.redirect("http://localhost:4200/profile-page/linked-accounts?status=linked");
+  res.redirect("http://localhost:4200/profile-page/linked-accounts");
 }
 //returns steamaccount data #endpoint
 app.get("/steamUserInfo", ensureAuthenticated, async (req, res) => {
