@@ -637,28 +637,36 @@ passport.use(new DiscordStrategy({
   console.log(accessToken)
   profile.guilds=[]
   profile.refreshToken=refreshToken
-  console.log(profile)
-  return done(profile)
+  console.log('discord profile: \n',profile)
+  return done(null,profile)
 }));
 
 app.get('/auth/discord',(req, res ,next) =>{ 
   console.log(req.sessionID)
   sessionMap.set(req.sessionID , req.query.uid);
-  console.log(sessionMap)
-  passport.authenticate('discord',{ failureRedirect: '/' } )(req,res,next)}
-  
-  );
-app.get('/auth/discord/callback', passport.authenticate('discord', {
-    failureRedirect: '/failed',successRedirect:'/success'
-}), function(req, res) {
-    console.log(req)
-    res.redirect('http://localhost:4200/profile-page/linked-accounts') // Successful auth
+  //console.log(sessionMap)
+  passport.authenticate('discord',{ failureRedirect: '/' } )(req,res,next)
+
 });
+
+
+app.get('/auth/discord/callback', passport.authenticate('discord', {
+  failureRedirect: '/failed',
+  session: false // Disable session since we're redirecting manually
+}), (req, res) => {
+  // Call your function here
+  saveDiscordInfo(req, res);
+  // Redirect to the desired URL
+  res.redirect('http://localhost:4200/profile-page/linked-accounts');
+});
+
 
 //updates the discord info of a user to the user table 
 async function saveDiscordInfo(req, res) {
   
-  res.redirect("http://localhost:4200/profile-page/linked-accounts");
+  console.log("discord save called")
+  console.log("discord profile: ",req.user)
+  console.log("retrieved uid: ",sessionMap.get(req.sessionID))
 }
 
 
