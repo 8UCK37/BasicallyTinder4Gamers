@@ -623,6 +623,45 @@ async function refreshTwitchToken(userid,refreshToken) {
   }
 }
 
+var DiscordStrategy = require('passport-discord').Strategy;
+ 
+var scopes = ['identify', 'email', 'guilds', 'guilds.join'];
+ 
+passport.use(new DiscordStrategy({
+    clientID: '1113341099491217458',
+    clientSecret: '0jpCzpxmEd1eCdts_Qs-4vXMQoROj5RI',
+    callbackURL: 'http://localhost:3000/auth/discord/callback',
+    scope: scopes
+},
+(accessToken, refreshToken, profile, done)=> {
+  console.log(accessToken)
+  profile.guilds=[]
+  profile.refreshToken=refreshToken
+  console.log(profile)
+  return done(profile)
+}));
+
+app.get('/auth/discord',(req, res ,next) =>{ 
+  console.log(req.sessionID)
+  sessionMap.set(req.sessionID , req.query.uid);
+  console.log(sessionMap)
+  passport.authenticate('discord',{ failureRedirect: '/' } )(req,res,next)}
+  
+  );
+app.get('/auth/discord/callback', passport.authenticate('discord', {
+    failureRedirect: '/failed',successRedirect:'/success'
+}), function(req, res) {
+    console.log(req)
+    res.redirect('http://localhost:4200/profile-page/linked-accounts') // Successful auth
+});
+
+//updates the discord info of a user to the user table 
+async function saveDiscordInfo(req, res) {
+  
+  res.redirect("http://localhost:4200/profile-page/linked-accounts");
+}
+
+
 
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the

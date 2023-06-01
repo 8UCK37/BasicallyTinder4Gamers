@@ -121,4 +121,7 @@ export class LinkedAccountsComponent implements OnInit {
     window.open(`https://www.twitch.tv/${this.twitchdata.login}`, '_blank');
   }
 
+  redirectToDiscordLogin(): void {
+    window.location.href = `${environment.endpointUrl}`+`/auth/discord?uid=${this.userparsed?.id}`;
+  }
 }
