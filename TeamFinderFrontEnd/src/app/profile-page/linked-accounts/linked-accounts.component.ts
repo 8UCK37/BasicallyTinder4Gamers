@@ -22,8 +22,12 @@ export class LinkedAccountsComponent implements OnInit {
   changeText: any = false;
   ownProfile: any;
   twitchdata:any;
+  discordData:any;
   public imgSrc:any='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';
   public imgSize:any='250px'
+  public discordimgSize:any='250px'
+  public discordDp=''
+  public discordLogo='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/discord-1024.png'
   constructor(private route: ActivatedRoute, private router: Router,public userService: UserService) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
@@ -36,6 +40,7 @@ export class LinkedAccountsComponent implements OnInit {
           if (usr!=null) {
             this.fetchUserData();
             this.getTwitchInfo(this.userparsed.id);
+            this.getDiscordInfo(this.userparsed.id);
           }
         })
       } else {
@@ -63,6 +68,7 @@ export class LinkedAccountsComponent implements OnInit {
             //console.log(this.steamInfo)
           }).catch(err => console.log(err))
         }
+      this.getDiscordInfo(this.profile_id);
       });
     }
   }
@@ -107,7 +113,14 @@ export class LinkedAccountsComponent implements OnInit {
       }
     }).catch(err=>console.log(err))
    }
-
+   getDiscordInfo(id:any){
+    axios.get(`getDiscordInfo?id=${id}`).then(res=>{
+      console.log(res.data)
+      this.discordData=structuredClone(res.data)
+      this.discordDp=`https://cdn.discordapp.com/avatars/${this.discordData.Discord.id}/${this.discordData.Discord.avatar}.png`
+      //console.log(this.discordData.Discord.username)
+    }).catch(err=>console.log(err))
+   }
   redirectToSteamProfile(): void {
     window.open(`https://steamcommunity.com/profiles/${this.steamId}`, '_blank');
   }

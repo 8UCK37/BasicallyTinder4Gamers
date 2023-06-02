@@ -689,7 +689,18 @@ async function saveDiscordInfo(req, res) {
   res.redirect('http://localhost:4200/profile-page/linked-accounts');
 }
 
-
+app.get('/getDiscordInfo', ensureAuthenticated, async (req, res) => {
+  let discordData = await prisma.LinkedAccounts.findUnique({
+    where: {
+      userId: req.query.id
+    },
+    select: {
+      Discord: true
+    }
+  })
+  //console.log(activeStateData)
+  res.send(JSON.stringify(discordData));
+});
 
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
