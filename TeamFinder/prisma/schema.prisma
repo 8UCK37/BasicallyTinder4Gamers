@@ -24,6 +24,7 @@ model User {
   userInfo        UserInfo?         @relation(fields: [userInfoId], references: [id])
   Comment         Comment[]
   CommentReaction CommentReaction[]
+  LinkedAccounts  LinkedAccounts[]
 }
 
 model UserInfo {
@@ -34,6 +35,14 @@ model UserInfo {
   Language  String?
   User      User?
   Address   String?
+}
+
+model LinkedAccounts {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+  Discord   Json?
+  userId    String?  @unique
 }
 
 model Friends {

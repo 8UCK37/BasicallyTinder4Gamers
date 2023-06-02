@@ -657,7 +657,7 @@ app.get('/auth/discord/callback', passport.authenticate('discord', {
   // Call your function here
   saveDiscordInfo(req, res);
   // Redirect to the desired URL
-  res.redirect('http://localhost:4200/profile-page/linked-accounts');
+  
 });
 
 
@@ -667,6 +667,26 @@ async function saveDiscordInfo(req, res) {
   console.log("discord save called")
   console.log("discord profile: ",req.user)
   console.log("retrieved uid: ",sessionMap.get(req.sessionID))
+
+  try{
+    let discordProfile = await prisma.LinkedAccounts.upsert({
+      where: {
+        userId: sessionMap.get(req.sessionID)
+      },
+      update:{Discord:req.user},
+      create:{
+        userId:sessionMap.get(req.sessionID),
+        Discord:req.user
+      }
+    })
+    
+  }
+  catch(e){
+    console.log(e)
+
+  }
+
+  res.redirect('http://localhost:4200/profile-page/linked-accounts');
 }
 
 
