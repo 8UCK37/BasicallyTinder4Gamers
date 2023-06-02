@@ -69,7 +69,7 @@
       (mouseout)="discordLogo='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/discord-1024.png';discordimgSize='250px'">
         <h2>{{discordData.Discord.username}}#{{discordData.Discord.discriminator}}</h2>
         <div [style.display]="discordLogo==discordDp? 'block':'none'" class="icons" style="cursor: pointer;display: none;" >
-            <i class="fa-brands fa-discord fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6"  ></i>
+            <i class="fa-brands fa-discord fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6" (click)="redirectToDiscordWebsite()" ></i>
         </div>
     </div>
   </div>

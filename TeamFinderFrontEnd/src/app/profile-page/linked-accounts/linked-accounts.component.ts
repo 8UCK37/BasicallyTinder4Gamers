@@ -137,4 +137,7 @@ export class LinkedAccountsComponent implements OnInit {
   redirectToDiscordLogin(): void {
     window.location.href = `${environment.endpointUrl}`+`/auth/discord?uid=${this.userparsed?.id}`;
   }
+  redirectToDiscordWebsite(): void {
+    window.open(`https://discord.com/app`, '_blank');
+  }
 }
