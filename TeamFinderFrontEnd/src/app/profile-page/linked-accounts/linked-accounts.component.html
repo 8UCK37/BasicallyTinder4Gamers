@@ -15,7 +15,7 @@
     </div>
     <div class="col-sm">
       <ng-container *ngIf="ownProfile; else twitchelseblock">
-        <i class="fa-brands fa-twitch" (click)="redirectToTwitchLogin()"
+        <i class="fa-brands fa-twitch" (click)="twitchdata ? null :redirectToTwitchLogin()"
         [ngClass]="{'disabled': twitchdata}" [style.cursor]="twitchdata ? 'default' : 'pointer'"></i>
       </ng-container>
       <ng-template #twitchelseblock>
@@ -23,7 +23,8 @@
       </ng-template>
     </div>
     <div class="col-sm ">
-      <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="redirectToDiscordLogin()"></i>
+      <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordData ? null :redirectToDiscordLogin()"
+      [ngClass]="{'disabled': discordData}" [style.cursor]="discordData ? 'default' : 'pointer'"></i>
     </div>
     <div class="col-sm ">
       <i class="fa-brands fa-xbox"></i>
