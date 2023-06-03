@@ -608,7 +608,7 @@ async function refreshTwitchToken(userid,refreshToken) {
 
 var DiscordStrategy = require('passport-discord').Strategy;
 
-var scopes = ['identify', 'email', 'guilds', 'guilds.join'];
+var scopes = ['identify', 'email', 'guilds', 'guilds.join','connections'];
 
 passport.use(new DiscordStrategy({
     clientID: '1113341099491217458',
