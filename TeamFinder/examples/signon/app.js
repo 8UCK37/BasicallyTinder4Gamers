@@ -1078,6 +1078,21 @@ app.post("/updateBio", ensureAuthenticated, async (req, res) => {
   })
   res.sendStatus(200);
 });
+//#endpoint
+app.post("/updateUserData", ensureAuthenticated, async (req, res) => {
+  const updateStatus = await prisma.userInfo.update({
+    where: {
+      id: req.body.id,
+    },
+    data: {
+      Country: req.body.country,
+      Language: req.body.language,
+      Address: req.body.address,
+      Gender: req.body.gender,
+    },
+  })
+  res.sendStatus(200);
+});
 app.post("/chat/background", ensureAuthenticated, upload.single('chatbackground'), (req, res) => {
   console.log("chat",req.user.user_id)
   chatRouter.upChatBackGround(req,res)
