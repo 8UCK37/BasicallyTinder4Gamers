@@ -67,17 +67,10 @@ async function execute(io){
           let receiver = receivedData.receiver ;
           let receivedSocketId = userSocketMap.get(receiver)
           let sender = receivedData.sender
-                
-          chatData = await prisma.Chat.create({
-            data:{
-              sender: sender,
-              receiver: receiver,
-              msg: receivedData.msg
-            }
-          })
-          console.log(chatData)
+          let photo = receivedData.photo       
+          
           console.log(sender , " msg koreche  user " , receivedSocketId)
-          io.to(receivedSocketId).emit('my broadcast' , {sender:receivedData.sender,msg:receivedData.msg});
+          io.to(receivedSocketId).emit('my broadcast' , {sender:receivedData.sender,msg:receivedData.msg,photo:photo});
           // io.emit('my broadcast', `server: ${msg}`);
         });
       });       

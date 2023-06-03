@@ -29,6 +29,7 @@ export class ProfilePageComponent implements OnInit {
   public dpPreview: any;
   public dPsave: boolean = false;
   public bNsave: boolean = false;
+  public info:any={Country:"",Gender:""};
   public formData: any;
   public userName: any;
   public profile_id: any;
@@ -55,6 +56,10 @@ export class ProfilePageComponent implements OnInit {
         this.userparsed = usr;
         this.userInfo = usr;
         this.bio = this.userInfo?.bio;
+        axios.post('getUserInfo',{id:usr.id}).then(res => {
+          this.info=res.data.userInfo;
+          console.log(res.data.userInfo)
+        })
       })
     } else {
       this.route.queryParams.subscribe(async params => {
@@ -62,7 +67,7 @@ export class ProfilePageComponent implements OnInit {
         this.profile_id = params['id'];
         console.log(this.profile_id)
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {
-          //console.log(res.data)
+          console.log(res.data)
           this.userInfo = res.data
         }).catch(err => console.log(err))
         axios.post('isFriend', { id: this.profile_id }).then(res => {
@@ -257,7 +262,7 @@ export class ProfilePageComponent implements OnInit {
     });
   }
   openModal(){
-    this.utilsServiceService.modalObjSource.next({open:true, data:null})
+    this.utilsServiceService.postModalObjSource.next({open:true, data:null})
   }
   onProfilePicError() {
     //this.profileurl = this.userparsed?.photoURL;

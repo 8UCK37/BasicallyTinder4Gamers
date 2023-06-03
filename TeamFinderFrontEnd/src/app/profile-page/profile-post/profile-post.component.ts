@@ -70,6 +70,6 @@ constructor(private commentService: CommentService,public userService:UserServic
   utcToLocal(utcTime:any){
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
-}
+  }
 
 }

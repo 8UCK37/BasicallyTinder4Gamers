@@ -15,18 +15,16 @@
     </div>
     <div class="col-sm">
       <ng-container *ngIf="ownProfile; else twitchelseblock">
-        <i class="fa-brands fa-twitch" (click)="redirectToTwitchLogin()"
+        <i class="fa-brands fa-twitch" (click)="twitchdata ? null :redirectToTwitchLogin()"
         [ngClass]="{'disabled': twitchdata}" [style.cursor]="twitchdata ? 'default' : 'pointer'"></i>
       </ng-container>
       <ng-template #twitchelseblock>
         <i class="fa-brands fa-twitch"></i>
       </ng-template>
     </div>
-    <div class="col">
-      <i class="fa-brands fa-battle-net"></i>
-    </div>
     <div class="col-sm ">
-      <i class="fa-brands fa-discord"></i>
+      <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordData ? null :redirectToDiscordLogin()"
+      [ngClass]="{'disabled': discordData}" [style.cursor]="discordData ? 'default' : 'pointer'"></i>
     </div>
     <div class="col-sm ">
       <i class="fa-brands fa-xbox"></i>
@@ -58,6 +56,20 @@
         <h2>{{twitchdata.display_name}}</h2>
         <div [style.display]="imgSrc==twitchdata.profile_image_url? 'block':'none'" class="icons" style="cursor: pointer;display: none;" (click)="redirectToTwitchProfile() ">
             <i class="fa-brands fa-twitch fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6"  ></i>
+        </div>
+    </div>
+  </div>
+  </ng-container>
+
+  <ng-container *ngIf="discordData">
+    <div class="col-md-auto">
+      <div class="card card1" [style.background-image]="'url(' + discordLogo + ')'" [style.backgroundSize]="discordimgSize"
+      style="transition: all 0.8s ease-in-out;"
+      (mouseover)="discordLogo=discordDp;discordimgSize='400px'"
+      (mouseout)="discordLogo='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/discord-1024.png';discordimgSize='250px'">
+        <h2>{{discordData.Discord.username}}#{{discordData.Discord.discriminator}}</h2>
+        <div [style.display]="discordLogo==discordDp? 'block':'none'" class="icons" style="cursor: pointer;display: none;" >
+            <i class="fa-brands fa-discord fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6" (click)="redirectToDiscordWebsite()" ></i>
         </div>
     </div>
   </div>

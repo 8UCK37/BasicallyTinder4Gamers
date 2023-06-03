@@ -122,7 +122,7 @@ app.use('/static', express.static(__dirname + '/../../public'));
 //routers
 
 app.use("/comment", require('./routes/comment'))
-
+app.use("/user", require('./routes/userRoute'))
 //Player States API
 app.use("/stats", require('./routes/playerStates'))
 
@@ -627,6 +627,84 @@ async function refreshTwitchToken(userid,refreshToken) {
   }
 }
 
+var DiscordStrategy = require('passport-discord').Strategy;
+ 
+var scopes = ['identify', 'email', 'guilds', 'guilds.join'];
+ 
+passport.use(new DiscordStrategy({
+    clientID: '1113341099491217458',
+    clientSecret: '0jpCzpxmEd1eCdts_Qs-4vXMQoROj5RI',
+    callbackURL: 'http://localhost:3000/auth/discord/callback',
+    scope: scopes
+},
+(accessToken, refreshToken, profile, done)=> {
+  console.log(accessToken)
+  profile.guilds=[]
+  profile.refreshToken=refreshToken
+  console.log('discord profile: \n',profile)
+  return done(null,profile)
+}));
+
+app.get('/auth/discord',(req, res ,next) =>{ 
+  console.log(req.sessionID)
+  sessionMap.set(req.sessionID , req.query.uid);
+  //console.log(sessionMap)
+  passport.authenticate('discord',{ failureRedirect: '/' } )(req,res,next)
+
+});
+
+
+app.get('/auth/discord/callback', passport.authenticate('discord', {
+  failureRedirect: '/failed',
+  session: false // Disable session since we're redirecting manually
+}), (req, res) => {
+  // Call your function here
+  saveDiscordInfo(req, res);
+  // Redirect to the desired URL
+  
+});
+
+
+//updates the discord info of a user to the user table 
+async function saveDiscordInfo(req, res) {
+  
+  console.log("discord save called")
+  console.log("discord profile: ",req.user)
+  console.log("retrieved uid: ",sessionMap.get(req.sessionID))
+
+  try{
+    let discordProfile = await prisma.LinkedAccounts.upsert({
+      where: {
+        userId: sessionMap.get(req.sessionID)
+      },
+      update:{Discord:req.user},
+      create:{
+        userId:sessionMap.get(req.sessionID),
+        Discord:req.user
+      }
+    })
+    
+  }
+  catch(e){
+    console.log(e)
+
+  }
+
+  res.redirect('http://localhost:4200/profile-page/linked-accounts');
+}
+
+app.get('/getDiscordInfo', ensureAuthenticated, async (req, res) => {
+  let discordData = await prisma.LinkedAccounts.findUnique({
+    where: {
+      userId: req.query.id
+    },
+    select: {
+      Discord: true
+    }
+  })
+  //console.log(activeStateData)
+  res.send(JSON.stringify(discordData));
+});
 
 // GET /auth/steam
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -703,7 +781,7 @@ async function setSteamId(req, res) {
     console.log("already linked")
     // res.status(200).send({ message: 'This Steam Id is already linked with another existing account' });
   }
-  res.redirect("http://localhost:4200/profile-page/linked-accounts?status=linked");
+  res.redirect("http://localhost:4200/profile-page/linked-accounts");
 }
 //returns steamaccount data #endpoint
 app.get("/steamUserInfo", ensureAuthenticated, async (req, res) => {
@@ -980,7 +1058,11 @@ app.post('/getPostByPostId', ensureAuthenticated, (req, res) => postHelper.getPo
 //#endpoint
 app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.createPost(req, res, prisma))
 //#endpoint
+app.post('/editPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.editPost(req, res, prisma))
+//#endpoint
 app.post('/quickSharePost', ensureAuthenticated, urlencodedParser, (req, res) => postHelper.quickSharePost(req, res, prisma))
+//#endpoint
+app.post('/shareToFeed', ensureAuthenticated, urlencodedParser, (req, res) => postHelper.shareToFeed(req, res, prisma))
 //#endpoint
 app.post('/mention', ensureAuthenticated, (req, res) => postHelper.mentionedInPost(req, res, prisma))
 //#endpoint
@@ -1022,7 +1104,15 @@ app.post("/chat/background", ensureAuthenticated, upload.single('chatbackground'
   chatRouter.upChatBackGround(req,res)
   res.sendStatus(200);
 });
-
+app.post("/chat/Images", ensureAuthenticated, upload.single('chatimages'), (req, res) => {
+  try{
+  chatRouter.uploadChatImage(req,res,prisma)
+  res.sendStatus(200);
+  }catch(e){
+    console.log(e)
+    res.sendStatus(400)
+  }
+});
 socketRunner.execute(io)
 
 

@@ -6,6 +6,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { first} from 'rxjs/internal/operators/first';
 import { take } from 'rxjs/internal/operators/take';
+import { CommentService } from 'src/app/post/comment.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-post-modal',
@@ -21,7 +23,9 @@ export class CreatePostModalComponent implements OnInit {
   public tagList = [];
   public modalRef?: BsModalRef;
   selectImage:any;
-  modalData?:any;
+  postData?:any;
+  ownProfile: any;
+  public ownPosts:any=[];
   public mentionList:any[]=[];
   @ViewChild('imageInput') imageInput!:ElementRef;
   @ViewChild('textInput') textInput!:ElementRef;
@@ -29,8 +33,11 @@ export class CreatePostModalComponent implements OnInit {
   isOpen:boolean = false;
   desc: any;
   textObj: any;
-
-  constructor(private modalService: BsModalService , public userService: UserService , public utilsServiceService : UtilsServiceService) { }
+  edit:boolean=false
+  share:boolean=false
+  constructor(private commentService: CommentService,private route: ActivatedRoute,private modalService: BsModalService , public userService: UserService , public utilsServiceService : UtilsServiceService) {
+    this.ownProfile = this.route.snapshot.data['ownProfile'];
+  }
 
   ngOnInit() {
     this.userService.userCast.subscribe((usr:any)=>{
@@ -48,19 +55,24 @@ export class CreatePostModalComponent implements OnInit {
       this.isOpen = false
     })
 
-    this.utilsServiceService.modalObj.subscribe((modalData:any)=>{
+    this.utilsServiceService.postModalObj.subscribe((modalData:any)=>{
+      console.log(modalData)
+      this.share=modalData.share
+      this.edit=false
       if(modalData.data){
-        this.modalData =  modalData.data
-        this.desc=  modalData.data.description
+        this.edit=true
+        this.postData =  modalData.data
+        this.desc = modalData.data.description
         this.imageSrcs=modalData.data.photoUrlArr
-        console.log(this.imageSrcs)
-        console.log(modalData, this.modalData)
+        //console.log(this.desc)
+        //console.log(modalData, this.modalData)
       }
 
       if( modalData.open){
         this.openModal(this.modal )
         this.isOpen = true
       }
+      console.log(this.desc)
     })
 
 
@@ -101,47 +113,52 @@ export class CreatePostModalComponent implements OnInit {
     // this.imageInput.nativeElement.value ='';
   }
 
-  uploadPostFile(){
+  uploadPostFile() {
 
     this.formData = new FormData();
-    if(this.imageSrcs && this.imageSrcs.length != 0){
-      //console.log("not null")
-      // let type = this.imageInput.nativeElement.files[0].type
-    // if(type != "image/jpeg" && type != "image/jpg"){
-    //   alert("wrong image type please upload jpg or Jpeg")
-    //   return
-    // }
+    if (this.imageSrcs && this.imageSrcs.length != 0) {
+
     }
-    // const textareaElement = document.getElementById("message-text") as HTMLTextAreaElement;
-    // const text = textareaElement.value;
-    //console.log(this.input.nativeElement.files);
-    for(let i=0;i< this.imageBlobs.length;i++){
+
+    for (let i = 0; i < this.imageBlobs.length; i++) {
       this.formData.append("post", this.imageBlobs[i]);
 
     }
-    //console.log(this.imageBlobs)
-    this.formData.append("data" , JSON.stringify({data : this.tagList,desc: this.textObj}))
-    axios.post('/createPost', this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(res=>{
-    }).catch(err =>console.log(err))
-    //console.log(this.input)
-    //console.log(this.formData.data)
+
+
+    if(this.edit && !this.share){
+      console.log("first")
+      this.formData.append("data", JSON.stringify({id:this.postData.id, data: this.tagList, desc: this.textObj }))
+      console.log("this is a edit",{ data: this.tagList, desc: this.textObj })
+      axios.post('/editPost', this.formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
+      }).catch(err => console.log(err))
+      setTimeout(() => {
+        this.getPostById(this.userparsed?.id);
+      }, 1500);
+     }
+    else if(this.edit && this.share){
+      console.log("here")
+      axios.post('/shareToFeed', { data:{ id:this.postData.id,tags: this.tagList, desc: this.textObj } }).then(res => {
+      }).catch(err => console.log(err))
+    }
+    else{
+      this.formData.append("data", JSON.stringify({ data: this.tagList, desc: this.textObj }))
+    axios.post('/createPost', this.formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
+    }).catch(err => console.log(err))
+    }
+
     this.tagList = [];
-    //console.log(this.tagList)
+
     this.clearImages()
     this.isOpen = false
-    // textareaElement.value=''
-    this.utilsServiceService.modalObjSource.next({open:false})
+
+    this.utilsServiceService.postModalObjSource.next({ open: false })
     this.closeModal(this.modal)
-    // this.ngOnInit()
-    this.imageBlobs=[]
+
+    this.imageBlobs = []
 
     this.mentionNotification(this.textObj)
 
-
-
-    setTimeout(() => {
-      // this.fetchLatestPost();
-    }, 1500);
   }
   openModal(template: TemplateRef<any>) {
     console.log("open")
@@ -151,6 +168,8 @@ export class CreatePostModalComponent implements OnInit {
   }
 
   closeModal(template: TemplateRef<any>){
+    this.imageSrcs = [];
+    this.edit=false;
     this.modalService.hide()
     this.isOpen = false
   }
@@ -162,6 +181,7 @@ export class CreatePostModalComponent implements OnInit {
 
   mentionNotification(data:any){
     this.mentionList=[]
+    if (Array.isArray(data)) {
     data.forEach((ele:any) => {
       //console.log(ele)
       if(ele.insert.mention){
@@ -169,8 +189,28 @@ export class CreatePostModalComponent implements OnInit {
         this.mentionList.push({id:ele.insert.mention.id})
       }
     });
+
     //console.log(this.mentionList)
     axios.post('/mention',{mentionlist:this.mentionList}).then(res=>{
     }).catch(err =>console.log(err))
+    }
+  }
+  getPostById(id:any){
+    axios.post('getPostById',{uid:id}).then(res=>{
+      console.log(res.data)
+      res.data.forEach((post: any) => {
+        post.tagArr=post.tagnames?.split(',')
+        post.photoUrlArr=post.photoUrl?.split(',')
+        post.isOwnPost=true
+        if(post.shared!=null){
+          post.parentpost=JSON.parse(post.parentpost)
+          post.parentpost.tagArr=post.parentpost.tagnames?.split(',')
+          post.photoUrlArr=post.parentpost.photoUrl?.split(',')
+        }
+      });
+      this.ownPosts=res.data
+      console.log(this.ownPosts)
+      this.commentService.setOwnPostsObj(this.ownPosts);
+    }).catch(err=>console.log(err))
   }
 }

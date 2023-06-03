@@ -12,6 +12,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { GamesComponent } from './profile-page/games/games.component';
 import { PostPageComponent } from './post/post-page/post-page.component';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
+import { FriendSuggestionComponent } from './friend-suggestion/friend-suggestion.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'post', component: ProfilePageComponent },
       { path: 'friends', component: FriendsComponent },
       { path: 'linked-accounts', component: LinkedAccountsComponent },
+      
     ],
   canActivate: [AuthGuard],
     data: { ownProfile: true }
@@ -36,6 +38,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { ownProfile: false }
   },
+  { path: 'friend-suggestion', component: FriendSuggestionComponent },
   { path: 'home', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
   { path: 'post-page', component: PostPageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },

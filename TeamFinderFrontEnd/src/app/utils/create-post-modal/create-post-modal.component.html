@@ -8,31 +8,18 @@ tabindex="-1"  #modal >
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal(this.modal)"></button>
       </div>
       <div class="modal-body">
-        <!-- <div class="mb-3">
-          <textarea placeholder="Rant about those lootboxes here.." class="form-control"
-            id="message-text" style="background-color: currentColor; border: 0px;"></textarea>
-        </div>
-        <div style="background: white;border-radius: 5px;">
-          <tag-input [(ngModel)]="tagList">
-            <tag-input-dropdown [dynamicUpdate]="false">
-            </tag-input-dropdown>
-          </tag-input>
-        </div> -->
+
         <div class="imtcontainer">
           <div class="img">
             <img [src]="userInfo?.profilePicture" class="user-pic" >
           </div>
           <div class="textarea">
-            <!-- <textarea onkeyup="InputAdjust(this)" (input)="adjustHeight($event)" #textInput class="form-control"
-            id="message-text" placeholder="what's on you mind?" style="box-shadow: 0px;" [ngModel]="desc"></textarea> -->
+
             <app-mention-text-input  (editorChange)="update($event)" [data]="desc" ></app-mention-text-input>
           </div>
         </div>
         <div style="background: white;border-radius: 5px;">
-          <!-- <tag-input [(ngModel)]="tagList">
-            <tag-input-dropdown [dynamicUpdate]="false">
-            </tag-input-dropdown>
-          </tag-input> -->
+
         </div>
         <br>
         <div>
@@ -48,13 +35,13 @@ tabindex="-1"  #modal >
           <div *ngIf="imageSrcs.length">
             <br>
             <div class="card">
-              <button class="btn btn-danger" (click)="clearImages()">Remove All</button>
+              <button *ngIf="!edit" class="btn btn-danger" (click)="clearImages()">Remove All</button>
             </div>
             <h4>Preview</h4>
             <div *ngFor="let imageSrc of imageSrcs; let i = index;" class="card">
               <div class="image-preview" class="card">
                 <img [src]="imageSrc" alt="Selected Image">
-                <button type="button" class="btn btn-secondary" (click)="removeImage(i)">Remove</button>
+                <button *ngIf="!edit" type="button" class="btn btn-secondary" (click)="removeImage(i)">Remove</button>
               </div>
             </div>
           </div>
@@ -63,8 +50,10 @@ tabindex="-1"  #modal >
       </div>
       <div class="modal-footer" style="border: 0px;">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal(this.modal)">Close</button>
-        <button type="button" class="btn btn-primary" (click)="uploadPostFile()"
-          data-bs-dismiss="modal">Post</button>
+        <button *ngIf="!share" type="button" class="btn btn-primary" (click)="uploadPostFile()"
+          data-bs-dismiss="modal">{{ edit? 'Save changes':'Post'}}</button>
+        <button *ngIf="share" type="button" class="btn btn-primary" (click)="uploadPostFile()"
+          data-bs-dismiss="modal">Share</button>
       </div>
     </div>
   </div>

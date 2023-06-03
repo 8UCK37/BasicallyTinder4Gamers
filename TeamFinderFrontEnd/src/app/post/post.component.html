@@ -62,9 +62,26 @@
                 <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
               </ng-container>
             </div>
+
+            <div class="p-3" *ngIf="childPost?.parentpost?.refinedText">
+              <p class="text-justify" [innerHTML]="childPost.parentpost?.refinedText"></p>
+              <ng-container *ngFor="let tag of childPost.parentpost?.tagArr">
+                <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
+              </ng-container>
+            </div>
+            <div style="display: block;width: 100%;" *ngIf="images.length!=0">
+
+              <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="item.imageSrcUrl" style="width: 100%;height:40rem; display: block;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;" />
+                </ng-template>
+            </p-galleria>
+          </div>
+
           </div>
         </ng-container>
-          <div style="display: block;width: 100%;" *ngIf="images.length!=0">
+          <div style="display: block;width: 100%;" *ngIf="images.length!=0  && !childPost.shared">
+
             <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
               <ng-template pTemplate="item" let-item>
                   <img [src]="item.imageSrcUrl" style="width: 100%;height:40rem; display: block;" />
@@ -72,7 +89,7 @@
           </p-galleria>
         </div>
 
-        <div class="p-2 carousel-btm" style="border-top: 1px solid #3b82f6;">
+        <div class="p-2 carousel-btm" style="">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
             <div class="like">
               <ng-container *ngIf="childPost.noreaction || childPost.reactiontype=='like'||childPost.reactiontype=='dislike'">
