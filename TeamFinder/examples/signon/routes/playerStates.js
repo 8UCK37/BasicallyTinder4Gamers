@@ -17,7 +17,7 @@ router.get("/mapAndWeaponDataFromSteamId", ensureAuthenticated, async (req, res)
     }
   })
   if (steamIdfromDb.steamId != null) {
-    const urlStats = await axios.get(`https://public-api.tracker.gg/v2/csgo/standard/profile/steam/${steamIdfromDb.steamId}`);
+    const urlStats = await axios.get(`https://public-api.tracker.gg/v2/csgo/standard/profile/steam/${steamIdfromDb.steamId}?TRN-Api-Key=${process.env.satsApiKey}`);
     const urlWeapon = await axios.get(`https://public-api.tracker.gg/v2/csgo/standard/profile/steam/${steamIdfromDb.steamId}/segments/weapon?TRN-Api-Key=${process.env.satsApiKey}`);
     
     console.log("kichuakta",urlStats.data.data)
