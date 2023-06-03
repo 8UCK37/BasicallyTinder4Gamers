@@ -1,19 +1,30 @@
 const express = require('express')
 const router = express.Router()
-const auth  = require('./../middleware/authMiddleware')
-//this is to get all the comment under one post
-router.get("/map", async (req, res) => {
-    const url = 'https://public-api.tracker.gg/v2/csgo/standard/profile/steam/'+res.steamId+'/segments/map?TRN-Api-Key='+process.env.satsApiKey;
+const auth  = require('./../middleware/authMiddleware');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient()
+const { HttpStatusCode } = require('axios');
+const ensureAuthenticated = auth.ensureAuthenticated
+const axios = require("axios")
 
-fetch(url)
-  .then(response => response.json())
-  .then(jsonData => res.send(jsonData));
-})
-router.get("/weapon", async (req, res) => {
-    const url = 'https://public-api.tracker.gg/v2/csgo/standard/profile/steam/76561198843078725/segments/weapon?TRN-Api-Key='+process.env.satsApiKey;
+router.get("/mapAndWeaponDataFromSteamId", ensureAuthenticated, async (req, res) => {
+  let steamIdfromDb = await prisma.User.findUnique({
+    where: {
+      id: req.user.user_id
+    },
+    select: {
+      steamId: true
+    }
+  })
+  if (steamIdfromDb.steamId != null) {
+    const urlStats = await axios.get(`https://public-api.tracker.gg/v2/csgo/standard/profile/steam/${steamIdfromDb.steamId}`);
+    const urlWeapon = await axios.get(`https://public-api.tracker.gg/v2/csgo/standard/profile/steam/${steamIdfromDb.steamId}/segments/weapon?TRN-Api-Key=${process.env.satsApiKey}`);
+    
+    console.log("kichuakta",urlStats.data.data)
+    res.send(JSON.stringify({playerStats:urlStats.data.data,weaponStats:urlWeapon.data.data}))
+  } else { console.log("null caught") 
+  res.sendStatus(404);
+}
+});
 
-fetch(url)
-  .then(response => response.json())
-  .then(jsonData => res.send(jsonData));
-})
 module.exports = router

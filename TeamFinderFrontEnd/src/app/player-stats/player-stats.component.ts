@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
-import { stringify } from 'uuid';
 
 @Component({
   selector: 'app-player-stats',
@@ -8,22 +7,15 @@ import { stringify } from 'uuid';
   styleUrls: ['./player-stats.component.css']
 })
 export class PlayerStatsComponent implements OnInit {
-steamId:any;
-  mapData!: string;
-  weaponData!: JSON;
-
   constructor() { }
-
   ngOnInit() {
-     axios.get('stats/weapon', { params: { id: this.steamId } }).then(res => {
-      this.weaponData=(res.data);
-  })
-
-     axios.get('stats/map', { params: { id: this.steamId } }).then(res => {
-     this.mapData=JSON.stringify(res.data);
-})
-
-console.log("data map",this.mapData)
-console.log("data weapon",this.weaponData)
+this.playerWeaponStates();
+}
+async playerWeaponStates()
+{
+  await axios.get('stats/mapAndWeaponDataFromSteamId').then(res => {
+    console.log(res.data.playerStats)
+    console.log(res.data.weaponStats)
+}).catch(err=>console.log(err))
 }
 }
