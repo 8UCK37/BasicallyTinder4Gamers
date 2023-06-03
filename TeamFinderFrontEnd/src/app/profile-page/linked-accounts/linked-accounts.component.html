@@ -24,7 +24,7 @@
     </div>
     <div class="col-sm ">
       <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordData.Discord ? null :redirectToDiscordLogin()"
-      [style.cursor]="discordData.Discord || !ownProfile? 'default' : 'pointer'"></i>
+      [style.cursor]="discordData?.Discord || !ownProfile? 'default' : 'pointer'"></i>
     </div>
     <div class="col-sm ">
       <i class="fa-brands fa-xbox"></i>
