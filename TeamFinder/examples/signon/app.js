@@ -149,7 +149,12 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         isConnected: true
       },
     })
-
+    
+    const newUserAcc = await prisma.LinkedAccounts.create({
+      data: {
+        userId: req.user.user_id,
+      },
+    })
     console.log("new user created db updated", newUser)
     // res.statusCode = 201
     res.send(JSON.stringify(newUser))
