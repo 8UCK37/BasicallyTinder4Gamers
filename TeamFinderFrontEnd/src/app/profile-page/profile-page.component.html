@@ -109,21 +109,24 @@
             <span class="profile__gender">{{info.Country}}</span>
           </div>
            <div class="post-body">
-            <div class="container" style="display: flex;justify-content: flex-end;right: 195px;position: relative;">
-
+            <div class="container" style="display: flex; justify-content: center;">
               <div class="con">
-                <div class="profileimg">
-                  <img [src]="userInfo?.profilePicture" class="user-pic" (error)="onProfilePicError()"
+                <div class="imgbutton">
+                  <div class="profileimg">
+                    <img [src]="userInfo?.profilePicture" class="user-pic" (error)="onProfilePicError()"
                       referrerpolicy="no-referrer">
-                   </div>
+                  </div>
                     <button #open type="button" class="btn btn-outline-light" (click)="openModal()">
                       Rant about those lootboxes here.......
                     </button>
-                    <a type="button" class="btn image " style="left: 178px;">
-                      <img src="./../../assets/icon-resource/image.png" style="height: 30px"><span
-                      style="color: aliceblue; left: 6px;position: relative;">Image</span></a>
                 </div>
-          </div>
+                <div class="row">
+                    <a type="button" class="btn image " style="left: 178px;"
+                      ><img src="./../../assets/icon-resource/image.png" style="height: 30px"><span
+                        style="color: aliceblue; left: 6px;position: relative;">Image</span></a>
+                </div>
+              </div>
+            </div>
           <app-profile-post></app-profile-post>
         </div>
         </section>
