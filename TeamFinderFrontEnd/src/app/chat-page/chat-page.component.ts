@@ -111,11 +111,14 @@ export class ChatPageComponent implements OnInit {
 
   sendMessage(){
     this.formData = new FormData();
-
-    if((this.values == "" || this.values.length == 0) && !this.fileSelected || (this.input.nativeElement.files[0].type != "image/jpeg" && this.input.nativeElement.files[0].type != "image/jpg")) {
+    console.log("here")
+    if((this.values == "" || this.values.length == 0) && !this.fileSelected ) {
+       return
+    };
+    if(this.fileSelected && this.input.nativeElement.files[0].type != "image/jpeg" && this.input.nativeElement.files[0].type != "image/jpg"){
       this.messageService.add({severity: 'warn', summary: '', detail: "You can't yet upload anything else other than jpeg/jpg"});
       return
-    };
+    }
     let data = {receiver: this.to , msg : this.values , sender : this.userparsed.id,photo:this.fileSelected}
     console.log(data);
 
