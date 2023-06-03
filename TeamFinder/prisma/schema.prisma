@@ -38,11 +38,13 @@ model UserInfo {
 }
 
 model LinkedAccounts {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  User      User?    @relation(fields: [userId], references: [id])
-  Discord   Json?
-  userId    String?  @unique
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  User          User?    @relation(fields: [userId], references: [id])
+  twitchtoken   Json?
+  steamId       String?
+  Discord       Json?
+  userId        String?  @unique
 }
 
 model Friends {

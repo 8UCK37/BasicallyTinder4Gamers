@@ -88,8 +88,8 @@ passport.deserializeUser(function (obj, done) {
 
 
 const http = require('http').createServer(app);
-const io = require('socket.io')(http, {  
-  cors: { 
+const io = require('socket.io')(http, {
+  cors: {
     origins: ['http://localhost:4200']
   }
 });
@@ -205,7 +205,7 @@ app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{
   },
   data:{
     userInfo:{
-      create:req.body  
+      create:req.body
     }
   },
   include: { userInfo: true }
@@ -339,7 +339,7 @@ app.post('/unFriend', ensureAuthenticated, urlencodedParser, async function (req
   const result = await prisma.$queryRaw`
   UPDATE public."FriendRequest" fr
   SET status = 'unfriended'
-  WHERE (fr.sender = ${user_id} AND fr.reciever = ${frnd_id}) 
+  WHERE (fr.sender = ${user_id} AND fr.reciever = ${frnd_id})
   OR (fr.reciever = ${user_id} AND fr.sender = ${frnd_id})`;
   const result1 = await prisma.$queryRaw`
   DELETE FROM public."Friends"
@@ -351,7 +351,7 @@ app.post('/unFriend', ensureAuthenticated, urlencodedParser, async function (req
 //does exactly what the freindata does but a lot better in futre may replace friendata #endpoint
 app.get('/getFriendData', ensureAuthenticated, async (req, res) => {
   const user_id = req.user.user_id;
-  const result = await prisma.$queryRaw`SELECT u.*, 
+  const result = await prisma.$queryRaw`SELECT u.*,
         CASE
         WHEN fr.status = 'pending' AND fr.sender = ${user_id} THEN 'outgoing'
             WHEN fr.status = 'pending' AND fr.reciever = ${user_id} THEN 'incoming'
@@ -370,7 +370,7 @@ app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function 
   const jsonObject = req.body;
 
   if(req.body.searchTerm=='noob'){
-    
+
     const searchresult = await prisma.User.findMany({
       where: {
         id:'Cc6YM87NvihVFGpgbAclZqRLpP13'
@@ -378,7 +378,7 @@ app.post('/searchFriend', ensureAuthenticated, urlencodedParser, async function 
     })
   res.send(JSON.stringify(searchresult));
   }else{
-    
+
   const searchresult = await prisma.User.findMany({
     where: {
       name: {
@@ -444,7 +444,7 @@ app.post("/rejectFriend", ensureAuthenticated, urlencodedParser, async (req, res
   res.sendStatus(200);
 })
 
-//new twitch login we just need to implement methods to get the live status 
+//new twitch login we just need to implement methods to get the live status
 app.get('/auth/twitch', (req, res) => {
   //console.log(req.sessionID)
   sessionMap.set(req.sessionID , req.query.uid);
@@ -490,50 +490,28 @@ app.get('/auth/twitch/callback', async (req, res) => {
   }
 });
 
-//updates the twitchtoken of a user to the user table 
+//updates the twitchtoken of a user to the user table
 async function setTwitchToken(req, res,token,refreshToken) {
-  //console.log('setTwitchToken called')
-  //console.log(sessionMap)
-  //console.log(token)
-  //console.log(refreshToken)
-  let twitchTokenData = await prisma.User.findMany({
-    where: {
-      id: sessionMap.get(req.sessionID)
-    },
-    select: {
-      twitchtoken: true
-    }
-  });
-  //console.log(twitchTokenData)
 
-  if (twitchTokenData[0] != null) {
-    const updateUser = await prisma.User.update({
-      where: {
-        id: sessionMap.get(req.sessionID),
-      },
-      data: {
-        twitchtoken: {token:token,refreshToken:refreshToken},
-      },
-    })
-    //res.status(200).send({ message: 'Twitch Linked Successfully' });
-  } else {
-    const updateUser = await prisma.User.create({
-      where: {
-        id: sessionMap.get(req.sessionID),
-      },
-      data: {
-        twitchtoken: token,
-      },
-    })
-  }
+  let setTwitchToken = await prisma.LinkedAccounts.upsert({
+    where: {
+      userId: sessionMap.get(req.sessionID)
+    },
+    update:{twitchtoken: {token:token,refreshToken:refreshToken}},
+    create:{
+      userId:sessionMap.get(req.sessionID),
+      twitchtoken: token,
+    }
+  })
+
   res.redirect("http://localhost:4200/profile-page/linked-accounts");
 }
 
 
 app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
-  let tokenFromDb = await prisma.User.findUnique({
+  let tokenFromDb = await prisma.LinkedAccounts.findUnique({
     where: {
-      id: req.query.id
+      userId: req.query.id
     },
     select: {
       twitchtoken: true
@@ -565,14 +543,14 @@ app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
             'Client-ID': "5q5a2eqsg77c8nf2xoxohxrfeniskg",
             'Authorization': `Bearer ${newToken.access_token}`,
           },
-          
+
         });
         const json = await response.json();
         const user = json.data[0];
         res.send(user);
         return;
         }
-       
+
   } catch (error) {
     console.error(error);
     res.status(500).send('Failed to get twitch profile information');
@@ -608,25 +586,25 @@ async function refreshTwitchToken(userid,refreshToken) {
     console.log('New access token:', json);
     // Saving the new access token to the database
     if (json != null) {
-      const updateUser = await prisma.User.update({
+      const updateUser = await prisma.LinkedAccounts.update({
         where: {
-          id: userid,
+          userId: userid,
         },
         data: {
           twitchtoken: {token:accessToken,refreshToken:refreshToken},
         },
       })
     }
-    return json; 
+    return json;
   } catch (error) {
     console.error(error);
   }
 }
 
 var DiscordStrategy = require('passport-discord').Strategy;
- 
+
 var scopes = ['identify', 'email', 'guilds', 'guilds.join'];
- 
+
 passport.use(new DiscordStrategy({
     clientID: '1113341099491217458',
     clientSecret: '0jpCzpxmEd1eCdts_Qs-4vXMQoROj5RI',
@@ -641,7 +619,7 @@ passport.use(new DiscordStrategy({
   return done(null,profile)
 }));
 
-app.get('/auth/discord',(req, res ,next) =>{ 
+app.get('/auth/discord',(req, res ,next) =>{
   console.log(req.sessionID)
   sessionMap.set(req.sessionID , req.query.uid);
   //console.log(sessionMap)
@@ -657,16 +635,16 @@ app.get('/auth/discord/callback', passport.authenticate('discord', {
   // Call your function here
   saveDiscordInfo(req, res);
   // Redirect to the desired URL
-  
+
 });
 
 
-//updates the discord info of a user to the user table 
+//updates the discord info of a user to the user table
 async function saveDiscordInfo(req, res) {
-  
-  console.log("discord save called")
-  console.log("discord profile: ",req.user)
-  console.log("retrieved uid: ",sessionMap.get(req.sessionID))
+
+  //console.log("discord save called")
+  //console.log("discord profile: ",req.user)
+  //console.log("retrieved uid: ",sessionMap.get(req.sessionID))
 
   try{
     let discordProfile = await prisma.LinkedAccounts.upsert({
@@ -679,7 +657,7 @@ async function saveDiscordInfo(req, res) {
         Discord:req.user
       }
     })
-    
+
   }
   catch(e){
     console.log(e)
@@ -732,7 +710,7 @@ passport.use(new SteamStrategy({
 ));
 
 
-//TODO implement sessions 
+//TODO implement sessions
 app.get('/auth/steam', (req, res ,next) =>{
   console.log(req.sessionID)
   sessionMap.set(req.sessionID , req.query.uid);
@@ -747,7 +725,7 @@ app.get('/auth/steam/return', passport.authenticate('steam', { failureRedirect: 
   // res.redirect(`http://localhost:4200/profile-page/linked-accounts?steamid=${req.user.id}`);
 });
 
-//updates the steamid of a user to the user table 
+//updates the steamid of a user to the user table
 async function setSteamId(req, res) {
   const jsonObject = req.body;
   console.log(sessionMap , req.user  )
@@ -781,7 +759,7 @@ async function setSteamId(req, res) {
 }
 //returns steamaccount data #endpoint
 app.get("/steamUserInfo", ensureAuthenticated, async (req, res) => {
-  
+
   let steamIdfromDb = await prisma.User.findUnique({
     where: {
       id: req.user.user_id
