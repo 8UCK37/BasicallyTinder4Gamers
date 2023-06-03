@@ -126,7 +126,8 @@ export class GamesComponent implements OnInit {
   async saveOwnedGames() {
     this.result = [];
     this.gameList = [];
-    await axios.get('accountData', { params: { id: this.steamId } }).then(res => {
+    await axios.get('accountData').then(res => {
+      //console.log(res.data)
       res.data.ownedGames.forEach((element: any) => {
         this.gameList.push(element)
       });
