@@ -16,7 +16,6 @@ model User {
   profileBanner   String?
   bio             String?
   steamId         String?
-  twitchtoken     Json?
   gmailId         String?
   activeChoice    Boolean?
   isConnected     Boolean?
