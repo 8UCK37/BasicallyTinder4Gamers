@@ -24,7 +24,8 @@
     </div>
     <div class="col-sm ">
       <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordData ? null :redirectToDiscordLogin()"
-      [ngClass]="{'disabled': discordData.Discord}" [style.cursor]="discordData.Discord ? 'default' : 'pointer'"></i>
+      [style.cursor]="ownProfile? 'pointer' : 'default'"
+      [style.cursor]="discordData.Discord? 'default' : 'pointer'"></i>
     </div>
     <div class="col-sm ">
       <i class="fa-brands fa-xbox"></i>
@@ -61,7 +62,7 @@
   </div>
   </ng-container>
 
-  <ng-container *ngIf="discordData.Discord">
+  <ng-container *ngIf="discordData?.Discord">
     <div class="col-md-auto">
       <div class="card card1" [style.background-image]="'url(' + discordLogo + ')'" [style.backgroundSize]="discordimgSize"
       style="transition: all 0.8s ease-in-out;"

@@ -115,10 +115,11 @@ export class LinkedAccountsComponent implements OnInit {
    }
    getDiscordInfo(id:any){
     axios.get(`getDiscordInfo?id=${id}`).then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
       this.discordData=structuredClone(res.data)
       this.discordDp=`https://cdn.discordapp.com/avatars/${this.discordData.Discord.id}/${this.discordData.Discord.avatar}.png`
-      //console.log(this.discordData.Discord.username)
+      console.log(this.discordData)
+      //console.log(Object.keys(this.discordData?.Discord).length)
     }).catch(err=>console.log(err))
    }
   redirectToSteamProfile(): void {
@@ -131,11 +132,15 @@ export class LinkedAccountsComponent implements OnInit {
     window.location.href = `${environment.endpointUrl}`+`/auth/twitch?uid=${this.userparsed?.id}`;
   }
   redirectToTwitchProfile(): void {
-    window.open(`https://www.twitch.tv/${this.twitchdata.login}`, '_blank');
+    if(this.ownProfile){
+      window.open(`https://www.twitch.tv/${this.twitchdata.login}`, '_blank');
+    }
   }
 
   redirectToDiscordLogin(): void {
-    window.location.href = `${environment.endpointUrl}`+`/auth/discord?uid=${this.userparsed?.id}`;
+    if(this.ownProfile){
+      window.location.href = `${environment.endpointUrl}`+`/auth/discord?uid=${this.userparsed?.id}`;
+    }
   }
   redirectToDiscordWebsite(): void {
     window.open(`https://discord.com/app`, '_blank');
