@@ -7,6 +7,7 @@ import axios from 'axios';
   styleUrls: ['./player-stats.component.css']
 })
 export class PlayerStatsComponent implements OnInit {
+  playerStats:any;
   constructor() { }
   ngOnInit() {
 this.playerWeaponStates();
@@ -14,8 +15,10 @@ this.playerWeaponStates();
 async playerWeaponStates()
 {
   await axios.get('stats/mapAndWeaponDataFromSteamId').then(res => {
-    console.log(res.data.playerStats)
+    this.playerStats=(structuredClone(res.data.playerStats));
+    console.log(this.playerStats)
     console.log(res.data.weaponStats)
+
 }).catch(err=>console.log(err))
 }
 }
