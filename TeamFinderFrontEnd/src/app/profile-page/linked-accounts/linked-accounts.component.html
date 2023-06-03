@@ -23,9 +23,8 @@
       </ng-template>
     </div>
     <div class="col-sm ">
-      <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordData ? null :redirectToDiscordLogin()"
-      [style.cursor]="ownProfile? 'pointer' : 'default'"
-      [style.cursor]="discordData.Discord? 'default' : 'pointer'"></i>
+      <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordData.Discord ? null :redirectToDiscordLogin()"
+      [style.cursor]="discordData? 'default' : 'pointer'"></i>
     </div>
     <div class="col-sm ">
       <i class="fa-brands fa-xbox"></i>

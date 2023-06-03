@@ -117,7 +117,7 @@ export class LinkedAccountsComponent implements OnInit {
     axios.get(`getDiscordInfo?id=${id}`).then(res=>{
       //console.log(res.data)
       this.discordData=structuredClone(res.data)
-      this.discordDp=`https://cdn.discordapp.com/avatars/${this.discordData.Discord.id}/${this.discordData.Discord.avatar}.png`
+      this.discordDp=`https://cdn.discordapp.com/avatars/${this.discordData?.Discord?.id}/${this.discordData?.Discord?.avatar}.png`
       console.log(this.discordData)
       //console.log(Object.keys(this.discordData?.Discord).length)
     }).catch(err=>console.log(err))
