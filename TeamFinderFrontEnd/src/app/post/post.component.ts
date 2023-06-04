@@ -280,7 +280,7 @@ export class PostComponent implements OnInit {
       setTimeout(() => {
         this.deleteHeader='Done!'
         this.showSpinner=false
-      }, 1500);
+      }, 1000);
     }).catch(err=> console.log(err))
 
   }
