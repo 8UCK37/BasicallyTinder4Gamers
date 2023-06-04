@@ -145,6 +145,14 @@ export class PrimaryHomePageComponent implements OnInit {
   openModal(){
     this.utilsServiceService.postModalObjSource.next({open:true, data:null,share:false})
   }
+  //function to make the psot scrollinto view when delete is clicked
+  handlePostClick(clickEvent: any) {
+    console.log('event:', clickEvent);
+    if(!clickEvent.delete && clickEvent.event=='qs'){
+      console.log('here')
+      window.scrollBy(0, -(500));
+    }
+  }
 }
 
 

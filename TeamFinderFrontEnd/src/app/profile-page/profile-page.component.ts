@@ -275,9 +275,13 @@ export class ProfilePageComponent implements OnInit {
 
   //function to make the psot scrollinto view when delete is clicked
   handlePostClick(clickEvent: any) {
-    //console.log('event:', clickEvent);
+    console.log('event:', clickEvent);
     if(clickEvent.yCoord>250 && clickEvent.delete){
       window.scrollBy(0, clickEvent.yCoord-150);
+    }
+    if(!clickEvent.delete && clickEvent.event=='qs'){
+
+      window.scrollBy(0, -(clickEvent.yCoord-150));
     }
   }
 }

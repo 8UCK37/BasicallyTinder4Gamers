@@ -287,9 +287,14 @@ export class PostComponent implements OnInit {
   feedShare(postId:any){
     this.utilsServiceService.postModalObjSource.next({open:true,  data: this.childPost ,share:true})
   }
-  onClickPost(event: MouseEvent) {
+  onClickDelete(event: MouseEvent) {
     //console.log("delete clicked");
     //console.log("Mouse Y:", event.clientY);
-    this.postClicked.emit({yCoord:event.clientY,delete:this.visible});
+    this.postClicked.emit({yCoord:event.clientY,delete:this.visible,event:'del'});
+  }
+  onClickQuickShare(event: MouseEvent) {
+    //console.log("delete clicked");
+    //console.log("Mouse Y:", event.clientY);
+    this.postClicked.emit({yCoord:event.clientY,event:'qs',delete:false});
   }
 }
