@@ -27,7 +27,7 @@ export class PostComponent implements OnInit {
   parentComment: any;
   @Input() public commentOpen: boolean = false;
   @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
-
+  @Output() postClicked: EventEmitter<any> = new EventEmitter();
   myInterval = 0;
   public postsByTag=[];
   activeSlideIndex = 0;
@@ -152,6 +152,7 @@ export class PostComponent implements OnInit {
         icon: 'pi pi-trash',
         command: () => {
           //console.log('delete clicked')
+          this.onClickPost();
           this.visible = !this.visible;
         }
     },
@@ -287,5 +288,9 @@ export class PostComponent implements OnInit {
   }
   feedShare(postId:any){
     this.utilsServiceService.postModalObjSource.next({open:true,  data: this.childPost ,share:true})
+  }
+  onClickPost() {
+    console.log("delete clicked")
+    this.postClicked.emit(this.childPost);
   }
 }

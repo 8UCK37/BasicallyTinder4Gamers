@@ -272,5 +272,10 @@ export class ProfilePageComponent implements OnInit {
   onProfilePicError() {
     //this.profileurl = this.userparsed?.photoURL;
   }
+  handlePostClick(post: any) {
+    console.log('Post Clicked:', post);
+    // ...do something with the post in the ProfilePageComponent
+    window.scrollBy(0, 200);
+  }
 }
 
