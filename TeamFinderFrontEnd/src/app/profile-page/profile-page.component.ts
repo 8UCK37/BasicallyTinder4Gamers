@@ -272,10 +272,13 @@ export class ProfilePageComponent implements OnInit {
   onProfilePicError() {
     //this.profileurl = this.userparsed?.photoURL;
   }
-  handlePostClick(post: any) {
-    console.log('Post Clicked:', post);
-    // ...do something with the post in the ProfilePageComponent
-    window.scrollBy(0, 200);
+
+  //function to make the psot scrollinto view when delete is clicked
+  handlePostClick(clickEvent: any) {
+    //console.log('event:', clickEvent);
+    if(clickEvent.yCoord>250 && clickEvent.delete){
+      window.scrollBy(0, clickEvent.yCoord-150);
+    }
   }
 }
 

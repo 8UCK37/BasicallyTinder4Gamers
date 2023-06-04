@@ -13,7 +13,7 @@
               </div>
           </div>
 
-          <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" >
+          <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" (click)="onClickPost($event)">
             <p-speedDial  [model]="items"  direction="down-left" [radius]="radi" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-rounded p-button-text" ></p-speedDial>
           </div>
           <div class='dialog' *ngIf="visible" [style.top]="images.length === 0 ? '10px' : '390px'" style="left:144px;">
