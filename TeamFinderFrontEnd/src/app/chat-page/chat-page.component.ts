@@ -100,7 +100,7 @@ export class ChatPageComponent implements OnInit {
           }
         });
       });
-    }, 500);
+    }, 700);
     })
     this.incNotification();
   }
@@ -223,9 +223,10 @@ export class ChatPageComponent implements OnInit {
     }
 
     scrollToBottom() {
+      console.log("hit")
       setTimeout(() => {
         this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement?.scrollHeight;
-      }, 200);
+      }, 500);
     }
 
     incMsg(){
