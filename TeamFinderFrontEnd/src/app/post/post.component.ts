@@ -270,9 +270,19 @@ export class PostComponent implements OnInit {
   }
   quickShare(postId:any){
     console.log('qs',postId)
+    this.visible=true
+    this.deleteHeader='Sharing this post to your feed! pls be patient!'
+    this.deleteBody='Post shared!!'
+    this.showSpinner=true
+    this.deleteSuccess=true
     axios.post('/quickSharePost', { originalPostId: postId }).then(res => {
       console.log(res.data)
-    })
+      setTimeout(() => {
+        this.deleteHeader='Done!'
+        this.showSpinner=false
+      }, 1500);
+    }).catch(err=> console.log(err))
+
   }
   feedShare(postId:any){
     this.utilsServiceService.postModalObjSource.next({open:true,  data: this.childPost ,share:true})
