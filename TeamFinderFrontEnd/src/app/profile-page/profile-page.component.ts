@@ -65,6 +65,11 @@ export class ProfilePageComponent implements OnInit {
       this.route.queryParams.subscribe(async params => {
         this.radioActivaVal = 1
         this.profile_id = params['id'];
+        this.userService.userCast.subscribe(usr => {
+          if(usr.id==this.profile_id){
+            this.router.navigate(['profile-page', 'post']);
+          }
+        })
         console.log(this.profile_id)
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           console.log(res.data)

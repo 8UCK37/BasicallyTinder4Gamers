@@ -223,7 +223,7 @@ export class ChatPageComponent implements OnInit {
     }
 
     scrollToBottom() {
-      console.log("hit")
+      //console.log("hit")
       setTimeout(() => {
         this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement?.scrollHeight;
       }, 500);
