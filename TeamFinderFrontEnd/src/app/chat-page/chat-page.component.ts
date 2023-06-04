@@ -235,12 +235,6 @@ export class ChatPageComponent implements OnInit {
         if(recData.photo){
           console.log(recData.sender)
           this.showLoading=true
-          setTimeout(() => {
-          this.showLoading=false
-          }, 2000);
-          setTimeout(() => {
-            this.fetchChatData(recData.sender)
-          }, 2000);
         }
         this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime(),photo:recData.photo});
         if(recData.sender==this.selectedFrndId){
@@ -268,6 +262,9 @@ export class ChatPageComponent implements OnInit {
             //console.log(res.data)
             this.status.set(this.recData.sender,res.data.activeChoice&&true)
             }).catch(err=>console.log(err));
+        }else if(this.recData.notification=='imageUploadDone'){
+          this.fetchChatData(this.recData.sender)
+          this.showLoading=false
         }
       });
     };
