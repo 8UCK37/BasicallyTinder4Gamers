@@ -147,9 +147,8 @@ export class PrimaryHomePageComponent implements OnInit {
   }
   //function to make the psot scrollinto view when share is clicked
   handlePostClick(clickEvent: any) {
-    console.log('event:', clickEvent);
+    //console.log('event:', clickEvent);
     if(!clickEvent.delete && clickEvent.event=='qs'){
-      console.log('here')
       window.scrollBy(0, -(clickEvent.yCoord-75));
     }
   }
