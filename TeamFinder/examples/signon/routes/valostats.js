@@ -13,13 +13,13 @@ router.post("/getValoStatByIGN",ensureAuthenticated, async (req, res)=> {
     console.log('name',name)
     console.log('nId',nId)
     try{
-        let valostats = await axios.get(`https://api.tracker.gg/api/v2/valorant/standard/profile/riot/CaRNaGePero%2369420?`);
-        res.sendStatus(200)
+        //let valostats = await axios.get(`https://api.tracker.gg/api/v2/valorant/standard/profile/riot/CaRNaGePero%2369420?`);
+        
     }catch(error){
         console.log(error)
-        res.sendStatus(403)
+        
     }
-    
+    res.sendStatus(200)
 })
 
 module.exports = router
