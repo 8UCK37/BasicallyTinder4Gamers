@@ -56,10 +56,13 @@ export class ProfilePageComponent implements OnInit {
         this.userparsed = usr;
         this.userInfo = usr;
         this.bio = this.userInfo?.bio;
-        axios.post('getUserInfo',{id:usr.id}).then(res => {
+        try{
+          axios.post('getUserInfo',{id:usr?.id}).then(res => {
           this.info=res.data.userInfo;
           console.log(res.data.userInfo)
         })
+        }catch(err){}
+
       })
     } else {
       this.route.queryParams.subscribe(async params => {

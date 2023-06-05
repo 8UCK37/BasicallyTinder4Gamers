@@ -123,6 +123,9 @@ app.use('/static', express.static(__dirname + '/../../public'));
 
 app.use("/comment", require('./routes/comment'))
 app.use("/user", require('./routes/userRoute'))
+
+
+app.use("/valoStats", require('./routes/valostats'))
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
@@ -163,7 +166,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
 });
 //returns user info #endpoint
 app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
-    //console.log("/getUserInfo called",req.body)
+    console.log("/getUserInfo called",req.body)
     try{
       let userData = await prisma.User.findUnique({
         where: {
@@ -173,7 +176,7 @@ app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
           userInfo:true
         }
       })
-      console.log(userData)
+      //console.log(userData)
       res.send(JSON.stringify(userData));
     }
     catch(e){
