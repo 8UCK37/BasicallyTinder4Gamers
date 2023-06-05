@@ -23,8 +23,8 @@
       </ng-template>
     </div>
     <div class="col-sm ">
-      <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordData.Discord ? null :redirectToDiscordLogin()"
-      [style.cursor]="discordData?.Discord || !ownProfile? 'default' : 'pointer'"></i>
+      <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordLinked ? null :redirectToDiscordLogin()"
+      [style.cursor]="discordLinked || !ownProfile? 'default' : 'pointer'"></i>
     </div>
     <div class="col-sm ">
       <i class="fa-brands fa-xbox"></i>
@@ -61,7 +61,7 @@
   </div>
   </ng-container>
 
-  <ng-container *ngIf="discordData?.Discord">
+  <ng-container *ngIf="discordLinked">
     <div class="col-md-auto">
       <div class="card card1" [style.background-image]="'url(' + discordLogo + ')'" [style.backgroundSize]="discordimgSize"
       style="transition: all 0.8s ease-in-out;"

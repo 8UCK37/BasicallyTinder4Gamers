@@ -23,6 +23,7 @@ export class LinkedAccountsComponent implements OnInit {
   ownProfile: any;
   twitchdata:any;
   discordData:any;
+  discordLinked:boolean=false;
   public imgSrc:any='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';
   public imgSize:any='250px'
   public discordimgSize:any='250px'
@@ -115,8 +116,12 @@ export class LinkedAccountsComponent implements OnInit {
    }
    getDiscordInfo(id:any){
     axios.get(`getDiscordInfo?id=${id}`).then(res=>{
-      //console.log(res.data)
+      console.log(res.data)
+
       this.discordData=structuredClone(res.data)
+      if(Object.keys(this.discordData?.Discord).length>0){
+        this.discordLinked=true
+      }
       this.discordDp=`https://cdn.discordapp.com/avatars/${this.discordData?.Discord?.id}/${this.discordData?.Discord?.avatar}.png`
       console.log(this.discordData)
       //console.log(Object.keys(this.discordData?.Discord).length)
