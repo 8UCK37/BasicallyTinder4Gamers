@@ -281,6 +281,9 @@ export class PostComponent implements OnInit {
         this.deleteHeader='Done!'
         this.showSpinner=false
       }, 1000);
+      setTimeout(() => {
+        this.visible=false
+      }, 2500);
     }).catch(err=> console.log(err))
 
   }

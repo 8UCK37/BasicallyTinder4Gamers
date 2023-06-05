@@ -19,9 +19,9 @@
           <div class='dialog' *ngIf="visible" [style.top]="images.length === 0 ? '10px' : '390px'" style="left:144px;">
             <h3>{{deleteHeader}}</h3>
             <i class="pi pi-times" style="margin-top: -30px;float:right;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i>
-            <div *ngIf="!showSpinner">
-            <i *ngIf="!deleteSuccess" class="pi pi-exclamation-triangle" style="font-size: 35px;margin-top: 38px;margin-left: 70px;margin-right: 20px;"></i>
-            <i *ngIf="deleteSuccess" class="pi pi-check-circle" style="font-size: 35px;margin-top: 38px;margin-left: 70px;margin-right: 20px;"></i>
+            <div *ngIf="!showSpinner" style="display: flex;flex-direction: column;align-items: center;margin-top: 25px;">
+            <i *ngIf="!deleteSuccess" class="pi pi-exclamation-triangle" style="font-size: 35px;color: red;"></i>
+            <i *ngIf="deleteSuccess" class="pi pi-check-circle" style="font-size: 35px;color:greenyellow"></i>
             <span>{{deleteBody}}</span>
             </div>
             <div *ngIf="showSpinner">
@@ -80,7 +80,7 @@
           </p-galleria>
         </div>
 
-        <div class="p-2 carousel-btm" style="">
+        <div class="p-2 carousel-btm">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
             <div class="like">
               <ng-container *ngIf="childPost.noreaction || childPost.reactiontype=='like'||childPost.reactiontype=='dislike'">
