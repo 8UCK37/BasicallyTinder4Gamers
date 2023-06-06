@@ -166,7 +166,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
 });
 //returns user info #endpoint
 app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
-    console.log("/getUserInfo called",req.body)
+    //console.log("/getUserInfo called",req.body)
     try{
       let userData = await prisma.User.findUnique({
         where: {
