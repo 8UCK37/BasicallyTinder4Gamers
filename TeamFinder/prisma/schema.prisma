@@ -14,6 +14,7 @@ model User {
   name            String
   profilePicture  String?
   profileBanner   String?
+  chatBackground  String?
   bio             String?
   steamId         String?
   gmailId         String?
