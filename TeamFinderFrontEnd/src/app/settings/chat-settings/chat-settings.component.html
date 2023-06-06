@@ -51,7 +51,7 @@
   </div>
 </div>
 
-<div class="conversation" [style.background-image]="fileSelected ? 'url(' + previewImageElement.src + ')' : 'url(' + chatBackGroundUrl + ')'">
+<div class="conversation" [style.background-image]="fileSelected ? 'url(' + previewImageElement.src + ')' : 'url(' + chatBackGroundUrl + ')'" [ngStyle]="{'background-size': fileSelected ? 'auto 80vh' : 'cover'}" >
   <div #messageContainer class="conversation-container">
     <div>
       <ng-container>
