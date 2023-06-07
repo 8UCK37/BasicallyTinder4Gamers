@@ -1,4 +1,4 @@
-
+<div style="display: flex;">
 <input type="file" style="display: none;" #image (change)="previewImage()">
 <!-- <div class="button-holder">
 <div class="upload-btn"  (click)="image.click()">
@@ -25,7 +25,7 @@
   </div>
 </div>
 </div> -->
-<div class="button-holder">
+<!-- <div class="button-holder">
 <div class="upload-btn" (click)="changeChatBackground(0)">
   <div class="wrapper">
     <div class="file-select">
@@ -57,8 +57,27 @@
     </div>
   </div>
 </div>
+</div> -->
+<div class="chat-theme-container">
+  <h5 class="card-title">Themes</h5>
+  <hr style="width:145px">
+<div class="chat-themes">
+  <ng-container *ngFor="let bg of defaultBackgrounds;let i=index">
+    <div class="chat-theme-preview" (click)="changeChatBackground(i)">
+      <img class="bg-preview" [src]="bg" alt="">
+    </div>
+  </ng-container>
+</div>
+<hr style="width:145px">
+<div class="upload-btn" (click)="saveSelectedChatBg()">
+  <div class="wrapper">
+    <div class="file-save">
+      <i class="fa fa-check"></i>
+    </div>
+  </div>
 </div>
 
+</div>
   <img src="" alt="" #previewImageElement style="max-width: 100%; max-height: 300px;display: none;">
 <div class="mock-conversation">
   <div class='dialog' *ngIf="visible"  style="left:103px;">
@@ -121,6 +140,7 @@
   <div #menu *ngIf="showEmojiPicker">
     <emoji-mart class="emoji-mart" set="google" ></emoji-mart>
   </div>
+</div>
 </div>
 </div>
 <p-toast position="bottom-right"></p-toast>

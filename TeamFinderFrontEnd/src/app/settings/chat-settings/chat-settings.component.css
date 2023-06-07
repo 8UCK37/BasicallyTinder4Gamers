@@ -487,6 +487,7 @@
 }
 .mock-conversation{
   width:48rem;
+  margin-left: 15px;
 }
 .upload-btn{
   margin-top: 15px;
@@ -564,4 +565,30 @@
     transform: scale(1);
     opacity: 1;
   }
+}
+.chat-theme-container{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.chat-themes{
+  width:150px;
+  display: flex;
+  flex-direction: column;
+  height:200px;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.chat-theme-preview{
+  height: 150px;
+  width:fit-content;
+}
+.bg-preview{
+  height:100px;
+  width:100px;
+  margin-top:15px;
+  border-radius: 10px;
+  cursor: pointer;
 }
