@@ -118,7 +118,7 @@ export class ChatSettingsComponent implements OnInit {
   changeChatBackground(index:number){
     this.selectedIndex=index
     this.chatBackGroundUrl=this.defaultBackgrounds[index]
-    this.messageService.add({ severity: 'info', summary: `Background no: ${index+1}`, detail: 'Selected Background Applied!!' });
+    //this.messageService.add({ severity: 'info', summary: `Background no: ${index+1}`, detail: 'Selected Background Applied!!' });
     average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
       //console.log(color)
       this.averageHue=color
