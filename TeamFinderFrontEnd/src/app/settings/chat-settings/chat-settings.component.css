@@ -95,7 +95,35 @@
   color: #25eb50;
 }
 
-
+.wrapper .file-save {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid #FFFFFF;
+  overflow: hidden;
+  background-image: linear-gradient(to bottom, #25eb50 50%, #FFFFFF 50%);
+  background-size: 100% 200%;
+  transition: all 1s;
+  color: #FFFFFF;
+  font-size: 25px;
+}
+.wrapper .file-save input[type=file] {
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.wrapper .file-save:hover {
+  background-position: 0 -100%;
+  color: #26863b;
+}
 
 /* Conversation */
 
@@ -459,6 +487,7 @@
 }
 .mock-conversation{
   width:48rem;
+  margin-left: 15px;
 }
 .upload-btn{
   margin-top: 15px;
@@ -536,4 +565,30 @@
     transform: scale(1);
     opacity: 1;
   }
+}
+.chat-theme-container{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.chat-themes{
+  width:150px;
+  display: flex;
+  flex-direction: column;
+  height:200px;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.chat-theme-preview{
+  height: 150px;
+  width:fit-content;
+}
+.bg-preview{
+  height:100px;
+  width:100px;
+  margin-top:15px;
+  border-radius: 10px;
+  cursor: pointer;
 }

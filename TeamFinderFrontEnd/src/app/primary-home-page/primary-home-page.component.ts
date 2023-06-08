@@ -55,7 +55,6 @@ export class PrimaryHomePageComponent implements OnInit {
       if(this.userparsed!=null){
         this.fetchPost();
       }
-
     })
     // this.utilsServiceService.modalObj$.subscribe((modalData:any)=>{
     //   console.log(modalData)

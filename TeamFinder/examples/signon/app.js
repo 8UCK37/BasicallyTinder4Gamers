@@ -143,6 +143,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         name: req.user.name,
         profilePicture: req.user.picture,
         profileBanner: 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg',
+        chatBackGround:'0',
         gmailId: req.user.email,
         activeChoice: true,
         isConnected: true
@@ -1099,6 +1100,18 @@ app.post("/updateUserData", ensureAuthenticated, async (req, res) => {
 app.post("/chat/background", ensureAuthenticated, upload.single('chatbackground'), (req, res) => {
   console.log("chat",req.user.user_id)
   chatRouter.upChatBackGround(req,res)
+  res.sendStatus(200);
+});
+app.post("/chat/selectChatBg", ensureAuthenticated, async (req, res) => {
+  console.log("chatBg",req.user.user_id)
+  const updateUser = await prisma.User.update({
+    where: {
+      id: req.user.user_id,
+    },
+    data: {
+      chatBackground: req.body.index.toString(),
+    },
+  })
   res.sendStatus(200);
 });
 app.post("/chat/Images", ensureAuthenticated, upload.single('chatimages'), (req, res) => {
