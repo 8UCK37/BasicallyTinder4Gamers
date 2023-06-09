@@ -24,6 +24,56 @@ def extract_values_from_div(div):
         player_data['adr'] = values[4]
         player_data['acs'] = values[5]
     return values
+def extract_values_from_giant_stats(div):
+    values = {}
+    name_spans = div.find_all('span', class_='name')
+    value_spans = div.find_all('span', class_='value')
+    rank_spans =  div.find_all('span', class_='rank')
+    
+    for name_span, value_span,rank_spans in zip(name_spans, value_spans,rank_spans):
+        name = name_span.text.strip()
+        value = value_span.text.strip()
+        attrRank = rank_spans.text.strip()
+        values[name] = {'value':value,'rank':attrRank}
+    
+    return values
+
+def extract_giant_stats(giant_stats):
+    
+    stat_divs = giant_stats.find_all('div', class_='stat align-left giant expandable')
+    for stat_div in stat_divs:
+        values = extract_values_from_giant_stats(stat_div)
+        player_data.update(values)
+        
+def extract_values_from_main_stats(div):
+    values = {}
+    
+    numbers = div.find('div', class_='numbers')
+    name_spans = numbers.find_all('span', class_='name')
+    value_spans = numbers.find_all('span', class_='value')
+    rank_spans = numbers.find_all('span', class_='rank')
+    #print(rank_spans)
+    if(len(rank_spans)==0):
+        for name_span, value_span in zip(name_spans, value_spans):
+            name = name_span.text.strip()
+            value = value_span.text.strip()
+            values[name] = {'value':value}
+            
+    else:
+        for name_span, value_span,rank_span in zip(name_spans, value_spans,rank_spans):
+            name = name_span.text.strip()
+            value = value_span.text.strip()
+            attRank=rank_span.text.strip()
+            values[name] = {'value':value,'rank':attRank}
+            
+    
+    return values
+
+def extract_main_stats(div):
+    stat_divs = div.find_all('div', class_='stat align-left expandable')
+    for stat_div in stat_divs:
+        values=extract_values_from_main_stats(stat_div)
+        player_data.update(values)
 
 
 name = sys.argv[1]
@@ -53,6 +103,11 @@ for div in divs:
         player_data['agentUrl'] = src_url
     values = extract_values_from_div(div)
     break
+giant_statsDiv = soup.find('div', class_='giant-stats')
+extract_giant_stats(giant_statsDiv)
+
+main_statsDiv = soup.find('div', class_='main')
+extract_main_stats(main_statsDiv)
 
 json_data = json.dumps(player_data)
 print(json_data)
