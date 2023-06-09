@@ -124,13 +124,19 @@ export class LinkedAccountsComponent implements OnInit {
      axios.get(`getDiscordInfo?id=${id}`).then(res=>{
       //console.log(res.data)
       let connectionmap=new Map()
-      res.data.Discord.connections.forEach((con: any) => {
-        connectionmap.set(con.type,con)
+      const forEachPromise = new Promise<void>((resolve) => {
+        res.data.Discord.connections.forEach((con: { type: any; }) => {
+          connectionmap.set(con.type, con);
+        });
+
+        resolve();
       });
-      console.log(connectionmap)
-      if(connectionmap.size>0){
-        this.utilsServiceService.linkedAccountObjSource.next(connectionmap)
-      }
+      //console.log(connectionmap)
+      forEachPromise.then(() => {
+        if (connectionmap.size > 0) {
+          this.utilsServiceService.linkedAccountObjSource.next(connectionmap);
+        }
+      });
       this.discordData=structuredClone(res.data)
       if(Object.keys(this.discordData?.Discord).length>0){
         this.discordLinked=true
