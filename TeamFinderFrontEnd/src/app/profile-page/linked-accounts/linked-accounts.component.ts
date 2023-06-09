@@ -165,18 +165,23 @@ export class LinkedAccountsComponent implements OnInit {
     window.open(`https://discord.com/app`, '_blank');
   }
   getValoStats(){
+    let riotData:any={}
     this.utilsServiceService.linkedAccountObj.subscribe((data:any)=>{
       console.log('connected acc data from discord',data)
       try{
         if(data.has('riotgames')){
-          axios.post('valoStats/getValoStatByIGN', { ign: data.get('riotgames').name }).then(res => {
-            console.log(res.data)
-          }).catch(err => console.log(err))
+          riotData=data
         }
       }catch(error){
 
       }
     })
+    if(riotData){
+      axios.post('valoStats/getValoStatByIGN', { ign: riotData.get('riotgames').name }).then(res => {
+        console.log(res.data)
+      }).catch(err => console.log(err))
+    }
+
   }
 
 }
