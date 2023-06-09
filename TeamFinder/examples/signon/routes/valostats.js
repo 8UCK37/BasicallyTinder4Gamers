@@ -26,11 +26,20 @@ router.post("/getValoStatByIGN", ensureAuthenticated, async (req, res) => {
       console.log(`stderr: ${data}`);
     });
 
-    childPython.on('close', (code) => {
+    childPython.on('close', async (code) => {
       console.log(`childPython exited with code: ${code}`);
       try {
         const playerData = JSON.parse(result);
-        console.log(playerData)
+
+        console.log(JSON.parse(JSON.stringify(playerData)))
+        let setTwitchToken = await prisma.LinkedAccounts.update({
+          where: {
+            userId: req.user.user_id
+          },
+          data:{
+            valoStats: playerData
+          }
+        })
         res.send(playerData);
       } catch (error) {
         console.error('Error parsing JSON:', error);
