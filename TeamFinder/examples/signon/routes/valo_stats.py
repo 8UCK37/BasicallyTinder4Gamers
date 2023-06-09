@@ -34,6 +34,15 @@ def extract_values_from_giant_stats(div):
         name = name_span.text.strip()
         value = value_span.text.strip()
         attrRank = rank_spans.text.strip()
+        if(name=='Damage/Round'):
+            name='damagePerRound'
+        elif(name=='K/D Ratio'):
+            name='kdratio'
+        elif(name=='Headshot%'):
+            name='headshot'
+        elif(name=='Win %'):
+            name='winPercentage'
+        
         values[name] = {'value':value,'rank':attrRank}
     
     return values
@@ -57,6 +66,14 @@ def extract_values_from_main_stats(div):
         for name_span, value_span in zip(name_spans, value_spans):
             name = name_span.text.strip()
             value = value_span.text.strip()
+            if(name=='DDÎ/Round'):
+                name='dDeltaPerRound'
+            elif(name=='KAD Ratio'):
+                name='kadratio'
+            elif(name=='Kills/Round'):
+                name='killsPerRound'
+            elif(name=='First Bloods'):
+                name='firstBloods'
             values[name] = {'value':value}
             
     else:
@@ -64,6 +81,14 @@ def extract_values_from_main_stats(div):
             name = name_span.text.strip()
             value = value_span.text.strip()
             attRank=rank_span.text.strip()
+            if(name=='DDÎ/Round'):
+                name='dDeltaPerRound'
+            elif(name=='KAD Ratio'):
+                name='kadratio'
+            elif(name=='Kills/Round'):
+                name='killsPerRound'
+            elif(name=='First Bloods'):
+                name='firstBloods'
             values[name] = {'value':value,'rank':attRank}
             
     

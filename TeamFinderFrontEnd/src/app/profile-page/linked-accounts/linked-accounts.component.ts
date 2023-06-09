@@ -168,13 +168,11 @@ export class LinkedAccountsComponent implements OnInit {
     let riotData:any={}
     this.utilsServiceService.linkedAccountObj.subscribe((data:any)=>{
       console.log('connected acc data from discord',data)
-      try{
-        if(data.has('riotgames')){
-          riotData=data
-        }
-      }catch(error){
 
+      if(data.has('riotgames')){
+        riotData=data
       }
+
     })
     if(riotData){
       axios.post('valoStats/getValoStatByIGN', { ign: riotData.get('riotgames').name }).then(res => {
