@@ -13,6 +13,7 @@ import { GamesComponent } from './profile-page/games/games.component';
 import { PostPageComponent } from './post/post-page/post-page.component';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
 import { FriendSuggestionComponent } from './friend-suggestion/friend-suggestion.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,7 @@ const routes: Routes = [
   { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
   { path: 'chat', pathMatch: 'full', component: ChatPageComponent, canActivate: [AuthGuard]},
   { path: 'search', pathMatch: 'full', component: AppSearchComponent , canActivate: [AuthGuard]},
+  { path: 'welcome', pathMatch: 'full', component: WelcomeComponent , canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
 
 ];
