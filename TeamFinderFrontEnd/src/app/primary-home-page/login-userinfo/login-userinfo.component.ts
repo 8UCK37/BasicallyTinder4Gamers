@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
@@ -13,7 +13,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class LoginUserinfoComponent implements OnInit {
   modalRef: BsModalRef<unknown> | undefined;
-
+  @Output() childEvent = new EventEmitter();
+  
   @ViewChild("template")
   templateref?: any
 
@@ -286,7 +287,7 @@ export class LoginUserinfoComponent implements OnInit {
       //console.log(usr)
 
       if (usr && usr.userInfoId == null) {
-        this.openModal(this.templateref)
+        // this.openModal(this.templateref)
       }
     })
   }
@@ -336,6 +337,7 @@ export class LoginUserinfoComponent implements OnInit {
     console.log(this.selected1, this.selected2, this.genderSelect)
     if (this.selected1 == undefined || this.selected2 == undefined || this.genderSelect == undefined) return;
     axios.post('/saveUserInfo', { Gender: this.genderSelect, Country: this.selected1, Language: this.selected2 })
+    this.childEvent.emit();
     this.modalService.hide()
   }
 }

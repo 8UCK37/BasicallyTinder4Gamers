@@ -70,8 +70,10 @@ export class NavbarComponent implements  OnInit {
     this.router.events.subscribe((r:any)=>{
       if(r.url != undefined)
       {
-        this.currentRoute = r.url
-      
+        let urlRouteSplitted = r.url?.split('?')
+        if(urlRouteSplitted == undefined) return
+        this.currentRoute = urlRouteSplitted[0];
+        // console.log(this.currentRoute)
       } 
     })
     this.userService.userCast.subscribe(usr=>{

@@ -140,7 +140,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         name: req.user.name,
         profilePicture: req.user.picture,
         profileBanner: 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg',
-        chatBackGround:'0',
+        chatBackground:'0',
         gmailId: req.user.email,
         activeChoice: true,
         isConnected: true
@@ -166,7 +166,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
 app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
     //console.log("/getUserInfo called",req.body)
     try{
-      let userData = await prisma.User.findUnique({
+      let userData = await prisma.User.findMany({
         where: {
           id: req.body.id
         },

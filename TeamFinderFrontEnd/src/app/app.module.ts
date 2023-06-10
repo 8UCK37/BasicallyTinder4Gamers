@@ -53,6 +53,7 @@ import { PlayerStatsComponent } from './player-stats/player-stats.component';
 import { FriendSuggestionComponent } from './friend-suggestion/friend-suggestion.component';
 import { FriendSuggestionBoxComponent } from './friend-suggestion/friend-suggesstion-box/friend-suggestion-box/friend-suggestion-box.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { WelcomeLinkAccountComponent } from './welcome/welcome-link-account/welcome-link-account.component';
 @NgModule({
   declarations: [			
       AppComponent,
@@ -79,7 +80,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
       PlayerStatsComponent,
       FriendSuggestionComponent,
       FriendSuggestionBoxComponent,
-      WelcomeComponent
+      WelcomeComponent,
+      WelcomeLinkAccountComponent
    ],
   imports: [
     SidebarModule,
