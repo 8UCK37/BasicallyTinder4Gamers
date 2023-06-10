@@ -13,7 +13,7 @@ var express = require('express')
   , session = require('express-session')
   , SteamStrategy = require('../../').Strategy;
 require("dotenv").config()
-
+const { spawn } = require('child_process');
 let postHelper = require('./postHelper')
 let profileHelper = require('./profileHelper')
 let chatRouter = require('./chatRouter')
@@ -123,6 +123,9 @@ app.use('/static', express.static(__dirname + '/../../public'));
 
 app.use("/comment", require('./routes/comment'))
 app.use("/user", require('./routes/userRoute'))
+
+
+app.use("/valoStats", require('./routes/valostats'))
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
@@ -174,7 +177,7 @@ app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
           userInfo:true
         }
       })
-      console.log(userData)
+      //console.log(userData)
       res.send(JSON.stringify(userData));
     }
     catch(e){
@@ -613,7 +616,7 @@ var scopes = ['identify', 'email', 'guilds', 'guilds.join','connections'];
 
 passport.use(new DiscordStrategy({
     clientID: '1113341099491217458',
-    clientSecret: '0jpCzpxmEd1eCdts_Qs-4vXMQoROj5RI',
+    clientSecret: 'blG_T5S9cekIlj09erKPlLZqNT2Jw3qg',
     callbackURL: 'http://localhost:3000/auth/discord/callback',
     scope: scopes
 },
@@ -647,7 +650,7 @@ app.get('/auth/discord/callback', passport.authenticate('discord', {
 
 //updates the discord info of a user to the user table
 async function saveDiscordInfo(req, res) {
-
+   let discord=req.user
   //console.log("discord save called")
   //console.log("discord profile: ",req.user)
   //console.log("retrieved uid: ",sessionMap.get(req.sessionID))
@@ -663,7 +666,11 @@ async function saveDiscordInfo(req, res) {
         Discord:req.user
       }
     })
-
+    //console.log('saved',discord)
+    let riotgames=discord.connections.filter((obj)=> obj.type=='riotgames')
+    if(riotgames){
+      saveValoStats(req,res,riotgames[0])
+    }
   }
   catch(e){
     console.log(e)
@@ -672,7 +679,55 @@ async function saveDiscordInfo(req, res) {
 
   res.redirect('http://localhost:4200/profile-page/linked-accounts');
 }
+function saveValoStats(req,res,riotgames) {
+  console.log('yo',riotgames)
+  console.log('valo id:', riotgames.name);
+  const name = riotgames.name.split('#')[0];
+  const nId = riotgames.name.split('#')[1];
+  console.log('name', name);
+  console.log('nId', nId);
 
+  try {
+    const childPython = spawn('python', ['./../TeamFinder/examples/signon/routes/valo_stats.py', name, nId]);
+
+    let result = '';
+    childPython.stdout.on('data', (data) => {
+      result += data.toString();
+    });
+
+    childPython.stderr.on('data', (data) => {
+      console.log(`stderr: ${data}`);
+    });
+
+    childPython.on('close', async (code) => {
+      console.log(`childPython exited with code: ${code}`);
+      try {
+        const playerData = JSON.parse(result);
+
+        console.log(JSON.parse(JSON.stringify(playerData)))
+        let setValoStats = await prisma.UserGameStats.upsert({
+          where: {
+            userId: sessionMap.get(req.sessionID)
+          },
+          update:{
+            valoStats: playerData
+          },
+          create:{
+            userId:sessionMap.get(req.sessionID),
+            valoStats: playerData,
+          }
+        })
+        console.log('saved valostats')
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
 app.get('/getDiscordInfo', ensureAuthenticated, async (req, res) => {
   let discordData = await prisma.LinkedAccounts.findUnique({
     where: {
