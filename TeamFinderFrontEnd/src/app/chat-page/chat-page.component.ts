@@ -87,7 +87,7 @@ export class ChatPageComponent implements OnInit {
       this.userparsed = usr;
       this.userInfo = usr;
       //console.log(this.userparsed.id)
-      this.chatBackGroundUrl=this.defaultBackgrounds[parseInt(this.userparsed.chatBackground)]
+      this.chatBackGroundUrl=this.defaultBackgrounds[parseInt(this.userparsed?.chatBackground)]
       this.getActiveChoice();
       this.getfriendlist();
       this.getActiveConvo();
@@ -269,7 +269,7 @@ export class ChatPageComponent implements OnInit {
             this.status.set(this.recData.sender,res.data.activeChoice&&true)
             }).catch(err=>console.log(err));
         }else if(this.recData.notification=='imageUploadDone'){
-          this.fetchChatData(this.recData.sender)
+          this.allMsgs[this.allMsgs.length-1].photoUrl=this.recData.data
           this.showLoading=false
         }
       });

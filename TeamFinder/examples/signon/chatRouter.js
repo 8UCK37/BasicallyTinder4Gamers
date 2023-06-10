@@ -46,7 +46,7 @@ async function uploadChatImage(req, res,prisma){
           }
         })
         console.log("here")
-        socketRunner.sendNotification(io, "imageUploadDone", body.data.sender, body.data.receiver,"null")  
+        socketRunner.sendNotification(io, "imageUploadDone", body.data.sender, body.data.receiver,photoUrl)  
         }
         uploadFromMemory().catch(console.error);            
   }else{
