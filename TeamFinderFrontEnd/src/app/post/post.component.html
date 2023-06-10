@@ -2,7 +2,7 @@
 
   <div class="container mt-5 mb-5">
     <!-- <div class="row d-flex align-items-center justify-content-center"> -->
-    <div class="col-md-6" style="display: flex;justify-content: flex-end;">
+    <div class="col-md-6" style="display: flex;justify-content: center;">
       <div class="card_cust">
         <div class="d-flex p-2 px-3" style="position: relative;top: 7px;">
           <div class="d-flex flex-row align-items-center"> <img [src]="childPost.profilePicture" width="50"
@@ -13,17 +13,15 @@
               </div>
           </div>
 
-
-
-          <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" >
+          <div *ngIf="childPost.isOwnPost" style="margin-left: 535px;" (click)="onClickDelete($event)">
             <p-speedDial  [model]="items"  direction="down-left" [radius]="radi" type="quarter-circle" [transitionDelay]="delay" showIcon="pi pi-ellipsis-h" hideIcon="pi pi-caret-up" buttonClassName="p-button-rounded p-button-text" ></p-speedDial>
           </div>
           <div class='dialog' *ngIf="visible" [style.top]="images.length === 0 ? '10px' : '390px'" style="left:144px;">
             <h3>{{deleteHeader}}</h3>
             <i class="pi pi-times" style="margin-top: -30px;float:right;font-size: 1rem;cursor:pointer" (click)="closeDelete()"></i>
-            <div *ngIf="!showSpinner">
-            <i *ngIf="!deleteSuccess" class="pi pi-exclamation-triangle" style="font-size: 35px;margin-top: 38px;margin-left: 70px;margin-right: 20px;"></i>
-            <i *ngIf="deleteSuccess" class="pi pi-check-circle" style="font-size: 35px;margin-top: 38px;margin-left: 70px;margin-right: 20px;"></i>
+            <div *ngIf="!showSpinner" style="display: flex;flex-direction: column;align-items: center;margin-top: 25px;">
+            <i *ngIf="!deleteSuccess" class="pi pi-exclamation-triangle" style="font-size: 35px;color: red;"></i>
+            <i *ngIf="deleteSuccess" class="pi pi-check-circle" style="font-size: 35px;color:greenyellow"></i>
             <span>{{deleteBody}}</span>
             </div>
             <div *ngIf="showSpinner">
@@ -34,7 +32,6 @@
               <button (click)="cancelDelete()">Cancel</button>
             </div>
           </div>
-
         </div>
 
         <div class="p-3" *ngIf="childPost.refinedText">
@@ -56,22 +53,26 @@
                 <span>{{childPost?.parentpost?.message}}</span>
               </ng-container>
             </div>
-            <div style="display: block;width: 100%;" *ngIf="images.length!=0">
-              <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
-                <ng-template pTemplate="item" let-item>
-                    <img [src]="item.imageSrcUrl" style="width: 100%;height:40rem; display: block;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;" />
-                </ng-template>
-            </p-galleria>
-          </div>
             <div class="p-3" *ngIf="childPost?.parentpost?.refinedText">
               <p class="text-justify" [innerHTML]="childPost.parentpost?.refinedText"></p>
               <ng-container *ngFor="let tag of childPost.parentpost?.tagArr">
                 <a class="text-justify" style="cursor: pointer;" (click)="fetchByTag(tag)">{{"#"+tag}}</a>
               </ng-container>
             </div>
+
+            <div style="display: block;width: 100%;" *ngIf="images.length!=0">
+
+              <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="item.imageSrcUrl" style="width: 100%;height:40rem; display: block;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;" />
+                </ng-template>
+            </p-galleria>
+          </div>
+
           </div>
         </ng-container>
           <div style="display: block;width: 100%;" *ngIf="images.length!=0  && !childPost.shared">
+
             <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
               <ng-template pTemplate="item" let-item>
                   <img [src]="item.imageSrcUrl" style="width: 100%;height:40rem; display: block;" />
@@ -79,7 +80,7 @@
           </p-galleria>
         </div>
 
-        <div class="p-2 carousel-btm" style="">
+        <div class="p-2 carousel-btm">
           <div class="d-flex justify-content-between align-items-center" style="height: 50px;">
             <div class="like">
               <ng-container *ngIf="childPost.noreaction || childPost.reactiontype=='like'||childPost.reactiontype=='dislike'">
@@ -165,7 +166,7 @@
             <div class="dropdown ">
               <div class="share dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class='fa fa-share' style='color:#faf9f5'></i>Share</div>
               <ul class="dropdown-menu">
-                <li style="cursor: pointer;"><a class="dropdown-item" (click)="quickShare(childPost.shared ? childPost.parentpost.id : childPost.id)" >Quick Share</a></li>
+                <li style="cursor: pointer;"><a class="dropdown-item" (click)="quickShare(childPost.shared ? childPost.parentpost.id : childPost.id);onClickQuickShare($event)" >Quick Share</a></li>
                 <li style="cursor: pointer;"><a class="dropdown-item" (click)="feedShare(childPost.id)">Share to feed</a></li>
               </ul>
             </div>

@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class UtilsServiceService {
-  modalObjSource = new BehaviorSubject<any>({});
-  modalObj = this.modalObjSource.asObservable();
+  postModalObjSource = new BehaviorSubject<any>({});
+  postModalObj = this.postModalObjSource.asObservable();
 
 
 constructor() { }

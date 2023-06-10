@@ -27,7 +27,7 @@ export class PostComponent implements OnInit {
   parentComment: any;
   @Input() public commentOpen: boolean = false;
   @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
-
+  @Output() postClicked: EventEmitter<any> = new EventEmitter();
   myInterval = 0;
   public postsByTag=[];
   activeSlideIndex = 0;
@@ -50,17 +50,7 @@ export class PostComponent implements OnInit {
   deleteBody:string="Are you sure you want to delete this post?"
   deleteSuccess:boolean=false;
   constructor(public utilsServiceService : UtilsServiceService, public userService:UserService,private commentService: CommentService,private renderer: Renderer2, @Inject(DOCUMENT) document: Document,private router: Router) {
-    // this.renderer.listen('window', 'click', (e: Event) => {
-    //   const clickedElement = e.target as HTMLElement;
-    //   const clickedElementClassList = clickedElement.classList;
-    //   if (!this.comment?.nativeElement.contains(e.target as HTMLElement) && !this.commentbtn?.nativeElement.contains(e.target as HTMLElement)) {
-    //     if(this.commentOpen && clickedElementClassList[0]!='comment-btn'){
-    //     this.closeComments.nativeElement.click();
-    //     this.commentOpen=false
-    //   }
-    //     //console.log("caught")
-    //   }
-    // });
+
   }
 
 
@@ -141,7 +131,7 @@ export class PostComponent implements OnInit {
         icon: 'pi pi-pencil',
         command: () => {
           console.log('pencil clicked', this.childPost)
-          this.utilsServiceService.modalObjSource.next({open:true,  data: this.childPost })
+          this.utilsServiceService.postModalObjSource.next({open:true,  data: this.childPost ,share:false})
         }
     },
 
@@ -151,7 +141,6 @@ export class PostComponent implements OnInit {
       },
         icon: 'pi pi-trash',
         command: () => {
-          //console.log('delete clicked')
           this.visible = !this.visible;
         }
     },
@@ -281,12 +270,34 @@ export class PostComponent implements OnInit {
   }
   quickShare(postId:any){
     console.log('qs',postId)
+    this.visible=true
+    this.deleteHeader='Sharing this post to your feed! pls be patient!'
+    this.deleteBody='Post shared!!'
+    this.showSpinner=true
+    this.deleteSuccess=true
     axios.post('/quickSharePost', { originalPostId: postId }).then(res => {
       console.log(res.data)
-    })
+      setTimeout(() => {
+        this.deleteHeader='Done!'
+        this.showSpinner=false
+      }, 1000);
+      setTimeout(() => {
+        this.visible=false
+      }, 2500);
+    }).catch(err=> console.log(err))
+
   }
   feedShare(postId:any){
-    console.log('fs',postId)
-    alert('I know you want to add a custom desc when sharing a post\nbut i cant implement that unless the\nedit/create-post modal is finished and looking pretty and working!!\n ar oi kaj ta ami ekebarei korbo na!!!');
+    this.utilsServiceService.postModalObjSource.next({open:true,  data: this.childPost ,share:true})
+  }
+  onClickDelete(event: MouseEvent) {
+    //console.log("delete clicked");
+    //console.log("Mouse Y:", event.clientY);
+    this.postClicked.emit({yCoord:event.clientY,delete:this.visible,event:'del'});
+  }
+  onClickQuickShare(event: MouseEvent) {
+    //console.log("delete clicked");
+    //console.log("Mouse Y:", event.clientY);
+    this.postClicked.emit({yCoord:event.clientY,event:'qs',delete:false});
   }
 }

@@ -34,6 +34,15 @@
   display: block; /* Show the i element when the card is being hovered over */
 }
 
+.card1:hover h2 {
+  opacity: 1;
+}
+
+.card1:hover .fa {
+  opacity: 1;
+}
+
+
 
 h2 {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

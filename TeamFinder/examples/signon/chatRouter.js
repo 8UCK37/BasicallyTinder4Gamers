@@ -1,7 +1,7 @@
 const {Storage} = require('@google-cloud/storage')
 const bucketName = 'gs://teamfinder-e7048.appspot.com/';
 const { v4: uuidv4 } = require('uuid');
-
+const socketRunner = require('./socketRunner')
 async function upChatBackGround(req, res){
   console.log(req.file);
   if(req.file){
@@ -15,12 +15,14 @@ async function upChatBackGround(req, res){
             `${destFileName}  uploaded to ${bucketName}.`
           );
         }
-        uploadFromMemory().catch(console.error);      
+        uploadFromMemory().catch(console.error);
+            
   }
 }
 async function uploadChatImage(req, res,prisma){
   console.log(req.file);
   let body = JSON.parse(req.body.data)
+  const io = req.app.get('socketIo')
   //console.log('incoming chat',body);
   if(req.file){
       const storage = new Storage();
@@ -43,7 +45,8 @@ async function uploadChatImage(req, res,prisma){
             photoUrl:photoUrl
           }
         })
-
+        console.log("here")
+        socketRunner.sendNotification(io, "imageUploadDone", body.data.sender, body.data.receiver,"null")  
         }
         uploadFromMemory().catch(console.error);            
   }else{
