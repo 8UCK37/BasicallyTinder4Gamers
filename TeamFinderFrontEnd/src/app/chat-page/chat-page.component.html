@@ -80,11 +80,11 @@
               <ng-container *ngIf="i.sender==selectedFrndId" >
                 <ng-container *ngIf="i.rec; else elseBlock">
                   <div class="message received" >
-                    <ng-container *ngIf="i.photoUrl">
-                        <img class="preview-image-card" [src]="i.photoUrl" alt="" *ngIf="i.photoUrl">
+                      <ng-container *ngIf="i.photoUrl">
+                        <img class="preview-image-card" [src]="i.photoUrl" alt="" *ngIf="i.photoUrl" loading="lazy">
                         <br>
                       </ng-container>
-                      <ng-container *ngIf="i.photo">
+                      <ng-container *ngIf="i.photo && !i.photoUrl">
                         <div style="position:relative;cursor:pointer" >
                               <div style="position: absolute;left: 78px;top: 86px;">
                               <p-progressSpinner *ngIf="showLoading"></p-progressSpinner>
