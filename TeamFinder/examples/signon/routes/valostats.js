@@ -32,12 +32,16 @@ router.post("/getValoStatByIGN", ensureAuthenticated, async (req, res) => {
         const playerData = JSON.parse(result);
 
         console.log(JSON.parse(JSON.stringify(playerData)))
-        let setTwitchToken = await prisma.LinkedAccounts.update({
+        let setValoStats = await prisma.UserGameStats.upsert({
           where: {
             userId: req.user.user_id
           },
-          data:{
+          update:{
             valoStats: playerData
+          },
+          create:{
+            userId:req.user.user_id,
+            valoStats: playerData,
           }
         })
         res.send(playerData);

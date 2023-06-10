@@ -45,7 +45,6 @@ model LinkedAccounts {
   twitchtoken Json?
   steamId     String?
   Discord     Json?
-  valoStats   Json?
   userId      String?  @unique
 }
 
