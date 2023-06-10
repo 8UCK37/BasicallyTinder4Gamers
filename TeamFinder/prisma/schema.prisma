@@ -54,7 +54,6 @@ model UserGameStats {
   User           User?    @relation(fields: [userId], references: [id])
   userId         String?  @unique
   csgoStats      Json?
-  valoStats      Json?
   rainbowStats   Json?
   apexStats      Json?
 }
