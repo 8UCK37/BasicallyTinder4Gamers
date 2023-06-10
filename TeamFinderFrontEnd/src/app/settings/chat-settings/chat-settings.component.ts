@@ -23,12 +23,19 @@ export class ChatSettingsComponent implements OnInit {
   showSpinner:boolean=true;
   deleteSuccess:boolean=false;
   public averageHue:any;
+  public defaultBackgrounds: String[]=[
+    'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_1.jpg?alt=media&token=98132d9e-2a4e-4654-bb5a-d1306434af9c&_gl=1*1gb92rd*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyMTkuMC4wLjA.'
+    ,'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_2.jpg?alt=media&token=b2df323f-b806-4a14-844e-1849ac335db8&_gl=1*h3hgd7*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyNDAuMC4wLjA.'
+    ,'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_3.jpg?alt=media&token=9a4dd16b-d8bb-40e7-98e1-a5e65f663bec&_gl=1*zq1a90*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyNTIuMC4wLjA.'
+  ]
+  public selectedIndex:any
   ngOnInit(): void {
     this.userService.userCast.subscribe(usr=>{
-      //console.log("user data" , usr)
+      console.log("user data" , usr)
       this.userparsed=usr
-      this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${this.userparsed?.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
-
+      console.log(this.defaultBackgrounds[parseInt(this.userparsed.chatBackground)])
+      this.chatBackGroundUrl=this.defaultBackgrounds[parseInt(this.userparsed.chatBackground)]
+      this.selectedIndex=parseInt(this.userparsed.chatBackground)
       average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
         //console.log(color)
         this.averageHue=color
@@ -107,5 +114,23 @@ export class ChatSettingsComponent implements OnInit {
     setTimeout(() => {
       window.location.reload()
     }, 500);
+  }
+  changeChatBackground(index:number){
+    this.selectedIndex=index
+    this.chatBackGroundUrl=this.defaultBackgrounds[index]
+    //this.messageService.add({ severity: 'info', summary: `Background no: ${index+1}`, detail: 'Selected Background Applied!!' });
+    average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
+      //console.log(color)
+      this.averageHue=color
+    }).catch(err=>console.log(err))
+  }
+  saveSelectedChatBg(){
+    this.userparsed.chatBackground=this.selectedIndex.toString()
+    //console.log(this.userparsed)
+    this.userService.setCurrentUserChanges(this.userparsed)
+    axios.post('/chat/selectChatBg',{index:this.selectedIndex}).then(res=>{
+      this.messageService.add({ severity: 'success', summary: 'Chat Background applied', detail: 'Selected Background saved!!' });
+    }).catch(err =>console.log(err))
+
   }
 }

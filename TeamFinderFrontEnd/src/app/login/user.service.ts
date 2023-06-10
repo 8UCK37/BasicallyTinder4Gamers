@@ -118,4 +118,7 @@ export class UserService {
     const user = JSON.parse(localStorage.getItem('user')!);
     return user !== null && user.emailVerified !== false ? true : false;
   }
+  setCurrentUserChanges(obj: any) {
+    this.userData.next(obj)
+  }
 }

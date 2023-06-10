@@ -86,8 +86,9 @@ export class MentionTextInputComponent implements OnInit {
         console.log(modalData.data.raw)
         const waitForEditorAndSetText = () => {
           if (this.editor != null) {
-            this.editor.quillEditor.setContents(JSON.parse( modalData.data.raw));
-
+            if(!modalData.share){
+              this.editor.quillEditor.setContents(JSON.parse( modalData.data.raw));
+            }
           } else {
             setTimeout(waitForEditorAndSetText.bind(this), 100); // Wait 100 milliseconds and check again
           }

@@ -23,11 +23,14 @@
       </ng-template>
     </div>
     <div class="col-sm ">
-      <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordData.Discord ? null :redirectToDiscordLogin()"
-      [style.cursor]="discordData.Discord || !ownProfile? 'default' : 'pointer'"></i>
+      <i class="fa-brands fa-discord" style="cursor: pointer;" (click)="discordLinked ? null :redirectToDiscordLogin()"
+      [style.cursor]="discordLinked || !ownProfile? 'default' : 'pointer'"></i>
     </div>
     <div class="col-sm ">
       <i class="fa-brands fa-xbox"></i>
+    </div>
+    <div class="col-sm">
+
     </div>
   </div>
 </div>
@@ -61,13 +64,23 @@
   </div>
   </ng-container>
 
-  <ng-container *ngIf="discordData?.Discord">
+  <ng-container *ngIf="discordLinked">
     <div class="col-md-auto">
       <div class="card card1" [style.background-image]="'url(' + discordLogo + ')'" [style.backgroundSize]="discordimgSize"
       style="transition: all 0.8s ease-in-out;"
       (mouseover)="discordLogo=discordDp;discordimgSize='400px'"
-      (mouseout)="discordLogo='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/discord-1024.png';discordimgSize='250px'">
-        <h2>{{discordData.Discord.username}}#{{discordData.Discord.discriminator}}</h2>
+      (mouseout)="discordLogo='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/discord-1024.png';discordimgSize='250px';">
+      <div style="display: flex;flex-direction: row-reverse;align-items: center;top: -97px;position: relative;">
+      <div class="dropdown" [style.display]="discordLogo==discordDp? 'block':'none'"  style="transition-duration: 0.8s;">
+        <div style="margin-left: 15px;">
+        <i #dropdown class="fa-solid fa-ellipsis-vertical" style="color:blueviolet;cursor: pointer;font-size: x-large;" data-bs-toggle="dropdown" aria-expanded="false"></i>
+        <ul class="dropdown-menu">
+          <li style="cursor: pointer;" (click)="redirectToDiscordLogin()"><a class="dropdown-item"><i class="fa-solid fa-link" ></i>  ReLink account</a></li>
+        </ul>
+      </div>
+      </div>
+      <h2>{{discordData.Discord.username}}#{{discordData.Discord.discriminator}}</h2>
+      </div>
         <div [style.display]="discordLogo==discordDp? 'block':'none'" class="icons" style="cursor: pointer;display: none;" >
             <i class="fa-brands fa-discord fa-2x" aria-hidden="true" style="transition: all 0.3s ease;color:#3b82f6" (click)="redirectToDiscordWebsite()" ></i>
         </div>
