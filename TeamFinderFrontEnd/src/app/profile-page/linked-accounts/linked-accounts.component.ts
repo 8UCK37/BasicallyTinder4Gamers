@@ -45,7 +45,10 @@ export class LinkedAccountsComponent implements OnInit {
 
             this.getTwitchInfo(this.userparsed.id);
             this.getDiscordInfo(this.userparsed.id);
-            this.getSteamInfo(usr.steamId)
+            if(usr.steamId){
+              this.steamLinked=true
+              this.getSteamInfo(usr.steamId)
+            }
           }
         })
 
@@ -113,7 +116,8 @@ export class LinkedAccountsComponent implements OnInit {
     getDiscordInfo(id:any){
      axios.get(`getDiscordInfo?id=${id}`).then(res=>{
       //console.log(res.data)
-      let connectionmap=new Map()
+      if(res.data.Discord && res.data.Discord.connections){
+        let connectionmap=new Map()
       const forEachPromise = new Promise<void>((resolve) => {
         res.data.Discord.connections.forEach((con: { type: any; }) => {
           connectionmap.set(con.type, con);
@@ -134,6 +138,8 @@ export class LinkedAccountsComponent implements OnInit {
       this.discordDp=`https://cdn.discordapp.com/avatars/${this.discordData?.Discord?.id}/${this.discordData?.Discord?.avatar}.png`
       //console.log(this.discordData)
       //console.log(Object.keys(this.discordData?.Discord).length)
+      }
+
 
     }).catch(err=>console.log(err))
    }
