@@ -73,7 +73,7 @@
       <div style="display: flex;flex-direction: row-reverse;align-items: center;top: -97px;position: relative;">
       <div class="dropdown" [style.display]="discordLogo==discordDp? 'block':'none'"  style="transition-duration: 0.8s;">
         <div style="margin-left: 15px;">
-        <i #dropdown class="fa-solid fa-ellipsis-vertical" style="color:blueviolet;cursor: pointer;font-size: x-large;" data-bs-toggle="dropdown" aria-expanded="false"></i>
+        <i *ngIf="ownProfile" class="fa-solid fa-ellipsis-vertical" style="color:blueviolet;cursor: pointer;font-size: x-large;" data-bs-toggle="dropdown" aria-expanded="false"></i>
         <ul class="dropdown-menu">
           <li style="cursor: pointer;" (click)="redirectToDiscordLogin()"><a class="dropdown-item"><i class="fa-solid fa-link" ></i>  ReLink account</a></li>
         </ul>
