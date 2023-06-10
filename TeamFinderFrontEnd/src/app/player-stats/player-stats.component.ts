@@ -16,7 +16,7 @@ async playerWeaponStates()
 {
   await axios.get('stats/mapAndWeaponDataFromSteamId').then(res => {
     this.playerStats=(structuredClone(res.data.playerStats));
-    console.log(this.playerStats)
+    console.log(res.data.playerStats)
     console.log(res.data.weaponStats)
 
 }).catch(err=>console.log(err))

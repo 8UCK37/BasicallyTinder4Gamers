@@ -1,16 +1,16 @@
 <main>
-  
+
   <div class="container">
     <div class="con">
-        <div class="card">
-          <img [src]="playerStats.data.avatarUrl">
+      <div class="card userimg">
+        <img [src]="playerStats.platformInfo.avatarUrl">
       </div>
-      <div class="tagline">
-        <h1>{{playerStats.data.platformUserHandle}}</h1>
+      <div class="nameplate">
+        <h1>{{playerStats.platformInfo.platformUserHandle}}</h1>
       </div>
-        <div class="card">
-          <h2>{{playerStats.segments[0].stats.kd.displayValue}}</h2>
-        </div>
+      <div class="card">
+        <h2>{{playerStats.segments[0].stats.kd.displayValue}}</h2>
+      </div>
       <div class="tagline">
         Kill Death Ratio
       </div>
