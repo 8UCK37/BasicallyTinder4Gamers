@@ -918,7 +918,7 @@ body[data-theme=dark] {
 .message.sent {
   /* opacity: 30%; */
   margin-right: 16px;
-  background: #8455f78c;
+  background: #8455f7;
   border-radius: 5px 0px 5px 5px;
   float: right;
   /* transition: 5s transform;
@@ -936,7 +936,7 @@ body[data-theme=dark] {
 }
 .message.sent:after {
   border-width: 0px 0 10px 10px;
-  border-color: transparent transparent transparent #8455f78c;
+  border-color: transparent transparent transparent #8455f7;
   top: 0;
   right: -10px;
 }
