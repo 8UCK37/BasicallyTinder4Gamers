@@ -58,8 +58,8 @@ export class ProfilePageComponent implements OnInit {
         this.bio = this.userInfo?.bio;
         try{
           axios.post('getUserInfo',{id:usr?.id}).then(res => {
-          this.info=res.data.userInfo;
-          console.log(res.data.userInfo)
+          this.info=res.data[0].userInfo;
+          console.log(res.data[0].userInfo)
         })
         }catch(err){}
 
