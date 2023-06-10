@@ -45,7 +45,7 @@ export class LinkedAccountsComponent implements OnInit {
             this.fetchUserData();
             this.getTwitchInfo(this.userparsed.id);
             this.getDiscordInfo(this.userparsed.id);
-            this.getValoStats()
+            //this.getValoStats()
           }
         })
 
@@ -75,7 +75,7 @@ export class LinkedAccountsComponent implements OnInit {
           }).catch(err => console.log(err))
         }
       this.getDiscordInfo(this.profile_id);
-      this.getValoStats();
+      //this.getValoStats();
       });
     }
   }

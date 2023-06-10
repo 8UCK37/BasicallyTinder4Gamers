@@ -104,9 +104,9 @@
             <span  class="bio">Bio</span>
             <span  class="profile__subtitle">{{userInfo?.bio}}</span>
             <hr *ngIf="userInfo?.bio?.length>0" style="height:2px;border-width:0;color:gray;background-color:gray">
-            <span class="profile__gender"><img src="./../../assets/icon-resource/country.png" style="height: 30px; width: 30px;">Lives in &nbsp;     {{info.Country}}</span>
+            <span class="profile__gender"><img src="./../../assets/icon-resource/country.png" style="height: 30px; width: 30px;">Lives in &nbsp;{{info?.Country}}</span>
             <br>
-            <span class="profile__gender"><img src="./../../assets/icon-resource/language.png" style="height: 30px; width: 30px;">Speaks   &nbsp;   {{info.Language}}</span>
+            <span class="profile__gender"><img src="./../../assets/icon-resource/language.png" style="height: 30px; width: 30px;">Speaks   &nbsp;{{info?.Language}}</span>
           </div>
            <div class="post-body">
             <div class="container" style="display: flex; justify-content: center;">
