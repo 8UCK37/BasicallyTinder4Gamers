@@ -42,10 +42,10 @@ export class LinkedAccountsComponent implements OnInit {
           //console.log("user data" , usr)
           this.userparsed = usr;
           if (usr!=null) {
-            this.fetchUserData();
+
             this.getTwitchInfo(this.userparsed.id);
             this.getDiscordInfo(this.userparsed.id);
-            //this.getValoStats()
+            this.getSteamInfo(usr.steamId)
           }
         })
 
@@ -54,16 +54,16 @@ export class LinkedAccountsComponent implements OnInit {
         this.profile_id = params['id'];
         //console.log(this.profile_id)
         await axios.post('getUserInfo', { id: this.profile_id }).then(res => {
-          //console.log(res.data)
-          if(res.data.steamId!=null){
-          this.steamId = res.data.steamId
+          console.log(res.data)
+          if(res.data[0].steamId!=null){
+          this.steamId = res.data[0].steamId
           this.steamLinked=true;
           }else{
             this.steamLinked = false
           }
-          if(res.data.twitchtoken!=null){
-            this.getTwitchInfo(this.profile_id)
-          }
+
+          this.getTwitchInfo(this.profile_id)
+
         }).catch(err => console.log(err))
         //console.log(this.steamId)
         if (this.steamLinked) {
@@ -71,7 +71,7 @@ export class LinkedAccountsComponent implements OnInit {
           await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
             //console.log(res.data)
             this.steamInfo = res.data
-            //console.log(this.steamInfo)
+            console.log(this.steamInfo)
           }).catch(err => console.log(err))
         }
       this.getDiscordInfo(this.profile_id);
@@ -80,13 +80,7 @@ export class LinkedAccountsComponent implements OnInit {
     }
   }
 
-  getSteamInfo() {
-    //console.log(this.steamId)
-    axios.post('steamInfo', { steam_id: this.steamId } ).then(res => {
-      //console.log(res.data)
-      this.steamInfo = res.data
-    }).catch(err => console.log(err))
-  }
+
   getStyle() {
     if (this.changeText) return `url(${this.steamInfo.info[0].avatarfull}) left center no-repeat`;
     return `url("https://th.bing.com/th/id/OIP.nU9BElP8zdnYq1ckl5Ly2wAAAA?pid=ImgDet&rs=1") center center no-repeat`;
@@ -97,21 +91,17 @@ export class LinkedAccountsComponent implements OnInit {
     return '300px'
   }
 
-   async fetchUserData(){
-    await axios.post('getUserInfo', { id: this.userparsed.id }).then(res => {
-      //console.log(res.data)
-      if(res.data.steamId!=null){
-      this.steamId = res.data.steamId
+   getSteamInfo(id:any) {
+    //console.log(this.steamId)
+    axios.post('steamInfo', { steam_id: id } ).then(res => {
+      console.log(res.data)
       this.steamLinked=true
-      }
-      //console.log(this.linked)
+      this.steamInfo = res.data
     }).catch(err => console.log(err))
-    this.getSteamInfo();
-   }
-
+  }
    getTwitchInfo(id:any){
     axios.get(`getowntwitchinfo?id=${id}`).then(res=>{
-      //console.log(res.data)
+      console.log(res.data)
       if(res.data!='not logged in'){
         this.twitchdata=res.data
         this.twitchLinked=true

@@ -76,7 +76,7 @@ export class ProfilePageComponent implements OnInit {
         console.log(this.profile_id)
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           console.log(res.data)
-          this.userInfo = res.data
+          this.userInfo = res.data[0]
         }).catch(err => console.log(err))
         axios.post('isFriend', { id: this.profile_id }).then(res => {
           console.log(res.data)
