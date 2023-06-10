@@ -613,7 +613,7 @@ var scopes = ['identify', 'email', 'guilds', 'guilds.join','connections'];
 
 passport.use(new DiscordStrategy({
     clientID: '1113341099491217458',
-    clientSecret: '0jpCzpxmEd1eCdts_Qs-4vXMQoROj5RI',
+    clientSecret: 'blG_T5S9cekIlj09erKPlLZqNT2Jw3qg',
     callbackURL: 'http://localhost:3000/auth/discord/callback',
     scope: scopes
 },
