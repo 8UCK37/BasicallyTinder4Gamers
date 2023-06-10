@@ -74,7 +74,7 @@
             </ng-template>
           </div>
         </div>
-        <div class="conversation" style="background-image: url('{{chatBackGroundUrl}}')">
+        <div class="conversation" style="background-image: url('{{chatBackGroundUrl}}');background-size: cover;">
           <div #messageContainer class="conversation-container">
             <div *ngFor="let i of allMsgs">
               <ng-container *ngIf="i.sender==selectedFrndId" >
