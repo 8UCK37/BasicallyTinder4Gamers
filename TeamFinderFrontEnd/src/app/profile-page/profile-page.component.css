@@ -1233,9 +1233,11 @@ button {
 }
 
 .profile__subtitle {
-  display: inline-block;
-  color: white;
+  display: flex;
   position: relative;
+  color: white;
+  top: 12px;
+  justify-content: center;
 }
 .profile__gender{
   display: inline-block;
@@ -1440,8 +1442,22 @@ button {
   height: 391px;
   /* left: 24px; */
   border-radius: 10px;
+  display: flex;
+  border-style: solid;
+  border-width: 10px 9px;
+  border-color: #262626;
+  flex-direction: column;
   }
 .imgbutton{
   display: flex;
   justify-content: center;
 }
+.bio{
+  display: flex;
+  position: relative;
+  font-weight: bold;
+  font-size: large;
+  color: white;
+  justify-content: flex-start;
+}
+
