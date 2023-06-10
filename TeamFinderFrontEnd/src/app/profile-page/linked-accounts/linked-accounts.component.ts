@@ -181,9 +181,9 @@ export class LinkedAccountsComponent implements OnInit {
 
     })
     if(riotData){
-      axios.post('valoStats/getValoStatByIGN', { ign: riotData.get('riotgames').name }).then(res => {
-        console.log(res.data)
-      }).catch(err => console.log(err))
+      // axios.post('valoStats/getValoStatByIGN', { ign: riotData.get('riotgames').name }).then(res => {
+      //   console.log(res.data)
+      // }).catch(err => console.log(err))
     }
 
   }
