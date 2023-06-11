@@ -1,7 +1,8 @@
 #main {
-  background-image: url("./../../assets/bg/space_galaxy_stars.gif");
+  background-image: url("./../../assets/bg/8406757.gif");
   background-attachment: fixed;
   min-height: 110vh;
+  background-size: cover;
   top: 70px;
   position: relative;
   background-repeat: no-repeat;
