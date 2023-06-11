@@ -13,7 +13,7 @@ var express = require('express')
   , session = require('express-session')
   , SteamStrategy = require('../../').Strategy;
 require("dotenv").config()
-
+const { spawn } = require('child_process');
 let postHelper = require('./postHelper')
 let profileHelper = require('./profileHelper')
 let chatRouter = require('./chatRouter')
@@ -123,8 +123,12 @@ app.use('/static', express.static(__dirname + '/../../public'));
 
 app.use("/comment", require('./routes/comment'))
 app.use("/user", require('./routes/userRoute'))
+<<<<<<< HEAD
 //Player States API
 app.use("/stats", require('./routes/playerStates'))
+=======
+
+>>>>>>> 1f85c1d701013cf7d2422814c1b2f917f9d4fc44
 
 
 //saves a new user #endpoint
@@ -144,6 +148,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         name: req.user.name,
         profilePicture: req.user.picture,
         profileBanner: 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg',
+        chatBackground:'0',
         gmailId: req.user.email,
         activeChoice: true,
         isConnected: true
@@ -169,7 +174,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
 app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
     //console.log("/getUserInfo called",req.body)
     try{
-      let userData = await prisma.User.findUnique({
+      let userData = await prisma.User.findMany({
         where: {
           id: req.body.id
         },
@@ -177,7 +182,7 @@ app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
           userInfo:true
         }
       })
-      console.log(userData)
+      //console.log(userData)
       res.send(JSON.stringify(userData));
     }
     catch(e){
@@ -612,11 +617,11 @@ async function refreshTwitchToken(userid,refreshToken) {
 
 var DiscordStrategy = require('passport-discord').Strategy;
 
-var scopes = ['identify', 'email', 'guilds', 'guilds.join'];
+var scopes = ['identify', 'email', 'guilds', 'guilds.join','connections'];
 
 passport.use(new DiscordStrategy({
     clientID: '1113341099491217458',
-    clientSecret: '0jpCzpxmEd1eCdts_Qs-4vXMQoROj5RI',
+    clientSecret: 'blG_T5S9cekIlj09erKPlLZqNT2Jw3qg',
     callbackURL: 'http://localhost:3000/auth/discord/callback',
     scope: scopes
 },
@@ -650,7 +655,7 @@ app.get('/auth/discord/callback', passport.authenticate('discord', {
 
 //updates the discord info of a user to the user table
 async function saveDiscordInfo(req, res) {
-
+   let discord=req.user
   //console.log("discord save called")
   //console.log("discord profile: ",req.user)
   //console.log("retrieved uid: ",sessionMap.get(req.sessionID))
@@ -666,7 +671,7 @@ async function saveDiscordInfo(req, res) {
         Discord:req.user
       }
     })
-
+    
   }
   catch(e){
     console.log(e)
@@ -1082,9 +1087,36 @@ app.post("/updateBio", ensureAuthenticated, async (req, res) => {
   })
   res.sendStatus(200);
 });
+//#endpoint
+app.post("/updateUserData", ensureAuthenticated, async (req, res) => {
+  const updateStatus = await prisma.userInfo.update({
+    where: {
+      id: req.body.id,
+    },
+    data: {
+      Country: req.body.country,
+      Language: req.body.language,
+      Address: req.body.address,
+      Gender: req.body.gender,
+    },
+  })
+  res.sendStatus(200);
+});
 app.post("/chat/background", ensureAuthenticated, upload.single('chatbackground'), (req, res) => {
   console.log("chat",req.user.user_id)
   chatRouter.upChatBackGround(req,res)
+  res.sendStatus(200);
+});
+app.post("/chat/selectChatBg", ensureAuthenticated, async (req, res) => {
+  console.log("chatBg",req.user.user_id)
+  const updateUser = await prisma.User.update({
+    where: {
+      id: req.user.user_id,
+    },
+    data: {
+      chatBackground: req.body.index.toString(),
+    },
+  })
   res.sendStatus(200);
 });
 app.post("/chat/Images", ensureAuthenticated, upload.single('chatimages'), (req, res) => {

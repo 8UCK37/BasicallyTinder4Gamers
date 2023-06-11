@@ -56,19 +56,27 @@ export class ProfilePageComponent implements OnInit {
         this.userparsed = usr;
         this.userInfo = usr;
         this.bio = this.userInfo?.bio;
-        axios.post('getUserInfo',{id:usr.id}).then(res => {
-          this.info=res.data.userInfo;
-          console.log(res.data.userInfo)
+        try{
+          axios.post('getUserInfo',{id:usr?.id}).then(res => {
+          this.info=res.data[0].userInfo;
+          console.log(res.data[0].userInfo)
         })
+        }catch(err){}
+
       })
     } else {
       this.route.queryParams.subscribe(async params => {
         this.radioActivaVal = 1
         this.profile_id = params['id'];
+        this.userService.userCast.subscribe(usr => {
+          if(usr.id==this.profile_id){
+            this.router.navigate(['profile-page', 'post']);
+          }
+        })
         console.log(this.profile_id)
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           console.log(res.data)
-          this.userInfo = res.data
+          this.userInfo = res.data[0]
         }).catch(err => console.log(err))
         axios.post('isFriend', { id: this.profile_id }).then(res => {
           console.log(res.data)
@@ -266,6 +274,18 @@ export class ProfilePageComponent implements OnInit {
   }
   onProfilePicError() {
     //this.profileurl = this.userparsed?.photoURL;
+  }
+
+  //function to make the psot scrollinto view when delete is clicked
+  handlePostClick(clickEvent: any) {
+    console.log('event:', clickEvent);
+    if(clickEvent.yCoord>250 && clickEvent.delete){
+      window.scrollBy(0, clickEvent.yCoord-150);
+    }
+    if(!clickEvent.delete && clickEvent.event=='qs'){
+
+      window.scrollBy(0, -(clickEvent.yCoord-150));
+    }
   }
 }
 

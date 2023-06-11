@@ -35,7 +35,9 @@ export class NavbarComponent implements  OnInit {
   public noti: boolean = false;
   public recData: any;
   commentOpen: boolean=false;
+  currentRoute:string|undefined;
   constructor(private messageService: MessageService,public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router , public userService : UserService) {
+    
     this.renderer.listen('window', 'click', (e: Event) => {
       /**
        * Only run when toggleButton is not clicked
@@ -65,7 +67,15 @@ export class NavbarComponent implements  OnInit {
 
 
   ngOnInit(): void {
-
+    this.router.events.subscribe((r:any)=>{
+      if(r.url != undefined)
+      {
+        let urlRouteSplitted = r.url?.split('?')
+        if(urlRouteSplitted == undefined) return
+        this.currentRoute = urlRouteSplitted[0];
+        // console.log(this.currentRoute)
+      } 
+    })
     this.userService.userCast.subscribe(usr=>{
       //console.log("user data" , usr)
       this.userparsed = usr

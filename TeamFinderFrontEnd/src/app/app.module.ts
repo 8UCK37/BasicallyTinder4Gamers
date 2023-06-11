@@ -52,8 +52,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
 import { FriendSuggestionComponent } from './friend-suggestion/friend-suggestion.component';
 import { FriendSuggestionBoxComponent } from './friend-suggestion/friend-suggesstion-box/friend-suggestion-box/friend-suggestion-box.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { WelcomeLinkAccountComponent } from './welcome/welcome-link-account/welcome-link-account.component';
 @NgModule({
-  declarations: [		
+  declarations: [			
       AppComponent,
       PrimaryHomePageComponent,
       LoginComponent,
@@ -77,7 +79,9 @@ import { FriendSuggestionBoxComponent } from './friend-suggestion/friend-suggess
       ChatSettingsComponent,
       PlayerStatsComponent,
       FriendSuggestionComponent,
-      FriendSuggestionBoxComponent
+      FriendSuggestionBoxComponent,
+      WelcomeComponent,
+      WelcomeLinkAccountComponent
    ],
   imports: [
     SidebarModule,

@@ -55,7 +55,6 @@ export class PrimaryHomePageComponent implements OnInit {
       if(this.userparsed!=null){
         this.fetchPost();
       }
-
     })
     // this.utilsServiceService.modalObj$.subscribe((modalData:any)=>{
     //   console.log(modalData)
@@ -145,6 +144,14 @@ export class PrimaryHomePageComponent implements OnInit {
   openModal(){
     this.utilsServiceService.postModalObjSource.next({open:true, data:null,share:false})
   }
+  //function to make the psot scrollinto view when share is clicked
+  handlePostClick(clickEvent: any) {
+    console.log('event:', clickEvent);
+    if(!(clickEvent.yCoord>720) && !clickEvent.delete && clickEvent.event=='qs'){
+      window.scrollBy(0, -(clickEvent.yCoord-75));
+    }
+  }
+
 }
 
 

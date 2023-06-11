@@ -1,0 +1,18 @@
+<div class="main">
+  <div *ngIf="currentPage <= 0 || currentPage >3">
+    <app-login-userinfo (childEvent)="next()"></app-login-userinfo>
+  </div>
+  <div *ngIf="currentPage==1">
+    <app-welcome-link-account></app-welcome-link-account>
+  </div>
+  <div *ngIf="currentPage==2">
+    <app-friend-suggestion></app-friend-suggestion>
+  </div>
+  <div *ngIf="currentPage==3">
+    you are all sent now pay me 50 taka and contact shadow for free sex( 50 takai sara rat diwali offer )
+  </div>
+  <div>
+    <button (click)="skip()">skip</button>
+    <button (click)="next()">next</button>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import { CommentService } from 'src/app/post/comment.service';
 })
 export class ProfilePostComponent implements OnInit {
   @ViewChild('image') input!:ElementRef;
+  @Output() postClicked: EventEmitter<any> = new EventEmitter();
   ownProfile: any;
   public profile_id: any;
   public ownPosts:any=[];
@@ -71,5 +72,7 @@ constructor(private commentService: CommentService,public userService:UserServic
     this.utcDateTime = new Date(utcTime);
     return this.utcDateTime.toLocaleString('en-US', { timeZone:this.timeZone });
   }
-
+  handlePostClick(post: any) {
+    this.postClicked.emit(post);
+  }
 }

@@ -1,7 +1,10 @@
 #main {
+  background-image: url("./../../assets/bg/space_galaxy_stars.gif");
+  background-attachment: fixed;
   min-height: 110vh;
   top: 70px;
   position: relative;
+  background-repeat: no-repeat;
 }
 
 *,
@@ -1165,7 +1168,7 @@ button {
 .profile {
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  background-color: #262626;
+  background-color: #0000006b;
   width: 100%;
   box-sizing: border-box;
   margin-top: 6.499999px;
@@ -1233,11 +1236,14 @@ button {
 }
 
 .profile__subtitle {
-  display: inline-block;
-  color: white;
+  display: flex;
   position: relative;
+  color: white;
+  top: 12px;
+  justify-content: center;
 }
 .profile__gender{
+  margin-left: 20px;
   display: inline-block;
   color: white;
   position: relative;
@@ -1394,7 +1400,7 @@ button {
   height: 131px;
   border-radius: 20px;
   color: rgb(249, 250, 250);
-  background-color: #262626;
+  background-color: #0000008f;
   width: 55rem;
   text-align: center;
   /* margin-left: 218px; */
@@ -1434,14 +1440,27 @@ button {
   /* margin-left: 52px; */
 }
 .user-info{
-  background-color: #262626;
+  background-color: #0000008f;
   position: relative;
   width: 21.5rem;
   height: 391px;
   /* left: 24px; */
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
   }
 .imgbutton{
   display: flex;
   justify-content: center;
 }
+.bio{
+  margin-left: 20px;
+  margin-top: 20px;
+  display: flex;
+  position: relative;
+  font-weight: bold;
+  font-size: large;
+  color: white;
+  justify-content: flex-start;
+}
+

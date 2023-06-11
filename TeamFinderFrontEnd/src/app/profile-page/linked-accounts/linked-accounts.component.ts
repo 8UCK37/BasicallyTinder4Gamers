@@ -4,6 +4,7 @@ import axios from 'axios';
 import { UserService } from 'src/app/login/user.service';
 import { GamesComponent } from '../games/games.component';
 import { environment } from 'src/environments/environment';
+import { UtilsServiceService } from 'src/app/utils/utils-service.service';
 
 @Component({
   selector: 'app-linked-accounts',
@@ -22,13 +23,16 @@ export class LinkedAccountsComponent implements OnInit {
   changeText: any = false;
   ownProfile: any;
   twitchdata:any;
+
   discordData:any;
+  discordLinked:boolean=false;
   public imgSrc:any='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';
   public imgSize:any='250px'
   public discordimgSize:any='250px'
   public discordDp=''
   public discordLogo='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/discord-1024.png'
-  constructor(private route: ActivatedRoute, private router: Router,public userService: UserService) {
+
+  constructor(public utilsServiceService : UtilsServiceService,private route: ActivatedRoute, private router: Router,public userService: UserService) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
   }
   ngOnInit(): void {
@@ -38,26 +42,31 @@ export class LinkedAccountsComponent implements OnInit {
           //console.log("user data" , usr)
           this.userparsed = usr;
           if (usr!=null) {
-            this.fetchUserData();
+
             this.getTwitchInfo(this.userparsed.id);
             this.getDiscordInfo(this.userparsed.id);
+            if(usr.steamId){
+              this.steamLinked=true
+              this.getSteamInfo(usr.steamId)
+            }
           }
         })
+
       } else {
       this.route.queryParams.subscribe(async params => {
         this.profile_id = params['id'];
         //console.log(this.profile_id)
         await axios.post('getUserInfo', { id: this.profile_id }).then(res => {
-          //console.log(res.data)
-          if(res.data.steamId!=null){
-          this.steamId = res.data.steamId
+          console.log(res.data)
+          if(res.data[0].steamId!=null){
+          this.steamId = res.data[0].steamId
           this.steamLinked=true;
           }else{
             this.steamLinked = false
           }
-          if(res.data.twitchtoken!=null){
-            this.getTwitchInfo(this.profile_id)
-          }
+
+          this.getTwitchInfo(this.profile_id)
+
         }).catch(err => console.log(err))
         //console.log(this.steamId)
         if (this.steamLinked) {
@@ -65,21 +74,16 @@ export class LinkedAccountsComponent implements OnInit {
           await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
             //console.log(res.data)
             this.steamInfo = res.data
-            //console.log(this.steamInfo)
+            console.log(this.steamInfo)
           }).catch(err => console.log(err))
         }
       this.getDiscordInfo(this.profile_id);
+      //this.getValoStats();
       });
     }
   }
 
-  getSteamInfo() {
-    //console.log(this.steamId)
-    axios.post('steamInfo', { steam_id: this.steamId } ).then(res => {
-      //console.log(res.data)
-      this.steamInfo = res.data
-    }).catch(err => console.log(err))
-  }
+
   getStyle() {
     if (this.changeText) return `url(${this.steamInfo.info[0].avatarfull}) left center no-repeat`;
     return `url("https://th.bing.com/th/id/OIP.nU9BElP8zdnYq1ckl5Ly2wAAAA?pid=ImgDet&rs=1") center center no-repeat`;
@@ -90,21 +94,17 @@ export class LinkedAccountsComponent implements OnInit {
     return '300px'
   }
 
-   async fetchUserData(){
-    await axios.post('getUserInfo', { id: this.userparsed.id }).then(res => {
-      //console.log(res.data)
-      if(res.data.steamId!=null){
-      this.steamId = res.data.steamId
+   getSteamInfo(id:any) {
+    //console.log(this.steamId)
+    axios.post('steamInfo', { steam_id: id } ).then(res => {
+      console.log(res.data)
       this.steamLinked=true
-      }
-      //console.log(this.linked)
+      this.steamInfo = res.data
     }).catch(err => console.log(err))
-    this.getSteamInfo();
-   }
-
+  }
    getTwitchInfo(id:any){
     axios.get(`getowntwitchinfo?id=${id}`).then(res=>{
-      //console.log(res.data)
+      console.log(res.data)
       if(res.data!='not logged in'){
         this.twitchdata=res.data
         this.twitchLinked=true
@@ -113,12 +113,34 @@ export class LinkedAccountsComponent implements OnInit {
       }
     }).catch(err=>console.log(err))
    }
-   getDiscordInfo(id:any){
-    axios.get(`getDiscordInfo?id=${id}`).then(res=>{
-      console.log(res.data)
+    getDiscordInfo(id:any){
+     axios.get(`getDiscordInfo?id=${id}`).then(res=>{
+      //console.log(res.data)
+      if(res.data.Discord && res.data.Discord.connections){
+        let connectionmap=new Map()
+      const forEachPromise = new Promise<void>((resolve) => {
+        res.data.Discord.connections.forEach((con: { type: any; }) => {
+          connectionmap.set(con.type, con);
+        });
+
+        resolve();
+      });
+      //console.log(connectionmap)
+      forEachPromise.then(() => {
+        if (connectionmap.size > 0) {
+          this.utilsServiceService.linkedAccountObjSource.next(connectionmap);
+        }
+      });
       this.discordData=structuredClone(res.data)
-      this.discordDp=`https://cdn.discordapp.com/avatars/${this.discordData.Discord.id}/${this.discordData.Discord.avatar}.png`
-      //console.log(this.discordData.Discord.username)
+      if(Object.keys(this.discordData?.Discord).length>0){
+        this.discordLinked=true
+      }
+      this.discordDp=`https://cdn.discordapp.com/avatars/${this.discordData?.Discord?.id}/${this.discordData?.Discord?.avatar}.png`
+      //console.log(this.discordData)
+      //console.log(Object.keys(this.discordData?.Discord).length)
+      }
+
+
     }).catch(err=>console.log(err))
    }
   redirectToSteamProfile(): void {
@@ -131,13 +153,35 @@ export class LinkedAccountsComponent implements OnInit {
     window.location.href = `${environment.endpointUrl}`+`/auth/twitch?uid=${this.userparsed?.id}`;
   }
   redirectToTwitchProfile(): void {
-    window.open(`https://www.twitch.tv/${this.twitchdata.login}`, '_blank');
+    if(this.ownProfile){
+      window.open(`https://www.twitch.tv/${this.twitchdata.login}`, '_blank');
+    }
   }
 
   redirectToDiscordLogin(): void {
-    window.location.href = `${environment.endpointUrl}`+`/auth/discord?uid=${this.userparsed?.id}`;
+    if(this.ownProfile){
+      window.location.href = `${environment.endpointUrl}`+`/auth/discord?uid=${this.userparsed?.id}`;
+    }
   }
   redirectToDiscordWebsite(): void {
     window.open(`https://discord.com/app`, '_blank');
   }
+  getValoStats(){
+    let riotData:any={}
+    this.utilsServiceService.linkedAccountObj.subscribe((data:any)=>{
+      console.log('connected acc data from discord',data)
+
+      if(data.has('riotgames')){
+        riotData=data
+      }
+
+    })
+    if(riotData){
+      // axios.post('valoStats/getValoStatByIGN', { ign: riotData.get('riotgames').name }).then(res => {
+      //   console.log(res.data)
+      // }).catch(err => console.log(err))
+    }
+
+  }
+
 }

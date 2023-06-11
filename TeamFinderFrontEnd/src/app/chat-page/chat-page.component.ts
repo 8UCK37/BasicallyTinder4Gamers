@@ -56,6 +56,11 @@ export class ChatPageComponent implements OnInit {
   public fileSelected:boolean=false;
   public formData:any;
   public sentImages:any;
+  public defaultBackgrounds: String[]=[
+    'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_1.jpg?alt=media&token=98132d9e-2a4e-4654-bb5a-d1306434af9c&_gl=1*1gb92rd*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyMTkuMC4wLjA.'
+    ,'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_2.jpg?alt=media&token=b2df323f-b806-4a14-844e-1849ac335db8&_gl=1*h3hgd7*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyNDAuMC4wLjA.'
+    ,'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_3.jpg?alt=media&token=9a4dd16b-d8bb-40e7-98e1-a5e65f663bec&_gl=1*zq1a90*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyNTIuMC4wLjA.'
+  ]
   constructor(private messageService: MessageService,public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
       /**
@@ -82,7 +87,7 @@ export class ChatPageComponent implements OnInit {
       this.userparsed = usr;
       this.userInfo = usr;
       //console.log(this.userparsed.id)
-      this.chatBackGroundUrl=`https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2F${this.userparsed?.id}.jpg?alt=media&token=8f8ec438-1ee6-4511-8478-04f3c418431e`
+      this.chatBackGroundUrl=this.defaultBackgrounds[parseInt(this.userparsed?.chatBackground)]
       this.getActiveChoice();
       this.getfriendlist();
       this.getActiveConvo();
@@ -100,7 +105,7 @@ export class ChatPageComponent implements OnInit {
           }
         });
       });
-    }, 500);
+    }, 700);
     })
     this.incNotification();
   }
@@ -111,11 +116,14 @@ export class ChatPageComponent implements OnInit {
 
   sendMessage(){
     this.formData = new FormData();
-
-    if((this.values == "" || this.values.length == 0) && !this.fileSelected || (this.input.nativeElement.files[0].type != "image/jpeg" && this.input.nativeElement.files[0].type != "image/jpg")) {
+    console.log("here")
+    if((this.values == "" || this.values.length == 0) && !this.fileSelected ) {
+       return
+    };
+    if(this.fileSelected && this.input.nativeElement.files[0].type != "image/jpeg" && this.input.nativeElement.files[0].type != "image/jpg"){
       this.messageService.add({severity: 'warn', summary: '', detail: "You can't yet upload anything else other than jpeg/jpg"});
       return
-    };
+    }
     let data = {receiver: this.to , msg : this.values , sender : this.userparsed.id,photo:this.fileSelected}
     console.log(data);
 
@@ -220,9 +228,10 @@ export class ChatPageComponent implements OnInit {
     }
 
     scrollToBottom() {
+      //console.log("hit")
       setTimeout(() => {
         this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement?.scrollHeight;
-      }, 200);
+      }, 500);
     }
 
     incMsg(){
@@ -232,12 +241,6 @@ export class ChatPageComponent implements OnInit {
         if(recData.photo){
           console.log(recData.sender)
           this.showLoading=true
-          setTimeout(() => {
-          this.showLoading=false
-          }, 2000);
-          setTimeout(() => {
-            this.fetchChatData(recData.sender)
-          }, 2000);
         }
         this.allMsgs.push({sender:recData.sender,rec:true,msg:recData.msg,time:this.getLocalTime(),photo:recData.photo});
         if(recData.sender==this.selectedFrndId){
@@ -265,6 +268,9 @@ export class ChatPageComponent implements OnInit {
             //console.log(res.data)
             this.status.set(this.recData.sender,res.data.activeChoice&&true)
             }).catch(err=>console.log(err));
+        }else if(this.recData.notification=='imageUploadDone'){
+          this.allMsgs[this.allMsgs.length-1].photoUrl=this.recData.data
+          this.showLoading=false
         }
       });
     };
