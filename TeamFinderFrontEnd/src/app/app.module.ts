@@ -54,6 +54,7 @@ import { FriendSuggestionComponent } from './friend-suggestion/friend-suggestion
 import { FriendSuggestionBoxComponent } from './friend-suggestion/friend-suggesstion-box/friend-suggestion-box/friend-suggestion-box.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { WelcomeLinkAccountComponent } from './welcome/welcome-link-account/welcome-link-account.component';
+import { ThemeSettingsComponent } from './settings/theme-settings/theme-settings.component';
 @NgModule({
   declarations: [			
       AppComponent,
@@ -81,7 +82,8 @@ import { WelcomeLinkAccountComponent } from './welcome/welcome-link-account/welc
       FriendSuggestionComponent,
       FriendSuggestionBoxComponent,
       WelcomeComponent,
-      WelcomeLinkAccountComponent
+      WelcomeLinkAccountComponent,
+      ThemeSettingsComponent
    ],
   imports: [
     SidebarModule,
