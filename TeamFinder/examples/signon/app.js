@@ -1123,6 +1123,15 @@ app.post("/chat/Images", ensureAuthenticated, upload.single('chatimages'), (req,
     res.sendStatus(400)
   }
 });
+
+app.get('/getThemes', ensureAuthenticated, async (req, res) => {
+  let themes = await prisma.Themes.findMany({})
+  res.send(JSON.stringify(themes))
+});
+
+
+
+
 socketRunner.execute(io)
 
 

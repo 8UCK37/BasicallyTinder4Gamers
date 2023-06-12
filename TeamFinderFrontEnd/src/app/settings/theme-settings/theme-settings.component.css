@@ -1,0 +1,9 @@
+.theme-preview{
+  height:250px;
+  width:250px;
+  cursor:pointer;
+  border-radius: 10px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  
+}

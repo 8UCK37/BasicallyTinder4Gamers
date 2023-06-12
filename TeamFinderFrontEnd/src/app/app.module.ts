@@ -27,7 +27,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagInputModule } from 'ngx-chips';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { SettingsComponent } from './settings/Settings.component';
-import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { LoginUserinfoComponent } from './primary-home-page/login-userinfo/login-userinfo.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -55,8 +54,9 @@ import { FriendSuggestionBoxComponent } from './friend-suggestion/friend-suggess
 import { WelcomeComponent } from './welcome/welcome.component';
 import { WelcomeLinkAccountComponent } from './welcome/welcome-link-account/welcome-link-account.component';
 import { ThemeSettingsComponent } from './settings/theme-settings/theme-settings.component';
+import { CarouselModule } from 'primeng/carousel';
 @NgModule({
-  declarations: [			
+  declarations: [
       AppComponent,
       PrimaryHomePageComponent,
       LoginComponent,
@@ -110,7 +110,7 @@ import { ThemeSettingsComponent } from './settings/theme-settings/theme-settings
     TagInputModule,
     ReactiveFormsModule,
     PickerModule,
-    CarouselModule.forRoot(),
+    CarouselModule,
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     QuillModule.forRoot(),

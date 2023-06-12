@@ -1,3 +1,22 @@
 <div style="height:55rem; border:1px solid red">
+  <p-carousel [value]="themes" [numVisible]="2" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
+    <ng-template let-theme pTemplate="item">
+      <div>
+        <span>{{theme.name}}</span>
+        <div class="theme-preview" [style.background-image]="'url(' + theme.profileBg + ')'" (click)="previewTheme(theme)">
+
+        </div>
+      </div>
+    </ng-template>
+</p-carousel>
+
+<p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
+  <ng-template pTemplate="item" let-item>
+      <img [src]="item" style="width: 100%;height:40rem; display: block;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;" />
+  </ng-template>
+</p-galleria>
+
+
+
 
 </div>
