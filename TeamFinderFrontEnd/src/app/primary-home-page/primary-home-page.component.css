@@ -119,7 +119,6 @@ nav ul li a{
   fill: white;
 }
 .page {
-  background-image: url("./../../assets/bg/nature.gif");
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
