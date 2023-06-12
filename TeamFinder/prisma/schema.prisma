@@ -145,3 +145,13 @@ model CommentReaction {
   commentid Int
   type      String
 }
+model Themes {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  name        String?
+  navBg       String?
+  homeBg      String?
+  profileBg   String?
+  accentColor String?
+  compColor   String?
+}
