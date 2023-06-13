@@ -49,7 +49,7 @@ export class PrimaryHomePageComponent implements OnInit {
     this.usr = localStorage.getItem('user');
     this.userparsed = JSON.parse(this.usr);
     this.userService.userCast.subscribe(usr=>{
-      console.log("user data" , usr)
+      //console.log("user data" , usr)
       this.userparsed = usr;
       this.userInfo = usr;
       if(this.userparsed!=null){

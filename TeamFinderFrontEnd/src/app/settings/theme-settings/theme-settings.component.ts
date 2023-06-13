@@ -27,7 +27,7 @@ export class ThemeSettingsComponent implements OnInit {
       numVisible: 1,
       numScroll: 1
     }];
-
+  public userparsed:any;
   public themes:Theme[]=[]
   images: any[] =[];
   galeriaPosition: string = 'bottom';
@@ -36,7 +36,8 @@ export class ThemeSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.userCast.subscribe(usr=>{
-      console.log("user data" , usr)
+      //console.log("user data" , usr)
+      this.userparsed=usr
       this.getThemes();
     })
   }
@@ -49,16 +50,15 @@ export class ThemeSettingsComponent implements OnInit {
   }
   previewTheme(theme:any){
     this.images=[]
-    console.log(theme)
     this.selectedTheme=theme.id
     this.images[0]=theme.homeBg
     this.images[1]=theme.profileBg
-    console.log(this.images)
   }
   saveTheme(){
-    console.log(typeof(this.selectedTheme))
     axios.post('/userThemeUpdate',{id:this.selectedTheme}).then(res=>{
-      this.messageService.add({ severity: 'success', summary: 'Theme applied', detail: 'Selected Theme saved!!' });
+      this.userparsed.theme=this.themes[this.selectedTheme-1]
+      this.userService.setCurrentUserChanges(this.userparsed)
+      this.messageService.add({ severity: 'success', summary: ` Theme saved`, detail: `${this.userparsed.theme.name} theme applied!!` });
     }).catch(err =>console.log(err))
   }
 }

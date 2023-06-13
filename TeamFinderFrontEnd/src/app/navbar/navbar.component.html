@@ -1,7 +1,7 @@
 <main >
 
   <div *ngIf="userparsed && currentRoute !='/welcome'">
-    <nav class="nav-bg" [style.background-image]="'url(' + userparsed.theme.navBg+ ')'">
+    <nav class="nav-bg" [style.background-image]="'url(' + userparsed?.theme.navBg+ ')'">
       <img src="./../../assets/icon-resource/logo-no-background.png" class="logo">
       <app-app-search></app-app-search>
       <li style="margin-left: 35rem;" [routerLink]="['/home']"><img class="homeicon" src="./../../assets/icon-resource/home.png"><a class="nav-btn" style="color: antiquewhite;"

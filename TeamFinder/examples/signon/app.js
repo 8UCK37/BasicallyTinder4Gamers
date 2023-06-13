@@ -1141,7 +1141,11 @@ app.post("/chat/Images", ensureAuthenticated, upload.single('chatimages'), (req,
 });
 
 app.get('/getThemes', ensureAuthenticated, async (req, res) => {
-  let themes = await prisma.Themes.findMany({})
+  let themes = await prisma.Themes.findMany({
+    orderBy:{
+      id:'asc'
+    }
+  })
   res.send(JSON.stringify(themes))
 });
 
