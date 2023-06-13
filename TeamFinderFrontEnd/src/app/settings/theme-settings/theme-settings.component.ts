@@ -43,7 +43,7 @@ export class ThemeSettingsComponent implements OnInit {
   }
   getThemes(){
     axios.get('/getThemes').then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
       this.themes=structuredClone(res.data)
       console.log(this.themes)
     }).catch(err =>console.log(err))
