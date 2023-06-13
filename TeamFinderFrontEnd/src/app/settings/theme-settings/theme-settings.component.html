@@ -1,6 +1,6 @@
-<div style="height:55rem; border:1px solid red">
+<div style="border:1px solid red">
   <p-carousel [value]="themes" [numVisible]="2" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
-    <ng-template let-theme pTemplate="item">
+    <ng-template let-theme  pTemplate="item">
       <div>
         <span>{{theme.name}}</span>
         <div class="theme-preview" [style.background-image]="'url(' + theme.profileBg + ')'" (click)="previewTheme(theme)">
@@ -16,7 +16,14 @@
   </ng-template>
 </p-galleria>
 
-
+<div class="upload-btn" *ngIf="images.length>0" >
+  <div class="wrapper">
+    <div class="file-save" (click)="saveTheme()">
+      <i class="fa fa-check"></i>
+    </div>
+  </div>
+</div>
 
 
 </div>
+<p-toast position="bottom-right"></p-toast>

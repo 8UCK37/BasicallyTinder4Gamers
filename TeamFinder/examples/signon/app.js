@@ -129,9 +129,12 @@ app.use("/user", require('./routes/userRoute'))
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
-  const fetchUser = await prisma.user.findUnique({
+  const fetchUser = await prisma.User.findUnique({
     where: {
       id: req.user.user_id
+    },include: {
+      userInfo:true,
+      theme:true
     }
   })
   if (fetchUser == null) {
@@ -144,6 +147,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         profilePicture: req.user.picture,
         profileBanner: 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg',
         chatBackground:'0',
+        themesId:0,
         gmailId: req.user.email,
         activeChoice: true,
         isConnected: true
@@ -235,6 +239,18 @@ app.post('/userNameUpdate', ensureAuthenticated, urlencodedParser, async (req, r
   res.sendStatus(200);
 });
 
+app.post('/userThemeUpdate', ensureAuthenticated, urlencodedParser, async (req, res) => {
+  //console.log(req.body.id)
+  const updateUserTheme = await prisma.User.update({
+    where: {
+      id: req.user.user_id
+    },
+    data: {
+      themesId: req.body.id
+    }
+  })
+  res.sendStatus(200);
+});
 
 
 //tocheck if a person is you friend or not #endpoint
