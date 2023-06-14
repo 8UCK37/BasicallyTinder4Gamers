@@ -1,6 +1,6 @@
 .theme-preview{
   height:250px;
-  width:250px;
+  width:auto;
   cursor:pointer;
   border-radius: 10px;
   background-size: contain;
