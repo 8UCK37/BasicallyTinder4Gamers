@@ -25,13 +25,15 @@
         </div>
       </button>
       <div class="accordion-content">
+        <div class="chat-theme-container">
         <div class="chat-themes">
           <ng-container *ngFor="let theme of themes;let i=index">
-            <div class="chat-theme-preview">
+            <div class="chat-theme-preview" (click)="previewTheme(theme)">
               <img class="bg-preview" [src]="theme.homeBg" alt="">
             </div>
           </ng-container>
         </div>
+      </div>
       </div>
     </div>
     <div class="accordion-item">
@@ -60,16 +62,16 @@
       </div>
     </div>
   </div>
-   <div class="upload-btn" *ngIf="showChatPreview" (click)="saveSelectedChatBg()">
+   <div class="upload-btn" *ngIf="showChatPreview" >
      <div class="wrapper">
-       <div class="file-save">
+       <div class="file-save" (click)="saveSelectedChatBg()">
          <i class="fa fa-check"></i>
        </div>
      </div>
    </div>
-   <div class="upload-btn" *ngIf="!showChatPreview">
+   <div class="upload-btn" *ngIf="!showChatPreview" >
      <div class="wrapper">
-       <div class="file-save">
+       <div class="file-save" (click)="saveTheme()">
          <i class="fa fa-check"></i>
        </div>
      </div>
@@ -140,14 +142,14 @@
     </div>
   </div>
   </div>
-  
-</div>
-</div>
-<div class="upload-btn" *ngIf="images.length>0" >
-  <div class="wrapper">
-    <div class="file-save" (click)="saveTheme()">
-      <i class="fa fa-check"></i>
-    </div>
+  <div *ngIf="!showChatPreview">
+    <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
+      <ng-template pTemplate="item" let-item>
+          <img [src]="item" style="width: 100%;height:40rem; display: block;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;" />
+      </ng-template>
+    </p-galleria>
   </div>
 </div>
+</div>
+
 <p-toast position="bottom-right"></p-toast>
