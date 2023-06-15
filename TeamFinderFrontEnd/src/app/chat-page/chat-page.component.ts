@@ -328,7 +328,7 @@ export class ChatPageComponent implements OnInit {
      }).catch(err=>console.log(err))
     }
     goToChatSettings(){
-      this.router.navigate(['/settings'], { queryParams: { tab:"chat-settings" } });
+      this.router.navigate(['/settings'], { queryParams: { tab:"theme-settings" } });
     }
     deleteSelected(){
       this.fileSelected=false;
