@@ -115,7 +115,7 @@
 }
 .accordion button[aria-expanded=true] + .accordion-content {
   opacity: 1;
-  max-height: 15em;
+  max-height: 50em;
   transition: all 200ms linear;
   will-change: opacity, max-height;
 }
@@ -719,7 +719,7 @@
   width:150px;
   display: flex;
   flex-direction: column;
-  height:200px;
+  height:400px;
   align-items: center;
   overflow-y: auto;
 }
