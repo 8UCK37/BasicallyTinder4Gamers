@@ -15,6 +15,7 @@ export class ThemeSettingsComponent implements OnInit {
   @ViewChild('previewImageElement', { static: false }) previewImageElement!: ElementRef<HTMLImageElement>;
   public userparsed:any;
   public themes:Theme[]=[]
+  public activeIndex:any;
   images: any[] =[];
   galeriaPosition: string = 'bottom';
   public selectedTheme:any;
@@ -60,6 +61,9 @@ export class ThemeSettingsComponent implements OnInit {
       this.userparsed=usr
       this.chatBackGroundUrl=this.defaultBackgrounds[parseInt(this.userparsed.chatBackground)]
       this.selectedIndex=parseInt(this.userparsed.chatBackground)
+      this.activeIndex=0
+      this.images[0]={pic:this.userparsed.theme.homeBg,title:'Current Home Page Background'}
+      this.images[1]={pic:this.userparsed.theme.profileBg,title:'Current Profile Page Background'}
       average(this.chatBackGroundUrl,{format:'hex'}).then(color=>{
         //console.log(color)
         this.averageHue=color
@@ -77,10 +81,11 @@ export class ThemeSettingsComponent implements OnInit {
     }).catch(err =>console.log(err))
   }
   previewTheme(theme:any){
+    this.activeIndex=0
     this.images=[]
     this.selectedTheme=theme.id
-    this.images[0]=theme.homeBg
-    this.images[1]=theme.profileBg
+    this.images[0]={pic:theme.homeBg,title:'Home Page Background'}
+    this.images[1]={pic:theme.profileBg,title:'Profile Page Background'}
   }
   saveTheme(){
     axios.post('/userThemeUpdate',{id:this.selectedTheme}).then(res=>{
@@ -94,8 +99,9 @@ export class ThemeSettingsComponent implements OnInit {
     const expanded = button.getAttribute('aria-expanded');
     button.setAttribute('aria-expanded', expanded === 'true' ? 'false' : 'true');
     if(buttonId=="accordion-button-1"){
-      this.images[0]=this.userparsed.theme.homeBg
-      this.images[1]=this.userparsed.theme.profileBg
+      this.activeIndex=0
+      this.images[0]={pic:this.userparsed.theme.homeBg,title:'Home Page Background'}
+      this.images[1]={pic:this.userparsed.theme.profileBg,title:'Profile Page Background'}
       this.showChatPreview=false
       const secondButton=document.getElementById("accordion-button-2") as HTMLButtonElement;
       secondButton.setAttribute('aria-expanded', 'false');

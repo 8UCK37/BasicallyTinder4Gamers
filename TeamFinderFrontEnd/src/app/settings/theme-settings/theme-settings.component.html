@@ -143,10 +143,13 @@
   </div>
   </div>
   <div *ngIf="!showChatPreview">
-    <p-galleria [value]="images" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
+    <p-galleria [value]="images" [(activeIndex)]="activeIndex" [showItemNavigators]="images.length>1" [indicatorsPosition]="galeriaPosition" [changeItemOnIndicatorHover]="true" [showIndicators]="images.length>1" [showThumbnails]="false" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%'}">
       <ng-template pTemplate="item" let-item>
-          <img [src]="item" style="width: 100%;height:40rem; display: block;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;" />
+          <img [src]="item.pic" style="width: 100%;height:40rem; display: block;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;" />
       </ng-template>
+      <ng-template pTemplate="caption" let-item>
+        <h4 style="margin-bottom: .5rem; color: #ffffff;">{{ item.title }}</h4>
+    </ng-template>
     </p-galleria>
   </div>
 </div>
