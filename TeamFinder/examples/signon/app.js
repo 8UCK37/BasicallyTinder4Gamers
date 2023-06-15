@@ -543,7 +543,7 @@ app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
     }
   })
   //console.log(tokenFromDb.twitchtoken.token)
-  if(tokenFromDb.twitchtoken!=null){
+  if(tokenFromDb?.twitchtoken!=null){
   const accessToken = tokenFromDb.twitchtoken.token;
   const refreshToken = tokenFromDb.twitchtoken.refreshToken
   const userUrl = 'https://api.twitch.tv/helix/users';
