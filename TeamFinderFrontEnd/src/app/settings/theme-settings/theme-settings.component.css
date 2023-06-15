@@ -736,3 +736,28 @@
   cursor: pointer;
 }
 
+.clip-container {
+  position: relative;
+  width: 150px;
+  height: 90px;
+  overflow: hidden;
+}
+
+.image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-1 {
+  clip-path: polygon(0 0, 0 75%, 74% 0);
+}
+
+.image-2 {
+  clip-path: polygon(72% 0, 100% 0, 100% 24%, 31% 100%, 0 100%, 0 71%);
+}
+
+.image-3 {
+  clip-path: polygon(100% 24%, 25% 100%, 100% 100%);
+}
