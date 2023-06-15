@@ -13,28 +13,12 @@ import { average } from 'color.js'
 export class ThemeSettingsComponent implements OnInit {
   @ViewChild('image') input!:ElementRef;
   @ViewChild('previewImageElement', { static: false }) previewImageElement!: ElementRef<HTMLImageElement>;
-  responsiveOptions: any=[
-    {
-      breakpoint: '1199px',
-      numVisible: 1,
-      numScroll: 1
-    },
-    {
-      breakpoint: '991px',
-      numVisible: 2,
-      numScroll: 1
-    },
-    {
-      breakpoint: '767px',
-      numVisible: 1,
-      numScroll: 1
-    }];
   public userparsed:any;
   public themes:Theme[]=[]
   images: any[] =[];
   galeriaPosition: string = 'bottom';
   public selectedTheme:any;
-
+  public responsiveOptions:any;
   public showChatPreview:boolean=false;
   public formData:any;
   public chatBackGroundUrl:any;
@@ -51,7 +35,24 @@ export class ThemeSettingsComponent implements OnInit {
     ,'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_3.jpg?alt=media&token=9a4dd16b-d8bb-40e7-98e1-a5e65f663bec&_gl=1*zq1a90*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyNTIuMC4wLjA.'
     ,'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_4.jpg?alt=media&token=e38faaab-011d-4142-99fd-08f1940159db&_gl=1*22ljas*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjY2MTE2OC4yNi4xLjE2ODY2NjE0OTcuMC4wLjA.'
   ]
-  constructor(public userService:UserService,private messageService: MessageService) { }
+  constructor(public userService:UserService,private messageService: MessageService) {
+    this.responsiveOptions=[
+      {
+        breakpoint: '1199px',
+        numVisible: 1,
+        numScroll: 1
+      },
+      {
+        breakpoint: '991px',
+        numVisible: 2,
+        numScroll: 1
+      },
+      {
+        breakpoint: '767px',
+        numVisible: 1,
+        numScroll: 1
+      }];
+   }
 
   ngOnInit(): void {
     this.userService.userCast.subscribe(usr=>{
@@ -93,6 +94,8 @@ export class ThemeSettingsComponent implements OnInit {
     const expanded = button.getAttribute('aria-expanded');
     button.setAttribute('aria-expanded', expanded === 'true' ? 'false' : 'true');
     if(buttonId=="accordion-button-1"){
+      this.images[0]=this.userparsed.theme.homeBg
+      this.images[1]=this.userparsed.theme.profileBg
       this.showChatPreview=false
       const secondButton=document.getElementById("accordion-button-2") as HTMLButtonElement;
       secondButton.setAttribute('aria-expanded', 'false');
