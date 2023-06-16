@@ -98,7 +98,7 @@ body[data-theme=dark] {
   padding-top: 100px;
   float: initial;
   justify-content: left;
-  background: #171717;
+  background: transparent;
   display: flex;
   min-height: 100vh;
   height: auto;
@@ -1171,3 +1171,4 @@ body[data-theme=dark] {
   background-position: 0 -100%;
   color: #eb2525;
 }
+
