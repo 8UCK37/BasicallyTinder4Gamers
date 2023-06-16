@@ -178,7 +178,8 @@ app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
           id: req.body.id
         },
         include: {
-          userInfo:true
+          userInfo:true,
+          theme:true
         }
       })
       //console.log(userData)
