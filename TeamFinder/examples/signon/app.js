@@ -147,7 +147,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         profilePicture: req.user.picture,
         profileBanner: 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg',
         chatBackground:'0',
-        themesId:0,
+        themesId:1,
         gmailId: req.user.email,
         activeChoice: true,
         isConnected: true
