@@ -1464,10 +1464,7 @@ button {
   justify-content: flex-start;
 }
 .linked_accounts{
-  display: flex;
-  position: relative;
   top: 61px;
-  right: 36px;
 }
 .fa-steam{
   color:#1d5cea;
