@@ -55,21 +55,15 @@ export class ProfilePageComponent implements OnInit {
         //console.log("user data" , usr)
         this.userparsed = usr;
         this.userInfo = usr;
+        this.info=this.userparsed?.userInfo
         this.bio = this.userInfo?.bio;
-        try{
-          axios.post('getUserInfo',{id:usr?.id}).then(res => {
-          this.info=res.data[0].userInfo;
-          console.log(res.data[0].userInfo)
-        })
-        }catch(err){}
-
       })
     } else {
       this.route.queryParams.subscribe(async params => {
         this.radioActivaVal = 1
         this.profile_id = params['id'];
         this.userService.userCast.subscribe(usr => {
-          if(usr.id==this.profile_id){
+          if(usr?.id==this.profile_id){
             this.router.navigate(['profile-page', 'post']);
           }
         })
@@ -77,6 +71,8 @@ export class ProfilePageComponent implements OnInit {
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           console.log(res.data)
           this.userInfo = res.data[0]
+          this.info=res.data[0].userInfo
+          this.utilsServiceService.setFriendAccountObj(res.data[0])
         }).catch(err => console.log(err))
         axios.post('isFriend', { id: this.profile_id }).then(res => {
           console.log(res.data)

@@ -5,11 +5,6 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class UtilsServiceService {
-  postModalObjSource = new BehaviorSubject<any>({});
-  postModalObj = this.postModalObjSource.asObservable();
-
-  linkedAccountObjSource = new BehaviorSubject<any>({});
-  linkedAccountObj = this.linkedAccountObjSource.asObservable();
   countries: string[] = [
     "Afghanistan","Albania","Algeria",
     "American Samoa","Andorra","Angola","Anguilla","Antarctica",
@@ -52,6 +47,14 @@ export class UtilsServiceService {
     "Vanuatu", "Venezuela (Bolivarian Republic of)", "Viet Nam", "Virgin Islands (British)", "Virgin Islands (U.S.)",
     "Wallis and Futuna", "Western Sahara", "Yemen", "Zambia", "Zimbabwe", "Åland Islands"
   ];
+  postModalObjSource = new BehaviorSubject<any>({});
+  postModalObj = this.postModalObjSource.asObservable();
+
+  linkedAccountObjSource = new BehaviorSubject<any>({});
+  linkedAccountObj = this.linkedAccountObjSource.asObservable();
+
+  friendAccountObjSource = new BehaviorSubject<any>({});
+  friendAccountObj = this.friendAccountObjSource.asObservable();
 constructor() { }
   setlinkedAccountObj(obj: any) {
     this.linkedAccountObjSource.next(obj);
@@ -59,5 +62,9 @@ constructor() { }
 
   getCountries(){
     return this.countries;
+  }
+
+  setFriendAccountObj(obj: any) {
+    this.friendAccountObjSource.next(obj);
   }
 }

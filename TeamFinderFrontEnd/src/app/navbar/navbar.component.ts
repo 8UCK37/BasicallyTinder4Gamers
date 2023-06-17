@@ -10,6 +10,7 @@ import * as bootstrap from 'bootstrap';
 import { animation } from '@angular/animations';
 import { CommentService } from '../post/comment.service';
 import { MessageService } from 'primeng/api';
+import { UtilsServiceService } from '../utils/utils-service.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -36,8 +37,12 @@ export class NavbarComponent implements  OnInit {
   public recData: any;
   commentOpen: boolean=false;
   currentRoute:string|undefined;
-  constructor(private messageService: MessageService,public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router , public userService : UserService) {
-    
+
+
+  public navbg:any
+  public friendProfile:any
+  constructor(public utilsServiceService : UtilsServiceService,private messageService: MessageService,public user: UserService, private renderer: Renderer2, private auth: AngularFireAuth, private socketService: ChatServicesService, private router: Router , public userService : UserService) {
+
     this.renderer.listen('window', 'click', (e: Event) => {
       /**
        * Only run when toggleButton is not clicked
@@ -67,28 +72,51 @@ export class NavbarComponent implements  OnInit {
 
 
   ngOnInit(): void {
-    this.router.events.subscribe((r:any)=>{
-      if(r.url != undefined)
-      {
-        let urlRouteSplitted = r.url?.split('?')
-        if(urlRouteSplitted == undefined) return
-        this.currentRoute = urlRouteSplitted[0];
-        // console.log(this.currentRoute)
-      } 
+
+    this.utilsServiceService.friendAccountObj.subscribe(friend=>{
+      //console.log(friend)
+      if(this.currentRoute?.split('/')[1]=='user'){
+        this.friendProfile=friend
+        this.navbg=friend.theme?.navBg
+      }
     })
     this.userService.userCast.subscribe(usr=>{
       //console.log("user data" , usr)
       this.userparsed = usr
       this.userInfo = usr
-      //console.log(usr)
+      console.log(this.userparsed )
       if (usr) {
       this.socketService.setupSocketConnection();
       this.socketService.setSocketId(this.userparsed.id);
       this.incMsg();
       this.incNotification();
       this.getPendingReq();
-    }
+      }
+      if(!(this.currentRoute?.split('/')[1]=='user')){
+        //console.log('own-profile')
+        this.navbg=this.userparsed.theme?.navBg
+
+      }
     })
+    this.router.events.subscribe((r:any)=>{
+      if(r.url != undefined)
+      {
+        let urlRouteSplitted = r.url?.split('?')
+        if(urlRouteSplitted == undefined) return
+        this.currentRoute = urlRouteSplitted[0];
+        //console.log(this.currentRoute?.split('/')[1])
+        if(this.currentRoute?.split('/')[1]=='user'){
+          //console.log('own-profile')
+          this.navbg=this.friendProfile.theme?.navBg
+
+        }else{
+          //console.log('not-own-profile')
+          this.navbg=this.userparsed?.theme?.navBg
+        }
+      }
+    })
+
+
     setInterval(() => {
       if (this.router.url == "/chat") {
         this.noti = false;
