@@ -33,6 +33,10 @@
                   <span *ngIf="status?.value=='Friend'" [ngClass]="unfriend?.style" style="cursor:pointer" (click)="unfrnd()"><i class="fas fa-user-times" style="color:white;"></i></span>
               </ng-template>
             </div>
+            <div class="linked_accounts" *ngIf="!ownProfile">
+            <i class="fa-brands fa-steam fa-3x" (click)="redirectToSteamProfile(userInfo.steamId)" style="cursor: pointer;"></i>
+            <i class="fa-brands fa-twitch fa-3x"></i>
+          </div>
           </div>
         </div>
       </section>

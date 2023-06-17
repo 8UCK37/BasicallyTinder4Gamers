@@ -287,5 +287,8 @@ export class ProfilePageComponent implements OnInit {
       window.scrollBy(0, -(clickEvent.yCoord-150));
     }
   }
+  redirectToSteamProfile(steamid:any): void {
+    window.open(`https://steamcommunity.com/profiles/${steamid}`, '_blank');
+  }
 }
 
