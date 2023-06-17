@@ -57,10 +57,10 @@ export class ChatPageComponent implements OnInit {
   public formData:any;
   public sentImages:any;
   public defaultBackgrounds: String[]=[
-    'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_1.jpg?alt=media&token=98132d9e-2a4e-4654-bb5a-d1306434af9c&_gl=1*1gb92rd*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyMTkuMC4wLjA.'
-    ,'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_2.jpg?alt=media&token=b2df323f-b806-4a14-844e-1849ac335db8&_gl=1*h3hgd7*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyNDAuMC4wLjA.'
-    ,'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_3.jpg?alt=media&token=9a4dd16b-d8bb-40e7-98e1-a5e65f663bec&_gl=1*zq1a90*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjA3MDIwNC4xNy4xLjE2ODYwNzAyNTIuMC4wLjA.'
-    ,'https://firebasestorage.googleapis.com/v0/b/teamfinder-e7048.appspot.com/o/ChatBackground%2Fchatbackground_4.jpg?alt=media&token=e38faaab-011d-4142-99fd-08f1940159db&_gl=1*22ljas*_ga*MTA1NzYzMDAxLjE2NzUwODExNjA.*_ga_CW55HF8NVT*MTY4NjY2MTE2OC4yNi4xLjE2ODY2NjE0OTcuMC4wLjA.'
+    'https://i.postimg.cc/kGNfJLQP/chatbackground-1.jpg'
+    ,'https://i.postimg.cc/Hnm9h3fZ/chatbackground-2.jpg'
+    ,'https://i.postimg.cc/MGXP7PS1/chatbackground-3.jpg'
+    ,'https://i.postimg.cc/TPSkCVdF/chatbackground-4.jpg'
   ]
   constructor(private messageService: MessageService,public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{

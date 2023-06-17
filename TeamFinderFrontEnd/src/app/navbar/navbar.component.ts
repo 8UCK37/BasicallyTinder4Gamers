@@ -84,7 +84,7 @@ export class NavbarComponent implements  OnInit {
       //console.log("user data" , usr)
       this.userparsed = usr
       this.userInfo = usr
-      console.log(this.userparsed )
+      //console.log(this.userparsed )
       if (usr) {
       this.socketService.setupSocketConnection();
       this.socketService.setSocketId(this.userparsed.id);
