@@ -94,7 +94,7 @@ export class NavbarComponent implements  OnInit {
       }
       if(!(this.currentRoute?.split('/')[1]=='user')){
         //console.log('own-profile')
-        this.navbg=this.userparsed.theme?.navBg
+        this.navbg=this.userparsed?.theme?.navBg
 
       }
     })
