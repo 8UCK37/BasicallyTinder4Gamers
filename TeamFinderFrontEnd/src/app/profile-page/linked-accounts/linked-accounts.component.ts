@@ -22,7 +22,7 @@ export class LinkedAccountsComponent implements OnInit {
   public profile_id: any;
   changeText: any = false;
   ownProfile: any;
-  twitchdata:any;
+  public twitchdata:any;
 
   discordData:any;
   discordLinked:boolean=false;

@@ -1471,4 +1471,13 @@ button {
 }
 .fa-steam{
   color:#1d5cea;
+  font-size: 45px;
+  margin-top: 26px;
+  margin-left: 23px;
+}
+.fa-twitch{
+  color:#9146FF;
+  font-size: 45px;
+  margin-top: 26px;
+  margin-left: 23px;
 }

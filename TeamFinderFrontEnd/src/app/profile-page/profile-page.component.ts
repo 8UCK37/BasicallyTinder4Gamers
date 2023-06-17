@@ -33,6 +33,8 @@ export class ProfilePageComponent implements OnInit {
   public formData: any;
   public userName: any;
   public profile_id: any;
+  public twitchLinked:boolean = false;
+  public twitchdata:any;
   public status: any;
   public unfriend: any;
   public message: string="copied to clipboard";
@@ -74,6 +76,7 @@ export class ProfilePageComponent implements OnInit {
           this.info=res.data[0].userInfo
           this.utilsServiceService.setFriendAccountObj(res.data[0])
         }).catch(err => console.log(err))
+        this.getTwitchInfo(this.profile_id)
         axios.post('isFriend', { id: this.profile_id }).then(res => {
           console.log(res.data)
           if (res.data == 'accepted') {
@@ -286,5 +289,19 @@ export class ProfilePageComponent implements OnInit {
   redirectToSteamProfile(steamid:any): void {
     window.open(`https://steamcommunity.com/profiles/${steamid}`, '_blank');
   }
+  redirectToTwitchProfile(twitchUsername:any): void {
+      window.open(`https://www.twitch.tv/${twitchUsername}`, '_blank');
+  }
+  getTwitchInfo(id:any){
+    axios.get(`getowntwitchinfo?id=${id}`).then(res=>{
+      console.log(res.data)
+      if(res.data!='not logged in'){
+        this.twitchdata=res.data
+        this.twitchLinked=true
+      }else{
+        this.twitchLinked=false
+      }
+    }).catch(err=>console.log(err))
+   }
 }
 

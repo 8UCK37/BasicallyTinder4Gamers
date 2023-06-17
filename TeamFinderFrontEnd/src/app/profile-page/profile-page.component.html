@@ -34,8 +34,8 @@
               </ng-template>
             </div>
             <div class="linked_accounts" *ngIf="!ownProfile">
-            <i class="fa-brands fa-steam fa-3x" (click)="redirectToSteamProfile(userInfo.steamId)" style="cursor: pointer;"></i>
-            <i class="fa-brands fa-twitch fa-3x"></i>
+            <i class="fa-brands fa-steam fa-3x" *ngIf="userInfo?.steamId" (click)="redirectToSteamProfile(userInfo.steamId)" style="cursor: pointer;"></i>
+            <i class="fa-brands fa-twitch fa-3x" *ngIf="twitchLinked" (click)="redirectToTwitchProfile(twitchdata.login)" style="cursor: pointer;"></i>
           </div>
           </div>
         </div>
