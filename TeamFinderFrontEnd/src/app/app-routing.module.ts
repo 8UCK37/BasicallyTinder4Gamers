@@ -23,7 +23,7 @@ const routes: Routes = [
       { path: 'post', component: ProfilePageComponent },
       { path: 'friends', component: FriendsComponent },
       { path: 'linked-accounts', component: LinkedAccountsComponent },
-      
+
     ],
   canActivate: [AuthGuard],
     data: { ownProfile: true }
@@ -41,13 +41,9 @@ const routes: Routes = [
   },
   { path: 'friend-suggestion', component: FriendSuggestionComponent },
   { path: 'home', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
-  { path: 'post-page', component: PostPageComponent, canActivate: [AuthGuard] },
   { path: 'login-page', pathMatch: 'full', component: LoginComponent },
-  { path: 'stats', pathMatch: 'full', component: PlayerStatsComponent },
   { path: 'settings', pathMatch: 'full', component: SettingsComponent },
-  { path: 'linked-accounts', pathMatch: 'full', component: LinkedAccountsComponent },
   { path: 'chat', pathMatch: 'full', component: ChatPageComponent, canActivate: [AuthGuard]},
-  { path: 'search', pathMatch: 'full', component: AppSearchComponent , canActivate: [AuthGuard]},
   { path: 'welcome', pathMatch: 'full', component: WelcomeComponent , canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
 
