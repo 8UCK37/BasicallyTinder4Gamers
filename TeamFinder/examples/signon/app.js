@@ -131,9 +131,12 @@ app.use("/stats", require('./routes/playerStates'))
 //saves a new user #endpoint
 app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   console.log("/saveuser called")
-  const fetchUser = await prisma.user.findUnique({
+  const fetchUser = await prisma.User.findUnique({
     where: {
       id: req.user.user_id
+    },include: {
+      userInfo:true,
+      theme:true
     }
   })
   if (fetchUser == null) {
@@ -146,6 +149,7 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         profilePicture: req.user.picture,
         profileBanner: 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg',
         chatBackground:'0',
+        themesId:1,
         gmailId: req.user.email,
         activeChoice: true,
         isConnected: true
@@ -176,7 +180,8 @@ app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
           id: req.body.id
         },
         include: {
-          userInfo:true
+          userInfo:true,
+          theme:true
         }
       })
       //console.log(userData)
@@ -237,6 +242,18 @@ app.post('/userNameUpdate', ensureAuthenticated, urlencodedParser, async (req, r
   res.sendStatus(200);
 });
 
+app.post('/userThemeUpdate', ensureAuthenticated, urlencodedParser, async (req, res) => {
+  //console.log(req.body.id)
+  const updateUserTheme = await prisma.User.update({
+    where: {
+      id: req.user.user_id
+    },
+    data: {
+      themesId: req.body.id
+    }
+  })
+  res.sendStatus(200);
+});
 
 
 //tocheck if a person is you friend or not #endpoint
@@ -529,7 +546,7 @@ app.get('/getowntwitchinfo',ensureAuthenticated ,async (req, res) => {
     }
   })
   //console.log(tokenFromDb.twitchtoken.token)
-  if(tokenFromDb.twitchtoken!=null){
+  if(tokenFromDb?.twitchtoken!=null){
   const accessToken = tokenFromDb.twitchtoken.token;
   const refreshToken = tokenFromDb.twitchtoken.refreshToken
   const userUrl = 'https://api.twitch.tv/helix/users';
@@ -1125,6 +1142,19 @@ app.post("/chat/Images", ensureAuthenticated, upload.single('chatimages'), (req,
     res.sendStatus(400)
   }
 });
+
+app.get('/getThemes', ensureAuthenticated, async (req, res) => {
+  let themes = await prisma.Themes.findMany({
+    orderBy:{
+      id:'asc'
+    }
+  })
+  res.send(JSON.stringify(themes))
+});
+
+
+
+
 socketRunner.execute(io)
 
 

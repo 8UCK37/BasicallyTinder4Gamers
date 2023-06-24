@@ -15,6 +15,7 @@ model User {
   profilePicture  String?
   profileBanner   String?
   chatBackground  String?
+  theme           Themes?           @relation(fields: [themesId], references: [id])
   bio             String?
   steamId         String?
   gmailId         String?
@@ -26,6 +27,7 @@ model User {
   CommentReaction CommentReaction[]
   LinkedAccounts  LinkedAccounts[]
   UserGameStats   UserGameStats?
+  themesId        Int?
 }
 
 model UserInfo {
@@ -49,13 +51,13 @@ model LinkedAccounts {
 }
 
 model UserGameStats {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  User           User?    @relation(fields: [userId], references: [id])
-  userId         String?  @unique
-  csgoStats      Json?
-  rainbowStats   Json?
-  apexStats      Json?
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  User         User?    @relation(fields: [userId], references: [id])
+  userId       String?  @unique
+  csgoStats    Json?
+  rainbowStats Json?
+  apexStats    Json?
 }
 
 model Friends {
@@ -144,4 +146,16 @@ model CommentReaction {
   comment   Comment  @relation(fields: [commentid], references: [id])
   commentid Int
   type      String
+}
+
+model Themes {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  name        String?
+  navBg       String?
+  homeBg      String?
+  profileBg   String?
+  accentColor String?
+  compColor   String?
+  User        User[]
 }

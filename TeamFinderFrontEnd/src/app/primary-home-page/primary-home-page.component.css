@@ -119,6 +119,9 @@ nav ul li a{
   fill: white;
 }
 .page {
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
   background-color:  #171717;
   padding-top: 100px;
   min-height: 100vh;

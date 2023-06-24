@@ -1,6 +1,6 @@
 <!-- Main -->
 <!-- <app-create-post-modal></app-create-post-modal> -->
-<main id="main" class="flexbox-col-start-center page-bg">
+<main id="main" class="flexbox-col-start-center page-bg" [style.background-image]="'url(' + (ownProfile ? userparsed?.theme?.profileBg : userInfo?.theme?.profileBg) + ')'">
   <p-toast position='bottom-center'></p-toast>
   <!-- Profile Page -->
   <div class="view-width">
@@ -23,16 +23,24 @@
               <!-- SubHeader -->
             </div>
             <!-- "Follow" button -->
+
             <div class="profile__actions">
-              <ng-container *ngIf="ownProfile;else elseblock" >
-              <a class="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor:pointer" (click)="modalOpen()">Edit Profile</a>
-              <button class="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"(click)="copyToClipboard()"><img src="https://img.icons8.com/material/24/null/share-2.png"/></button>
-              </ng-container>
-              <ng-template #elseblock >
-                  <span [ngClass]="status?.style" style="cursor:pointer" (click)="sendreq()">{{status?.value}}</span>
-                  <span *ngIf="status?.value=='Friend'" [ngClass]="unfriend?.style" style="cursor:pointer" (click)="unfrnd()"><i class="fas fa-user-times" style="color:white;"></i></span>
-              </ng-template>
+              <div style="margin-top: 50px;">
+                <ng-container *ngIf="ownProfile;else elseblock" >
+                  <a class="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor:pointer" (click)="modalOpen()">Edit Profile</a>
+                  <button class="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"(click)="copyToClipboard()"><img src="https://img.icons8.com/material/24/null/share-2.png"/></button>
+                </ng-container>
+                <ng-template #elseblock >
+                    <span [ngClass]="status?.style" style="cursor:pointer" (click)="sendreq()">{{status?.value}}</span>
+                    <span *ngIf="status?.value=='Friend'" [ngClass]="unfriend?.style" style="cursor:pointer" (click)="unfrnd()"><i class="fas fa-user-times" style="color:white;margin-left: 25px;"></i></span>
+                </ng-template>
+              </div>
+              <div class="linked_accounts" *ngIf="!ownProfile">
+                <i class="fa-brands fa-steam fa-3x" *ngIf="userInfo?.steamId" (click)="redirectToSteamProfile(userInfo.steamId)" style="cursor: pointer;"></i>
+                <i class="fa-brands fa-twitch fa-3x" *ngIf="twitchLinked" (click)="redirectToTwitchProfile(twitchdata.login)" style="cursor: pointer;"></i>
+              </div>
             </div>
+
           </div>
         </div>
       </section>

@@ -33,6 +33,8 @@ export class ProfilePageComponent implements OnInit {
   public formData: any;
   public userName: any;
   public profile_id: any;
+  public twitchLinked:boolean = false;
+  public twitchdata:any;
   public status: any;
   public unfriend: any;
   public message: string="copied to clipboard";
@@ -55,21 +57,15 @@ export class ProfilePageComponent implements OnInit {
         //console.log("user data" , usr)
         this.userparsed = usr;
         this.userInfo = usr;
+        this.info=this.userparsed?.userInfo
         this.bio = this.userInfo?.bio;
-        try{
-          axios.post('getUserInfo',{id:usr?.id}).then(res => {
-          this.info=res.data[0].userInfo;
-          console.log(res.data[0].userInfo)
-        })
-        }catch(err){}
-
       })
     } else {
       this.route.queryParams.subscribe(async params => {
         this.radioActivaVal = 1
         this.profile_id = params['id'];
         this.userService.userCast.subscribe(usr => {
-          if(usr.id==this.profile_id){
+          if(usr?.id==this.profile_id){
             this.router.navigate(['profile-page', 'post']);
           }
         })
@@ -77,7 +73,10 @@ export class ProfilePageComponent implements OnInit {
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {
           console.log(res.data)
           this.userInfo = res.data[0]
+          this.info=res.data[0].userInfo
+          this.utilsServiceService.setFriendAccountObj(res.data[0])
         }).catch(err => console.log(err))
+        this.getTwitchInfo(this.profile_id)
         axios.post('isFriend', { id: this.profile_id }).then(res => {
           console.log(res.data)
           if (res.data == 'accepted') {
@@ -287,5 +286,22 @@ export class ProfilePageComponent implements OnInit {
       window.scrollBy(0, -(clickEvent.yCoord-150));
     }
   }
+  redirectToSteamProfile(steamid:any): void {
+    window.open(`https://steamcommunity.com/profiles/${steamid}`, '_blank');
+  }
+  redirectToTwitchProfile(twitchUsername:any): void {
+      window.open(`https://www.twitch.tv/${twitchUsername}`, '_blank');
+  }
+  getTwitchInfo(id:any){
+    axios.get(`getowntwitchinfo?id=${id}`).then(res=>{
+      console.log(res.data)
+      if(res.data!='not logged in'){
+        this.twitchdata=res.data
+        this.twitchLinked=true
+      }else{
+        this.twitchLinked=false
+      }
+    }).catch(err=>console.log(err))
+   }
 }
 

@@ -1,7 +1,7 @@
 #main {
-  background-image: url("./../../assets/bg/space_galaxy_stars.gif");
   background-attachment: fixed;
   min-height: 110vh;
+  background-size: cover;
   top: 70px;
   position: relative;
   background-repeat: no-repeat;
@@ -1463,4 +1463,18 @@ button {
   color: white;
   justify-content: flex-start;
 }
-
+.linked_accounts{
+  top: 61px;
+}
+.fa-steam{
+  color:#1d5cea;
+  font-size: 45px;
+  margin-top: 26px;
+  margin-left: 23px;
+}
+.fa-twitch{
+  color:#9146FF;
+  font-size: 45px;
+  margin-top: 26px;
+  margin-left: 23px;
+}

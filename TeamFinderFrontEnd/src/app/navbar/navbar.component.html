@@ -1,7 +1,7 @@
-<main>
+<main >
 
   <div *ngIf="userparsed && currentRoute !='/welcome'">
-    <nav class="nav-bg">
+    <nav class="nav-bg" [style.background-image]="'url(' + navbg+ ')'">
       <img src="./../../assets/icon-resource/logo-no-background.png" class="logo">
       <app-app-search></app-app-search>
       <li style="margin-left: 35rem;" [routerLink]="['/home']"><img class="homeicon" src="./../../assets/icon-resource/home.png"><a class="nav-btn" style="color: antiquewhite;"
@@ -118,7 +118,7 @@
           <hr>
           <a href="#" [routerLink]="['/settings']" [queryParams]="{ tab: 'account-settings' }"routerLinkActive="router-link-active" class="sub-menu-link">
             <img src="./../../assets/icon-resource/setting2.png">
-            <p>Settings & Privacy</p>
+            <p>Settings</p>
           </a>
           <a href="#" class="sub-menu-link">
             <img src="./../../assets/icon-resource/help1.png">
