@@ -123,12 +123,9 @@ app.use('/static', express.static(__dirname + '/../../public'));
 
 app.use("/comment", require('./routes/comment'))
 app.use("/user", require('./routes/userRoute'))
-<<<<<<< HEAD
 //Player States API
 app.use("/stats", require('./routes/playerStates'))
-=======
 
->>>>>>> 1f85c1d701013cf7d2422814c1b2f917f9d4fc44
 
 
 //saves a new user #endpoint
