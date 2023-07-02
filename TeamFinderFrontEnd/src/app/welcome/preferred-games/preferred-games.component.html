@@ -1,0 +1,14 @@
+<fieldset class="checkbox-group">
+    <legend class="checkbox-group-legend">Choose your favorites</legend>
+    <div *ngFor="let game of gameList; let i=index">
+        <div class="checkbox">
+          <label class="checkbox-wrapper">
+            <input type="checkbox" class="checkbox-input" />
+            <span class="checkbox-tile" [style.background-image]="'url(https://steamcdn-a.akamaihd.net/steam/apps/' + game.appid + '/library_600x900.jpg)'">
+              <span class="checkbox-icon"></span>
+              <span class="checkbox-label"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+</fieldset>
