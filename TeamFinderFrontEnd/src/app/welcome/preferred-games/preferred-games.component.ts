@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import axios from 'axios';
 import { UtilsServiceService } from 'src/app/utils/utils-service.service';
 
@@ -11,7 +11,7 @@ export class PreferredGamesComponent implements OnInit {
   public result: any[] = [];
   public gameList: any[] = [];
   public selectedGames: any[] = [];
-
+  @Output() childEvent = new EventEmitter();
   constructor(public utilsServiceService : UtilsServiceService) { }
 
   ngOnInit(): void {
@@ -38,6 +38,8 @@ export class PreferredGamesComponent implements OnInit {
     //console.log('Game selected:', this.gameList[index]);
     this.selectedGames=this.gameList.filter(game=>game.selected);
     this.utilsServiceService.setPreferredGamesObj(this.selectedGames);
-
+  }
+  triggerCustomEvent() {
+    this.childEvent.emit();
   }
 }

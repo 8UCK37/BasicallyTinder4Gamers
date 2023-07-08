@@ -137,3 +137,37 @@ body {
   width: 20px;
   height: 20px;
 }
+
+.acceptbtn {
+  display: flex;
+  /* justify-content: center; */
+  left: 46rem;
+  position: relative;
+  box-shadow: 0 0.7px 1.7px rgba(0, 0, 0, 0.248), 0 1.7px 4.3px rgba(0, 0, 0, 0.355), 0 3.5px 8.9px rgba(0, 0, 0, 0.445), 0 7.3px 18.3px rgba(0, 0, 0, 0.552), 0 20px 50px rgba(0, 0, 0, 0.8);
+  max-width: fit-content;
+  border-radius: 20px;
+  bottom: 145px;
+  animation-name: box-shadow-animation;
+  animation-duration: 4s;
+  /* Adjust the duration as needed */
+  animation-delay: .5s;
+  /* Adjust the delay as needed */
+  animation-fill-mode: forwards;
+}
+
+.skipbtn {
+  display: flex;
+  /* justify-content: flex-end; */
+  left:46rem;
+  position: relative;
+  box-shadow: 0 0.7px 1.7px rgba(0, 0, 0, 0.248), 0 1.7px 4.3px rgba(0, 0, 0, 0.355), 0 3.5px 8.9px rgba(0, 0, 0, 0.445), 0 7.3px 18.3px rgba(0, 0, 0, 0.552), 0 20px 50px rgba(0, 0, 0, 0.8);
+  max-width: fit-content;
+  border-radius: 20px;
+  bottom: 105px;
+  animation-name: box-shadow-animation;
+  animation-duration: 4s;
+  /* Adjust the duration as needed */
+  animation-delay: .5s;
+  /* Adjust the delay as needed */
+  animation-fill-mode: forwards;
+}

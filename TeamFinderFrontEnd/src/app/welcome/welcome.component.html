@@ -1,20 +1,42 @@
 <div class="main">
   <div *ngIf="currentPage <= 0 || currentPage >3">
+    <div >
     <app-login-userinfo (childEvent)="next()"></app-login-userinfo>
   </div>
+  </div>
   <div *ngIf="currentPage==1">
-    <app-welcome-link-account></app-welcome-link-account>
+    <div  class="glass ngoninit ">
+      <div class="progressbar progress progress-bar progress-bar-striped bg-success progress-bar-animated"
+      role="progressbar">
+      <p-progressBar [value]="progress" class="progress-bar progress-bar-striped bg-success"></p-progressBar>
+    </div>
+    <app-welcome-link-account (childEvent)="next()"></app-welcome-link-account>
+  </div>
+  <div class="frosted-bg">
+  </div>
   </div>
   <div *ngIf="currentPage==2">
-    <app-preferred-games></app-preferred-games>
+    <div  class="glass ngoninit ">
+      <div class="progressbar progress progress-bar progress-bar-striped bg-success progress-bar-animated"
+      role="progressbar">
+      <p-progressBar [value]="progress" class="progress-bar progress-bar-striped bg-success"></p-progressBar>
+    </div>
+    <app-preferred-games (childEvent)="next()"></app-preferred-games>
+  </div>
+  <div class="frosted-bg">
+  </div>
   </div>
   <div *ngIf="currentPage==3">
-    <app-friend-suggestion></app-friend-suggestion>
+    <div  class="glass ngoninit ">
+      <div class="progressbar progress progress-bar progress-bar-striped bg-success progress-bar-animated"
+      role="progressbar">
+      <p-progressBar [value]="progress" class="progress-bar progress-bar-striped bg-success"></p-progressBar>
+    </div>
+    <app-friend-suggestion (childEvent)="next()"></app-friend-suggestion>
   </div>
-</div>
-<div>
-  <button (click)="skip()">skip</button>
-  <button (click)="next()">next</button>
+  <div class="frosted-bg">
+  </div>
+  </div>
 </div>
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-welcome-link-account',
@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./welcome-link-account.component.css']
 })
 export class WelcomeLinkAccountComponent implements OnInit {
-
+  @Output() childEvent = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
   }
-
+  triggerCustomEvent() {
+    this.childEvent.emit();
+  }
 }

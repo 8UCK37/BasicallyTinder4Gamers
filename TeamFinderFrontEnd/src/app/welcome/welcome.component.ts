@@ -13,6 +13,7 @@ export class WelcomeComponent implements OnInit {
   private maxPageCount=3;
   public currentPage=0;
   public selectedGames: any[] = [];
+  progress:any;
   constructor(private route:ActivatedRoute,private router:Router,public utilsServiceService : UtilsServiceService) { }
 
   ngOnInit() {
@@ -33,6 +34,18 @@ export class WelcomeComponent implements OnInit {
     //console.log(this.selectedGames);
     if(this.selectedGames.length>0){
       this.submitGames();
+    }
+    if(this.currentPage==1){
+      this.progress=25;
+    }
+    else if(this.currentPage==2){
+      this.progress=50;
+    }
+    else if(this.currentPage==3){
+      this.progress=75;
+    }
+    else {
+      this.progress=100;
     }
   }
   async submitGames(){

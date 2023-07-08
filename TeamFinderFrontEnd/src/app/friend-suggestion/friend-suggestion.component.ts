@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
 
@@ -8,6 +8,7 @@ import { UserService } from '../login/user.service';
   styleUrls: ['./friend-suggestion.component.css']
 })
 export class FriendSuggestionComponent implements OnInit {
+  @Output() childEvent = new EventEmitter();
   friendSuggestionList:any;
   user:any;
   constructor(private userService:UserService) { }
@@ -21,7 +22,9 @@ export class FriendSuggestionComponent implements OnInit {
     axios.get('/user/friendSuggestion').then(res=>{
       console.log(res.data)
       this.friendSuggestionList = res.data;
-    }) 
+    })
   }
-
+  triggerCustomEvent() {
+    this.childEvent.emit();
+  }
 }

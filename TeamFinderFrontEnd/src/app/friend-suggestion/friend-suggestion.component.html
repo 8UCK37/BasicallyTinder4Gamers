@@ -6,10 +6,10 @@
       <div *ngIf="friend.userid != user.id">
         <app-friend-suggestion-box [name]="friend.name" [profileImage] = "friend.profilePicture" ></app-friend-suggestion-box>
       </div>
-     
-      
+
+
     </div>
-  
+
     <div *ngFor="let friend of friendSuggestionList.suggestedUserAccordingGame; index as i">
       <div *ngIf="friend.userid != user.id">
         <app-friend-suggestion-box [name]="friend.name" [profileImage] = "friend.profilePicture" ></app-friend-suggestion-box>
@@ -17,5 +17,14 @@
 
     </div>
   </div>
-
+</div>
+<div class="acceptbtn">
+  <p-button icon="pi pi-check" label="Confirm"
+    styleClass="p-button-rounded p-button-success p-button-text p-button-raised"
+    (click)="triggerCustomEvent()"></p-button>
+</div>
+<div class="skipbtn">
+  <p-button icon="pi pi-times" label="Skip"
+    styleClass="p-button-rounded p-button-danger p-button-text p-button-raised"
+    (click)="triggerCustomEvent()"></p-button>
 </div>

@@ -10,3 +10,13 @@
         </div>
       </div>
 </fieldset>
+<div class="acceptbtn">
+  <p-button icon="pi pi-check" label="Confirm"
+    styleClass="p-button-rounded p-button-success p-button-text p-button-raised"
+    (click)="triggerCustomEvent()"></p-button>
+</div>
+<div class="skipbtn">
+  <p-button icon="pi pi-times" label="Skip"
+    styleClass="p-button-rounded p-button-danger p-button-text p-button-raised"
+    (click)="triggerCustomEvent()"></p-button>
+</div>
