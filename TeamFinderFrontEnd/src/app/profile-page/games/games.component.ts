@@ -138,9 +138,6 @@ export class GamesComponent implements OnInit {
       this.getSelectedGames();
     }).catch(err => console.log(err))
     //console.log(this.gameList)
-    await axios.post('saveOwnedgames',{data:this.gameList}).then(res => {
-
-    }).catch(err => console.log(err))
   }
 
   async getSelectedGames() {
