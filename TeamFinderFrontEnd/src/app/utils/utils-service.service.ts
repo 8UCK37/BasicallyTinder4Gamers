@@ -56,8 +56,8 @@ export class UtilsServiceService {
   friendAccountObjSource = new BehaviorSubject<any>({});
   friendAccountObj = this.friendAccountObjSource.asObservable();
 
-  preferredGamesObjSource = new BehaviorSubject<any>([]);
-  preferredGamesObj = this.preferredGamesObjSource.asObservable();
+  private preferredGamesObjSource = new BehaviorSubject<any>([]);
+  preferredGamesObj$ = this.preferredGamesObjSource.asObservable();
 constructor() { }
   setlinkedAccountObj(obj: any) {
     this.linkedAccountObjSource.next(obj);
@@ -70,6 +70,7 @@ constructor() { }
   setFriendAccountObj(obj: any) {
     this.friendAccountObjSource.next(obj);
   }
+
 
   setPreferredGamesObj(obj: any) {
     this.preferredGamesObjSource.next(obj);

@@ -1051,8 +1051,17 @@ app.post('/getFrndOwnedgames', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(fetchedGames))
 });
 //#endpoint
-app.post('/savepreffredGames', ensureAuthenticated, async (req, res) => {
+app.post('/savePreffredGames', ensureAuthenticated, async (req, res) => {
   console.log(req.body.games);
+  req.body.games.forEach(async game=>{
+    console.log(JSON.stringify(game));
+    const savegame = await prisma.PreferredGames.create({
+      data: {
+        uId: req.user.user_id,
+        prfGames: JSON.stringify(game)
+      }
+    });
+  });
   res.sendStatus(200);
 });
 //#endpoint

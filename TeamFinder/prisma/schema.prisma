@@ -162,6 +162,6 @@ model Themes {
 model PreferredGames {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
-  prfGamesId String?
+  prfGames   String?
   uId        String
 }

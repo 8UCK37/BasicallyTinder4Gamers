@@ -10,7 +10,7 @@ import { UtilsServiceService } from 'src/app/utils/utils-service.service';
 export class PreferredGamesComponent implements OnInit {
   public result: any[] = [];
   public gameList: any[] = [];
-  selectedGames: any[] = [];
+  public selectedGames: any[] = [];
 
   constructor(public utilsServiceService : UtilsServiceService) { }
 
@@ -31,18 +31,15 @@ export class PreferredGamesComponent implements OnInit {
       }
     }).catch(err => console.log(err))
     console.log(this.gameList)
-    await axios.post('saveOwnedgames',{data:this.gameList}).then(res => {
-      console.log(res)
-    }).catch(err => console.log(err))
+
   }
   onCheckboxClick(event: any, index: any) {
-    this.gameList[index].selected=true;
-    console.log('Game selected:', this.gameList[index]); 
-    this.submit(this.gameList[index]); 
-  }
-  async submit(game: any){
-    await axios.post('savepreffredGames',{games:game}).then(res => {
-      console.log(res)
-    }).catch(err => console.log(err))
+    this.gameList[index].selected=!this.gameList[index].selected;
+    console.log('Game selected:', this.gameList[index]);
+
+    if(this.gameList[index].selected){
+      this.selectedGames.push(this.gameList[index])
+      this.utilsServiceService.setPreferredGamesObj(this.selectedGames);
+    }
   }
 }
