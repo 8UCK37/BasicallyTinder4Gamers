@@ -28,8 +28,8 @@ export class LoginUserinfoComponent implements OnInit {
 
   public cardStyle2?: any;
   public modalState?: boolean
-  selected1?: string;
-  selected2?: string;
+  country?: string;
+  language?: string;
   genderSelect?: string;
   inpmodel: any;
   public indianStates: string[] = [
@@ -283,9 +283,6 @@ export class LoginUserinfoComponent implements OnInit {
     "Zimbabwe",
     "Åland Islands"
   ];
-  click=2;
-  progress=0;
-
   public languages: string[] = ["Bengali", "Hindi", "English"]
   constructor(private modalService: BsModalService, private _elementRef: ElementRef, private auth: AngularFireAuth, private userService: UserService) {
 
@@ -335,12 +332,12 @@ export class LoginUserinfoComponent implements OnInit {
   countrySelect(index: number) {
     // console.log(index)
     // console.log(this.states[index])
-    this.selected1 = this.indianStates[index]
+    this.country = this.indianStates[index]
     this.cardStyle2 = []
     this.cardStyle = []
   }
   userLanguageSelect(index: number) {
-    this.selected2 = this.languages[index]
+    this.language = this.languages[index]
     this.cardStyle = []
     this.cardStyle2 = []
 
@@ -354,40 +351,21 @@ export class LoginUserinfoComponent implements OnInit {
     this.genderSelect=this.selectedSex?.name;
     console.log("close")
     this.modalState = false
-    console.log(this.selected1, this.selected2, this.genderSelect)
-    if (this.selected1 == undefined || this.selected2 == undefined || this.genderSelect == undefined) return;
-    axios.post('/saveUserInfo', { Gender: this.genderSelect, Country: this.selected1, Language: this.selected2 })
-    this.childEvent.emit();
+    console.log(this.country, this.language, this.genderSelect)
+    if (this.country == undefined || this.language == undefined || this.genderSelect == undefined) return;
+    axios.post('/user/welcomepageinfo',{ data:{Gender: this.genderSelect, Country: this.country, Language: this.language}}).then(res=>{
+      if(res.status==200)
+      {
+  this.triggerCustomEvent();
+      }
+    }).catch(error=> console.log(error))
     this.modalService.hide()
-    this.next();
   }
 
-  next(){
-
-     if(this.click==2)
-    {
-      this.progress=25
-      this.click++;
-    }
-    else if(this.click==3)
-    {
-      this.progress=50
-      this.click++;
-    }
-    else if(this.click==4)
-    {
-      this.progress=75
-      this.click++;
-    }
-    else
-    {
-      this.progress=100
-      this.click++;
-    }
-    this.triggerCustomEvent();
-    return this.progress,this.click;
-  }
   triggerCustomEvent() {
+    console.log("hello darkness my old friend")
     this.childEvent.emit();
   }
 }
+
+

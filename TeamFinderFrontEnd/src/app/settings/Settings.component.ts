@@ -46,7 +46,7 @@ export class SettingsComponent implements OnInit {
         //console.log(this.userInfo)
         this.newUserName = this.userparsed.name
         this.bio = this.userInfo?.bio;
-        axios.post('getUserInfo', { id: usr.id }).then(res => {
+        axios.post('/getUserInfo', { id: usr.id }).then(res => {
           this.info = res.data[0].userInfo;
           //console.log(res.data)
         })
@@ -56,14 +56,14 @@ export class SettingsComponent implements OnInit {
 
   async changeName() {
     console.log(this.newUserName);
-    await axios.post('userNameUpdate', { name: this.newUserName }).then(res => {
+    await axios.post('/userNameUpdate', { name: this.newUserName }).then(res => {
       //console.log(res.data
       //console.log(res.data.profilePicture)
     }).catch(err => console.log(err))
     window.location.reload();
   }
   updateBio() {
-    axios.post('updateBio', { bio: this.bio }).then(res => {
+    axios.post('/updateBio', { bio: this.bio }).then(res => {
       this.userInfo.bio = this.bio;
     }).catch(err => console.log(err))
   }
@@ -81,7 +81,7 @@ export class SettingsComponent implements OnInit {
 
   }
   updateinfo() {
-    axios.post('updateUserData', { country: this.info.Country,language: this.info.Language,address: this.info.Address,gender: this.info.Gender,id: this.info.id}).then(res => {
+    axios.post('/updateUserData', { country: this.info.Country,language: this.info.Language,address: this.info.Address,gender: this.info.Gender,id: this.info.id}).then(res => {
     }).catch(err => console.log(err))
   }
 
