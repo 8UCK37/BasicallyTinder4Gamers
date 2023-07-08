@@ -17,8 +17,8 @@ export class WelcomeComponent implements OnInit {
     console.log(this.bankName);
   }
   skip(){
-    
-    
+
+
   }
   next(){
     this.currentPage = this.currentPage % 4;

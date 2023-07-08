@@ -55,6 +55,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { WelcomeLinkAccountComponent } from './welcome/welcome-link-account/welcome-link-account.component';
 import { ThemeSettingsComponent } from './settings/theme-settings/theme-settings.component';
 import { CarouselModule } from 'primeng/carousel';
+import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [
       AppComponent,
@@ -114,7 +115,8 @@ import { CarouselModule } from 'primeng/carousel';
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
     QuillModule.forRoot(),
-    MatSnackBarModule
+    MatSnackBarModule,
+    DropdownModule
   ],
   providers: [
     ChatServicesService

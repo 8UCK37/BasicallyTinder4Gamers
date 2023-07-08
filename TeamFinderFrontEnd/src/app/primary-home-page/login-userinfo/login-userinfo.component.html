@@ -1,16 +1,12 @@
-<div class="main" style="
-justify-content: center;
-align-items: center;
-display: flex;
-">
-  <!-- <button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button> -->
+<!--
 
-  <!-- <ng-template #template> -->
-    <div class="card neumorphic" id="card" style="">
+    <div class="glass">
+      <div class="frosted-bg">
+    <div class="card neumorphic" id="card">
       <div class="circle" (click)="closeAll($event)">
         <img src="./../../../assets/bg/undraw_pic_profile_re_7g2h.svg" alt="">
       </div>
-      <div style="">
+      <div>
         <div class="radio-grp" style="margin-top: 40px;" (click)="closeAll($event)">
           <div>
             <p>Please select your Gender:</p>
@@ -41,24 +37,19 @@ display: flex;
                     [class.active]="typeaheadTemplateMethods.isActive(match)"
                     (click)="typeaheadTemplateMethods.selectMatch(match, $event)"
                     (mouseenter)="typeaheadTemplateMethods.selectActive(match)">
-                  {{ match.item }} 
+                  {{ match.item }}
                 </li>
               </ul>
             </ng-template>
-            <!-- <ul>
-              <li *ngFor="let state of indianStates; let i = index" (click)="countrySelect(i)"> {{state}}
-              </li>
-            </ul> -->
+
           </div>
         </div>
-        <!-- --------------------------------------------------------------------------------------------------------------------------------------------- -->
+
         <div style=" margin-top: 30px;margin-bottom: 50px;">
           <label>Please select your Native language</label>
           <input [(ngModel)]="selected2" class="form-control" [typeaheadMinLength]="0" [typeahead]="languages" [optionsListTemplate]="customListTemplate2">
           <div class="drop-dwn2" [ngClass]="cardStyle2">
-            <!-- <ul>
-              <li *ngFor="let state of languages; let i = index" (click)="userLanguageSelect(i)"> {{state}}</li>
-            </ul> -->
+
             <ng-template #customListTemplate2 let-matches="matches" let-query="query" let-typeaheadTemplateMethods>
               <ul class="custom-list-group">
                 <li class="custom-list-group-item"
@@ -66,7 +57,7 @@ display: flex;
                     [class.active]="typeaheadTemplateMethods.isActive(match)"
                     (click)="typeaheadTemplateMethods.selectMatch(match, $event)"
                     (mouseenter)="typeaheadTemplateMethods.selectActive(match)">
-                  {{ match.item }} 
+                  {{ match.item }}
                 </li>
               </ul>
             </ng-template>
@@ -77,6 +68,74 @@ display: flex;
           (click)="submit()">done</button>
       </div>
     </div>
-  <!-- </ng-template> -->
+  </div>
+</div> -->
 
+
+
+<div class="glass ngoninit ">
+  <div class="progressbar progress progress-bar progress-bar-striped bg-success progress-bar-animated"
+    role="progressbar">
+    <p-progressBar [value]="progress" class="progress-bar progress-bar-striped bg-success"></p-progressBar>
+  </div>
+
+  <div>
+    <div class="fontsize">
+      <div class="radio-grp" style="margin-top: 40px;" (click)="closeAll($event)">
+        <div class="textposi">
+          <p> Please select your Gender:</p>
+        </div>
+        <div class="sex">
+          <p-dropdown [options]="sex" [(ngModel)]="selectedSex" placeholder="Select a Sex" [editable]="true"
+            optionLabel="name"></p-dropdown>
+        </div>
+
+      </div>
+      <div style="margin-top: 30px;">
+        <label class="textposi">Please select your Country</label>
+        <input [(ngModel)]="selected1" class="form-control" [typeaheadMinLength]="0" [typeahead]="indianStates"
+          [optionsListTemplate]="customListTemplate">
+        <div class="drop-dwn" [ngClass]="cardStyle">
+          <ng-template #customListTemplate let-matches="matches" let-query="query" let-typeaheadTemplateMethods>
+            <ul class="custom-list-group">
+              <li class="custom-list-group-item" *ngFor="let match of matches"
+                [class.active]="typeaheadTemplateMethods.isActive(match)"
+                (click)="typeaheadTemplateMethods.selectMatch(match, $event)"
+                (mouseenter)="typeaheadTemplateMethods.selectActive(match)">
+                {{ match.item }}
+              </li>
+            </ul>
+          </ng-template>
+
+        </div>
+      </div>
+
+      <div style=" margin-top: 30px;margin-bottom: 50px;">
+        <label class="textposi">Please select your Native language</label>
+        <input [(ngModel)]="selected2" class="form-control" [typeaheadMinLength]="0" [typeahead]="languages"
+          [optionsListTemplate]="customListTemplate2">
+        <div class="drop-dwn2" [ngClass]="cardStyle2">
+          
+          <ng-template #customListTemplate2 let-matches="matches" let-query="query" let-typeaheadTemplateMethods>
+            <ul class="custom-list-group">
+              <li class="custom-list-group-item" *ngFor="let match of matches"
+                [class.active]="typeaheadTemplateMethods.isActive(match)"
+                (click)="typeaheadTemplateMethods.selectMatch(match, $event)"
+                (mouseenter)="typeaheadTemplateMethods.selectActive(match)">
+                {{ match.item }}
+              </li>
+            </ul>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="acceptbtn">
+      <p-button icon="pi pi-check" label="Confirm" styleClass="p-button-rounded p-button-success p-button-text p-button-raised" (click)="submit();next()"></p-button>
+      </div>
+      <div class="skipbtn">
+      <p-button icon="pi pi-times" label="Skip" styleClass="p-button-rounded p-button-danger p-button-text p-button-raised" (click)="triggerCustomEvent()"></p-button>
+    </div>
+  </div>
+</div>
+<div class="frosted-bg">
 </div>

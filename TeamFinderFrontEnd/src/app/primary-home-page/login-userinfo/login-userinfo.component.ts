@@ -6,6 +6,12 @@ import { Subject } from 'rxjs';
 import { UserService } from '../../login/user.service';
 import axios from 'axios';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { TitleStrategy } from '@angular/router';
+
+interface Sexy {
+  name: string;
+  code: string;
+}
 @Component({
   selector: 'app-login-userinfo',
   templateUrl: './login-userinfo.component.html',
@@ -14,7 +20,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 export class LoginUserinfoComponent implements OnInit {
   modalRef: BsModalRef<unknown> | undefined;
   @Output() childEvent = new EventEmitter();
-  
+
   @ViewChild("template")
   templateref?: any
 
@@ -277,12 +283,24 @@ export class LoginUserinfoComponent implements OnInit {
     "Zimbabwe",
     "Åland Islands"
   ];
+  click=2;
+  progress=0;
 
   public languages: string[] = ["Bengali", "Hindi", "English"]
   constructor(private modalService: BsModalService, private _elementRef: ElementRef, private auth: AngularFireAuth, private userService: UserService) {
 
   }
+  sex: Sexy[]=[];
+
+  selectedSex: Sexy | undefined;
+
   ngOnInit() {
+      this.sex = [
+          { name: 'Male', code: 'M' },
+          { name: 'Female', code: 'F' },
+          { name: 'Golu', code: 'G',}
+      ];
+
     this.userService.userCast.subscribe(usr => {
       //console.log(usr)
 
@@ -290,6 +308,7 @@ export class LoginUserinfoComponent implements OnInit {
         // this.openModal(this.templateref)
       }
     })
+
   }
   ngAfterViewInit() {
 
@@ -332,6 +351,7 @@ export class LoginUserinfoComponent implements OnInit {
     this.cardStyle = []
   }
   submit() {
+    this.genderSelect=this.selectedSex?.name;
     console.log("close")
     this.modalState = false
     console.log(this.selected1, this.selected2, this.genderSelect)
@@ -339,5 +359,34 @@ export class LoginUserinfoComponent implements OnInit {
     axios.post('/saveUserInfo', { Gender: this.genderSelect, Country: this.selected1, Language: this.selected2 })
     this.childEvent.emit();
     this.modalService.hide()
+  }
+
+  next(){
+
+     if(this.click==2)
+    {
+      this.progress=25
+      this.click++;
+    }
+    else if(this.click==3)
+    {
+      this.progress=50
+      this.click++;
+    }
+    else if(this.click==4)
+    {
+      this.progress=75
+      this.click++;
+    }
+    else
+    {
+      this.progress=100
+      this.click++;
+    }
+    //this.triggerCustomEvent();
+    return this.progress,this.click;
+  }
+  triggerCustomEvent() {
+    this.childEvent.emit();
   }
 }
