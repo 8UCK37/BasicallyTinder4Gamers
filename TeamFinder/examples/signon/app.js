@@ -1050,7 +1050,11 @@ app.post('/getFrndOwnedgames', ensureAuthenticated, async (req, res) => {
   })
   res.send(JSON.stringify(fetchedGames))
 });
-
+//#endpoint
+app.post('/savepreffredGames', ensureAuthenticated, async (req, res) => {
+  console.log(req.body.games);
+  res.sendStatus(200);
+});
 //#endpoint
 app.get('/getPost', ensureAuthenticated, (req, res) => postHelper.getPost(req, res, prisma))
 //#endpoint
