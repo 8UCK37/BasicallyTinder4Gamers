@@ -28,7 +28,7 @@ export class WelcomeComponent implements OnInit {
 
   }
   next(){
-    this.currentPage = this.currentPage % 4;
+    //this.currentPage = this.currentPage % 4;
     console.log(this.currentPage)
     this.currentPage++;
     //console.log(this.selectedGames);
