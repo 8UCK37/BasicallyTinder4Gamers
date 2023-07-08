@@ -822,6 +822,17 @@ app.get("/accountData", ensureAuthenticated, async (req, res) => {
     let games = c.data.response.games;
     if (games == undefined || games == null) {
       games = []
+    }else{
+      let saveGames = await prisma.OwnedGames.upsert({
+        where: {
+          uid: req.user.user_id,
+        },
+        update:{games: JSON.stringify(games)},
+        create:{
+          uid: req.user.user_id,
+          games: JSON.stringify(games)
+        }
+      })
     }
     res.send(JSON.stringify({ user: req.user, ownedGames: games }))
   } else { console.log("null caught") }
@@ -1000,33 +1011,7 @@ app.post('/getFrndSelectedGames', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(selectedGamedata));
 });
 
-//saves your own owned games into ownedgames table #endpoint
-app.post('/saveOwnedgames', ensureAuthenticated, async (req, res) => {
-  const fetchUser = await prisma.OwnedGames.findUnique({
-    where: {
-      uid: req.user.user_id
-    }
-  })
 
-  if (fetchUser == null) {
-    const savegame = await prisma.OwnedGames.create({
-      data: {
-        uid: req.user.user_id,
-        games: JSON.stringify(req.body.data)
-      }
-    });
-  } else {
-    const savegame = await prisma.OwnedGames.update({
-      where: {
-        uid: req.user.user_id,
-      },
-      data: {
-        games: JSON.stringify(req.body.data)
-      }
-    });
-  }
-  res.sendStatus(200);
-});
 //returns the owned games from ownedgames table #endpoint
 app.get('/getOwnedgames', ensureAuthenticated, async (req, res) => {
   let fetchedGames = await prisma.OwnedGames.findMany({
@@ -1052,7 +1037,20 @@ app.post('/getFrndOwnedgames', ensureAuthenticated, async (req, res) => {
   })
   res.send(JSON.stringify(fetchedGames))
 });
-
+//#endpoint
+app.post('/savePreffredGames', ensureAuthenticated, async (req, res) => {
+  //console.log(req.body.games);
+  req.body.games.forEach(async game=>{
+    //console.log(JSON.stringify(game));
+    const savegame = await prisma.PreferredGames.create({
+      data: {
+        uId: req.user.user_id,
+        prfGames: JSON.stringify(game)
+      }
+    });
+  });
+  res.sendStatus(200);
+});
 //#endpoint
 app.get('/getPost', ensureAuthenticated, (req, res) => postHelper.getPost(req, res, prisma))
 //#endpoint

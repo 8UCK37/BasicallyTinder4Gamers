@@ -55,6 +55,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { WelcomeLinkAccountComponent } from './welcome/welcome-link-account/welcome-link-account.component';
 import { ThemeSettingsComponent } from './settings/theme-settings/theme-settings.component';
 import { CarouselModule } from 'primeng/carousel';
+import { PreferredGamesComponent } from './welcome/preferred-games/preferred-games.component';
 import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { DropdownModule } from 'primeng/dropdown';
       FriendSuggestionBoxComponent,
       WelcomeComponent,
       WelcomeLinkAccountComponent,
-      ThemeSettingsComponent
+      ThemeSettingsComponent,
+      PreferredGamesComponent
    ],
   imports: [
     SidebarModule,
