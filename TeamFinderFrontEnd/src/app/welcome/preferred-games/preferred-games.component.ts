@@ -35,11 +35,9 @@ export class PreferredGamesComponent implements OnInit {
   }
   onCheckboxClick(event: any, index: any) {
     this.gameList[index].selected=!this.gameList[index].selected;
-    console.log('Game selected:', this.gameList[index]);
+    //console.log('Game selected:', this.gameList[index]);
+    this.selectedGames=this.gameList.filter(game=>game.selected);
+    this.utilsServiceService.setPreferredGamesObj(this.selectedGames);
 
-    if(this.gameList[index].selected){
-      this.selectedGames.push(this.gameList[index])
-      this.utilsServiceService.setPreferredGamesObj(this.selectedGames);
-    }
   }
 }

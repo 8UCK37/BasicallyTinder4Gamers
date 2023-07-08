@@ -30,7 +30,7 @@ export class WelcomeComponent implements OnInit {
     this.currentPage = this.currentPage % 4;
     console.log(this.currentPage)
     this.currentPage++;
-    console.log(this.selectedGames);
+    //console.log(this.selectedGames);
     if(this.selectedGames.length>0){
       this.submitGames();
     }
