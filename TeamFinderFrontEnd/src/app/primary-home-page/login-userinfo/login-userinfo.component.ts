@@ -359,6 +359,7 @@ export class LoginUserinfoComponent implements OnInit {
     axios.post('/saveUserInfo', { Gender: this.genderSelect, Country: this.selected1, Language: this.selected2 })
     this.childEvent.emit();
     this.modalService.hide()
+    this.next();
   }
 
   next(){
@@ -383,7 +384,7 @@ export class LoginUserinfoComponent implements OnInit {
       this.progress=100
       this.click++;
     }
-    //this.triggerCustomEvent();
+    this.triggerCustomEvent();
     return this.progress,this.click;
   }
   triggerCustomEvent() {

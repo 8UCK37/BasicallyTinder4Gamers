@@ -74,11 +74,6 @@
 
 
 <div class="glass ngoninit ">
-  <!-- <div class="progressbar progress progress-bar progress-bar-striped bg-success progress-bar-animated"
-    role="progressbar">
-    <p-progressBar [value]="progress" class="progress-bar progress-bar-striped bg-success"></p-progressBar>
-  </div> -->
-
   <div>
     <div class="fontsize">
       <div class="radio-grp" style="margin-top: 40px;" (click)="closeAll($event)">
@@ -130,14 +125,9 @@
       </div>
     </div>
     <div class="acceptbtn">
-      <p-button icon="pi pi-check" label="Confirm"
+      <p-button icon="pi pi-check" label="Next"
         styleClass="p-button-rounded p-button-success p-button-text p-button-raised"
-        (click)="submit();next()"></p-button>
-    </div>
-    <div class="skipbtn">
-      <p-button icon="pi pi-times" label="Skip"
-        styleClass="p-button-rounded p-button-danger p-button-text p-button-raised"
-        (click)="triggerCustomEvent()"></p-button>
+        (click)="submit()"></p-button>
     </div>
   </div>
 </div>

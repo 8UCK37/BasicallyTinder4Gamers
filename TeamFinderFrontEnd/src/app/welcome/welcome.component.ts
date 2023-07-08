@@ -23,26 +23,23 @@ export class WelcomeComponent implements OnInit {
       this.selectedGames=gamesArr
     })
   }
-  skip(){
-
-
-  }
   next(){
     //this.currentPage = this.currentPage % 4;
     console.log(this.currentPage)
+    if (this.currentPage===3){
+      this.currentPage=0
+      this.router.navigate(['/home']);
+    }
     this.currentPage++;
     //console.log(this.selectedGames);
     if(this.selectedGames.length>0){
       this.submitGames();
     }
-    if(this.currentPage==1){
-      this.progress=25;
+    if(this.currentPage===1){
+      this.progress=33.33;
     }
-    else if(this.currentPage==2){
-      this.progress=50;
-    }
-    else if(this.currentPage==3){
-      this.progress=75;
+    else if(this.currentPage===2){
+      this.progress=66.66;
     }
     else {
       this.progress=100;

@@ -1,47 +1,32 @@
 <div class="main">
-  <!-- <div class="progressbar progress progress-bar progress-bar-striped bg-success progress-bar-animated"
-      role="progressbar">
-      <p-progressBar [value]="progress" [showValue]="false" class="progress-bar progress-bar-striped bg-success"></p-progressBar>
-    </div> -->
-  <div *ngIf="currentPage ===0">
-    <div >
-    <app-login-userinfo (childEvent)="next()"></app-login-userinfo>
+  <div style="z-index: 99;position:relative; max-width: 90rem;left: 165px; top: 33px;">
+    <p-progressBar [value]="progress" [showValue]="false"
+      class="progress-bar bg-success bg-info"></p-progressBar>
   </div>
+  <div *ngIf="currentPage ===0">
+    <div>
+      <app-login-userinfo (childEvent)="next()"></app-login-userinfo>
+    </div>
   </div>
   <div *ngIf="currentPage===1">
-    <div  class="glass ngoninit ">
-      <!-- <div class="progressbar progress progress-bar progress-bar-striped bg-success progress-bar-animated"
-      role="progressbar">
-      <p-progressBar [value]="progress" [showValue]="false" class="progress-bar progress-bar-striped bg-success"></p-progressBar>
-    </div> -->
-    <app-welcome-link-account (childEvent)="next()"></app-welcome-link-account>
-  </div>
-  <div class="frosted-bg">
-  </div>
+    <div class="glass ngoninit ">
+      <app-welcome-link-account (childEvent)="next()"></app-welcome-link-account>
+    </div>
+    <div class="frosted-bg">
+    </div>
   </div>
   <div *ngIf="currentPage===2">
-    <div  class="glass ngoninit ">
-      <!-- <div class="progressbar progress progress-bar progress-bar-striped bg-success progress-bar-animated"
-      role="progressbar">
-      <p-progressBar [value]="progress" [showValue]="false" class="progress-bar progress-bar-striped bg-success"></p-progressBar>
-    </div> -->
-    <app-preferred-games (childEvent)="next()"></app-preferred-games>
-  </div>
-  <div class="frosted-bg">
-  </div>
+    <div class="glass ngoninit ">
+      <app-preferred-games (childEvent)="next()"></app-preferred-games>
+    </div>
+    <div class="frosted-bg">
+    </div>
   </div>
   <div *ngIf="currentPage===3">
-    <div  class="glass ngoninit ">
-      <!-- <div class="progressbar progress progress-bar progress-bar-striped bg-success progress-bar-animated"
-      role="progressbar">
-      <p-progressBar [value]="progress" [showValue]="false" class="progress-bar progress-bar-striped bg-success"></p-progressBar>
-    </div> -->
-    <app-friend-suggestion (childEvent)="next()"></app-friend-suggestion>
-  </div>
-  <div class="frosted-bg">
-  </div>
+    <div class="glass ngoninit ">
+      <app-friend-suggestion (childEvent)="next()"></app-friend-suggestion>
+    </div>
+    <div class="frosted-bg">
+    </div>
   </div>
 </div>
-
-
-
