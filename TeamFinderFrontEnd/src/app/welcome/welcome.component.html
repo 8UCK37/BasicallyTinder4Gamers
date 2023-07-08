@@ -1,8 +1,4 @@
 <div class="main">
-  <div style="z-index: 99;position:relative; max-width: 90rem;left: 165px; top: 33px;">
-    <p-progressBar [value]="progress" [showValue]="false"
-      class="progress-bar bg-success bg-info"></p-progressBar>
-  </div>
   <div *ngIf="currentPage ===0">
     <div>
       <app-login-userinfo (childEvent)="next()"></app-login-userinfo>

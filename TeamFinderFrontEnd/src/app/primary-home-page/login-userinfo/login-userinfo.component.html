@@ -88,7 +88,7 @@
       </div>
       <div style="margin-top: 30px;">
         <label class="textposi">Please select your Country</label>
-        <input [(ngModel)]="country" class="form-control" [typeaheadMinLength]="0" [typeahead]="indianStates"
+        <input [(ngModel)]="country" class="form-control" [typeaheadMinLength]="0" [typeahead]="Countries"
           [optionsListTemplate]="customListTemplate">
         <div class="drop-dwn" [ngClass]="cardStyle">
           <ng-template #customListTemplate let-matches="matches" let-query="query" let-typeaheadTemplateMethods>
