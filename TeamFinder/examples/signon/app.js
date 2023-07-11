@@ -928,6 +928,8 @@ app.get('/chatData', ensureAuthenticated, async (req, res) => {
           receiver: req.user.uid
         }
       ]
+    },orderBy:{
+      createdAt:'asc'
     }
   })
   res.send(JSON.stringify(fetchedChat))
