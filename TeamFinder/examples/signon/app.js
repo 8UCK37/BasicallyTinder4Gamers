@@ -388,7 +388,7 @@ app.get('/getFriendData', ensureAuthenticated, async (req, res) => {
             INNER JOIN public."FriendRequest" fr
             ON (u.id = fr.sender AND fr.reciever = ${user_id})
             OR (u.id = fr.reciever AND fr.sender = ${user_id})`;
-  res.send(result);
+  res.send(JSON.stringify(result));
 });
 
 //searches the user table for names #endpoint
