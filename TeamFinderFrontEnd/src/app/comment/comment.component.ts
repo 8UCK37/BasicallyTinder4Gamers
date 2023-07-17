@@ -100,8 +100,8 @@ export class CommentComponent implements OnInit {
 
   fetchComment() {
     axios.get(`/comment?id=${this.commentObj.id}`).then(res => {
-      console.log(res.data[0].comments)
-      this.commentTree = this.buildCommentTree(res.data[0].comments);
+      console.log(res.data)
+      this.commentTree = this.buildCommentTree(res.data);
       console.log(this.commentTree);
     })
   }
