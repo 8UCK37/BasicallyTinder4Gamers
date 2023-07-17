@@ -29,8 +29,7 @@ router.get("/", ensureAuthenticated, async (req, res) => {
       id: "asc",
     },
   });
-
-  res.send(comments);
+  res.send(JSON.stringify(comments));
 });
 
 
