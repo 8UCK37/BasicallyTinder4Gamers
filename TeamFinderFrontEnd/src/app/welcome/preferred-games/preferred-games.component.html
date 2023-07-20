@@ -1,13 +1,21 @@
+
 <fieldset class="checkbox-group">
+  <div class="scrollable">
+  <div class="scrollable-header">
     <legend class="checkbox-group-legend">Choose your favorites</legend>
-    <div *ngFor="let game of gameList; let i=index">
+    <input [(ngModel)]="gameSearch" class="form-control" placeholder="Search"  (keyup)="searchGames()">
+  </div>
+  <div class="scrollable-content game-view">
+    <div *ngFor="let game of searchedList; let i=index">
         <div class="checkbox">
           <label class="checkbox-wrapper">
             <input type="checkbox" class="checkbox-input" [(ngModel)]="game.selected" (click)="onCheckboxClick($event, i)"/>
-            <span class="checkbox-tile" [style.background-image]="'url(https://steamcdn-a.akamaihd.net/steam/apps/' + game.appid + '/library_600x900.jpg)'">
+            <span class="checkbox-tile" [style.background-image]="game.photo">
             </span>
           </label>
         </div>
+        </div>
+      </div>
       </div>
 </fieldset>
 <div class="acceptbtn">

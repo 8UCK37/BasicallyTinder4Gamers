@@ -1,22 +1,23 @@
 <div class="main-page">
-
+<div >
   <div *ngIf="friendSuggestionList && user" class="list">
+    <div class="scrollable">
+      <div class="scrollable-header">
+       <h2>Friends Suggestion</h2>
+        </div>
+        <div class="scrollable-content friend-suggest-view">
     <div *ngFor="let friend of friendSuggestionList.locationBased; index as i">
-      <!-- {{friend | json}} -->
       <div *ngIf="friend.userid != user.id">
-        <app-friend-suggestion-box [name]="friend.name" [profileImage] = "friend.profilePicture" ></app-friend-suggestion-box>
+        <app-friend-suggestion-box [name]="friend.name" [profileImage] = "friend.profilePicture" [createdAt]="friend.createdAt" [bio]="friend.bio" ></app-friend-suggestion-box>
       </div>
-
-
     </div>
-
     <div *ngFor="let friend of friendSuggestionList.suggestedUserAccordingGame; index as i">
       <div *ngIf="friend.userid != user.id">
-        <app-friend-suggestion-box [name]="friend.name" [profileImage] = "friend.profilePicture" ></app-friend-suggestion-box>
+        <app-friend-suggestion-box [name]="friend.name" [profileImage] = "friend.profilePicture" [createdAt]="friend.createdAt" [bio]="friend.bio"  ></app-friend-suggestion-box>
       </div>
-
     </div>
   </div>
+</div>
 </div>
 <div class="acceptbtn">
   <p-button icon="pi pi-check" label="Confirm"
@@ -27,4 +28,6 @@
   <p-button icon="pi pi-times" label="Skip"
     styleClass="p-button-rounded p-button-danger p-button-text p-button-raised"
     (click)="triggerCustomEvent()"></p-button>
+</div>
+</div>
 </div>

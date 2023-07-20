@@ -22,8 +22,10 @@ export class FriendSuggestionComponent implements OnInit {
     axios.get('/user/friendSuggestion').then(res=>{
       console.log(res.data)
       this.friendSuggestionList = res.data;
+      console.log(this.friendSuggestionList)
     })
   }
+  
   triggerCustomEvent() {
     this.childEvent.emit();
   }

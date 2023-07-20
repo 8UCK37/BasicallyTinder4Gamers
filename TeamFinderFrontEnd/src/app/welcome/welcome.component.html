@@ -12,17 +12,23 @@
     </div>
   </div>
   <div *ngIf="currentPage===2">
-    <div class="glass ngoninit ">
+    <div class="glass-prefered-games ngoninit ">
       <app-preferred-games (childEvent)="next()"></app-preferred-games>
     </div>
+</div>
     <div class="frosted-bg">
     </div>
-  </div>
   <div *ngIf="currentPage===3">
-    <div class="glass ngoninit ">
+    <div class="glass-friend-suggest ngoninit ">
       <app-friend-suggestion (childEvent)="next()"></app-friend-suggestion>
     </div>
     <div class="frosted-bg">
     </div>
   </div>
 </div>
+
+
+
+
+
+
