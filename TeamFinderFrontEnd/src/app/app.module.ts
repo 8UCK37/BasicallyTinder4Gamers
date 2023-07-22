@@ -55,6 +55,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { WelcomeLinkAccountComponent } from './welcome/welcome-link-account/welcome-link-account.component';
 import { ThemeSettingsComponent } from './settings/theme-settings/theme-settings.component';
 import { CarouselModule } from 'primeng/carousel';
+import { PreferredGamesComponent } from './welcome/preferred-games/preferred-games.component';
 @NgModule({
   declarations: [
       AppComponent,
@@ -83,7 +84,8 @@ import { CarouselModule } from 'primeng/carousel';
       FriendSuggestionBoxComponent,
       WelcomeComponent,
       WelcomeLinkAccountComponent,
-      ThemeSettingsComponent
+      ThemeSettingsComponent,
+      PreferredGamesComponent
    ],
   imports: [
     SidebarModule,
