@@ -116,8 +116,8 @@ model Comment {
   createdAt       DateTime          @default(now())
   commentStr      String
   commentOf       Int?
-  Posts           Posts?            @relation(fields: [postsId], references: [id])
-  postsId         Int?
+  Posts           Posts?            @relation(fields: [post_id], references: [id])
+  post_id         Int?
   userId          String
   deleted         Boolean?
   CommentReaction CommentReaction[]
