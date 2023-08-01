@@ -441,7 +441,7 @@ async function quickSharePost(req, res, prisma){
       photoUrl:null,
       description:null,
       deleted:false,
-      mention: {data:'null'},
+      mention: {list:[]},
       shared : parseInt(req.body.originalPostId)
     }
   })
