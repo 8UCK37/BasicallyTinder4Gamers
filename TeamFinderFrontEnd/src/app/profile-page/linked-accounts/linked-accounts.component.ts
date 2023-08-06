@@ -47,6 +47,7 @@ export class LinkedAccountsComponent implements OnInit {
             this.getDiscordInfo(this.userparsed.id);
             if(usr.steamId){
               this.steamLinked=true
+              this.steamId=usr.steamId
               this.getSteamInfo(usr.steamId)
             }
           }
@@ -144,6 +145,7 @@ export class LinkedAccountsComponent implements OnInit {
     }).catch(err=>console.log(err))
    }
   redirectToSteamProfile(): void {
+    console.log(this.steamId)
     window.open(`https://steamcommunity.com/profiles/${this.steamId}`, '_blank');
   }
   redirectToSteamLogin(): void {
