@@ -40,9 +40,9 @@
                             <div style="color: rgb(227, 213, 213);margin-top: 10px;"> {{noti.userName}} sent you a friend request</div>
                             <div style="margin-bottom: 5px;">
                               <button type="button" class="btn btn-light"
-                                (click)="acceptReq(noti.sender)">Accept</button>
+                                (click)="acceptReq(noti.sender);notiDismiss(i)">Accept</button>
                               <button type="button" class="btn btn-light"
-                                (click)="rejectReq(noti.sender)">Reject</button>
+                                (click)="rejectReq(noti.sender);notiDismiss(i)">Reject</button>
                             </div>
                           </div>
                         </div>
