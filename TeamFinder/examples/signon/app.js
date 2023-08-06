@@ -322,8 +322,8 @@ app.get("/serverTest", async (req, res) => {
 //sends a friend request #endpoint
 app.post('/addFriend', ensureAuthenticated, urlencodedParser, async function (req, res) {
   const jsonObject = req.body;
-  console.log(req.body.to)
-  socketRunner.sendNotification(io, "frnd req", req.user.user_id, jsonObject.to,"null")
+  console.log(req.body)
+  socketRunner.sendNotification(io, "frnd req", req.user.user_id, jsonObject.to,req.body)
   let frnddata= await prisma.FriendRequest.findMany({
     where: {
       sender: req.user.user_id,

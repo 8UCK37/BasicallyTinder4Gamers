@@ -146,13 +146,13 @@ export class NavbarComponent implements  OnInit {
         this.notificationArray.push({ sender: this.recData.sender, notiType: this.recData.notification ,data:this.recData.data})
         this.notificationArray.forEach((noti: any) => {
           axios.post('getUserInfo', { id: noti.sender }).then(res => {
-            noti.profileurl = res.data.profilePicture;
-            noti.userName = res.data.name;
+            noti.profileurl = res.data[0].profilePicture;
+            noti.userName = res.data[0].name;
 
             if(noti.notiType =="frndReqAcc"){
               this.messageService.add({ severity: 'success', summary: 'Accepted', detail: noti.userName.toString()+' accepted your friend request' });
             }
-            //console.log("res.data");
+            //console.log(res.data);
           }).catch(err => console.log(err))
 
         });
