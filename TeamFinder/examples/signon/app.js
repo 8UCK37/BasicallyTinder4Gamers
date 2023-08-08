@@ -1,4 +1,4 @@
-/**
+/*
  * Basic example demonstrating passport-steam usage within Express framework
  adding space
  */
@@ -139,7 +139,14 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   })
   if (fetchUser == null) {
     // console.log("user not found ")
-
+    const userInfo = await prisma.userInfo.create({
+      data: {
+        Gender: null, 
+        Country: null, 
+        Language: null, 
+        Address: null, 
+      },
+    });
     const newUser = await prisma.user.create({
       data: {
         id: req.user.user_id,
@@ -150,7 +157,8 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         themesId:1,
         gmailId: req.user.email,
         activeChoice: true,
-        isConnected: true
+        isConnected: true,
+        userInfoId: userInfo.id,
       },
     })
     
@@ -312,7 +320,6 @@ app.get("/micCheck", async (req, res) => {
   console.log("mic-check hit")
   res.send("works");
 });
-
 
 
 app.get("/serverTest", async (req, res) => {
