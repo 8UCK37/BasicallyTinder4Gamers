@@ -135,7 +135,8 @@
                 <h5 class="card-title">FriendList Privacy</h5>
                 <div>
                   <span>Can your friends see your FriendList??</span>
-                  <!-- <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary"></p-checkbox> -->
+                  <span style="margin-left: 25px;" (click)="updateFriendListVis()">
+                  <p-checkbox  [(ngModel)]="userInfo.frnd_list_vis" [binary]="true" inputId="binary"></p-checkbox></span>
                 </div>
               </div>
             </div>

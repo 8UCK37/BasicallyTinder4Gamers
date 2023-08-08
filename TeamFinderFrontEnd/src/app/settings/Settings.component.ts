@@ -84,4 +84,9 @@ export class SettingsComponent implements OnInit {
     }).catch(err => console.log(err))
   }
 
+  updateFriendListVis(){
+    console.log(this.userInfo.frnd_list_vis)
+    axios.post('updateFriendLIstVisPref', {pref:this.userInfo.frnd_list_vis}).then(res => {
+    }).catch(err => console.log(err))
+  }
 }

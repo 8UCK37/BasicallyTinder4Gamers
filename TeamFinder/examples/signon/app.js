@@ -220,6 +220,26 @@ app.put('/updateUserInfo', ensureAuthenticated, async (req, res) => {
   }
 });
 
+app.post('/updateFriendLIstVisPref', ensureAuthenticated, async (req, res) => {
+  try{
+    const updatedUser = await prisma.user.update({
+      where: { id: req.user.user_id },
+      data: {
+        userInfo: {
+          update: {frnd_list_vis: req.body.pref,
+          },
+        },
+      },
+    });
+    res.sendStatus(200)
+  }
+  catch(e){
+    console.log(e)
+    res.sendStatus(400)
+  }
+});
+
+
 app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{
 
  let userData = await prisma.User.update({
