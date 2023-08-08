@@ -47,6 +47,7 @@ const routes: Routes = [
   { path: 'welcome', pathMatch: 'full', component: WelcomeComponent , canActivate: [AuthGuard]},
   { path: '**', pathMatch: 'full', component: PrimaryHomePageComponent, canActivate: [AuthGuard] },
 
+
 ];
 
 @NgModule({

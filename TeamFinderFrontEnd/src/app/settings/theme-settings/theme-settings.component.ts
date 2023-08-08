@@ -57,7 +57,8 @@ export class ThemeSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.userCast.subscribe(usr=>{
-      //console.log("user data" , usr)
+      if(usr){
+        console.log("user data" , usr)
       this.userparsed=usr
       this.chatBackGroundUrl=this.defaultBackgrounds[parseInt(this.userparsed.chatBackground)]
       this.selectedIndex=parseInt(this.userparsed.chatBackground)
@@ -69,7 +70,7 @@ export class ThemeSettingsComponent implements OnInit {
         this.averageHue=color
       }).catch(err=>console.log(err))
       this.getThemes();
-
+      }
     })
   }
 

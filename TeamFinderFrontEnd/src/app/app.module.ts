@@ -56,6 +56,7 @@ import { WelcomeLinkAccountComponent } from './welcome/welcome-link-account/welc
 import { ThemeSettingsComponent } from './settings/theme-settings/theme-settings.component';
 import { CarouselModule } from 'primeng/carousel';
 import { PreferredGamesComponent } from './welcome/preferred-games/preferred-games.component';
+import { CheckboxModule } from 'primeng/checkbox';
 @NgModule({
   declarations: [
       AppComponent,
@@ -93,6 +94,7 @@ import { PreferredGamesComponent } from './welcome/preferred-games/preferred-gam
     GalleriaModule,
     SpeedDialModule,
     DialogModule,
+    CheckboxModule,
     ConfirmDialogModule,
     ProgressSpinnerModule,
     ProgressBarModule,

@@ -144,7 +144,8 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         Gender: null, 
         Country: null, 
         Language: null, 
-        Address: null, 
+        Address: null,
+        frnd_list_vis:true
       },
     });
     const newUser = await prisma.user.create({
