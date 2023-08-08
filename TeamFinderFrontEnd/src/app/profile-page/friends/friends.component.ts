@@ -17,6 +17,8 @@ export class FriendsComponent implements OnInit {
   public hide: boolean = false;
   public buttonName: any = 'Show';
   public usr: any;
+  public friendProfile: any;
+  public userInfo: any;
   public userparsed: any;
   public pendingRequests: any[] = [];
   public friendList: any[] = [];
@@ -49,8 +51,13 @@ export class FriendsComponent implements OnInit {
       }else{
         this.route.queryParams.subscribe(params => {
           this.profile_id = params['id'];
-          //console.log(this.profile_id)
-          this.getfriendfriendlist();
+          axios.post('getUserInfo', { id: this.profile_id }).then(res => {
+            this.friendProfile=res.data[0]
+            this.userInfo=res.data[0].userInfo
+            if(res.data[0].userInfo.frnd_list_vis){
+              this.getfriendfriendlist();
+            }
+          }).catch(err => console.log(err))
       });
     }
   }

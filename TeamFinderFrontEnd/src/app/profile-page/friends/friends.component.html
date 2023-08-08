@@ -20,6 +20,9 @@
       </label>
     </div>
   </ng-container>
+  <ng-container *ngIf="!ownProfile && !userInfo.frnd_list_vis" >
+      <h4 style="color: antiquewhite;">{{friendProfile.name}} has chosen to privatize his friend list!!</h4>
+  </ng-container>
   </div>
   <br>
   <ng-container *ngIf="show">
