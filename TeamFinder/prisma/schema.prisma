@@ -30,14 +30,14 @@ model User {
 }
 
 model UserInfo {
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  Gender        String?
-  Country       String?
-  Language      String?
-  User          User?
-  Address       String?
-  frnd_list_vis Boolean?
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime @default(now())
+  Gender           String?
+  Country          String?
+  Language         String?
+  User             User?
+  Address          String?
+  frnd_list_vis    String?
 }
 
 model LinkedAccounts {

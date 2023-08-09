@@ -23,6 +23,7 @@ export class ProfilePageComponent implements OnInit {
   userid: any;
   public usr: any;
   public userparsed: any;
+  public friendProfile: any;
   public userInfo: any;
   public bio: any;
   public bannerPreview: any;
@@ -79,6 +80,12 @@ export class ProfilePageComponent implements OnInit {
         this.getTwitchInfo(this.profile_id)
         axios.post('isFriend', { id: this.profile_id }).then(res => {
           console.log(res.data)
+          this.utilsServiceService.friendAccountObj.subscribe(friend=>{
+            this.friendProfile=friend
+            this.friendProfile.friendStatus=res.data
+          })
+          console.log(this.friendProfile)
+          this.utilsServiceService.setFriendAccountObj(this.friendProfile)
           if (res.data == 'accepted') {
             this.status = { style: 'button', value: 'Friend' }
             //this.unfriend = {value: 'Unfriend' }

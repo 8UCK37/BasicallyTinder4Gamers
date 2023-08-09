@@ -30,6 +30,7 @@ import { SettingsComponent } from './settings/Settings.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { LoginUserinfoComponent } from './primary-home-page/login-userinfo/login-userinfo.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { DropdownModule } from 'primeng/dropdown';
 import { PostComponent } from './post/post.component';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
@@ -98,6 +99,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     ConfirmDialogModule,
     ProgressSpinnerModule,
     ProgressBarModule,
+    DropdownModule,
     ButtonModule,
     BrowserModule,
     AppRoutingModule,

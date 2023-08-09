@@ -28,12 +28,20 @@ export class SettingsComponent implements OnInit {
     "Female",
     "Other"
   ];
+  friendPref: any[]=[] ;
+
+  selectedfriendPref: any ;
   public languages: string[] = ["Bengali", "Hindi", "English"]
   constructor(public userService: UserService, private route: ActivatedRoute,public utilsServiceService : UtilsServiceService) {
     this.countries=this.utilsServiceService.getCountries();
    }
 
   ngOnInit() {
+    this.friendPref = [
+      { name: 'Public', icon: './../../assets/icon-resource/public.png' },
+      { name: 'OnlyFriends', icon: './../../assets/icon-resource/people.png' },
+      { name: 'Private', icon: './../../assets/icon-resource/compliant.png' },
+    ];
     this.route.queryParams.subscribe(async params => {
       this.tab = params['tab'];
       //console.log(this.tab)
@@ -48,6 +56,13 @@ export class SettingsComponent implements OnInit {
         axios.post('getUserInfo', { id: usr.id }).then(res => {
           this.userInfo = res.data[0].userInfo;
           console.log(this.userInfo)
+          if(this.userInfo.frnd_list_vis=="public"){
+            this.selectedfriendPref=this.friendPref[0]
+          }else if(this.userInfo.frnd_list_vis=="friends"){
+            this.selectedfriendPref=this.friendPref[1]
+          }else if(this.userInfo.frnd_list_vis=="private"){
+            this.selectedfriendPref=this.friendPref[2]
+          }
         })
       }
     })
@@ -85,8 +100,11 @@ export class SettingsComponent implements OnInit {
   }
 
   updateFriendListVis(){
-    console.log(this.userInfo.frnd_list_vis)
-    axios.post('updateFriendLIstVisPref', {pref:this.userInfo.frnd_list_vis}).then(res => {
+    console.log(this.friendPref.indexOf(this.selectedfriendPref))
+    axios.post('updateFriendListVisPref', {pref:this.friendPref.indexOf(this.selectedfriendPref)}).then(res => {
     }).catch(err => console.log(err))
   }
+
 }
+
+

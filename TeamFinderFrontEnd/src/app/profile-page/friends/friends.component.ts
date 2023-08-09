@@ -53,13 +53,17 @@ export class FriendsComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
           this.profile_id = params['id'];
           this.utilsServiceService.friendAccountObj.subscribe(friend=>{
-            console.log(friend)
+            //console.log(friend)
             this.friendProfile=friend
             this.userInfo=friend.userInfo
-            if(this.userInfo.frnd_list_vis){
+            if(friend.friendStatus=="accepted"){
+              if(this.userInfo.frnd_list_vis=="friends"||this.userInfo.frnd_list_vis=="public"){
+                this.getfriendfriendlist()
+              }else if(this.userInfo.frnd_list_vis=="private"){
+                this.friendList=[]
+              }
+            }else if(this.userInfo.frnd_list_vis=="public"){
               this.getfriendfriendlist()
-            }else{
-              this.friendList=[]
             }
           })
       });
