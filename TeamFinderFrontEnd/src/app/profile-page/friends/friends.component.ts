@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatServicesService } from 'src/app/chat-page/chat-services.service';
 import { UserService } from 'src/app/login/user.service';
+import { UtilsServiceService } from 'src/app/utils/utils-service.service';
 
 @Component({
   selector: 'app-friends',
@@ -28,7 +29,7 @@ export class FriendsComponent implements OnInit {
   public status=new Map();
   ownProfile: any;
   public profile_id:any;
-  constructor(public userService:UserService,private socketService : ChatServicesService ,public user: UserService, private auth: AngularFireAuth,private router: Router,private route: ActivatedRoute) {
+  constructor(public utilsServiceService : UtilsServiceService,public userService:UserService,private socketService : ChatServicesService ,public user: UserService, private auth: AngularFireAuth,private router: Router,private route: ActivatedRoute) {
     this.ownProfile = this.route.snapshot.data['ownProfile'];
    }
 
@@ -51,13 +52,16 @@ export class FriendsComponent implements OnInit {
       }else{
         this.route.queryParams.subscribe(params => {
           this.profile_id = params['id'];
-          axios.post('getUserInfo', { id: this.profile_id }).then(res => {
-            this.friendProfile=res.data[0]
-            this.userInfo=res.data[0].userInfo
-            if(res.data[0].userInfo.frnd_list_vis){
-              this.getfriendfriendlist();
+          this.utilsServiceService.friendAccountObj.subscribe(friend=>{
+            console.log(friend)
+            this.friendProfile=friend
+            this.userInfo=friend.userInfo
+            if(this.userInfo.frnd_list_vis){
+              this.getfriendfriendlist()
+            }else{
+              this.friendList=[]
             }
-          }).catch(err => console.log(err))
+          })
       });
     }
   }
@@ -85,14 +89,14 @@ export class FriendsComponent implements OnInit {
   }
 
   getfriendfriendlist() {
-    this.friendList = [];
     axios.post('friendsoffriendData', { frnd_id: this.profile_id }).then(res => {
       //console.log(res.data)
+      this.friendList = [];
       res.data.forEach((data: any) => {
         this.friendList.push( data )
       });
     }).catch(err => console.log(err))
-    //console.log(this.friendList)
+    console.log(this.friendList)
   }
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {

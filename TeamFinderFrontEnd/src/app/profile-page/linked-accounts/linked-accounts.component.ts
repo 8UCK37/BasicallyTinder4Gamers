@@ -58,7 +58,7 @@ export class LinkedAccountsComponent implements OnInit {
         this.profile_id = params['id'];
         //console.log(this.profile_id)
         await axios.post('getUserInfo', { id: this.profile_id }).then(res => {
-          console.log(res.data)
+          //console.log(res.data)
           if(res.data[0].steamId!=null){
           this.steamId = res.data[0].steamId
           this.steamLinked=true;
@@ -75,7 +75,7 @@ export class LinkedAccountsComponent implements OnInit {
           await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
             //console.log(res.data)
             this.steamInfo = res.data
-            console.log(this.steamInfo)
+            //console.log(this.steamInfo)
           }).catch(err => console.log(err))
         }
       this.getDiscordInfo(this.profile_id);
@@ -105,7 +105,7 @@ export class LinkedAccountsComponent implements OnInit {
   }
    getTwitchInfo(id:any){
     axios.get(`getowntwitchinfo?id=${id}`).then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
       if(res.data!='not logged in'){
         this.twitchdata=res.data
         this.twitchLinked=true

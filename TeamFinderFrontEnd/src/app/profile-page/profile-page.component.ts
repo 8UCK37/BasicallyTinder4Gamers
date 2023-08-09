@@ -294,7 +294,7 @@ export class ProfilePageComponent implements OnInit {
   }
   getTwitchInfo(id:any){
     axios.get(`getowntwitchinfo?id=${id}`).then(res=>{
-      console.log(res.data)
+      //console.log(res.data)
       if(res.data!='not logged in'){
         this.twitchdata=res.data
         this.twitchLinked=true

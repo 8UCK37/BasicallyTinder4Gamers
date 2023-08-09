@@ -62,7 +62,7 @@ export class UserService {
   ) {
 
     this.auth.onAuthStateChanged((user) => {
-      console.log("auth change hits", user)
+      //console.log("auth change hits", user)
       if (user) {
         user.getIdToken().then(id => {
           axios.defaults.headers.common['authorization'] = `Bearer ${id}`
@@ -70,7 +70,7 @@ export class UserService {
           localStorage.setItem('token', id);
           axios.post('/saveuser').then(res => {
             this.userData.next(res.data)
-            console.log(this.userData)
+            //console.log(this.userData)
           })
         })
       }

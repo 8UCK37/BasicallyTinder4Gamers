@@ -134,7 +134,12 @@
               <div class="card-body">
                 <h5 class="card-title">FriendList Privacy</h5>
                 <div>
-                  <span>Can your friends see your FriendList??</span>
+                  <span>Make friendlist private</span>
+                  <span style="margin-left: 25px;" (click)="updateFriendListVis()">
+                  <p-checkbox  [(ngModel)]="userInfo.frnd_list_vis" [binary]="true" inputId="binary"></p-checkbox></span>
+                </div>
+                <div>
+                  <span>Hide FriendList from friends</span>
                   <span style="margin-left: 25px;" (click)="updateFriendListVis()">
                   <p-checkbox  [(ngModel)]="userInfo.frnd_list_vis" [binary]="true" inputId="binary"></p-checkbox></span>
                 </div>
