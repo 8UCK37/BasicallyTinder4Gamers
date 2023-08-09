@@ -72,42 +72,14 @@ export class ProfilePageComponent implements OnInit {
         })
         console.log(this.profile_id)
         axios.post('getUserInfo', { id: this.profile_id }).then(res => {
-          console.log(res.data)
+          //console.log(res.data)
           this.userInfo = res.data[0]
           this.info=res.data[0].userInfo
           this.utilsServiceService.setFriendAccountObj(res.data[0])
+          this.isFriend()
         }).catch(err => console.log(err))
         this.getTwitchInfo(this.profile_id)
-        axios.post('isFriend', { id: this.profile_id }).then(res => {
-          console.log(res.data)
-          this.utilsServiceService.friendAccountObj.subscribe(friend=>{
-            this.friendProfile=friend
-            this.friendProfile.friendStatus=res.data
-          })
-          console.log(this.friendProfile)
-          this.utilsServiceService.setFriendAccountObj(this.friendProfile)
-          if (res.data == 'accepted') {
-            this.status = { style: 'button', value: 'Friend' }
-            //this.unfriend = {value: 'Unfriend' }
-            //console.log(this.status)
-          } else if (res.data == 'rejected') {
-            //this.status = { style: 'fa-sharp fa-solid fa-ban fa-2x', value: '' }
-            this.status = { style: 'button', value: 'Send Req' }
-            //console.log(this.status)
-          }
-          else if (res.data == 'pending') {
-            this.status = { style: 'button', value: 'Pending' }
-            //console.log(this.status)
-          }
-          else if (res.data == 'unfriended') {
-            this.status = { style: 'button', value: 'Send Req' }
-            //console.log(this.status)
-          }
-          else {
-            this.status = { style: 'button', value: 'Send Req' }
-            //console.log(this.status)
-          }
-        }).catch(err => console.log(err))
+
       });
     }
   }
@@ -309,6 +281,38 @@ export class ProfilePageComponent implements OnInit {
         this.twitchLinked=false
       }
     }).catch(err=>console.log(err))
+   }
+   isFriend() {
+    this.utilsServiceService.friendAccountObj.subscribe(friend=>{
+      this.friendProfile=friend
+    })
+    axios.post('isFriend', { id: this.profile_id }).then(res => {
+      //console.log(res.data)
+      this.friendProfile.friendStatus=res.data
+      this.utilsServiceService.setFriendAccountObj(this.friendProfile)
+      //console.log(this.friendProfile)
+      if (res.data == 'accepted') {
+        this.status = { style: 'button', value: 'Friend' }
+        //this.unfriend = {value: 'Unfriend' }
+        //console.log(this.status)
+      } else if (res.data == 'rejected') {
+        //this.status = { style: 'fa-sharp fa-solid fa-ban fa-2x', value: '' }
+        this.status = { style: 'button', value: 'Send Req' }
+        //console.log(this.status)
+      }
+      else if (res.data == 'pending') {
+        this.status = { style: 'button', value: 'Pending' }
+        //console.log(this.status)
+      }
+      else if (res.data == 'unfriended') {
+        this.status = { style: 'button', value: 'Send Req' }
+        //console.log(this.status)
+      }
+      else {
+        this.status = { style: 'button', value: 'Send Req' }
+        //console.log(this.status)
+      }
+    }).catch(err => console.log(err))
    }
 }
 

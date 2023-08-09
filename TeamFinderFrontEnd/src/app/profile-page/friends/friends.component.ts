@@ -52,19 +52,18 @@ export class FriendsComponent implements OnInit {
       }else{
         this.route.queryParams.subscribe(params => {
           this.profile_id = params['id'];
+          //this.getfriendfriendlist()
           this.utilsServiceService.friendAccountObj.subscribe(friend=>{
+            this.friendList=[]
             //console.log(friend)
-            this.friendProfile=friend
-            this.userInfo=friend.userInfo
-            if(friend.friendStatus=="accepted"){
-              if(this.userInfo.frnd_list_vis=="friends"||this.userInfo.frnd_list_vis=="public"){
+            //console.log(friend.friendStatus)
+            this.friendProfile=structuredClone(friend)
+            this.userInfo=structuredClone(friend.userInfo)
+              if(friend.userInfo?.frnd_list_vis=="public"){
                 this.getfriendfriendlist()
-              }else if(this.userInfo.frnd_list_vis=="private"){
-                this.friendList=[]
+              }else if(friend.userInfo?.frnd_list_vis=="friends" && friend.friendStatus=="accepted"){
+                this.getfriendfriendlist()
               }
-            }else if(this.userInfo.frnd_list_vis=="public"){
-              this.getfriendfriendlist()
-            }
           })
       });
     }
@@ -92,15 +91,13 @@ export class FriendsComponent implements OnInit {
     }).catch(err => console.log(err))
   }
 
-  getfriendfriendlist() {
-    axios.post('friendsoffriendData', { frnd_id: this.profile_id }).then(res => {
-      //console.log(res.data)
-      this.friendList = [];
-      res.data.forEach((data: any) => {
-        this.friendList.push( data )
-      });
-    }).catch(err => console.log(err))
-    console.log(this.friendList)
+  async getfriendfriendlist() {
+      await axios.post('friendsoffriendData', { frnd_id: this.profile_id }).then(res => {
+          //console.log(res.data)
+          this.friendList = [];
+          this.friendList=res.data
+        }).catch(err => console.log(err))
+    //console.log(this.friendList)
   }
   acceptReq(frndid:any){
     axios.post('acceptFriend', { frnd_id: frndid}).then(res => {

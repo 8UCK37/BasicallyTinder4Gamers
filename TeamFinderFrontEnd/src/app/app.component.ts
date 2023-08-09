@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     //console.log(this.token)
     axios.defaults.headers.common['authorization'] = `Bearer ${this.token}`
     axios.defaults.baseURL = environment.endpointUrl;
-    this.requestPermission();
+    //this.requestPermission();
     this.listen();
 
   }
