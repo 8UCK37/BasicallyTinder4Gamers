@@ -38,6 +38,7 @@ model UserInfo {
   User             User?
   Address          String?
   frnd_list_vis    String?
+  linked_acc_vis   Int?
 }
 
 model LinkedAccounts {

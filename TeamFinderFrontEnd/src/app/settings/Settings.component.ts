@@ -28,16 +28,17 @@ export class SettingsComponent implements OnInit {
     "Female",
     "Other"
   ];
-  friendPref: any[]=[] ;
+  visibilityPref: any[]=[] ;
 
-  selectedfriendPref: any ;
+  selectedfriendPref: any;
+  selectedLinkedPref: any;
   public languages: string[] = ["Bengali", "Hindi", "English"]
   constructor(public userService: UserService, private route: ActivatedRoute,public utilsServiceService : UtilsServiceService) {
     this.countries=this.utilsServiceService.getCountries();
    }
 
   ngOnInit() {
-    this.friendPref = [
+    this.visibilityPref = [
       { name: 'Public', icon: './../../assets/icon-resource/public.png' },
       { name: 'OnlyFriends', icon: './../../assets/icon-resource/people.png' },
       { name: 'Private', icon: './../../assets/icon-resource/compliant.png' },
@@ -57,12 +58,13 @@ export class SettingsComponent implements OnInit {
           this.userInfo = res.data[0].userInfo;
           console.log(this.userInfo)
           if(this.userInfo.frnd_list_vis=="public"){
-            this.selectedfriendPref=this.friendPref[0]
+            this.selectedfriendPref=this.visibilityPref[0]
           }else if(this.userInfo.frnd_list_vis=="friends"){
-            this.selectedfriendPref=this.friendPref[1]
+            this.selectedfriendPref=this.visibilityPref[1]
           }else if(this.userInfo.frnd_list_vis=="private"){
-            this.selectedfriendPref=this.friendPref[2]
+            this.selectedfriendPref=this.visibilityPref[2]
           }
+          this.selectedLinkedPref=this.visibilityPref[this.userInfo.linked_acc_vis]
         })
       }
     })
@@ -100,11 +102,15 @@ export class SettingsComponent implements OnInit {
   }
 
   updateFriendListVis(){
-    console.log(this.friendPref.indexOf(this.selectedfriendPref))
-    axios.post('updateFriendListVisPref', {pref:this.friendPref.indexOf(this.selectedfriendPref)}).then(res => {
+    console.log(this.visibilityPref.indexOf(this.selectedfriendPref))
+    axios.post('updateFriendListVisPref', {pref:this.visibilityPref.indexOf(this.selectedfriendPref)}).then(res => {
     }).catch(err => console.log(err))
   }
-
+  updateLinkedAccVis(){
+    console.log(this.visibilityPref.indexOf(this.selectedLinkedPref))
+    axios.post('updateLinkedVisPref', {pref:this.visibilityPref.indexOf(this.selectedLinkedPref)}).then(res => {
+    }).catch(err => console.log(err))
+  }
 }
 
 

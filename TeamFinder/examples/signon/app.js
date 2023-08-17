@@ -145,7 +145,8 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         Country: null, 
         Language: null, 
         Address: null,
-        frnd_list_vis:"public"
+        frnd_list_vis:"public",
+        linked_acc_vis:0
       },
     });
     const newUser = await prisma.user.create({
@@ -246,6 +247,26 @@ app.post('/updateFriendListVisPref', ensureAuthenticated, async (req, res) => {
     res.sendStatus(400)
   }
 });
+
+app.post('/updateLinkedVisPref', ensureAuthenticated, async (req, res) => {
+  try{
+    const updatedUser = await prisma.user.update({
+      where: { id: req.user.user_id },
+      data: {
+        userInfo: {
+          update: {linked_acc_vis: parseInt(req.body.pref),
+          },
+        },
+      },
+    });
+    res.sendStatus(200)
+  }
+  catch(e){
+    console.log(e)
+    res.sendStatus(400)
+  }
+});
+
 
 app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{
 

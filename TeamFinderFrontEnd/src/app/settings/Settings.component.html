@@ -119,11 +119,35 @@
                 <div>
                   <span>Choose your friendlist visiblity</span>
                   <span style="margin-left: 150px;width: fit-content;" (click)="updateFriendListVis()">
-                  <p-dropdown [options]="friendPref" [(ngModel)]="selectedfriendPref" optionLabel="name"  placeholder="Select Visibility">
+                  <p-dropdown [options]="visibilityPref" [(ngModel)]="selectedfriendPref" optionLabel="name"  placeholder="Select Visibility">
                     <ng-template pTemplate="selectedItem">
                         <div class="flex align-items-center gap-2" *ngIf="selectedfriendPref">
                             <img [src]="selectedfriendPref.icon"  style="width: 18px"/>
                             <span style="margin-left: 25px;">{{ selectedfriendPref.name }}</span>
+                        </div>
+                    </ng-template>
+                    <ng-template let-pref pTemplate="item">
+                        <div class="flex align-items-center gap-2">
+                            <img [src]="pref.icon"  style="width: 18px"/>
+                            <span style="margin-left: 25px;">{{ pref.name }}</span>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+              </span>
+              </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Linked Account Privacy</h5>
+                <div>
+                  <span>Choose your LinkedAccount visiblity</span>
+                  <span style="margin-left: 150px;width: fit-content;" (click)="updateLinkedAccVis()">
+                  <p-dropdown [options]="visibilityPref" [(ngModel)]="selectedLinkedPref" optionLabel="name"  placeholder="Select Visibility">
+                    <ng-template pTemplate="selectedItem">
+                        <div class="flex align-items-center gap-2" *ngIf="selectedLinkedPref">
+                            <img [src]="selectedLinkedPref.icon"  style="width: 18px"/>
+                            <span style="margin-left: 25px;">{{ selectedLinkedPref.name }}</span>
                         </div>
                     </ng-template>
                     <ng-template let-pref pTemplate="item">
