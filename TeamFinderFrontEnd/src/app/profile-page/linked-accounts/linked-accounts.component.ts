@@ -22,8 +22,9 @@ export class LinkedAccountsComponent implements OnInit {
   public profile_id: any;
   changeText: any = false;
   ownProfile: any;
+  public friendProfile: any;
   public twitchdata:any;
-
+  public userInfo: any;
   discordData:any;
   discordLinked:boolean=false;
   public imgSrc:any='https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/twitch-1024.png';
@@ -54,33 +55,26 @@ export class LinkedAccountsComponent implements OnInit {
         })
 
       } else {
-      this.route.queryParams.subscribe(async params => {
-        this.profile_id = params['id'];
-        //console.log(this.profile_id)
-        await axios.post('getUserInfo', { id: this.profile_id }).then(res => {
-          //console.log(res.data)
-          if(res.data[0].steamId!=null){
-          this.steamId = res.data[0].steamId
-          this.steamLinked=true;
-          }else{
-            this.steamLinked = false
-          }
 
-          this.getTwitchInfo(this.profile_id)
+        this.utilsServiceService.friendAccountObj.subscribe(friend=>{
 
-        }).catch(err => console.log(err))
-        //console.log(this.steamId)
-        if (this.steamLinked) {
-          //console.log(this.steamId)
-          await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
-            //console.log(res.data)
-            this.steamInfo = res.data
-            //console.log(this.steamInfo)
-          }).catch(err => console.log(err))
-        }
-      this.getDiscordInfo(this.profile_id);
-      //this.getValoStats();
-      });
+          //console.log(friend)
+          //console.log(friend.friendStatus)
+          this.friendProfile=structuredClone(friend)
+          this.userInfo=structuredClone(friend.userInfo)
+            if(friend.userInfo?.linked_acc_vis==0){
+              console.log("visibility=public")
+              this.getLinkedAccounts()
+            }else if(friend.userInfo?.linked_acc_vis==1 && friend.friendStatus=="accepted"){
+              console.log("visibility=friends and is a friend")
+              this.getLinkedAccounts()
+            }else{
+              this.steamLinked=false
+              this.discordLinked=false
+              this.twitchLinked=false
+            }
+        })
+
     }
   }
 
@@ -172,18 +166,35 @@ export class LinkedAccountsComponent implements OnInit {
     let riotData:any={}
     this.utilsServiceService.linkedAccountObj.subscribe((data:any)=>{
       console.log('connected acc data from discord',data)
-
       if(data.has('riotgames')){
         riotData=data
       }
-
     })
     if(riotData){
       // axios.post('valoStats/getValoStatByIGN', { ign: riotData.get('riotgames').name }).then(res => {
       //   console.log(res.data)
       // }).catch(err => console.log(err))
     }
+  }
 
+  getLinkedAccounts(){
+    this.route.queryParams.subscribe(async params => {
+      this.profile_id = params['id'];
+        if(this.friendProfile.steamId!=null){
+        this.steamId = this.friendProfile.steamId
+        this.steamLinked=true;
+        }else{
+          this.steamLinked = false
+        }
+      if (this.steamLinked) {
+        await axios.post('steamInfo', { steam_id: this.steamId }).then(res => {
+          this.steamInfo = res.data
+        }).catch(err => console.log(err))
+      }
+      this.getTwitchInfo(this.profile_id)
+      this.getDiscordInfo(this.profile_id);
+      //this.getValoStats();
+    });
   }
 
 }

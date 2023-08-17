@@ -223,19 +223,11 @@ app.put('/updateUserInfo', ensureAuthenticated, async (req, res) => {
 
 app.post('/updateFriendListVisPref', ensureAuthenticated, async (req, res) => {
   try{
-    let newPref=""
-    if(req.body.pref==0){
-      newPref="public"
-    }else if(req.body.pref==1){
-      newPref="friends"
-    }else if(newPref="private"){
-      newPref="private"
-    }
     const updatedUser = await prisma.user.update({
       where: { id: req.user.user_id },
       data: {
         userInfo: {
-          update: {frnd_list_vis: newPref,
+          update: {frnd_list_vis: parseInt(req.body.pref),
           },
         },
       },

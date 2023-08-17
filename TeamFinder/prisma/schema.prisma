@@ -37,7 +37,7 @@ model UserInfo {
   Language         String?
   User             User?
   Address          String?
-  frnd_list_vis    String?
+  frnd_list_vis    Int?
   linked_acc_vis   Int?
 }
 

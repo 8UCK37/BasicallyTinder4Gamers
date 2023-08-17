@@ -57,13 +57,7 @@ export class SettingsComponent implements OnInit {
         axios.post('getUserInfo', { id: usr.id }).then(res => {
           this.userInfo = res.data[0].userInfo;
           console.log(this.userInfo)
-          if(this.userInfo.frnd_list_vis=="public"){
-            this.selectedfriendPref=this.visibilityPref[0]
-          }else if(this.userInfo.frnd_list_vis=="friends"){
-            this.selectedfriendPref=this.visibilityPref[1]
-          }else if(this.userInfo.frnd_list_vis=="private"){
-            this.selectedfriendPref=this.visibilityPref[2]
-          }
+          this.selectedfriendPref=this.visibilityPref[this.userInfo.frnd_list_vis]
           this.selectedLinkedPref=this.visibilityPref[this.userInfo.linked_acc_vis]
         })
       }

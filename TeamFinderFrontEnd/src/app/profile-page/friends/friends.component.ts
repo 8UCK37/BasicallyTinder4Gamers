@@ -59,9 +59,9 @@ export class FriendsComponent implements OnInit {
             //console.log(friend.friendStatus)
             this.friendProfile=structuredClone(friend)
             this.userInfo=structuredClone(friend.userInfo)
-              if(friend.userInfo?.frnd_list_vis=="public"){
+              if(friend.userInfo?.frnd_list_vis==0){
                 this.getfriendfriendlist()
-              }else if(friend.userInfo?.frnd_list_vis=="friends" && friend.friendStatus=="accepted"){
+              }else if(friend.userInfo?.frnd_list_vis==1 && friend.friendStatus=="accepted"){
                 this.getfriendfriendlist()
               }
           })

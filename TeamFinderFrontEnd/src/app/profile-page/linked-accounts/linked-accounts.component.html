@@ -35,8 +35,13 @@
   </div>
 </div>
 
-
-<ng-container>
+<ng-container *ngIf="!ownProfile && userInfo?.linked_acc_vis==2">
+  <h4 style="color: antiquewhite;">{{friendProfile.name}}'s Linked Accounts are private!!</h4>
+</ng-container>
+<ng-container *ngIf="!ownProfile && userInfo?.linked_acc_vis==1 && friendProfile?.friendStatus!='accepted'" >
+  <h4 style="color: antiquewhite;">{{friendProfile.name}}'s LInked Accounts are visible to friends only!!</h4>
+</ng-container>
+<ng-container >
   <div class="row">
     <ng-container *ngIf="steamLinked">
     <div class="col-md-auto">

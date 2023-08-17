@@ -20,11 +20,11 @@
       </label>
     </div>
   </ng-container>
-  <ng-container *ngIf="!ownProfile && userInfo?.frnd_list_vis=='private'" >
+  <ng-container *ngIf="!ownProfile && userInfo?.frnd_list_vis==2" >
       <h4 style="color: antiquewhite;">{{friendProfile.name}}'s friendlist is private!!</h4>
   </ng-container>
 
-  <ng-container *ngIf="!ownProfile && userInfo?.frnd_list_vis=='friends' && friendProfile?.friendStatus!='accepted'" >
+  <ng-container *ngIf="!ownProfile && userInfo?.frnd_list_vis==1 && friendProfile?.friendStatus!='accepted'" >
     <h4 style="color: antiquewhite;">{{friendProfile.name}}'s friendlist is visible to friends only!!</h4>
   </ng-container>
   </div>
