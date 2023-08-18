@@ -750,8 +750,13 @@ app.get('/getDiscordInfo', ensureAuthenticated, async (req, res) => {
       Discord: true
     }
   })
-  //console.log(activeStateData)
-  res.send(JSON.stringify(discordData));
+  
+  let { email, accessToken, refreshToken, ...filteredData } = discordData.Discord;
+  let sanitizedDiscordData = {
+    Discord: filteredData
+  };
+
+  res.send(JSON.stringify(sanitizedDiscordData));
 });
 
 // GET /auth/steam
