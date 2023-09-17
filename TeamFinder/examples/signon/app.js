@@ -145,11 +145,12 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         Country: null, 
         Language: null, 
         Address: null,
-        frnd_list_vis:"public",
+        frnd_list_vis:0,
         linked_acc_vis:0
       },
     });
-    const newUser = await prisma.user.create({
+    
+    const newUser = await prisma.User.create({
       data: {
         id: req.user.user_id,
         name: req.user.name,
@@ -750,13 +751,17 @@ app.get('/getDiscordInfo', ensureAuthenticated, async (req, res) => {
       Discord: true
     }
   })
-  
-  let { email, accessToken, refreshToken, ...filteredData } = discordData.Discord;
-  let sanitizedDiscordData = {
+
+  if(discordData.Discord!=null){
+    let { email, accessToken, refreshToken, ...filteredData } = discordData.Discord;
+    let sanitizedDiscordData = {
     Discord: filteredData
   };
-
-  res.send(JSON.stringify(sanitizedDiscordData));
+    res.send(JSON.stringify(sanitizedDiscordData));
+  }else{
+    res.sendStatus(200);
+  }
+  
 });
 
 // GET /auth/steam
