@@ -66,7 +66,7 @@ export class PrimaryHomePageComponent implements OnInit {
 
   fetchPost(){
     axios.get("/getPost").then(res=>{
-      //console.log(res.data)
+      //console.log(res)
       this.posts = []
       res.data.forEach((post: any) => {
         post.tagArr=post.tagnames?.split(',')
