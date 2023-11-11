@@ -91,7 +91,7 @@ export class SettingsComponent implements OnInit {
 
   }
   updateinfo() {
-    axios.post('updateUserData', { country: this.info.Country,language: this.info.Language,address: this.info.Address,gender: this.info.Gender,id: this.info.id}).then(res => {
+    axios.post('updateUserData', {data:this.userInfo}).then(res => {
     }).catch(err => console.log(err))
   }
 

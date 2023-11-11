@@ -1161,13 +1161,13 @@ app.post("/updateBio", ensureAuthenticated, async (req, res) => {
 app.post("/updateUserData", ensureAuthenticated, async (req, res) => {
   const updateStatus = await prisma.userInfo.update({
     where: {
-      id: req.body.id,
+      id: req.body.data.id,
     },
     data: {
-      Country: req.body.country,
-      Language: req.body.language,
-      Address: req.body.address,
-      Gender: req.body.gender,
+      Country: req.body.data.Country,
+      Language: req.body.data.Language,
+      Address: req.body.data.Address,
+      Gender: req.body.data.Gender,
     },
   })
   res.sendStatus(200);
