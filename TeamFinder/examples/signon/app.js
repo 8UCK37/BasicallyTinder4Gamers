@@ -759,7 +759,7 @@ app.get('/getDiscordInfo', ensureAuthenticated, async (req, res) => {
   };
     res.send(JSON.stringify(sanitizedDiscordData));
   }else{
-    res.sendStatus(200);
+    res.sendStatus(204);
   }
   
 });
