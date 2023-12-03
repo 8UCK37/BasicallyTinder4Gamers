@@ -222,6 +222,8 @@ app.put('/updateUserInfo', ensureAuthenticated, async (req, res) => {
   }
 });
 
+
+
 app.post('/updateFriendListVisPref', ensureAuthenticated, async (req, res) => {
   try{
     const updatedUser = await prisma.user.update({
@@ -1172,6 +1174,20 @@ app.post("/updateUserData", ensureAuthenticated, async (req, res) => {
   })
   res.sendStatus(200);
 });
+
+app.post("/updateUserSelectedLanguages", ensureAuthenticated, async (req, res) => {
+  const updateLang = await prisma.userInfo.update({
+    where: {
+      id: req.body.data.id,
+    },
+    data: {
+      Language: req.body.list,
+    },
+  })
+  res.sendStatus(200);
+});
+
+
 app.post("/chat/background", ensureAuthenticated, upload.single('chatbackground'), (req, res) => {
   console.log("chat",req.user.user_id)
   chatRouter.upChatBackGround(req,res)

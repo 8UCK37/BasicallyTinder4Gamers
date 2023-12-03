@@ -121,8 +121,10 @@ export class SettingsComponent implements OnInit {
         dbString=dbString+","+this.selectedLanguages[i].id.toString()
       }
     }
+    axios.post('updateUserSelectedLanguages', {data:this.userInfo,list:dbString}).then(res => {
+    }).catch(err => console.log(err))
   }
-  
+
   parseSelectedLanguages(info:any){
     const list=info.Language.split(",")
     this.selectedLanguages=[]
