@@ -88,3 +88,8 @@ body{
   display: flex;
   align-items: start;
 }
+.multiSelect-holder{
+  padding-top: 25px;
+  min-width: 50%;
+  max-width: 100%;
+}

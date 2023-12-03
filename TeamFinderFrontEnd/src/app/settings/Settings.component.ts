@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import axios from 'axios';
 import { UserService } from '../login/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { UtilsServiceService } from '../utils/utils-service.service';
+
 @Component({
   selector: 'app-Settings',
   templateUrl: './Settings.component.html',
@@ -29,13 +30,19 @@ export class SettingsComponent implements OnInit {
     "Other"
   ];
   visibilityPref: any[]=[] ;
-
+  public langSelect :boolean=false;
   selectedfriendPref: any;
   selectedLinkedPref: any;
-  public languages: string[] = ["Bengali", "Hindi", "English"]
+  //public languages: string[] = ["Bengali", "Hindi", "English"]
+  languages!: Array<{ label: string; id: number }>;
+
+  selectedLanguages!: Array<{ label: string; id: number }>;
+
   constructor(public userService: UserService, private route: ActivatedRoute,public utilsServiceService : UtilsServiceService) {
     this.countries=this.utilsServiceService.getCountries();
+    this.languages =this.utilsServiceService.languages;
    }
+
 
   ngOnInit() {
     this.visibilityPref = [
@@ -51,7 +58,6 @@ export class SettingsComponent implements OnInit {
       //console.log("user data" , usr)
       if (usr) {
         this.userparsed = usr;
-        //console.log(this.userInfo)
         this.newUserName = this.userparsed.name
         this.bio = this.userInfo?.bio;
         axios.post('getUserInfo', { id: usr.id }).then(res => {
@@ -59,6 +65,7 @@ export class SettingsComponent implements OnInit {
           console.log(this.userInfo)
           this.selectedfriendPref=this.visibilityPref[this.userInfo.frnd_list_vis]
           this.selectedLinkedPref=this.visibilityPref[this.userInfo.linked_acc_vis]
+          this.parseSelectedLanguages(this.userInfo)
         })
       }
     })
@@ -85,10 +92,9 @@ export class SettingsComponent implements OnInit {
     this.cardStyle = []
   }
   userLanguageSelect(index: number) {
-    this.selected2 = this.languages[index]
+    //this.selected2 = this.languages[index]
     this.cardStyle = []
     this.cardStyle2 = []
-
   }
   updateinfo() {
     axios.post('updateUserData', {data:this.userInfo}).then(res => {
@@ -104,6 +110,27 @@ export class SettingsComponent implements OnInit {
     console.log(this.visibilityPref.indexOf(this.selectedLinkedPref))
     axios.post('updateLinkedVisPref', {pref:this.visibilityPref.indexOf(this.selectedLinkedPref)}).then(res => {
     }).catch(err => console.log(err))
+  }
+
+  updateSelectedLanguage(){
+    let dbString:String=""
+    for(let i=0;i<this.selectedLanguages.length;i++){
+      if(i==0){
+        dbString=this.selectedLanguages[i].id.toString()
+      }else{
+        dbString=dbString+","+this.selectedLanguages[i].id.toString()
+      }
+    }
+  }
+  
+  parseSelectedLanguages(info:any){
+    const list=info.Language.split(",")
+    this.selectedLanguages=[]
+    let dump=[]
+    for(let i of list){
+      dump.push(this.languages[i-1])
+    }
+    this.selectedLanguages=structuredClone(dump)
   }
 }
 

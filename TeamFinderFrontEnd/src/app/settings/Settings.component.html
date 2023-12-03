@@ -82,9 +82,16 @@
                     <label for="inputGender">Gender</label>
                     <input type="text" [typeahead]="gender" class="form-control" id="inputGender" [isAnimated]="true" [(ngModel)]="userInfo.Gender" value={{info?.Gender}}>
                   </div>
-                  <div class="form-group">
-                    <label for="inputLanguage">Language</label>
-                    <input type="text" [typeahead]="languages" class="form-control" id="inputLanguage" [isAnimated]="true" [(ngModel)]="userInfo.Language" value={{info?.Language}}>
+                  <div class="multiSelect-holder" (click)="updateSelectedLanguage()">
+                    <p-multiSelect [style]="{width:'725px'}"
+                      [options]="languages"
+                      [(ngModel)]="selectedLanguages"
+                      placeholder="Select Preffered Languages"
+                      optionLabel="label" display="chip"
+                      [showClear]="false"
+                      [showToggleAll]="false"
+                      >
+                    </p-multiSelect>
                   </div>
                   <button type="submit" class="button" (click)="updateinfo();">Save changes</button>
                 </div>

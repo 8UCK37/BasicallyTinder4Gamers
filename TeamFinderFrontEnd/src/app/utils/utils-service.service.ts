@@ -58,6 +58,37 @@ export class UtilsServiceService {
 
   private preferredGamesObjSource = new BehaviorSubject<any>([]);
   preferredGamesObj$ = this.preferredGamesObjSource.asObservable();
+
+  public languages: Array<{ label: string; id: number }> = [
+    { label: 'Arabic', id: 1 },
+    { label: 'Bengali', id: 2 },
+    { label: 'ChineseMandarin', id: 3 },
+    { label: 'English', id: 4 },
+    { label: 'French', id: 5 },
+    { label: 'German', id: 6 },
+    { label: 'Gujarati', id: 7 },
+    { label: 'Hausa', id: 8 },
+    { label: 'Hindi', id: 9 },
+    { label: 'Italian', id: 10 },
+    { label: 'Japanese', id: 11 },
+    { label: 'Javanese', id: 12 },
+    { label: 'Kannada', id: 13 },
+    { label: 'Korean', id: 14 },
+    { label: 'Malayalam', id: 15 },
+    { label: 'Marathi', id: 16 },
+    { label: 'Oriya', id: 17 },
+    { label: 'Portuguese', id: 18 },
+    { label: 'Punjabi', id: 19 },
+    { label: 'Russian', id: 20 },
+    { label: 'Spanish', id: 21 },
+    { label: 'Swahili', id: 22 },
+    { label: 'Tamil', id: 23 },
+    { label: 'Telugu', id: 24 },
+    { label: 'Urdu', id: 25 },
+    { label: 'Turkish', id: 26 },
+  ];
+
+
 constructor() { }
   setlinkedAccountObj(obj: any) {
     this.linkedAccountObjSource.next(obj);
@@ -71,8 +102,8 @@ constructor() { }
     this.friendAccountObjSource.next(obj);
   }
 
-
   setPreferredGamesObj(obj: any) {
     this.preferredGamesObjSource.next(obj);
   }
+
 }

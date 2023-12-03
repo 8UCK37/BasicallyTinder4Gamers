@@ -58,6 +58,7 @@ import { ThemeSettingsComponent } from './settings/theme-settings/theme-settings
 import { CarouselModule } from 'primeng/carousel';
 import { PreferredGamesComponent } from './welcome/preferred-games/preferred-games.component';
 import { CheckboxModule } from 'primeng/checkbox';
+import { MultiSelectModule } from 'primeng/multiselect';
 @NgModule({
   declarations: [
       AppComponent,
@@ -108,6 +109,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     AngularFireDatabaseModule,
     IonicModule,
     MatAutocompleteModule,
+    MultiSelectModule,
     FormsModule,
     TooltipModule.forRoot(),
     TypeaheadModule,
