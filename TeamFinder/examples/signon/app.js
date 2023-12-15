@@ -194,7 +194,7 @@ app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
         }
       })
       //console.log(userData)
-      res.send(JSON.stringify(userData));
+      res.send(userData);
     }
     catch(e){
       console.log(e)
@@ -1176,6 +1176,7 @@ app.post("/updateUserData", ensureAuthenticated, async (req, res) => {
 });
 
 app.post("/updateUserSelectedLanguages", ensureAuthenticated, async (req, res) => {
+  console.log(req.body.list)
   const updateLang = await prisma.userInfo.update({
     where: {
       id: req.body.data.id,
