@@ -754,7 +754,7 @@ app.get('/getDiscordInfo', ensureAuthenticated, async (req, res) => {
     }
   })
 
-  if(discordData.Discord!=null){
+  if(discordData!=null && discordData.Discord!=null){
     let { email, accessToken, refreshToken, ...filteredData } = discordData.Discord;
     let sanitizedDiscordData = {
     Discord: filteredData
