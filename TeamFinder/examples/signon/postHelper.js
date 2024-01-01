@@ -195,8 +195,12 @@ async function getRecommandedPost(req,prisma){
 `;
   return posts;
 }
-async function getGenericPost(req,prisma){
-  const posts = await prisma.$queryRaw`
+
+// ppl who has no friends should call on this instead of getPost should we not rather seperate the 
+//friendless on the forntend rather than writing complex sql? duh??????????
+async function getGenericPost(req, res, prisma) {
+  console.log("got post for", req.user.user_id,"who has no friends awlelelele");
+  const genericPosts = await prisma.$queryRaw`
     SELECT 
       p.*,
       t.tagNames,
@@ -248,19 +252,73 @@ async function getGenericPost(req,prisma){
     ORDER BY p."createdAt" DESC;
 `;
 
-
-  return posts;
+  res.send(JSON.stringify(genericPosts));
 }
 
 async function getPost(req, res, prisma) {
   console.log("get post for", req.user.user_id);
-  // recommandedPosts =await getRecommandedPost(req,prisma);
-  genericPost = await getGenericPost(req,prisma);
+  const posts = await prisma.$queryRaw`
+    SELECT 
+      p.*,
+      t.tagNames,
+      u."name",
+      u."profilePicture",
+      a.type AS reactionType,
+      CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
+      r.likeCount,
+      r.hahaCount,
+      r.sadCount,
+      r.loveCount,
+      r.poopCount,
+      CASE 
+        WHEN p.shared IS NULL THEN NULL 
+        WHEN pp.deleted = true THEN '{"deleted":"true","message": "This post is no longer available"}'
+        ELSE row_to_json(pp)::text 
+      END AS ParentPost,
+      json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor,
+      COALESCE(c.commentCount, 0) AS commentCount,
+      COALESCE(s.sharedCount, 0) AS sharedCount -- Include the sharedCount for each post
+    FROM public."Posts" p
+    LEFT JOIN (
+      SELECT post,
+             COUNT(*) FILTER (WHERE type = 'like') AS likeCount,
+             COUNT(*) FILTER (WHERE type = 'haha') AS hahaCount,
+             COUNT(*) FILTER (WHERE type = 'sad') AS sadCount,
+             COUNT(*) FILTER (WHERE type = 'love') AS loveCount,
+             COUNT(*) FILTER (WHERE type = 'poop') AS poopCount
+      FROM public."Activity"
+      GROUP BY post
+    ) r ON r.post = p.id
+    LEFT JOIN (
+      SELECT post, STRING_AGG("tagName", ',') AS tagNames
+      FROM public."Tags"
+      GROUP BY "post"
+    ) t ON p.id = t.post
+    LEFT JOIN public."Activity" a ON p.id = a.post AND a.author = ${req.user.user_id}
+    LEFT JOIN public."User" u ON p.author = u.id
+    LEFT JOIN public."Posts" pp ON pp.id = p.shared
+    LEFT JOIN public."User" pu ON pp.author = pu.id
+    LEFT JOIN (
+      SELECT post_id, COUNT(*) as commentCount -- Subquery to get the comment count for each post
+      FROM public."Comment"
+      GROUP BY post_id
+    ) c ON p.id = c.post_id
+    LEFT JOIN (
+      SELECT shared, COUNT(*) as sharedCount -- Subquery to get the shared count for each post
+      FROM public."Posts"
+      GROUP BY shared
+    ) s ON p.id = s.shared
+    WHERE EXISTS (
+      SELECT 1
+      FROM public."Friends" f
+      WHERE f.sender = ${req.user.user_id} AND f.reciever = p.author
+    ) AND p.deleted = false
+    ORDER BY p."createdAt" DESC;
+  `;
 
 
-  res.send(JSON.stringify(genericPost));
+  res.send(JSON.stringify(posts));
 }
-
 
 
 async function getPostById(req, res, prisma) {
@@ -546,5 +604,5 @@ async function shareToFeed(req, res, prisma){
 
 
 
-module.exports =  { createPost,getPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,
+module.exports =  { createPost,getPost,getGenericPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,
                     deletePost,mentionedInPost,getPostByPostId,quickSharePost,editPost,shareToFeed}

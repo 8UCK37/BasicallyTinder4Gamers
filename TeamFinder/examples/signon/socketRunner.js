@@ -77,11 +77,11 @@ async function execute(io){
 }
 async function sendNotification(io,notification,sender_id,receiver_id,data){
   let receiver = userSocketMap.get(receiver_id)
-  // console.log("func called")
-  // console.log(sender_id)
-  // console.log(receiver_id)
-  // console.log(userSocketMap)
-  //console.log(receiver)
+  console.log("func called")
+  console.log(sender_id)
+  console.log(receiver_id)
+  console.log(userSocketMap)
+  console.log(receiver)
   io.to(receiver).emit('notification' , {sender:sender_id,notification:notification,data:data});
 }
 module.exports = { execute,sendNotification }

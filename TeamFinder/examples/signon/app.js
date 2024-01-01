@@ -354,8 +354,7 @@ app.post("/friendsoffriendData", ensureAuthenticated, async (req, res) => {
 })
 //TODO:testing function for notification #endpoint
 app.post("/sendNoti", ensureAuthenticated, async (req, res) => {
-  // console.log(req.user.user_id);
-  // console.log(req.body.receiver_id);
+  console.log(req.user.user_id+" poked: "+req.body.receiver_id);
   socketRunner.sendNotification(io, "poke", req.user.user_id, req.body.receiver_id,"null")
   res.sendStatus(200);
 });
@@ -1114,6 +1113,8 @@ app.post('/savePreffredGames', ensureAuthenticated, async (req, res) => {
 //#endpoint
 app.get('/getPost', ensureAuthenticated, (req, res) => postHelper.getPost(req, res, prisma))
 //#endpoint
+app.get('/getGenereicPost', ensureAuthenticated, (req, res) => postHelper.getGenericPost(req, res, prisma))
+//#endpoint
 app.post('/getPostByPostId', ensureAuthenticated, (req, res) => postHelper.getPostByPostId(req, res, prisma))
 //#endpoint
 app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.createPost(req, res, prisma))
@@ -1224,8 +1225,6 @@ app.get('/getThemes', ensureAuthenticated, async (req, res) => {
   })
   res.send(JSON.stringify(themes))
 });
-
-
 
 
 socketRunner.execute(io)
