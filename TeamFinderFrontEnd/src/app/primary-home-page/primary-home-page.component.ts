@@ -65,7 +65,7 @@ export class PrimaryHomePageComponent implements OnInit {
    }
 
   fetchPost(){
-    axios.get("/getPost").then(res=>{
+    axios.get("/getFeed").then(res=>{
       //console.log(res)
       this.posts = []
       res.data.forEach((post: any) => {

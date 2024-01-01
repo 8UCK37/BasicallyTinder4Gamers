@@ -196,9 +196,7 @@ async function getRecommandedPost(req,prisma){
   return posts;
 }
 
-// ppl who has no friends should call on this instead of getPost should we not rather seperate the 
-//friendless on the forntend rather than writing complex sql? duh??????????
-async function getGenericPost(req, res, prisma) {
+async function getGenericPost(req, prisma) {
   console.log("got post for", req.user.user_id,"who has no friends awlelelele");
   const genericPosts = await prisma.$queryRaw`
     SELECT 
@@ -252,10 +250,10 @@ async function getGenericPost(req, res, prisma) {
     ORDER BY p."createdAt" DESC;
 `;
 
-  res.send(JSON.stringify(genericPosts));
+  return genericPosts;
 }
 
-async function getPost(req, res, prisma) {
+async function getPost(req, prisma) {
   console.log("get post for", req.user.user_id);
   const posts = await prisma.$queryRaw`
     SELECT 
@@ -316,11 +314,21 @@ async function getPost(req, res, prisma) {
     ORDER BY p."createdAt" DESC;
   `;
 
-
-  res.send(JSON.stringify(posts));
+  return posts;
 }
 
-
+async function getFeed(req, res, prisma) {
+  const feed = await getPost(req, prisma);
+  //console.log(feed.length);
+  if (feed.length == 0) {
+    //this case handles the bitches with no friends
+    const feed = await getGenericPost(req, prisma);
+    res.send(JSON.stringify(feed));
+  } else {
+    //this case handles the normies
+    res.send(JSON.stringify(feed));
+  }
+}
 async function getPostById(req, res, prisma) {
   console.log("get post");
   let posts = await prisma.$queryRaw`
@@ -604,5 +612,5 @@ async function shareToFeed(req, res, prisma){
 
 
 
-module.exports =  { createPost,getPost,getGenericPost,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,
+module.exports =  { createPost,getPost,getGenericPost,getFeed,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,
                     deletePost,mentionedInPost,getPostByPostId,quickSharePost,editPost,shareToFeed}

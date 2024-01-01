@@ -1111,7 +1111,7 @@ app.post('/savePreffredGames', ensureAuthenticated, async (req, res) => {
   res.sendStatus(200);
 });
 //#endpoint
-app.get('/getPost', ensureAuthenticated, (req, res) => postHelper.getPost(req, res, prisma))
+app.get('/getFeed', ensureAuthenticated, (req, res) => postHelper.getFeed(req, res, prisma))
 //#endpoint
 app.get('/getGenereicPost', ensureAuthenticated, (req, res) => postHelper.getGenericPost(req, res, prisma))
 //#endpoint
