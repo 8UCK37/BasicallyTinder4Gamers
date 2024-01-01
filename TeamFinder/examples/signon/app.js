@@ -1113,8 +1113,6 @@ app.post('/savePreffredGames', ensureAuthenticated, async (req, res) => {
 //#endpoint
 app.get('/getFeed', ensureAuthenticated, (req, res) => postHelper.getFeed(req, res, prisma))
 //#endpoint
-app.get('/getGenereicPost', ensureAuthenticated, (req, res) => postHelper.getGenericPost(req, res, prisma))
-//#endpoint
 app.post('/getPostByPostId', ensureAuthenticated, (req, res) => postHelper.getPostByPostId(req, res, prisma))
 //#endpoint
 app.post('/createPost', ensureAuthenticated, uploadPost.array('post', 10), urlencodedParser, (req, res) => postHelper.createPost(req, res, prisma))
