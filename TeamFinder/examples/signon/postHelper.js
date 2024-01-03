@@ -61,8 +61,9 @@ async function createPost(req, res, prisma){
                 raw:JSON.stringify( body.desc.content)
             }
         })
+        mentionedInPost(req,mentionList)
      // TODO : fix this code , make one like insert to the db , 
-     // this is for temporary soluction
+     // this is for temporary solution
       
         body.data.forEach( async ele => {
             let tag = await prisma.Tags.create({
@@ -102,19 +103,18 @@ async function editPost(req, res, prisma){
       }
     });
     console.log("mention parsed" , text , mentionList)
-   
-        let newPost = await prisma.Posts.update({
-          where:{
-            id:body.id
-          },
-          data :{
-              description:text,
-              mention: {list : mentionList},
-              raw:JSON.stringify( body.desc.content)
-          }
-      })
-   
     
+        let newPost = await prisma.Posts.update({
+          where: {
+            id: body.id,
+          },
+          data: {
+            description: text,
+            mention: { list: mentionList },
+            raw: JSON.stringify(body.desc.content),
+          },
+        });
+      
       // body.data.forEach( async ele => {
       //     let tag = await prisma.Tags.create({
       //         data :{
@@ -511,14 +511,12 @@ async function dislikePost(req, res, prisma){
 res.send(JSON.stringify({status: 'ok'}))
 }
 
-async function mentionedInPost(req, res, prisma){
+async function mentionedInPost(req,mentionList){
   //console.log(req.body.mentionlist)
   const io = req.app.get('socketIo')
-  req.body.mentionlist.forEach(ele => {
-    //console.log(ele.id)
-    socketRunner.sendNotification(io,"new mention", req.user.user_id, ele.id)
+  mentionList.forEach(ele => {
+    socketRunner.sendNotification(io,"post mention", req.user.user_id, ele.id)
   });
-res.send(JSON.stringify({status: 'ok'}))
 }
 
 
