@@ -513,6 +513,8 @@ res.send(JSON.stringify({status: 'ok'}))
 
 async function mentionedInPost(req,mentionList){
   //console.log(req.body.mentionlist)
+  //TODO send post id as data so that the user navigation from forntend can be handeled
+
   const io = req.app.get('socketIo')
   mentionList.forEach(ele => {
     socketRunner.sendNotification(io,"post mention", req.user.user_id, ele.id)
@@ -520,45 +522,68 @@ async function mentionedInPost(req,mentionList){
 }
 
 
-async function getPostByPostId(req, res, prisma){
+async function getPostByPostId(req, res, prisma) {
   //console.log(req.body.postId)
-  postid=parseInt(req.body.postId)
-  const post = await prisma.$queryRaw`
-  SELECT p.*, t.tagNames, u."name", u."profilePicture", a.type AS reactionType,
-       CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
-       r.likeCount, r.hahaCount, r.sadCount, r.loveCount, r.poopCount,
-       CASE WHEN p.shared IS NULL THEN NULL WHEN pp.deleted = true THEN '{"deleted":"true","message": "This post is no longer available"}'
-        ELSE row_to_json(pp)::text END AS ParentPost,
-        json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor
-  FROM public."Posts" p
-  LEFT JOIN (
-      SELECT post,
-             COUNT(*) FILTER (WHERE type = 'like') AS likeCount,
-             COUNT(*) FILTER (WHERE type = 'haha') AS hahaCount,
-             COUNT(*) FILTER (WHERE type = 'sad') AS sadCount,
-             COUNT(*) FILTER (WHERE type = 'love') AS loveCount,
-             COUNT(*) FILTER (WHERE type = 'poop') AS poopCount
-      FROM public."Activity"
-      GROUP BY post
-  ) r ON r.post = p.id
-  LEFT JOIN (
-      SELECT post, STRING_AGG("tagName", ',') AS tagNames
-      FROM public."Tags"
-      GROUP BY "post"
-  ) t ON p.id = t.post
-  LEFT JOIN (
-      SELECT post, type, author
-      FROM public."Activity"
-      WHERE type != 'post'
-  ) a ON p.id = a.post AND a.author = ${req.user.user_id}
-  LEFT JOIN public."User" u ON p.author = u.id
-  LEFT JOIN public."Posts" pp ON pp.id = p.shared
-  LEFT JOIN public."User" pu ON pp.author = pu.id
-  WHERE p.id = ${postid} AND p.deleted = false
-  ORDER BY p."createdAt" DESC;
-`;
-res.send(JSON.stringify(post))
+  postid = parseInt(req.body.postId);
+  const post = await prisma.$queryRaw`SELECT 
+  p.*,
+  t.tagNames,
+  u."name",
+  u."profilePicture",
+  a.type AS reactionType,
+  CASE WHEN a.type IS NULL THEN true ELSE false END AS noReaction,
+  r.likeCount,
+  r.hahaCount,
+  r.sadCount,
+  r.loveCount,
+  r.poopCount,
+  CASE 
+    WHEN p.shared IS NULL THEN NULL 
+    WHEN pp.deleted = true THEN '{"deleted":"true","message": "This post is no longer available"}'
+    ELSE row_to_json(pp)::text 
+  END AS ParentPost,
+  json_build_object('name', pu."name", 'profilePicture', pu."profilePicture") as parentPostAuthor,
+  COALESCE(c.commentCount, 0) AS commentCount,
+  COALESCE(s.sharedCount, 0) AS sharedCount
+FROM public."Posts" p
+LEFT JOIN (
+  SELECT post,
+         COUNT(*) FILTER (WHERE type = 'like') AS likeCount,
+         COUNT(*) FILTER (WHERE type = 'haha') AS hahaCount,
+         COUNT(*) FILTER (WHERE type = 'sad') AS sadCount,
+         COUNT(*) FILTER (WHERE type = 'love') AS loveCount,
+         COUNT(*) FILTER (WHERE type = 'poop') AS poopCount
+  FROM public."Activity"
+  GROUP BY post
+) r ON r.post = p.id
+LEFT JOIN (
+  SELECT post, STRING_AGG("tagName", ',') AS tagNames
+  FROM public."Tags"
+  GROUP BY "post"
+) t ON p.id = t.post
+LEFT JOIN (
+  SELECT post, type, author
+  FROM public."Activity"
+  WHERE type != 'post'
+) a ON p.id = a.post AND a.author = ${req.user.user_id}
+LEFT JOIN public."User" u ON p.author = u.id
+LEFT JOIN public."Posts" pp ON pp.id = p.shared
+LEFT JOIN public."User" pu ON pp.author = pu.id
+LEFT JOIN (
+  SELECT post_id, COUNT(*) as commentCount
+  FROM public."Comment"
+  GROUP BY post_id
+) c ON p.id = c.post_id
+LEFT JOIN (
+  SELECT shared, COUNT(*) as sharedCount
+  FROM public."Posts"
+  GROUP BY shared
+) s ON p.id = s.shared
+WHERE p.id = ${postid} AND p.deleted = false
+ORDER BY p."createdAt" DESC;`;
+  res.send(JSON.stringify(post));
 }
+
 async function quickSharePost(req, res, prisma){
   console.log(req.user.user_id)
   console.log(req.body.originalPostId)
