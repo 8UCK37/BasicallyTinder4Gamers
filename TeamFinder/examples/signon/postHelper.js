@@ -634,14 +634,14 @@ async function shareToFeed(req, res, prisma){
 }
 
 async function fetchReactionStat(req, res, prisma){
-  console.log(req.body.postId)
+  //console.log(req.body.postId)
   const postId=req.body.postId
 
   var reactionData=await prisma.$queryRaw`
   SELECT a.*, u."name",u."profilePicture"
   FROM public."Activity" a
   JOIN public."User" u ON a.author = u.id
-  WHERE a.post = ${postId} AND a.type != 'post';`
+  WHERE a.post = ${postId} AND a.type != 'post' AND a.type != 'dislike';`
   //console.log(reactionData)
   res.send(JSON.stringify(reactionData))
 }
