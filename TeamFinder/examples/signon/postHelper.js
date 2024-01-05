@@ -633,7 +633,19 @@ async function shareToFeed(req, res, prisma){
   res.sendStatus(200)
 }
 
+async function fetchReactionStat(req, res, prisma){
+  console.log(req.body.postId)
+  const postId=req.body.postId
+
+  var reactionData=await prisma.$queryRaw`
+  SELECT a.*, u."name",u."profilePicture"
+  FROM public."Activity" a
+  JOIN public."User" u ON a.author = u.id
+  WHERE a.post = ${postId};`
+  
+  res.send(JSON.stringify(reactionData))
+}
 
 
 module.exports =  { createPost,getPost,getGenericPost,getFeed,likePost,dislikePost,getPostById,getPostByTags,getLatestPost,
-                    deletePost,mentionedInPost,getPostByPostId,quickSharePost,editPost,shareToFeed}
+                    deletePost,mentionedInPost,getPostByPostId,quickSharePost,editPost,shareToFeed,fetchReactionStat}

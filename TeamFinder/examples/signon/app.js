@@ -1137,6 +1137,8 @@ app.post('/getLatestPost', ensureAuthenticated, (req, res) => postHelper.getLate
 //#endpoint
 app.post('/getpostbytagname',ensureAuthenticated, (req, res) => postHelper.getPostByTags(req, res, prisma))
 //#endpoint
+app.post('/getReactionStatbyPostId',ensureAuthenticated, (req, res) => postHelper.fetchReactionStat(req, res, prisma))
+//#endpoint
 app.post("/uploadProfile", ensureAuthenticated, upload.single('avatar'), (req, res) => {
   profileHelper.upProfilePic(req, res, prisma);
   res.sendStatus(200);
