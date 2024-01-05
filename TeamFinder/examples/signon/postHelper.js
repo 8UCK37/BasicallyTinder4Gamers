@@ -641,8 +641,8 @@ async function fetchReactionStat(req, res, prisma){
   SELECT a.*, u."name",u."profilePicture"
   FROM public."Activity" a
   JOIN public."User" u ON a.author = u.id
-  WHERE a.post = ${postId};`
-  
+  WHERE a.post = ${postId} AND a.type != 'post';`
+  //console.log(reactionData)
   res.send(JSON.stringify(reactionData))
 }
 
