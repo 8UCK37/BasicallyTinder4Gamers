@@ -1226,6 +1226,23 @@ app.get('/getThemes', ensureAuthenticated, async (req, res) => {
   res.send(JSON.stringify(themes))
 });
 
+app.post("/checkIfUserExists", ensureAuthenticated, async (req, res) => {
+  console.log(req.body.userId)
+
+  let check = await prisma.User.findMany({
+    where:{
+      id :  req.body.userId,
+    }
+  })
+  if(check.length>0){
+    //console.log("exists",check)
+    res.sendStatus(200);
+  }else{
+    //console.log("doesn't exist",check)
+    res.sendStatus(404);
+  }
+  
+});
 
 socketRunner.execute(io)
 
