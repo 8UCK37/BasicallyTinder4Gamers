@@ -3,3 +3,5 @@
 node_modules
 public/profilePicture
 prisma/dev.db
+key/firebaseadminkey.json
+.env

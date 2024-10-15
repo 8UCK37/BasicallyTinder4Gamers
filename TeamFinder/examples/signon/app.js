@@ -35,14 +35,14 @@ const { randomUUID } = require("crypto");
 const auth  = require('./middleware/authMiddleware')
 const ensureAuthenticated = auth.ensureAuthenticated
 const storage = multer.memoryStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname + './../../public/profilePicture'))
-  },
-  filename: function (req, file, cb) {
-    console.log(req.user)
-    const uniqueSuffix = req.user.user_id
-    cb(null, uniqueSuffix + '.' + 'jpg')
-  }
+  // destination: function (req, file, cb) {
+  //   cb(null, path.join(__dirname + './../../public/profilePicture'))
+  // },
+  // filename: function (req, file, cb) {
+  //   console.log(req.user)
+  //   const uniqueSuffix = req.user.user_id
+  //   cb(null, uniqueSuffix + '.' + 'jpg')
+  // }
 })
 const bannerStr = multer.memoryStorage({
   destination: function (req, file, cb) {
@@ -180,6 +180,8 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
   }
 
 });
+
+
 //returns user info #endpoint
 app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
     //console.log("/getUserInfo called",req.body)
@@ -280,7 +282,7 @@ app.post("/saveUserInfo" , ensureAuthenticated , async (req , res)=>{
 })
 //updates displayname of the user #endpoint
 app.post('/userNameUpdate', ensureAuthenticated, urlencodedParser, async (req, res) => {
-  console.log(req.body.name);
+  console.log("283"+req.body.name);
   const updateUserName = await prisma.User.update({
     where: {
       id: req.user.user_id
