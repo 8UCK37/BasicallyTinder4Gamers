@@ -69,4 +69,58 @@ async function upBanner(req, res,prisma){
         })        
   }
 }
-module.exports =  { upProfilePic,upBanner}
+
+async function createThemesInDatabase(prisma) {
+
+  const themesList = [
+    {
+      "name": "Space",
+      "navBg": "https://i.imgur.com/G64meFi.gif",
+      "homeBg": "https://i.imgur.com/U2zdk2m.jpeg",
+      "profileBg": "https://i.imgur.com/p1qu6rB.jpeg",
+      "accentColor": null,
+      "compColor": null
+    },
+    {
+      "name": "Gaming",
+      "navBg": "https://i.imgur.com/cPn4jq9.gif",
+      "homeBg": "https://i.imgur.com/4YyLazB.gif",
+      "profileBg": "https://i.imgur.com/3gVfeol.gif",
+      "accentColor": null,
+      "compColor": null
+    },
+    {
+      "name": "Nature",
+      "navBg": "https://i.imgur.com/3hlUUWV.gif",
+      "homeBg": "https://i.imgur.com/IxsQTOr.gif",
+      "profileBg": "https://i.imgur.com/bqyQ33j.gif",
+      "accentColor": null,
+      "compColor": null
+    },
+    {
+      "name": "Action",
+      "navBg": null,
+      "homeBg": "https://i.imgur.com/7lGXbtO.jpeg",
+      "profileBg": "https://i.imgur.com/6q6GgIK.jpeg",
+      "accentColor": null,
+      "compColor": null
+    }
+  ];
+
+  for (let index = 0; index < themesList.length; index++) {
+    const theme = themesList[index];
+    await prisma.Themes.create({
+      data: {
+        name: theme.name,
+        navBg: theme.navBg,
+        homeBg: theme.homeBg,
+        profileBg: theme.profileBg,
+        accentColor: theme.accentColor,
+        compColor: theme.compColor
+      }
+    });
+  }
+  console.log("profile helper 123: Themes have been created.");
+}
+
+module.exports =  { upProfilePic,upBanner,createThemesInDatabase}

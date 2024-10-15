@@ -149,7 +149,17 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
         linked_acc_vis:0
       },
     });
-    
+    //when creating a new db the theme table is created automatically
+    let themes = await prisma.Themes.findMany({
+      orderBy:{
+        id:'asc'
+      }
+    })
+    console.log(themes)
+    if(themes.length==0){
+      await profileHelper.createThemesInDatabase(prisma)
+    }
+    //
     const newUser = await prisma.User.create({
       data: {
         id: req.user.user_id,
