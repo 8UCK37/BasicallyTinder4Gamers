@@ -57,10 +57,10 @@ export class ChatPageComponent implements OnInit {
   public formData:any;
   public sentImages:any;
   public defaultBackgrounds: String[]=[
-    'https://i.postimg.cc/kGNfJLQP/chatbackground-1.jpg'
-    ,'https://i.postimg.cc/Hnm9h3fZ/chatbackground-2.jpg'
-    ,'https://i.postimg.cc/MGXP7PS1/chatbackground-3.jpg'
-    ,'https://i.postimg.cc/TPSkCVdF/chatbackground-4.jpg'
+    'https://i.imgur.com/COogfN1.jpeg'
+    ,'https://i.imgur.com/RlCtvx0.jpeg'
+    ,'https://i.imgur.com/JoL2BfK.jpeg'
+    ,'https://i.imgur.com/P1g2Pp2.jpeg'
   ]
   constructor(private messageService: MessageService,public userService:UserService,private socketService : ChatServicesService , private route: ActivatedRoute,private auth: AngularFireAuth , private renderer: Renderer2,private router: Router) {
     this.renderer.listen('window', 'click',(e:Event)=>{
