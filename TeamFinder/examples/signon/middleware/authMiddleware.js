@@ -1,7 +1,7 @@
  function ensureAuthenticated(req, res, next) {
     var admin = require("firebase-admin");
   
-    var serviceAccount = require("./../../../key/firebaseadminkey.json");
+    var serviceAccount = JSON.parser(process.env.firebase_key);
     if (!admin.apps.length) {
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)
