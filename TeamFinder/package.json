@@ -1,35 +1,6 @@
 {
-  "name": "passport-steam",
-  "version": "1.0.17",
-  "description": "Steam (OpenID 2) authentication strategy for PassportJS.",
-  "author": {
-    "name": "Liam Curry",
-    "email": "liam@curry.name",
-    "url": "http://www.liamcurry.com/"
-  },
-  "contributors": [
-    {
-      "name": "Toby Archer",
-      "email": "toby@nerdping.com",
-      "url": "http://github.com/mnzt"
-    },
-    {
-      "name": "Welps",
-      "url": "https://github.com/welps"
-    }
-  ],
-  "ava": {
-    "failFast": true,
-    "verbose": true
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/liamcurry/passport-steam.git"
-  },
-  "bugs": {
-    "url": "http://github.com/liamcurry/passport-steam/issues"
-  },
-  "main": "./lib/passport-steam",
+  "name": "team-finder-backend",
+  "main": "./src/app.ts",
   "dependencies": {
     "@google-cloud/storage": "^6.9.3",
     "@passport-next/passport-openid": "^1.0.0",
@@ -49,17 +20,24 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.30",
+    "@typescript-eslint/parser": "^8.33.1",
     "ava": "^0.10.0",
     "ejs": "^2.4.2",
     "express": "^4.14.0",
     "express-session": "^1.13.0",
-    "passport": "^0.3.2"
+    "passport": "^0.3.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
   },
   "scripts": {
-    "start": "nodemon  ./examples/signon/app.js",
-    "test": "ava test/*.test.js",
-    "example": "node examples/signon/app.js",
-    "example-router": "node examples/signon/app-router.js"
+    "start": "node ./dist/app.js",
+    "tsc": "tsc",
+    "postinstall": "npm run tsc",
+    "dev": "ts-node-dev — respawn — pretty — transpile-only app.ts"
   },
   "engines": {
     "node": ">= 0.4.0"
@@ -69,13 +47,5 @@
       "type": "MIT",
       "url": "http://www.opensource.org/licenses/MIT"
     }
-  ],
-  "keywords": [
-    "passport",
-    "steam",
-    "auth",
-    "authn",
-    "authentication",
-    "identity"
   ]
 }
