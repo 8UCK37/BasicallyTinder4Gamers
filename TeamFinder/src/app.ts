@@ -7,8 +7,9 @@ var https = require('https');
 var fs = require('fs');
 var cors = require('cors')
 const path = require('path')
-var express = require('express')
-  , passport = require('passport')
+// var express = require('express')
+import express, { Request, Response } from 'express';
+  var passport = require('passport')
   , util = require('util')
   , session = require('express-session')
   , SteamStrategy = require('../lib/passport-steam').Strategy;
@@ -193,8 +194,9 @@ app.post('/saveuser', ensureAuthenticated, async function (req, res) {
 
 
 //returns user info #endpoint
-app.post('/getUserInfo', ensureAuthenticated, async (req, res) => {
+app.post('/getUserInfo', ensureAuthenticated, async (req: Request, res) => {
     //console.log("/getUserInfo called",req.body)
+    console.log(req.user);
     try{
       let userData = await prisma.User.findMany({
         where: {
@@ -549,12 +551,13 @@ app.get('/auth/twitch/callback', async (req, res) => {
   const clientId = "5q5a2eqsg77c8nf2xoxohxrfeniskg";
   const clientSecret = "zqqlb0mcih38gw1hn208gydw31jzis";
   const redirectUri = 'http://localhost:3000/auth/twitch/callback';
-  const code = req.query.code;
+  const codeRaw = req.query.code;
+  const code = Array.isArray(codeRaw) ? codeRaw[0] : typeof codeRaw === 'object' ? '' : codeRaw;
   const tokenUrl = 'https://id.twitch.tv/oauth2/token';
   const tokenParams = new URLSearchParams({
     client_id: clientId,
     client_secret: clientSecret,
-    code: code,
+    code: code as string,
     grant_type: 'authorization_code',
     redirect_uri: redirectUri,
   });
