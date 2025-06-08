@@ -1,5 +1,6 @@
 .DS_Store
 .sftp
+dist/
 node_modules
 public/profilePicture
 prisma/dev.db
